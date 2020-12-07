@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#L#"
+  ],
+  "key": {
+    "#": {
+      "item": "fins:fwin"
+    },
+    "L": {
+      "item": "minecraft:leather_boots"
+    }
+  },
+  "result": {
+    "item": "fins:fwinged_boots",
+    "count": 1
+  }
+}

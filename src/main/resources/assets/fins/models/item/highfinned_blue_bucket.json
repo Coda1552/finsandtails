@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fins:item/high_finned_blue_bucket"
+  }
+}

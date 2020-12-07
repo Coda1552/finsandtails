@@ -1,0 +1,105 @@
+{
+  "mudhorse.ambient": {
+    "subtitle": "fins.mudhorse.ambient",
+    "sounds": [
+      {
+        "name": "fins:mudhorse/ambient",
+        "streaming": true
+      }
+    ]
+  },
+  "mudhorse.death": {
+    "subtitle": "fins.mudhorse.death",
+    "sounds": [
+      {
+        "name": "fins:mudhorse/death",
+        "streaming": true
+      }
+    ]
+  },
+  "mudhorse.hurt": {
+    "subtitle": "fins.mudhorse.hurt",
+    "sounds": [
+      {
+        "name": "fins:mudhorse/hurt",
+        "streaming": true
+      }
+    ]
+  },
+  "rubber_belly_glider.ambient": {
+    "subtitle": "fins.rubber_belly_glider.ambient",
+    "sounds": [
+      {
+        "name": "fins:rubber_belly_glider/ambient",
+        "streaming": true
+      }
+    ]
+  },
+  "rubber_belly_glider.death": {
+    "subtitle": "fins.rubber_belly_glider.death",
+    "sounds": [
+      {
+        "name": "fins:rubber_belly_glider/death",
+        "streaming": true
+      }
+    ]
+  },
+  "rubber_belly_glider.hurt": {
+    "subtitle": "fins.rubber_belly_glider.hurt",
+    "sounds": [
+      {
+        "name": "fins:rubber_belly_glider/hurt",
+        "streaming": true
+      }
+    ]
+  },
+  "penglil.ambient": {
+    "subtitle": "fins.penglil.ambient",
+    "sounds": [
+      {
+        "name": "fins:penglil/ambient",
+        "streaming": true
+      },
+      {
+        "name": "fins:penglil/screech",
+        "streaming": true
+      }
+    ]
+  },
+  "penglil.death": {
+    "subtitle": "fins.penglil.death",
+    "sounds": [
+      {
+        "name": "fins:penglil/death",
+        "streaming": true
+      }
+    ]
+  },
+  "penglil.hurt": {
+    "subtitle": "fins.penglil.hurt",
+    "sounds": [
+      {
+        "name": "fins:penglil/hurt",
+        "streaming": true
+      }
+    ]
+  },
+  "crab.death": {
+    "subtitle": "fins.crab.death",
+    "sounds": [
+      {
+        "name": "fins:crab/death",
+        "streaming": true
+      }
+    ]
+  },
+  "crab.crunch": {
+    "subtitle": "fins.crab.crunch",
+    "sounds": [
+      {
+        "name": "fins:crab/crunch",
+        "streaming": true
+      }
+    ]
+  }
+}

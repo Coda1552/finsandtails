@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "fins:banded_redback_shrimp"
+  },
+  "result": "fins:cooked_banded_redback_shrimp",
+  "experience": 0.35,
+  "cookingtime": 600
+}

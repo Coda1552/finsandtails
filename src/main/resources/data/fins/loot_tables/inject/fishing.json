@@ -1,0 +1,54 @@
+{
+  "type": "minecraft:gameplay",
+  "pools": [
+    {
+      "rolls": {
+        "min": 1.0,
+        "max": 1.0,
+        "type": "minecraft:uniform"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "fins:banded_redback_shrimp"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 25,
+          "name": "fins:blu_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "fins:pea_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "fins:highfinned_blue"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "fins:ornate_bugfish"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "name": "fins:flatback_sucker"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "fins:swamp_mucker"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "fins:teal_arrowfish"
+        }
+      ]
+    }
+  ]
+}

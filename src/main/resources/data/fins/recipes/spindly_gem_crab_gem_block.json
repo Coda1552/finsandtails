@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "fins:spindly_gem_crab_gem"
+    }
+  },
+  "result": {
+    "item": "fins:spindly_gem_crab_gem_block"
+  }
+}

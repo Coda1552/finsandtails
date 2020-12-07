@@ -1,0 +1,10 @@
+modLoader="javafml" #mandatory
+loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license="All rights reserved"
+[[mods]] #mandatory
+modId="fins" #mandatory
+version="${file.jarVersion}" #mandatory
+displayName="Fins and Tails" #mandatory
+credits="Ninni (art), Tazz (art), Coda (code) & Ash (code)" #optional
+authors="Team Draco"
+description='''Fins and Tails is minecraft mod that aims to add more fictional ambient life to your minecraft world, ranging from small fish to strange crustaceans, all designed to spice up your gameplay.'''

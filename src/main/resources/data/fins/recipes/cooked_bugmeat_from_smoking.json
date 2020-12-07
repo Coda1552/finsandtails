@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "fins:bugmeat"
+  },
+  "result": "fins:cooked_bugmeat",
+  "experience": 0.35,
+  "cookingtime": 100
+}
