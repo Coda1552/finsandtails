@@ -28,6 +28,7 @@ public class FinsEntities {
     public static final EntityType<SpindlyGemCrabEntity> SPINDLY_GEM_CRAB = create("spindly_gem_crab", SpindlyGemCrabEntity::new, EntityClassification.WATER_AMBIENT, 0.4f, 0.3f, 0xe4ad4c, 0x6be263);
     //public static final EntityType<RubberBellyGliderEntity> RUBBER_BELLY_GLIDER = create("rubber_belly_glider", RubberBellyGliderEntity::new, EntityClassification.WATER_CREATURE, 0.6f, 0.4f, 0x71a869, 0xe3b334);
     //public static final EntityType<GopjetEntity> GOPJET = create("gopjet", GopjetEntity::new, EntityClassification.WATER_AMBIENT, 0.3f, 0.3f, 0xb6e0e8, 0x355c7f);
+    public static final EntityType<FlatbackLeafSnailEntity> FLATBACK_LEAF_SNAIL = create("flatback_leaf_snail", FlatbackLeafSnailEntity::new, EntityClassification.CREATURE, 0.6f, 0.3f, 0x4a2c1a, 0xd1a06b);
 
     private static <T extends CreatureEntity> EntityType<T> create(String name, EntityType.IFactory<T> factory, EntityClassification classification, float width, float height, int pri, int sec) {
         final Item.Properties properties = new Item.Properties().group(FinsAndTails.GROUP);

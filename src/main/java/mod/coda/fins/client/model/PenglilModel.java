@@ -69,33 +69,7 @@ public class PenglilModel<T extends Entity> extends EntityModel<PenglilEntity> {
     @Override
     public void setRotationAngles(PenglilEntity entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
         float degree = 1.0f;
-        if(entityIn.isSitting()) {
-            this.rightwing.setRotationPoint(-2.0F, 0.5F, 1.0F);
-            this.body.setRotationPoint(0.0F, 21.0F, 0.0F);
-            this.rightfoot.setRotationPoint(-2.25F, 2.0F, -1.15F);
-            this.leftfoot.setRotationPoint(2.25F, 2.0F, -1.15F);
-            this.leftwing.setRotationPoint(2.0F, 0.5F, 1.0F);
-
-//            this.body.rotateAngleY = 0;
-//            this.body.rotateAngleX = 0;
-//            this.body.rotateAngleZ = 0;
-//
-//            this.tail.rotateAngleY = 0;
-//            this.tail.rotateAngleX = 0;
-//
-//            this.rightfoot.rotateAngleY = 0;
-//            this.rightfoot.rotateAngleX = 0;
-//
-//            this.leftfoot.rotateAngleY = 0;
-//            this.leftfoot.rotateAngleX = 0;
-//
-//            this.leftwing.rotateAngleY = 0;
-//            this.leftwing.rotateAngleX = 0;
-//
-//            this.rightwing.rotateAngleX = 0;
-//            this.rightwing.rotateAngleY = 0;
-        }
-        else if(entityIn.isInWater()) {
+        if(entityIn.isInWater()) {
             float speed = 4.0f;
             this.body.rotateAngleY = 0;
             this.tail.rotateAngleY = 0;

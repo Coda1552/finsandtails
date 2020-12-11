@@ -68,7 +68,7 @@ public class FinsAndTails {
         }
 
         if (event.getCategory() == Biome.Category.BEACH) {
-            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.PENGLIL, 6, 2, 4));
+            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.PENGLIL, 2, 3, 5));
         }
 
         if (event.getName().equals(new ResourceLocation("minecraft", "cold_ocean")) || event.getName().equals(new ResourceLocation("minecraft", "deep_cold_ocean"))) {
@@ -80,11 +80,15 @@ public class FinsAndTails {
         if (event.getName().equals(new ResourceLocation("minecraft", "warm_ocean")) || event.getName().equals(new ResourceLocation("minecraft", "deep_warm_ocean"))) {
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP, 15, 3, 3));
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.ORNATE_BUGFISH, 3, 5, 5));
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SPINDLY_GEM_CRAB, 5, 1, 3));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SPINDLY_GEM_CRAB, 7, 1, 3));
         }
 
         if (event.getName().equals(new ResourceLocation("minecraft", "deep_ocean")) || event.getName().equals(new ResourceLocation("minecraft", "ocean"))) {
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGHFINNED_BLUE, 10, 6, 12));
+        }
+
+        if (event.getCategory() == Biome.Category.FOREST) {
+            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_LEAF_SNAIL, 10, 1, 2));
         }
     }
 
@@ -102,6 +106,7 @@ public class FinsAndTails {
         EntitySpawnPlacementRegistry.register(FinsEntities.ORNATE_BUGFISH, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::func_223363_b);
         EntitySpawnPlacementRegistry.register(FinsEntities.PENGLIL, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PenglilEntity::canPenglilSpawn);
         EntitySpawnPlacementRegistry.register(FinsEntities.SPINDLY_GEM_CRAB, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::func_223363_b);
+        EntitySpawnPlacementRegistry.register(FinsEntities.FLATBACK_LEAF_SNAIL, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canAnimalSpawn);
     }
 
     private void registerEntityAttributes() {
@@ -117,6 +122,7 @@ public class FinsAndTails {
         GlobalEntityTypeAttributes.put(FinsEntities.SPINDLY_GEM_CRAB, SpindlyGemCrabEntity.func_234176_m_().create());
         GlobalEntityTypeAttributes.put(FinsEntities.SWAMP_MUCKER, SwampMuckerEntity.func_234176_m_().create());
         GlobalEntityTypeAttributes.put(FinsEntities.TEAL_ARROWFISH, TealArrowfishEntity.func_234176_m_().create());
+        GlobalEntityTypeAttributes.put(FinsEntities.FLATBACK_LEAF_SNAIL, FlatbackLeafSnailEntity.func_234176_m_().create());
     }
 
     private void registerClient(FMLClientSetupEvent event) {

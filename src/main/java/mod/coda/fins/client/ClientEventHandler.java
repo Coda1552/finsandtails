@@ -29,6 +29,7 @@ public class ClientEventHandler {
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.SPINDLY_GEM_CRAB, SpindlyGemCrabRenderer::new);
         //RenderingRegistry.registerEntityRenderingHandler(FinsEntities.RUBBER_BELLY_GLIDER, RubberBellyGliderRenderer.java::new);
         //RenderingRegistry.registerEntityRenderingHandler(FinsEntities.GOPJET, GopjetRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FinsEntities.FLATBACK_LEAF_SNAIL, FlatbackLeafSnailRenderer::new);
 
         ScreenManager.registerFactory(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePorchScreen::new);
     }

@@ -46,7 +46,6 @@ public class PenglilEntity extends TameableEntity {
     public PenglilEntity(EntityType<? extends PenglilEntity> type, World world) {
         super(type, world);
         this.moveController = new PenglilEntity.MoveHelperController(this);
-        this.lookController = new DolphinLookController(this, 10);
         this.setPathPriority(PathNodeType.WATER, 0.0F);
     }
 
@@ -83,7 +82,6 @@ public class PenglilEntity extends TameableEntity {
                 return super.shouldExecute() && isInWater();
             }
         });
-        this.goalSelector.addGoal(2, new SitGoal(this));
         this.goalSelector.addGoal(2, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 2.0D, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, true));
@@ -147,26 +145,16 @@ public class PenglilEntity extends TameableEntity {
             if (!player.abilities.isCreativeMode) {
                 heldItem.shrink(1);
             }
-            if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player) && !this.isSitting()) {
+            if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                 this.setTamedBy(player);
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
-                this.setSleeping(true);
                 this.world.setEntityState(this, (byte) 7);
             }
             else {
                 this.world.setEntityState(this, (byte) 6);
             }
-        }
-
-        if (this.isTamed()) {
-            if (this.isOwner(player)) {
-                this.func_233687_w_(!this.isSitting());
-                this.isJumping = false;
-                this.navigator.clearPath();
-            }
             return ActionResultType.SUCCESS;
-
         }
 
         return actionresulttype;
