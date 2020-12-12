@@ -1,18 +1,18 @@
 package mod.coda.fins.entity;
 
-import com.sun.javafx.geom.Vec3d;
 import mod.coda.fins.init.FinsItems;
 import mod.coda.fins.init.FinsSounds;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.*;
@@ -21,10 +21,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
+import net.minecraft.pathfinding.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -40,7 +37,6 @@ import java.util.Random;
 
 public class PenglilEntity extends TameableEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(PenglilEntity.class, DataSerializers.VARINT);
-    private final PathNavigator groundNavigator = new GroundPathNavigator(this, world);
     private Vector3d target;
 
     public PenglilEntity(EntityType<? extends PenglilEntity> type, World world) {
@@ -50,13 +46,8 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public PathNavigator getNavigator() {
-        return isInWater() ? super.getNavigator() : groundNavigator;
-    }
-
-    @Override
     protected PathNavigator createNavigator(World worldIn) {
-        return new SwimmerPathNavigator(this, worldIn);
+        return new Navigator(this, world);
     }
 
     @Override
@@ -176,29 +167,16 @@ public class PenglilEntity extends TameableEntity {
         super.tick();
         if (target == null && rand.nextInt(120) == 0) {
             target = RandomPositionGenerator.findRandomTarget(this, 10, 7);
+            if (target != null) {
+                getNavigator().tryMoveToXYZ(target.getX(), target.getY(), target.getZ(), 0.15);
+            }
         }
 
         if (target != null) {
-            setMotion(MathHelper.clamp(target.x - getPosX(), -0.1, 0.1), getMotion().getY(), MathHelper.clamp(target.z - getPosZ(), -0.1, 0.1));
-            float f = MathHelper.wrapDegrees((float) (Math.toDegrees(Math.atan2(getMotion().getZ(), getMotion().getX()))) - rotationYaw);
-            if (f > 90) {
-                f = 90;
-            }
-
-            if (f < -90) {
-                f = -90;
-            }
-
-            float f1 = rotationYaw + f;
-            if (f1 < 0.0F) {
-                f1 += 360.0F;
-            } else if (f1 > 360.0F) {
-                f1 -= 360.0F;
-            }
-
-            this.rotationYaw = f1 - 90;
             if (getDistanceSq(target) <= 4) {
                 target = null;
+            } else if (getNavigator().noPath()) {
+                getNavigator().tryMoveToXYZ(target.getX(), target.getY(), target.getZ(), 0.15);
             }
         }
     }
@@ -281,6 +259,30 @@ public class PenglilEntity extends TameableEntity {
 
     protected SoundEvent getFlopSound() {
         return null;
+    }
+
+    private static class Navigator extends SwimmerPathNavigator {
+        private Navigator(PenglilEntity penglil, World world) {
+            super(penglil, world);
+        }
+
+        @Override
+        protected boolean canNavigate() {
+            return true;
+        }
+
+        @Override
+        protected PathFinder getPathFinder(int p_179679_1_) {
+            this.nodeProcessor = new WalkAndSwimNodeProcessor();
+            return new PathFinder(this.nodeProcessor, p_179679_1_);
+        }
+
+        @Override
+        public boolean canEntityStandOnPos(BlockPos pos) {
+            BlockPos blockPos = pos.down();
+            BlockState state = this.world.getBlockState(blockPos);
+            return this.world.getBlockState(pos).isIn(Blocks.WATER) || !state.getBlock().isAir(state, world, blockPos);
+        }
     }
 
     private static class MoveHelperController extends MovementController {
