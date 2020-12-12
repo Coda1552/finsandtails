@@ -58,9 +58,9 @@ public class FinsAndTails {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerBiomes(BiomeLoadingEvent event) {
         if (event.getCategory() == Biome.Category.SWAMP) {
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SWAMP_MUCKER, 10, 2, 4));
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_SUCKER, 10, 1, 1));
-            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.MUDHORSE, 2, 2, 3));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SWAMP_MUCKER, 6, 2, 4));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_SUCKER, 6, 1, 1));
+            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.MUDHORSE, 4, 2, 3));
         }
 
         if (event.getCategory() == Biome.Category.JUNGLE) {

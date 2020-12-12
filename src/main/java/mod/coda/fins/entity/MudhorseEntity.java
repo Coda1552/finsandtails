@@ -28,7 +28,6 @@ public class MudhorseEntity extends AnimalEntity {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(FinsItems.SWAMP_MUCKER), false));
@@ -37,6 +36,11 @@ public class MudhorseEntity extends AnimalEntity {
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+    }
+
+    @Override
+    public boolean canBreatheUnderwater() {
+        return true;
     }
 
     public static AttributeModifierMap.MutableAttribute func_234176_m_() {

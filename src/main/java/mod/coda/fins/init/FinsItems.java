@@ -20,7 +20,7 @@ public class FinsItems {
     public static final Item PEA_WEE_BUCKET = register("pea_wee_bucket", new FishBucketItem(() -> FinsEntities.PEA_WEE, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final Item BANDED_REDBACK_SRHIMP = register("banded_redback_shrimp", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(2).saturation(0.1F).build())));
     public static final Item BANDED_REDBACK_SHRIMP_BUCKET = register("banded_redback_shrimp_bucket", new FishBucketItem(() -> FinsEntities.BANDED_REDBACK_SHRIMP, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
-    public static final Item COOKED_BANDED_REDBACK_SHRIMP = register("cooked_banded_redback_shrimp", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(5).saturation(0.4F).build())));
+    public static final Item COOKED_BANDED_REDBACK_SHRIMP = register("cooked_banded_redback_shrimp", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.5F).build())));
     public static final Item TEAL_ARROWFISH = register("teal_arrowfish", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(2).saturation(0.1F).build())));
     public static final Item TEAL_ARROWFISH_BUCKET = register("teal_arrowfish_bucket", new FishBucketItem(() -> FinsEntities.TEAL_ARROWFISH, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final Item SWAMP_MUCKER = register("swamp_mucker", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(2).saturation(0.1F).build())));
@@ -33,7 +33,7 @@ public class FinsItems {
     public static final Item ORNATE_BUGFISH = register("ornate_bugfish", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(2).saturation(0.1F).build())));
     public static final Item ORNATE_BUGFISH_BUCKET = register("ornate_bugfish_bucket", new FishBucketItem(() -> FinsEntities.ORNATE_BUGFISH, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final Item BUGMEAT = register("bugmeat", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(3).saturation(0.15F).build())));
-    public static final Item COOKED_BUGMEAT = register("cooked_bugmeat", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(8).saturation(0.4F).build())));
+    public static final Item COOKED_BUGMEAT = register("cooked_bugmeat", new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(8).saturation(0.6F).build())));
     public static final Item MUDHORSE_LEATHER = register("mudhorse_leather", new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final Item MUDHORSE_POUCH = register("mudhorse_pouch", new MudhorsePouchItem());
     public static final Item FWINGED_BOOTS = register("fwinged_boots", new FwingedBootsItem());
