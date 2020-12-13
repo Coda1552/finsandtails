@@ -23,6 +23,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -136,11 +137,17 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
         return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8);
     }
 
+    @org.jetbrains.annotations.Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.ENTITY_TROPICAL_FISH_HURT;
+    }
+
     protected SoundEvent getDeathSound() {
         return FinsSounds.CRAB_DEATH.get();
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.BLOCK_SAND_STEP;
+        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
     }
 }
