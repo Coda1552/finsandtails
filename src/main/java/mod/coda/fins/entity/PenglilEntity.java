@@ -43,6 +43,7 @@ public class PenglilEntity extends TameableEntity {
         super(type, world);
         this.moveController = new PenglilEntity.MoveHelperController(this);
         this.setPathPriority(PathNodeType.WATER, 0.0F);
+        this.stepHeight = 1;
     }
 
     @Override
