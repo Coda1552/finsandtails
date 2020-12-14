@@ -36,7 +36,7 @@ public class SwampMuckerEntity  extends AbstractGroupFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.SWAMP_MUCKER_BUCKET);
+        return new ItemStack(FinsItems.SWAMP_MUCKER_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

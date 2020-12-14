@@ -29,12 +29,12 @@ public class CrabCruncherBlock extends Block {
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(handIn);
         if(!worldIn.isRemote) {
-            if(heldItem.getItem() == FinsItems.SPINDLY_GEM_CRAB) {
+            if(heldItem.getItem() == FinsItems.SPINDLY_GEM_CRAB.get()) {
                 player.playSound(FinsSounds.CRAB_CRUNCH.get(), SoundCategory.BLOCKS, 0.4f, 1.0f);
                 if(!player.isCreative()) heldItem.shrink(1);
                 player.swing(handIn, true);
                 if (this.rand.nextInt(3) == 0) {
-                    ItemEntity itemEntity = new ItemEntity(worldIn.getServer().getWorld(worldIn.getDimensionKey()), (double) pos.getX() + 0.5D, (double) (pos.getY() + 1), (double) pos.getZ() + 0.5D, new ItemStack(FinsItems.SPINDLY_GEM_CRAB_GEM, 1));
+                    ItemEntity itemEntity = new ItemEntity(worldIn.getServer().getWorld(worldIn.getDimensionKey()), (double) pos.getX() + 0.5D, (double) (pos.getY() + 1), (double) pos.getZ() + 0.5D, new ItemStack(FinsItems.SPINDLY_GEM_CRAB_GEM.get(), 1));
                     worldIn.getServer().getWorld(worldIn.getDimensionKey()).addEntity(itemEntity);
                 }
             }

@@ -17,7 +17,7 @@ public class BandedRedbackShrimpEntity extends AbstractGroupFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.BANDED_REDBACK_SHRIMP_BUCKET);
+        return new ItemStack(FinsItems.BANDED_REDBACK_SHRIMP_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

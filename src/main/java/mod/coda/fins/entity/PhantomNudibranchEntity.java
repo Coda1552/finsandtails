@@ -42,7 +42,7 @@ public class PhantomNudibranchEntity extends AbstractGroupFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.PHANTOM_NUDIBRANCH_BUCKET);
+        return new ItemStack(FinsItems.PHANTOM_NUDIBRANCH_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

@@ -86,7 +86,7 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     }
 
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.SPINDLY_GEM_CRAB_BUCKET);
+        return new ItemStack(FinsItems.SPINDLY_GEM_CRAB_BUCKET.get());
     }
 
     @Nullable

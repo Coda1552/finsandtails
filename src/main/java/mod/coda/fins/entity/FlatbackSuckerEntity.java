@@ -90,7 +90,7 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.FLATBACK_SUCKER_BUCKET);
+        return new ItemStack(FinsItems.FLATBACK_SUCKER_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

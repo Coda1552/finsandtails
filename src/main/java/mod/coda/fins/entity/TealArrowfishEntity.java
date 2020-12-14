@@ -75,7 +75,7 @@ public class TealArrowfishEntity extends AbstractFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.TEAL_ARROWFISH_BUCKET);
+        return new ItemStack(FinsItems.TEAL_ARROWFISH_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

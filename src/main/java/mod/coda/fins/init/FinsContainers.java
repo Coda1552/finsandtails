@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class FinsContainers {
-    public static final DeferredRegister<ContainerType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.CONTAINERS, FinsAndTails.MOD_ID);
+    public static final DeferredRegister<ContainerType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, FinsAndTails.MOD_ID);
 
-    public static final RegistryObject<ContainerType<MudhorsePorchContainer>> MUDHORSE_POUCH = REGISTRY.register("mudhorse_pouch", () -> new ContainerType<>(MudhorsePorchContainer::new));
+    public static final RegistryObject<ContainerType<MudhorsePorchContainer>> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", () -> new ContainerType<>(MudhorsePorchContainer::new));
 }

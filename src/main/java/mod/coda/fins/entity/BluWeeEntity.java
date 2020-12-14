@@ -42,7 +42,7 @@ public class BluWeeEntity extends AbstractGroupFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.BLU_WEE_BUCKET);
+        return new ItemStack(FinsItems.BLU_WEE_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

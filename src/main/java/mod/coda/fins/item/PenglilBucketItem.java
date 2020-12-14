@@ -22,11 +22,10 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class PenglilBucketItem extends Item {
-    private final EntityType<?> penglil = FinsEntities.PENGLIL;
-
-    public PenglilBucketItem(EntityType<?> penglil, Properties properties) {
+    public PenglilBucketItem(Supplier<? extends EntityType<?>> penglil, Properties properties) {
         super(properties);
     }
 
@@ -48,7 +47,7 @@ public class PenglilBucketItem extends Item {
             else {
                 blockpos1 = blockpos.offset(direction);
             }
-            EntityType<?> entitytype = FinsEntities.PENGLIL;
+            EntityType<?> entitytype = FinsEntities.PENGLIL.get();
             Entity penglil = entitytype.spawn((ServerWorld) world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BUCKET, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP);
             if (penglil != null) {
                 if(!context.getPlayer().abilities.isCreativeMode) {

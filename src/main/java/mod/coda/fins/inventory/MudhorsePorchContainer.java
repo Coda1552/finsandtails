@@ -33,7 +33,7 @@ public class MudhorsePorchContainer extends Container {
                 this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
                     @Override
                     public boolean isItemValid(ItemStack stack) {
-                        return super.isItemValid(stack) && stack.getItem() != FinsItems.MUDHORSE_POUCH;
+                        return super.isItemValid(stack) && stack.getItem() != FinsItems.MUDHORSE_POUCH.get();
                     }
                 });
             }

@@ -12,7 +12,6 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.*;
@@ -79,7 +78,7 @@ public class PenglilEntity extends TameableEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, HighfinnedBlueEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, HighFinnedBlueEntity.class, true));
     }
 
     public static AttributeModifierMap.MutableAttribute func_234176_m_() {
@@ -105,7 +104,7 @@ public class PenglilEntity extends TameableEntity {
         if (heldItem.getItem() == Items.BUCKET && this.isAlive()) {
             playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
-            ItemStack itemstack1 = new ItemStack(FinsItems.PENGLIL_BUCKET);
+            ItemStack itemstack1 = new ItemStack(FinsItems.PENGLIL_BUCKET.get());
             this.setBucketData(itemstack1);
             if (!this.world.isRemote) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
@@ -121,7 +120,7 @@ public class PenglilEntity extends TameableEntity {
 
         float maxHealth = this.getMaxHealth();
         float health = this.getHealth();
-        if (heldItem.getItem() == FinsItems.BLU_WEE && health < maxHealth) {
+        if (heldItem.getItem() == FinsItems.BLU_WEE.get() && health < maxHealth) {
             if (!player.isCreative()) {
                 heldItem.shrink(1);
             }
@@ -133,7 +132,7 @@ public class PenglilEntity extends TameableEntity {
             return ActionResultType.SUCCESS;
         }
 
-        if (item == FinsItems.HIGHFINNED_BLUE && !this.isTamed()) {
+        if (item == FinsItems.HIGH_FINNED_BLUE.get() && !this.isTamed()) {
             if (!player.abilities.isCreativeMode) {
                 heldItem.shrink(1);
             }

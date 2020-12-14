@@ -2,26 +2,21 @@ package mod.coda.fins.entity;
 
 import mod.coda.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
-public class HighfinnedBlueEntity extends AbstractGroupFishEntity {
-    public HighfinnedBlueEntity(EntityType<? extends HighfinnedBlueEntity> type, World world) {
+public class HighFinnedBlueEntity extends AbstractGroupFishEntity {
+    public HighFinnedBlueEntity(EntityType<? extends HighFinnedBlueEntity> type, World world) {
         super(type, world);
     }
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.HIGHFINNED_BLUE_BUCKET);
+        return new ItemStack(FinsItems.HIGH_FINNED_BLUE_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

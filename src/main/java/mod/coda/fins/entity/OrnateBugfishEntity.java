@@ -31,7 +31,7 @@ public class OrnateBugfishEntity extends AbstractGroupFishEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TropicalFishEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, CodEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SalmonEntity.class, false));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, HighfinnedBlueEntity.class, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, HighFinnedBlueEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, FlatbackSuckerEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SwampMuckerEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, false));
@@ -84,7 +84,7 @@ public class OrnateBugfishEntity extends AbstractGroupFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.ORNATE_BUGFISH_BUCKET);
+        return new ItemStack(FinsItems.ORNATE_BUGFISH_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {

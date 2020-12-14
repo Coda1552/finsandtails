@@ -44,13 +44,13 @@ public class CommonEventHandler {
     public static void addWandererTrades(WandererTradesEvent event) {
         List<ITrade> list = event.getGenericTrades();
 
-        list.add(cdForItems(FinsItems.HIGHFINNED_BLUE_BUCKET, 1, 4, 1));
-        list.add(cdForItems(FinsItems.PEA_WEE_BUCKET, 1, 4, 2));
-        list.add(cdForItems(FinsItems.BLU_WEE_BUCKET, 1, 4, 1));
-        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 6), new ItemStack(FinsItems.SPINDLY_GEM_CRAB_GEM, 1), 2, 4, 1.5f));
-        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.FWIN, 1), 2, 3, 1.5f));
-        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 7), new ItemStack(FinsItems.MUDHORSE_LEATHER, 1), 2, 4, 1.5f));
-        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(FinsItems.FLATBACK_LEAF_SNAIL_SHELL, 1), 2, 4, 1.5f));
+        list.add(cdForItems(FinsItems.HIGH_FINNED_BLUE_BUCKET.get(), 1, 4, 1));
+        list.add(cdForItems(FinsItems.PEA_WEE_BUCKET.get(), 1, 4, 2));
+        list.add(cdForItems(FinsItems.BLU_WEE_BUCKET.get(), 1, 4, 1));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 6), new ItemStack(FinsItems.SPINDLY_GEM_CRAB_GEM.get(), 1), 2, 4, 1.5f));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.FWIN.get(), 1), 2, 3, 1.5f));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 7), new ItemStack(FinsItems.MUDHORSE_LEATHER.get(), 1), 2, 4, 1.5f));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(FinsItems.FLATBACK_LEAF_SNAIL_SHELL.get(), 1), 2, 4, 1.5f));
     }
 
     private static ITrade cdForItems(ItemStack selling, int maxUses, int xp) {

@@ -30,7 +30,7 @@ public class MudhorseEntity extends AnimalEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(FinsItems.SWAMP_MUCKER), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(FinsItems.SWAMP_MUCKER.get()), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -71,7 +71,7 @@ public class MudhorseEntity extends AnimalEntity {
     }
 
     private boolean isMudhorseBreedingItem(Item itemIn) {
-        return itemIn == FinsItems.SWAMP_MUCKER;
+        return itemIn == FinsItems.SWAMP_MUCKER.get();
     }
 
     public boolean isBreedingItem(ItemStack stack) {
@@ -101,7 +101,7 @@ public class MudhorseEntity extends AnimalEntity {
     @Nullable
     @Override
     public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
-        return FinsEntities.MUDHORSE.create(world);
+        return FinsEntities.MUDHORSE.get().create(world);
     }
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {

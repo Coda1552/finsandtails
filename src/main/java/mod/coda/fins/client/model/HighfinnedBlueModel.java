@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class HighfinnedBlueModel<T extends Entity> extends EntityModel<T> {
+public class HighFinnedBlueModel<T extends Entity> extends EntityModel<T> {
     public ModelRenderer body;
     public ModelRenderer tail;
     public ModelRenderer dorsalfin;
@@ -19,7 +19,7 @@ public class HighfinnedBlueModel<T extends Entity> extends EntityModel<T> {
     public ModelRenderer pectoralfinright;
     public ModelRenderer pectoralfinleft;
 
-    public HighfinnedBlueModel() {
+    public HighFinnedBlueModel() {
         this.textureWidth = 54;
         this.textureHeight = 22;
         this.body = new ModelRenderer(this, 0, 0);
