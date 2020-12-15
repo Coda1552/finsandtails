@@ -15,6 +15,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class TealArrowfishEntity extends AbstractFishEntity {
@@ -92,5 +93,10 @@ public class TealArrowfishEntity extends AbstractFishEntity {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_COD_FLOP;
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.TEAL_ARROWFISH_SPAWN_EGG.get());
     }
 }

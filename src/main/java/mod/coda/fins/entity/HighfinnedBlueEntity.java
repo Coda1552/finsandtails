@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class HighFinnedBlueEntity extends AbstractGroupFishEntity {
@@ -32,5 +33,10 @@ public class HighFinnedBlueEntity extends AbstractGroupFishEntity {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_COD_FLOP;
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.HIGH_FINNED_BLUE_SPAWN_EGG.get());
     }
 }

@@ -27,6 +27,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
@@ -149,5 +150,10 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.SPINDLY_GEM_CRAB_SPAWN_EGG.get());
     }
 }

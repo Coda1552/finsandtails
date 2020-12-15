@@ -24,6 +24,7 @@ import net.minecraft.pathfinding.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -311,5 +312,10 @@ public class PenglilEntity extends TameableEntity {
                 this.penglil.setAIMoveSpeed(0.0F);
             }
         }
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.PENGLIL_SPAWN_EGG.get());
     }
 }

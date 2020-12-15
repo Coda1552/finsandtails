@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class SwampMuckerEntity  extends AbstractGroupFishEntity {
@@ -65,5 +66,11 @@ public class SwampMuckerEntity  extends AbstractGroupFishEntity {
         public boolean shouldExecute() {
             return this.fish.func_212800_dy() && super.shouldExecute();
         }
+    }
+
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.SWAMP_MUCKER_SPAWN_EGG.get());
     }
 }

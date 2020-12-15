@@ -21,6 +21,7 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class FlatbackSuckerEntity extends AbstractFishEntity {
@@ -107,5 +108,10 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_COD_FLOP;
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.FLATBACK_SUCKER_SPAWN_EGG.get());
     }
 }
