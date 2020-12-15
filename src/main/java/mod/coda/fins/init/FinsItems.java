@@ -57,7 +57,7 @@ public class FinsItems {
     public static final RegistryObject<Item> ORNATE_BUGFISH_SPAWN_EGG = REGISTER.register("ornate_bugfish_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.ORNATE_BUGFISH, 0xe5d7ce, 0xf27a00, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> PHANTOM_NUDIBRANCH_SPAWN_EGG = REGISTER.register("phantom_nudibranch_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.PHANTOM_NUDIBRANCH, 0xcfe9ff, 0x8692bf, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> PENGLIL_SPAWN_EGG = REGISTER.register("penglil_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.PENGLIL, 0x536c6d, 0xb3d7de, new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> SPINDLY_GEM_CRAB_SPAWN_EGG = REGISTER.register("spindly_gem_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.PENGLIL,  0xe4ad4c, 0x6be263, new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> SPINDLY_GEM_CRAB_SPAWN_EGG = REGISTER.register("spindly_gem_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.SPINDLY_GEM_CRAB,  0xe4ad4c, 0x6be263, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SPAWN_EGG = REGISTER.register("flatback_leaf_snail_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.FLATBACK_LEAF_SNAIL,  0x4a2c1a, 0xd1a06b, new Item.Properties().group(FinsAndTails.GROUP)));
 
     private static Item register(String name, Item item) {
