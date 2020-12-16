@@ -1,18 +1,17 @@
 package mod.coda.fins.entity;
 
-import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.init.FinsEntities;
+import mod.coda.fins.init.FinsItems;
 import mod.coda.fins.init.FinsSounds;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.entity.passive.SquidEntity;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -21,24 +20,21 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.function.Predicate;
 
-public class RubberBellyGliderEntity extends AnimalEntity {
+public class RubberBellyGliderEntity extends AbstractFishEntity {
     private static final DataParameter<Boolean> PUFFED = EntityDataManager.createKey(RubberBellyGliderEntity.class, DataSerializers.BOOLEAN);
+    private int puffTimer;
 
     private static final Predicate<Entity> ENEMY_MATCHER = (entity) -> {
         if (!(entity instanceof LivingEntity)) {
@@ -153,9 +149,29 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         } else {
             super.travel(p_213352_1_);
         }
-
     }
 
+    @Override
+    protected ItemStack getFishBucket() {
+        return new ItemStack(FinsItems.RUBBER_BELLY_GLIDER_BUCKET.get());
+    }
+
+    @Override
+    protected SoundEvent getFlopSound() {
+        return SoundEvents.ENTITY_PUFFER_FISH_FLOP;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (isPuffed() && ++puffTimer >= 60) {
+            playSound(SoundEvents.ENTITY_PUFFER_FISH_BLOW_OUT, getSoundVolume(), getSoundPitch());
+            setPuffed(false);
+            puffTimer = 0;
+        }
+    }
+
+    /*
     @Nullable
     @Override
     public AgeableEntity func_241840_a(ServerWorld serverWorld, AgeableEntity ageableEntity) {
@@ -163,6 +179,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         entity.onInitialSpawn(serverWorld, this.world.getDifficultyForLocation(entity.getPosition()), SpawnReason.BREEDING, null, null);
         return entity;
     }
+*/
 
     public void onCollideWithPlayer(PlayerEntity entityIn) {
         if (ENEMY_MATCHER.test(entityIn) && this.isPuffed() && entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (getAttribute(Attributes.ATTACK_DAMAGE).getValue() * 3))) {
@@ -222,21 +239,12 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         }
 
         public boolean shouldExecute() {
-            return !glider.world.getEntitiesInAABBexcluding(glider, this.glider.getBoundingBox().grow(2.0D), RubberBellyGliderEntity.ENEMY_MATCHER).isEmpty();
+            return !glider.isPuffed() && !glider.world.getEntitiesInAABBexcluding(glider, this.glider.getBoundingBox().grow(2.0D), RubberBellyGliderEntity.ENEMY_MATCHER).isEmpty();
         }
 
         public void startExecuting() {
             glider.playSound(SoundEvents.ENTITY_PUFFER_FISH_BLOW_UP, glider.getSoundVolume(), glider.getSoundPitch());
             glider.setPuffed(true);
-        }
-
-        public void resetTask() {
-            glider.playSound(SoundEvents.ENTITY_PUFFER_FISH_BLOW_OUT, glider.getSoundVolume(), glider.getSoundPitch());
-            glider.setPuffed(false);
-        }
-
-        public boolean shouldContinueExecuting() {
-            return !glider.world.getEntitiesInAABBexcluding(glider, this.glider.getBoundingBox().grow(2.0D), RubberBellyGliderEntity.ENEMY_MATCHER).isEmpty();
         }
     }
 
