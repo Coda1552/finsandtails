@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FinsSpawnEggItem extends SpawnEggItem {
-
     public static final List<FinsSpawnEggItem> UNADDED_EGGS = new ArrayList<FinsSpawnEggItem>();
     private final Lazy<? extends EntityType<?>> entityTypeSupplier;
 
