@@ -27,6 +27,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
@@ -153,7 +154,7 @@ public class RubberBellyGliderEntity extends AbstractFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.RUBBER_BELLY_GLIDER_BUCKET.get());
+        return null;
     }
 
     @Override
@@ -164,12 +165,17 @@ public class RubberBellyGliderEntity extends AbstractFishEntity {
     @Override
     public void tick() {
         super.tick();
-        if (isPuffed() && ++puffTimer >= 60) {
+        if (isPuffed() && ++puffTimer >= 200) {
             playSound(SoundEvents.ENTITY_PUFFER_FISH_BLOW_OUT, getSoundVolume(), getSoundPitch());
             setPuffed(false);
             puffTimer = 0;
         }
     }
+
+    /*@Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.RUBBER_BELLY_GLIDER_SPAWN_EGG.get());
+    }*/
 
     /*
     @Nullable
@@ -179,7 +185,7 @@ public class RubberBellyGliderEntity extends AbstractFishEntity {
         entity.onInitialSpawn(serverWorld, this.world.getDifficultyForLocation(entity.getPosition()), SpawnReason.BREEDING, null, null);
         return entity;
     }
-*/
+    */
 
     public void onCollideWithPlayer(PlayerEntity entityIn) {
         if (ENEMY_MATCHER.test(entityIn) && this.isPuffed() && entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (getAttribute(Attributes.ATTACK_DAMAGE).getValue() * 3))) {

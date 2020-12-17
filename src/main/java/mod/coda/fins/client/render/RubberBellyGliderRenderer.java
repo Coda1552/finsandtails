@@ -1,5 +1,6 @@
 package mod.coda.fins.client.render;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.RubberBellyGliderModel;
 import mod.coda.fins.entity.RubberBellyGliderEntity;
@@ -17,5 +18,11 @@ public class RubberBellyGliderRenderer extends MobRenderer<RubberBellyGliderEnti
 
     public ResourceLocation getEntityTexture(RubberBellyGliderEntity entity) {
         return entity.isPuffed() ? TEXTURE_PUFFED : TEXTURE_NORMAL;
+    }
+
+    @Override
+    protected void preRenderCallback(RubberBellyGliderEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+        super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+        matrixStackIn.translate(0, 0, 0.2);
     }
 }

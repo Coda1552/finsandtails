@@ -54,8 +54,8 @@ public class FinsAndTails {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerBiomes(BiomeLoadingEvent event) {
         if (event.getCategory() == Biome.Category.SWAMP) {
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SWAMP_MUCKER.get(), 6, 2, 4));
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_SUCKER.get(), 6, 1, 1));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SWAMP_MUCKER.get(), 3, 2, 4));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_SUCKER.get(), 3, 1, 1));
             event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.MUDHORSE.get(), 4, 2, 3));
         }
 
@@ -68,23 +68,23 @@ public class FinsAndTails {
         }
 
         if (event.getName().equals(new ResourceLocation("minecraft", "cold_ocean")) || event.getName().equals(new ResourceLocation("minecraft", "deep_cold_ocean"))) {
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BLU_WEE.get(), 40, 4, 8));
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.TEAL_ARROWFISH.get(), 20, 1, 1));
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.PHANTOM_NUDIBRANCH.get(), 4, 1, 1));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BLU_WEE.get(), 20, 4, 8));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.TEAL_ARROWFISH.get(), 15, 1, 1));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.PHANTOM_NUDIBRANCH.get(), 3, 1, 1));
         }
 
         if (event.getName().equals(new ResourceLocation("minecraft", "warm_ocean")) || event.getName().equals(new ResourceLocation("minecraft", "deep_warm_ocean"))) {
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 15, 3, 3));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 10, 3, 3));
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.ORNATE_BUGFISH.get(), 3, 5, 5));
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SPINDLY_GEM_CRAB.get(), 7, 1, 3));
         }
 
         if (event.getName().equals(new ResourceLocation("minecraft", "deep_ocean")) || event.getName().equals(new ResourceLocation("minecraft", "ocean"))) {
-            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGH_FINNED_BLUE.get(), 10, 6, 12));
+            event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGH_FINNED_BLUE.get(), 8, 6, 12));
         }
 
         if (event.getCategory() == Biome.Category.FOREST) {
-            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_LEAF_SNAIL.get(), 10, 1, 2));
+            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_LEAF_SNAIL.get(), 8, 1, 2));
         }
     }
 
@@ -119,7 +119,7 @@ public class FinsAndTails {
         GlobalEntityTypeAttributes.put(FinsEntities.SWAMP_MUCKER.get(), SwampMuckerEntity.func_234176_m_().create());
         GlobalEntityTypeAttributes.put(FinsEntities.TEAL_ARROWFISH.get(), TealArrowfishEntity.func_234176_m_().create());
         GlobalEntityTypeAttributes.put(FinsEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailEntity.func_234176_m_().create());
-        GlobalEntityTypeAttributes.put(FinsEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderEntity.registerRBGAttributes().create());
+//        GlobalEntityTypeAttributes.put(FinsEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderEntity.registerRBGAttributes().create());
     }
 
     private void registerClient(FMLClientSetupEvent event) {
