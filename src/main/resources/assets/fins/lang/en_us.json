@@ -32,6 +32,11 @@
   "item.fins.bugfish_mandibles": "Bugfish Mandibles",
   "item.fins.gem_crab_amulet": "Gem Crab Amulet",
   "item.fins.flatback_leaf_snail_shell": "Flatback Leaf Snail Shell",
+  "item.fins.red_bull_crab_bucket": "Bucket of Red Bull Crab",
+  "item.fins.white_bull_crab_bucket": "Bucket of White Bull Crab",
+  "item.fins.cooked_bull_crab_claw": "Cooked Bull Crab Claw",
+  "item.fins.white_bull_crab_claw": "White Bull Crab Claw",
+  "item.fins.red_bull_crab_claw": "Red Bull Crab Claw",
 
   "item.fins.blu_wee_spawn_egg": "Blu Wee Spawn Egg",
   "item.fins.pea_wee_spawn_egg": "Pea Wee Spawn Egg",
@@ -48,6 +53,7 @@
   "item.fins.penglil_spawn_egg": "Penglil Spawn Egg",
   "item.fins.spindly_gem_crab_spawn_egg": "Spindly Gem Crab Spawn Egg",
   "item.fins.flatback_leaf_snail_spawn_egg": "Flatback Leaf Snail Spawn Egg",
+  "item.fins.red_bull_crab_spawn_egg": "Red Bull Crab Spawn Egg",
 
   "entity.fins.blu_wee": "Blu Wee",
   "entity.fins.pea_wee": "Pea Wee",
@@ -64,6 +70,7 @@
   "entity.fins.penglil": "Penglil",
   "entity.fins.spindly_gem_crab": "Spindly Gem Crab",
   "entity.fins.flatback_leaf_snail": "Flatback Leaf Snail",
+  "entity.fins.red_bull_crab": "Red Bull Crab",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Spindly Gem Crab Gem Block",

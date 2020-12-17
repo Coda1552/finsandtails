@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -71,12 +72,8 @@ public class MudhorseEntity extends AnimalEntity {
         return flag;
     }
 
-    private boolean isMudhorseBreedingItem(Item itemIn) {
-        return itemIn == FinsItems.SWAMP_MUCKER.get();
-    }
-
     public boolean isBreedingItem(ItemStack stack) {
-        return this.isMudhorseBreedingItem(stack.getItem());
+        return stack.getItem() == FinsItems.SWAMP_MUCKER.get();
     }
 
     protected SoundEvent getAmbientSound() {
