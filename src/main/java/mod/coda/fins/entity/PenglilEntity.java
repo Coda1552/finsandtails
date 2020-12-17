@@ -2,8 +2,8 @@ package mod.coda.fins.entity;
 
 import mod.coda.fins.init.FinsItems;
 import mod.coda.fins.init.FinsSounds;
+import mod.coda.fins.pathfinding.GroundAndSwimmerNavigator;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
@@ -14,13 +14,16 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.*;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -48,7 +51,7 @@ public class PenglilEntity extends TameableEntity {
 
     @Override
     protected PathNavigator createNavigator(World worldIn) {
-        return new Navigator(this, world);
+        return new GroundAndSwimmerNavigator(this, world);
     }
 
     @Override
@@ -260,30 +263,6 @@ public class PenglilEntity extends TameableEntity {
 
     protected SoundEvent getFlopSound() {
         return null;
-    }
-
-    private static class Navigator extends SwimmerPathNavigator {
-        private Navigator(PenglilEntity penglil, World world) {
-            super(penglil, world);
-        }
-
-        @Override
-        protected boolean canNavigate() {
-            return true;
-        }
-
-        @Override
-        protected PathFinder getPathFinder(int p_179679_1_) {
-            this.nodeProcessor = new WalkAndSwimNodeProcessor();
-            return new PathFinder(this.nodeProcessor, p_179679_1_);
-        }
-
-        @Override
-        public boolean canEntityStandOnPos(BlockPos pos) {
-            BlockPos blockPos = pos.down();
-            BlockState state = this.world.getBlockState(blockPos);
-            return this.world.getBlockState(pos).isIn(Blocks.WATER) || !state.getBlock().isAir(state, world, blockPos);
-        }
     }
 
     private static class MoveHelperController extends MovementController {
