@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "fins:white_bull_crab_claw"
+  },
+  "result": "fins:cooked_bull_crab_claw",
+  "experience": 0.1,
+  "cookingtime": 200
+}

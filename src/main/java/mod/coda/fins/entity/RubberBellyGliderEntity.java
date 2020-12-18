@@ -51,10 +51,11 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         super(type, world);
         this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.moveController = new RubberBellyGliderEntity.MoveHelperController(this);
+        this.stepHeight = 1.0f;
     }
 
     private static boolean isEntityPrey(Entity entity) {
-        return entity instanceof SquidEntity || entity instanceof BandedRedbackShrimpEntity;
+        return entity instanceof SquidEntity || entity instanceof BandedRedbackShrimpEntity || entity instanceof WhiteBullCrabEntity;
     }
 
     public boolean canBreatheUnderwater() {
@@ -129,7 +130,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute registerRBGAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.ATTACK_DAMAGE, 1).createMutableAttribute(Attributes.MAX_HEALTH, 25).createMutableAttribute(Attributes.MOVEMENT_SPEED, 1.6);
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.ATTACK_DAMAGE, 1).createMutableAttribute(Attributes.MAX_HEALTH, 25).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.12);
     }
 
     protected PathNavigator createNavigator(World worldIn) {

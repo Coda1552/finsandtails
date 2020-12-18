@@ -26,7 +26,7 @@ public class FinsEntities {
     public static final RegistryObject<EntityType<PenglilEntity>> PENGLIL = create("penglil", EntityType.Builder.create(PenglilEntity::new, EntityClassification.WATER_CREATURE).size( 0.5f, 0.5f));
     public static final RegistryObject<EntityType<SpindlyGemCrabEntity>> SPINDLY_GEM_CRAB = create("spindly_gem_crab", EntityType.Builder.create(SpindlyGemCrabEntity::new, EntityClassification.WATER_AMBIENT).size(0.4f, 0.3f));
     public static final RegistryObject<EntityType<FlatbackLeafSnailEntity>> FLATBACK_LEAF_SNAIL = create("flatback_leaf_snail", EntityType.Builder.create(FlatbackLeafSnailEntity::new, EntityClassification.CREATURE).size(0.6f, 0.3f));
-    //public static final RegistryObject<EntityType<RubberBellyGliderEntity>> RUBBER_BELLY_GLIDER = create("rubber_belly_glider", EntityType.Builder.create(RubberBellyGliderEntity::new, EntityClassification.WATER_CREATURE).size(0.7f, 0.4f));
+    public static final RegistryObject<EntityType<RubberBellyGliderEntity>> RUBBER_BELLY_GLIDER = create("rubber_belly_glider", EntityType.Builder.create(RubberBellyGliderEntity::new, EntityClassification.WATER_CREATURE).size(0.7f, 0.4f));
     public static final RegistryObject<EntityType<RedBullCrabEntity>> RED_BULL_CRAB = create("red_bull_crab", EntityType.Builder.create(RedBullCrabEntity::new, EntityClassification.WATER_CREATURE).size(0.5f, 0.3f));
     public static final RegistryObject<EntityType<WhiteBullCrabEntity>> WHITE_BULL_CRAB = create("white_bull_crab", EntityType.Builder.create(WhiteBullCrabEntity::new, EntityClassification.WATER_CREATURE).size(0.5f, 0.3f));
 
