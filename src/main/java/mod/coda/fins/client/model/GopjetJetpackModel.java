@@ -6,11 +6,11 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
-public class GobjetJetpackModel extends BipedModel<LivingEntity> {
-    public static final GobjetJetpackModel INSTANCE = new GobjetJetpackModel();
+public class GopjetJetpackModel extends BipedModel<LivingEntity> {
+    public static final GopjetJetpackModel INSTANCE = new GopjetJetpackModel();
 	private final ModelRenderer bb_main;
 
-	public GobjetJetpackModel() {
+	public GopjetJetpackModel() {
         super(0);
         textureWidth = 64;
 		textureHeight = 128;
