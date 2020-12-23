@@ -22,7 +22,7 @@ public class PhantomNudibranchGlowLayer<T extends PhantomNudibranchEntity, M ext
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(this.getRenderType());
-        this.getEntityModel().render(matrixStackIn, ivertexbuilder,  2000, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.getEntityModel().render(matrixStackIn, ivertexbuilder,  2000, OverlayTexture.NO_OVERLAY, 0.5F, 0.5F, 0.5F, 0.5F);
     }
 
     public RenderType getRenderType() {

@@ -34,6 +34,7 @@ public class WhiteBullCrabEntity extends AbstractFishEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, RedBullCrabEntity.class, 8.0F, 2.2D, 2.2D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 2.2D, 2.2D));
         this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(3, new LookRandomlyGoal(this));
