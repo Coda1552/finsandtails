@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.function.Supplier;
 
-public class FwingedArmorMaterial implements IArmorMaterial {
+public class FinsArmorMaterial implements IArmorMaterial {
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{15, 18, 17, 13};
     private final String name;
     private final int maxDamageFactor;
@@ -19,7 +19,7 @@ public class FwingedArmorMaterial implements IArmorMaterial {
     private final float toughness;
     private final Supplier<Ingredient> repairMaterial;
 
-    public FwingedArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughness, Supplier<Ingredient> repairMaterialSupplier) {
+    public FinsArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughness, Supplier<Ingredient> repairMaterialSupplier) {
         this.name = nameIn;
         this.maxDamageFactor = maxDamageFactorIn;
         this.damageReductionAmountArray = damageReductionAmountsIn;
