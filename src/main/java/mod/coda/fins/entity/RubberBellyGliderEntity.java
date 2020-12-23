@@ -1,6 +1,7 @@
 package mod.coda.fins.entity;
 
 import mod.coda.fins.init.FinsEntities;
+import mod.coda.fins.init.FinsItems;
 import mod.coda.fins.init.FinsSounds;
 import mod.coda.fins.pathfinding.GroundAndSwimmerNavigator;
 import net.minecraft.entity.*;
@@ -12,6 +13,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -334,5 +336,10 @@ public class RubberBellyGliderEntity extends AnimalEntity {
                 this.glider.setAIMoveSpeed(0.0F);
             }
         }
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == FinsItems.SPINDLY_GEM_CRAB.get();
     }
 }
