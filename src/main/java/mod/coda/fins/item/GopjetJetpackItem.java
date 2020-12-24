@@ -3,14 +3,17 @@ package mod.coda.fins.item;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.GopjetJetpackModel;
 import mod.coda.fins.init.FinsItems;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.PotionUtils;
+import net.minecraft.potion.Potions;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,14 +29,56 @@ public class GopjetJetpackItem extends ArmorItem {
 
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-        player.fallDistance = 0;
-        if (player.isJumping) {
-            int ticksJumping = player.getPersistentData().getInt("FinsFlyingTicks") + 1;
-            if (ticksJumping % 10 == 0) {
-                stack.damageItem(1, player, playerEntity -> playerEntity.sendBreakAnimation(EquipmentSlotType.CHEST));
+        if (stack.getMaxDamage() - stack.getDamage() > 1) {
+            boolean canFly = world.isRainingAt(player.getPosition());
+            int flyingTicksRemaining = 0;
+            int stackIndex = -1;
+            if (!canFly) {
+                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                    ItemStack inventoryStack = player.inventory.getStackInSlot(i);
+                    Item item = inventoryStack.getItem();
+                    int ticksJumping = inventoryStack.hasTag() ? inventoryStack.getTag().getInt("FinsFlyingTicks") : 0;
+                    if (item == Items.WATER_BUCKET) {
+                        flyingTicksRemaining = 100 - ticksJumping;
+                    } else if (item == Items.POTION && PotionUtils.getPotionFromItem(inventoryStack) == Potions.EMPTY) {
+                        flyingTicksRemaining = 30 - ticksJumping;
+                    } else if (Block.getBlockFromItem(item) == Blocks.WET_SPONGE) {
+                        flyingTicksRemaining = 40 - ticksJumping;
+                    } else {
+                        continue;
+                    }
+                    stackIndex = i;
+                    canFly = true;
+                    break;
+                }
             }
-            player.getPersistentData().putInt("FinsFlyingTicks", ticksJumping);
-            player.setMotion(player.getMotion().add(0, 0.1, 0));
+            if (canFly) {
+                player.fallDistance = 0;
+                if (player.isJumping) {
+                    int ticksJumping = player.getPersistentData().getInt("FinsFlyingTicks") + 1;
+                    if (ticksJumping % 10 == 0) {
+                        stack.damageItem(1, player, playerEntity -> playerEntity.sendBreakAnimation(EquipmentSlotType.CHEST));
+                    }
+                    player.getPersistentData().putInt("FinsFlyingTicks", ticksJumping);
+                    player.setMotion(player.getMotion().add(0, 0.1, 0));
+                    if (stackIndex != -1) {
+                        ItemStack flyingStack = player.inventory.getStackInSlot(stackIndex);
+                        if (flyingTicksRemaining - 1 <= 0) {
+                            Item item = flyingStack.getItem();
+                            if (item == Items.WATER_BUCKET) {
+                                player.inventory.setInventorySlotContents(stackIndex, new ItemStack(Items.BUCKET));
+                            } else if (item == Items.POTION && PotionUtils.getPotionFromItem(flyingStack) == Potions.EMPTY) {
+                                player.inventory.setInventorySlotContents(stackIndex, new ItemStack(Items.GLASS_BOTTLE));
+                            } else if (Block.getBlockFromItem(item) == Blocks.WET_SPONGE) {
+                                player.inventory.setInventorySlotContents(stackIndex, new ItemStack(Blocks.SPONGE));
+                            }
+                        } else {
+                            CompoundNBT tag = flyingStack.getOrCreateTag();
+                            tag.putInt("FinsFlyingTicks", tag.getInt("FinsFlyingTicks") + 1);
+                        }
+                    }
+                }
+            }
         }
     }
 
