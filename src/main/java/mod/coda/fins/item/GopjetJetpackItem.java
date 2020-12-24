@@ -43,9 +43,7 @@ public class GopjetJetpackItem extends ArmorItem {
 
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-        //8
-
-        if (stack.getMaxDamage() - stack.getDamage() > 1) {
+        if (stack.getMaxDamage() - stack.getDamage() > 1 || player.abilities.isCreativeMode) {
             boolean canFly = world.isRainingAt(player.getPosition());
             int flyingTicksRemaining = 0;
             int stackIndex = -1;
