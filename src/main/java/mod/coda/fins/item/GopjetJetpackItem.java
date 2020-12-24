@@ -3,11 +3,17 @@ package mod.coda.fins.item;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.GopjetJetpackModel;
 import mod.coda.fins.init.FinsItems;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.enchantment.UnbreakingEnchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
@@ -16,6 +22,7 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
@@ -34,30 +41,50 @@ public class GopjetJetpackItem extends ArmorItem {
             int flyingTicksRemaining = 0;
             int stackIndex = -1;
             if (!canFly) {
-                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                    ItemStack inventoryStack = player.inventory.getStackInSlot(i);
-                    Item item = inventoryStack.getItem();
-                    int ticksJumping = inventoryStack.hasTag() ? inventoryStack.getTag().getInt("FinsFlyingTicks") : 0;
-                    if (item == Items.WATER_BUCKET) {
-                        flyingTicksRemaining = 100 - ticksJumping;
-                    } else if (item == Items.POTION && PotionUtils.getPotionFromItem(inventoryStack) == Potions.EMPTY) {
-                        flyingTicksRemaining = 30 - ticksJumping;
-                    } else if (Block.getBlockFromItem(item) == Blocks.WET_SPONGE) {
-                        flyingTicksRemaining = 40 - ticksJumping;
-                    } else {
-                        continue;
-                    }
-                    stackIndex = i;
+                if (world.getBlockState(world.getHeight(Heightmap.Type.MOTION_BLOCKING, player.getPosition()).down()).getMaterial() == Material.WATER) {
                     canFly = true;
-                    break;
+                } else {
+                    for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                        ItemStack inventoryStack = player.inventory.getStackInSlot(i);
+                        Item item = inventoryStack.getItem();
+                        int ticksJumping = inventoryStack.hasTag() ? inventoryStack.getTag().getInt("FinsFlyingTicks") : 0;
+                        if (item == Items.WATER_BUCKET) {
+                            flyingTicksRemaining = 100 - ticksJumping;
+                        } else if (item == Items.POTION && PotionUtils.getPotionFromItem(inventoryStack) == Potions.WATER) {
+                            flyingTicksRemaining = 30 - ticksJumping;
+                        } else if (Block.getBlockFromItem(item) == Blocks.WET_SPONGE) {
+                            flyingTicksRemaining = 40 - ticksJumping;
+                        } else {
+                            continue;
+                        }
+                        stackIndex = i;
+                        canFly = true;
+                        break;
+                    }
                 }
             }
-            if (canFly) {
-                player.fallDistance = 0;
-                if (player.isJumping) {
+            if (player.isJumping) {
+                if (canFly) {
+                    player.fallDistance = 0;
                     int ticksJumping = player.getPersistentData().getInt("FinsFlyingTicks") + 1;
                     if (ticksJumping % 10 == 0) {
-                        stack.damageItem(1, player, playerEntity -> playerEntity.sendBreakAnimation(EquipmentSlotType.CHEST));
+                        int amount = 1;
+                        if (!player.abilities.isCreativeMode) {
+                            int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, stack);
+
+                            for (int k = 0; i > 0 && k < 1; ++k) {
+                                if (UnbreakingEnchantment.negateDamage(stack, i, random)) {
+                                    amount = 0;
+                                    break;
+                                }
+                            }
+
+                            if (amount > 0) {
+                                int l = stack.getDamage() + amount;
+                                stack.setDamage(l);
+                                stack.damageItem(1, player, playerEntity -> playerEntity.sendBreakAnimation(EquipmentSlotType.CHEST));
+                            }
+                        }
                     }
                     player.getPersistentData().putInt("FinsFlyingTicks", ticksJumping);
                     player.setMotion(player.getMotion().add(0, 0.1, 0));
@@ -65,12 +92,21 @@ public class GopjetJetpackItem extends ArmorItem {
                         ItemStack flyingStack = player.inventory.getStackInSlot(stackIndex);
                         if (flyingTicksRemaining - 1 <= 0) {
                             Item item = flyingStack.getItem();
+                            flyingStack.shrink(1);
+                            ItemStack newStack = null;
                             if (item == Items.WATER_BUCKET) {
-                                player.inventory.setInventorySlotContents(stackIndex, new ItemStack(Items.BUCKET));
-                            } else if (item == Items.POTION && PotionUtils.getPotionFromItem(flyingStack) == Potions.EMPTY) {
-                                player.inventory.setInventorySlotContents(stackIndex, new ItemStack(Items.GLASS_BOTTLE));
+                                newStack = new ItemStack(Items.BUCKET);
+                            } else if (item == Items.POTION && PotionUtils.getPotionFromItem(flyingStack) == Potions.WATER) {
+                                newStack = new ItemStack(Items.GLASS_BOTTLE);
                             } else if (Block.getBlockFromItem(item) == Blocks.WET_SPONGE) {
-                                player.inventory.setInventorySlotContents(stackIndex, new ItemStack(Blocks.SPONGE));
+                                newStack = new ItemStack(Blocks.SPONGE);
+                            }
+                            if (newStack != null) {
+                                if (flyingStack.isEmpty()) {
+                                    player.inventory.setInventorySlotContents(stackIndex, newStack);
+                                } else if (player.inventory.addItemStackToInventory(newStack)) {
+                                    player.dropItem(newStack, false);
+                                }
                             }
                         } else {
                             CompoundNBT tag = flyingStack.getOrCreateTag();
