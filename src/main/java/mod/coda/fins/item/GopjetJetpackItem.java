@@ -7,6 +7,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -18,13 +19,19 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
 
 public class GopjetJetpackItem extends ArmorItem {
@@ -36,6 +43,8 @@ public class GopjetJetpackItem extends ArmorItem {
 
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
+        //8
+
         if (stack.getMaxDamage() - stack.getDamage() > 1) {
             boolean canFly = world.isRainingAt(player.getPosition());
             int flyingTicksRemaining = 0;
@@ -63,31 +72,31 @@ public class GopjetJetpackItem extends ArmorItem {
                     }
                 }
             }
-            if (player.isJumping) {
+            CompoundNBT persistentData = player.getPersistentData();
+            if (persistentData.getBoolean("FinsFlying")) {
                 if (canFly) {
                     player.fallDistance = 0;
-                    int ticksJumping = player.getPersistentData().getInt("FinsFlyingTicks") + 1;
+                    int ticksJumping = persistentData.getInt("FinsFlyingTicks") + 1;
                     if (ticksJumping % 10 == 0) {
-                        int amount = 1;
-                        if (!player.abilities.isCreativeMode) {
-                            int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, stack);
-
-                            for (int k = 0; i > 0 && k < 1; ++k) {
-                                if (UnbreakingEnchantment.negateDamage(stack, i, random)) {
-                                    amount = 0;
-                                    break;
-                                }
-                            }
-
-                            if (amount > 0) {
-                                int l = stack.getDamage() + amount;
-                                stack.setDamage(l);
-                                stack.damageItem(1, player, playerEntity -> playerEntity.sendBreakAnimation(EquipmentSlotType.CHEST));
-                            }
-                        }
+                        stack.damageItem(1, player, playerEntity -> playerEntity.sendBreakAnimation(EquipmentSlotType.CHEST));
                     }
-                    player.getPersistentData().putInt("FinsFlyingTicks", ticksJumping);
+                    persistentData.putInt("FinsFlyingTicks", ticksJumping);
                     player.setMotion(player.getMotion().add(0, 0.1, 0));
+                    if (world.isRemote) {
+                        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                            for (int i = 0; i < 4; i++) {
+                                float sign = Math.signum(i - 2);
+                                if (sign == 0) {
+                                    sign = 1;
+                                }
+                                double playerRotation = Math.toRadians(player.renderYawOffset + 35 * sign);
+                                double xOffset = random.nextGaussian() * 0.05;
+                                double yOffset = random.nextGaussian() * 0.01;
+                                double zOffset = random.nextGaussian() * 0.05;
+                                world.addParticle(random.nextInt(3) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.05, 0);
+                            }
+                        });
+                    }
                     if (stackIndex != -1) {
                         ItemStack flyingStack = player.inventory.getStackInSlot(stackIndex);
                         if (flyingTicksRemaining - 1 <= 0) {
