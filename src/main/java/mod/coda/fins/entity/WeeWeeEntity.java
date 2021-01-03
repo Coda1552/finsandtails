@@ -15,8 +15,8 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class BluWeeEntity extends AbstractGroupFishEntity {
-    public BluWeeEntity(EntityType<? extends BluWeeEntity> type, World world) {
+public class WeeWeeEntity extends AbstractGroupFishEntity {
+    public WeeWeeEntity(EntityType<? extends WeeWeeEntity> type, World world) {
         super(type, world);
     }
 
@@ -25,13 +25,13 @@ public class BluWeeEntity extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
-        this.goalSelector.addGoal(4, new BluWeeEntity.SwimGoal(this));
+        this.goalSelector.addGoal(4, new WeeWeeEntity.SwimGoal(this));
     }
 
     static class SwimGoal extends RandomSwimmingGoal {
-        private final BluWeeEntity fish;
+        private final WeeWeeEntity fish;
 
-        public SwimGoal(BluWeeEntity fish) {
+        public SwimGoal(WeeWeeEntity fish) {
             super(fish, 1.0D, 40);
             this.fish = fish;
         }
@@ -43,7 +43,7 @@ public class BluWeeEntity extends AbstractGroupFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.BLU_WEE_BUCKET.get());
+        return new ItemStack(FinsItems.WEE_WEE_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
@@ -64,6 +64,6 @@ public class BluWeeEntity extends AbstractGroupFishEntity {
 
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
-        return new ItemStack(FinsItems.BLU_WEE_SPAWN_EGG.get());
+        return new ItemStack(FinsItems.WEE_WEE_SPAWN_EGG.get());
     }
 }

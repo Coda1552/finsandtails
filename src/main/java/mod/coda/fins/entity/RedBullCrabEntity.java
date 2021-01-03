@@ -106,7 +106,7 @@ public class RedBullCrabEntity extends AbstractFishEntity {
     }
 
     protected ItemStack getFishBucket() {
-        return new ItemStack(FinsItems.SPINDLY_GEM_CRAB_BUCKET.get());
+        return new ItemStack(FinsItems.RED_BULL_CRAB_BUCKET.get());
     }
 
     public static AttributeModifierMap.MutableAttribute func_234176_m_() {

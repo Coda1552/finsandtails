@@ -41,6 +41,10 @@
   "item.fins.white_claw_gauntlet": "White Claw Gauntlet",
   "item.fins.gopjet_jet": "Gopjet Jet",
   "item.fins.gopjet_jetpack": "Gopjet Jetpack",
+  "item.fins.wee_wee": "Wee Wee",
+  "item.fins.wee_wee_bucket": "Wee Wee Bucket",
+  "item.fins.vibra_wee": "Vibra Wee",
+  "item.fins.vibra_wee_bucket": "Vibra Wee Bucket",
 
   "item.fins.blu_wee_spawn_egg": "Blu Wee Spawn Egg",
   "item.fins.pea_wee_spawn_egg": "Pea Wee Spawn Egg",
@@ -59,6 +63,8 @@
   "item.fins.flatback_leaf_snail_spawn_egg": "Flatback Leaf Snail Spawn Egg",
   "item.fins.red_bull_crab_spawn_egg": "Red Bull Crab Spawn Egg",
   "item.fins.white_bull_crab_spawn_egg": "White Bull Crab Spawn Egg",
+  "item.fins.wee_wee_spawn_egg": "Wee Wee Spawn Egg",
+  "item.fins.vibra_wee_spawn_egg": "Vibra Wee Spawn Egg",
 
   "entity.fins.blu_wee": "Blu Wee",
   "entity.fins.pea_wee": "Pea Wee",
@@ -76,6 +82,9 @@
   "entity.fins.spindly_gem_crab": "Spindly Gem Crab",
   "entity.fins.flatback_leaf_snail": "Flatback Leaf Snail",
   "entity.fins.red_bull_crab": "Red Bull Crab",
+  "entity.fins.white_bull_crab": "White Bull Crab",
+  "entity.fins.wee_wee": "Wee Wee",
+  "entity.fins.vibra_wee": "Vibra Wee",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Spindly Gem Crab Gem Block",

@@ -50,6 +50,7 @@ public class PeaWeeEntity extends AbstractGroupFishEntity {
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_COD_AMBIENT;
     }
+
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_COD_DEATH;
     }

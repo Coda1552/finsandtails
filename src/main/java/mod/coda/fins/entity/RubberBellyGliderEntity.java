@@ -169,9 +169,9 @@ public class RubberBellyGliderEntity extends AnimalEntity {
 
     @Override
     public AgeableEntity func_241840_a(ServerWorld serverWorld, AgeableEntity ageableEntity) {
-        RubberBellyGliderEntity entity = new RubberBellyGliderEntity(FinsEntities.RUBBER_BELLY_GLIDER.get(), this.world);
-        entity.onInitialSpawn(serverWorld, this.world.getDifficultyForLocation(entity.getPosition()), SpawnReason.BREEDING, null, null);
-        return entity;
+//        RubberBellyGliderEntity entity = new RubberBellyGliderEntity(FinsEntities.RUBBER_BELLY_GLIDER.get(), this.world);
+//        entity.onInitialSpawn(serverWorld, this.world.getDifficultyForLocation(entity.getPosition()), SpawnReason.BREEDING, null, null);
+        return null;
     }
 
     public void onCollideWithPlayer(PlayerEntity entityIn) {

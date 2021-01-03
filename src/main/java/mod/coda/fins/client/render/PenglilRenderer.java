@@ -22,6 +22,7 @@ public class PenglilRenderer extends MobRenderer<PenglilEntity, PenglilModel<Pen
         hashMap.put(6, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_7.png"));
         hashMap.put(7, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_8.png"));
     });
+
     public PenglilRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new PenglilModel<>(), 0.2F);
     }

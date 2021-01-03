@@ -31,6 +31,8 @@ public class TealArrowfishEntity extends AbstractFishEntity {
         this.goalSelector.addGoal(3, new TealArrowfishEntity.SwimGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VibraWeeEntity.class, false));
 
     }
 

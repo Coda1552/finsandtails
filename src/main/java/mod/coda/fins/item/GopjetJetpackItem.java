@@ -34,7 +34,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
 
-public class GopjetJetpackItem extends ArmorItem {
+public class GopjetJetpackItem {/* extends ArmorItem {
     public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.fromItems(FinsItems.GOPJET_JET.get()));
 
     public GopjetJetpackItem() {
@@ -91,7 +91,14 @@ public class GopjetJetpackItem extends ArmorItem {
                                 double xOffset = random.nextGaussian() * 0.05;
                                 double yOffset = random.nextGaussian() * 0.01;
                                 double zOffset = random.nextGaussian() * 0.05;
-                                world.addParticle(random.nextInt(3) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.05, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
+                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, player.getPosX() + xOffset - Math.sin(-playerRotation) * 0.35, player.getPosY() + yOffset + 0.7, player.getPosZ() + zOffset - Math.cos(playerRotation) * 0.35, 0, -0.10, 0);
                             }
                         });
                     }
@@ -131,5 +138,5 @@ public class GopjetJetpackItem extends ArmorItem {
     @OnlyIn(Dist.CLIENT)
     public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
         return (A) GopjetJetpackModel.INSTANCE;
-    }
+    }*/
 }
