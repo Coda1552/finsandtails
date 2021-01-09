@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -91,7 +92,21 @@ public class BullCrabModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
+    public void setRotationAngles(T entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
+        float speed = 2.0f;
+        float degree = 1.0f;
+        this.rightclaw.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * -0.4F * f1;
+        this.rightclaw.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.4F * f1;
+        this.leftclaw.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 0.4F * f1;
+        this.leftclaw.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.4F * f1;
+        this.rightleg1.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.8F * f1;
+        this.rightleg2.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.8F * f1;
+        this.rightleg3.rotateAngleY = MathHelper.cos(0.5F + f * speed * 0.4F) * degree * 0.8F * f1 + 0.2F;
+        this.leftleg1.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.8F * f1;
+        this.leftleg2.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.8F * f1;
+        this.leftleg3.rotateAngleY = MathHelper.cos(0.5F + f * speed * 0.4F) * degree * -0.8F * f1 - 0.2F;
+        this.body.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.1F * f1;
+    }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;

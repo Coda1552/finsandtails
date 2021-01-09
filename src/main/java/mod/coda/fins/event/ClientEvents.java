@@ -1,7 +1,7 @@
 package mod.coda.fins.event;
 
 import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.network.TriggerFlyingPacket;
+//import mod.coda.fins.network.TriggerFlyingPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientEvents {
     private static boolean wasJumping;
 
-    @SubscribeEvent
+/*    @SubscribeEvent
     public static void playerTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Minecraft minecraft = Minecraft.getInstance();
@@ -24,5 +24,5 @@ public class ClientEvents {
             }
             wasJumping = jumping;
         }
-    }
+    }*/
 }

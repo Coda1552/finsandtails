@@ -5,6 +5,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.entity.passive.DolphinEntity;
+import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -23,6 +25,10 @@ public class WeeWeeEntity extends AbstractGroupFishEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, SquidEntity.class, 6, 1.0D, 1.5D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, DolphinEntity.class, 6, 1.0D, 1.5D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6, 1.0D, 1.5D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, PenglilEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
         this.goalSelector.addGoal(4, new WeeWeeEntity.SwimGoal(this));

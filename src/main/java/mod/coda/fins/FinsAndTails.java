@@ -3,8 +3,8 @@ package mod.coda.fins;
 import mod.coda.fins.client.ClientEventHandler;
 import mod.coda.fins.entity.*;
 import mod.coda.fins.init.*;
-import mod.coda.fins.network.INetworkPacket;
-import mod.coda.fins.network.TriggerFlyingPacket;
+//import mod.coda.fins.network.INetworkPacket;
+//import mod.coda.fins.network.TriggerFlyingPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -48,7 +48,7 @@ import java.util.function.Supplier;
 public class FinsAndTails {
     public static final String MOD_ID = "fins";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
+//    public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
     private static int currentNetworkId;
 
     public FinsAndTails() {
@@ -62,7 +62,7 @@ public class FinsAndTails {
         FinsSounds.REGISTER.register(modEventBus);
         FinsContainers.REGISTER.register(modEventBus);
 
-        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
+//        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
     }
 
     private void registerCommon(FMLCommonSetupEvent event) {
@@ -111,7 +111,7 @@ public class FinsAndTails {
         ClientEventHandler.init();
     }
 
-    private <T extends INetworkPacket> void registerMessage(Class<T> message, Supplier<T> supplier, LogicalSide side) {
+    /*private <T extends INetworkPacket> void registerMessage(Class<T> message, Supplier<T> supplier, LogicalSide side) {
         NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, buffer -> {
             T msg = supplier.get();
             msg.read(buffer);
@@ -125,7 +125,7 @@ public class FinsAndTails {
             }
             context.setPacketHandled(true);
         }, Optional.of(side.isClient() ? NetworkDirection.PLAY_TO_CLIENT : NetworkDirection.PLAY_TO_SERVER));
-    }
+    }*/
 
     public final static ItemGroup GROUP = new ItemGroup(MOD_ID) {
         @Override

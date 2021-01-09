@@ -13,6 +13,7 @@ import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.tags.FluidTags;
@@ -41,7 +42,7 @@ public class WhiteBullCrabEntity extends AbstractFishEntity {
     }
 
     protected PathNavigator createNavigator(World world) {
-        return new SwimmerPathNavigator(this, world);
+        return new GroundPathNavigator(this, world);
     }
 
     static class MoveHelperController extends MovementController {

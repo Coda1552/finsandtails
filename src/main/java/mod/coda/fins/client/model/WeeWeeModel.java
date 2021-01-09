@@ -41,7 +41,7 @@ public class WeeWeeModel<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void setRotationAngles(T entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
-        float degree = 1.0f;
+        float degree = 2.0f;
         float speed = 3.0f;
         this.body.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.5F * f1;
         this.tail.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.5F * f1;

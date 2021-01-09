@@ -1,3 +1,4 @@
+/*
 package mod.coda.fins.network;
 
 import mod.coda.fins.FinsAndTails;
@@ -16,3 +17,4 @@ public interface INetworkPacket {
     default void write(PacketBuffer buffer) {}
     void handle(PlayerEntity player);
 }
+*/

@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.tags.FluidTags;
@@ -48,7 +49,7 @@ public class RedBullCrabEntity extends AbstractFishEntity {
     }
 
     protected PathNavigator createNavigator(World world) {
-        return new SwimmerPathNavigator(this, world);
+        return new GroundPathNavigator(this, world);
     }
 
     static class MoveHelperController extends MovementController {

@@ -1,3 +1,4 @@
+/*
 package mod.coda.fins.network;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,3 +28,4 @@ public class TriggerFlyingPacket implements INetworkPacket {
         player.getPersistentData().putBoolean("FinsFlying", flying);
     }
 }
+*/
