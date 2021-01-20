@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
+import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
@@ -18,7 +19,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class TealArrowfishEntity extends AbstractFishEntity {
+public class TealArrowfishEntity extends AbstractGroupFishEntity {
     public TealArrowfishEntity(EntityType<? extends TealArrowfishEntity> type, World world) {
         super(type, world);
     }
@@ -29,11 +30,16 @@ public class TealArrowfishEntity extends AbstractFishEntity {
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
         this.goalSelector.addGoal(3, new TealArrowfishEntity.SwimGoal(this));
+        this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VibraWeeEntity.class, false));
+    }
 
+    @Override
+    public int getMaxGroupSize() {
+        return 3;
     }
 
     static class SwimGoal extends RandomSwimmingGoal {

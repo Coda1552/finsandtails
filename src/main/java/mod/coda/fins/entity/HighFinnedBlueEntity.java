@@ -16,6 +16,11 @@ public class HighFinnedBlueEntity extends AbstractGroupFishEntity {
     }
 
     @Override
+    public int getMaxGroupSize() {
+        return 12;
+    }
+
+    @Override
     protected ItemStack getFishBucket() {
         return new ItemStack(FinsItems.HIGH_FINNED_BLUE_BUCKET.get());
     }
@@ -23,6 +28,7 @@ public class HighFinnedBlueEntity extends AbstractGroupFishEntity {
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_COD_AMBIENT;
     }
+
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_COD_DEATH;
     }

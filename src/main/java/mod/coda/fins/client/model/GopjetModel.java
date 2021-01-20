@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 public class GopjetModel<T extends Entity> extends EntityModel<T> {
 	private final ModelRenderer body;
@@ -52,10 +53,16 @@ public class GopjetModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setRotationAngles(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+	public void setRotationAngles(Entity entity, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
+		float degree = 1.0f;
+		float speed = 3.0f;
+		this.body.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.5F * f1;
+		this.tail.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.5F * f1;
+		this.fin_left.rotateAngleZ = MathHelper.cos(f * speed * 0.4F) * degree * -1.2F * f1 - 0.3f;
+		this.fin_right.rotateAngleZ = MathHelper.cos(f * speed * 0.4F) * degree * 1.2F * f1 + 0.3f;
 	}
 
-	@Override
+		@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		body.render(matrixStack, buffer, packedLight, packedOverlay);
 	}

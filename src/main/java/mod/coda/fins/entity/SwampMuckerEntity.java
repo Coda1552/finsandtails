@@ -34,6 +34,10 @@ public class SwampMuckerEntity  extends AbstractGroupFishEntity {
         return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.5);
     }
 
+    @Override
+    public int getMaxGroupSize() {
+        return 5;
+    }
 
     @Override
     protected ItemStack getFishBucket() {

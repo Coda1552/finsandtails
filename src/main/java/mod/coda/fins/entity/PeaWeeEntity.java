@@ -3,6 +3,7 @@ package mod.coda.fins.entity;
 import mod.coda.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.FollowSchoolLeaderGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
@@ -16,7 +17,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class PeaWeeEntity extends AbstractGroupFishEntity {
+public class PeaWeeEntity extends AbstractFishEntity {
     public PeaWeeEntity(EntityType<? extends PeaWeeEntity> type, World world) {
         super(type, world);
     }

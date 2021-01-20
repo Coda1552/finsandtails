@@ -25,7 +25,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class WhiteBullCrabEntity extends AbstractFishEntity {
-
     public WhiteBullCrabEntity(EntityType<? extends WhiteBullCrabEntity> type, World world) {
         super(type, world);
         this.moveController = new WhiteBullCrabEntity.MoveHelperController(this);

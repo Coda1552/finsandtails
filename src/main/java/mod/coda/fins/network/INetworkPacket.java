@@ -1,10 +1,11 @@
-/*
 package mod.coda.fins.network;
 
 import mod.coda.fins.FinsAndTails;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
@@ -17,4 +18,3 @@ public interface INetworkPacket {
     default void write(PacketBuffer buffer) {}
     void handle(PlayerEntity player);
 }
-*/

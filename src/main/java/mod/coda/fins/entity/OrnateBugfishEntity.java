@@ -29,6 +29,7 @@ public class OrnateBugfishEntity extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
         this.goalSelector.addGoal(2, new OrnateBugfishEntity.SwimGoal(this));
+        this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TropicalFishEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, CodEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SalmonEntity.class, false));
@@ -41,6 +42,12 @@ public class OrnateBugfishEntity extends AbstractGroupFishEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TealArrowfishEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, RubberBellyGliderEntity.class, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VibraWeeEntity   .class, false));
+    }
+
+    @Override
+    public int getMaxGroupSize() {
+        return 6;
     }
 
     static class SwimGoal extends RandomSwimmingGoal {

@@ -17,6 +17,11 @@ public class BandedRedbackShrimpEntity extends AbstractGroupFishEntity {
     }
 
     @Override
+    public int getMaxGroupSize() {
+        return 3;
+    }
+
+    @Override
     protected ItemStack getFishBucket() {
         return new ItemStack(FinsItems.BANDED_REDBACK_SHRIMP_BUCKET.get());
     }
@@ -24,6 +29,7 @@ public class BandedRedbackShrimpEntity extends AbstractGroupFishEntity {
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_COD_AMBIENT;
     }
+
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_COD_DEATH;
     }
