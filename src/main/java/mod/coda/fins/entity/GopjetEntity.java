@@ -36,7 +36,7 @@ public class GopjetEntity extends AbstractFishEntity {
     private static final DataParameter<Boolean> IS_BOOSTING = EntityDataManager.createKey(GopjetEntity.class, DataSerializers.BOOLEAN);
     private static final int BOOST_TIMER = 500;
     private int boostTimer = BOOST_TIMER;
-    private int boostTime = 0;
+    private int textureChangeTime = 0;
 
     public GopjetEntity(EntityType<? extends GopjetEntity> type, World world) {
         super(type, world);
@@ -78,11 +78,9 @@ public class GopjetEntity extends AbstractFishEntity {
     public void setBoosting(boolean isBoosting) {
         this.getDataManager().set(IS_BOOSTING, isBoosting);
         if (isBoosting && getMotion().y != 0 || getMotion().x != 0) {
-            //setMotion(getMotion().mul(new Vector3d(20, 1.5, 20)));
             setMotion(getVectorForRotation(rotationPitch, rotationYaw).mul(2.5d, 0.0d, 2.5d));
-
         }
-        boostTime = 500;
+        textureChangeTime = 50;
     }
 
     public boolean isBoosting() {
@@ -99,10 +97,10 @@ public class GopjetEntity extends AbstractFishEntity {
             boostTimer = BOOST_TIMER + rand.nextInt(1500);
             setBoosting(true);
         }
-        if (boostTime > 0) {
-            --boostTime;
+        if (textureChangeTime > 0) {
+            --textureChangeTime;
         }
-        if (boostTime == 0) {
+        if (textureChangeTime == 0) {
             setBoosting(false);
         }
     }
@@ -242,8 +240,8 @@ public class GopjetEntity extends AbstractFishEntity {
         return SoundEvents.ENTITY_COD_FLOP;
     }
 
-    @Override
+    /*@Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.GOPJET_SPAWN_EGG.get());
-    }
+    }*/
 }

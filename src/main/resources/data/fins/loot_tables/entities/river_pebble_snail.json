@@ -22,7 +22,7 @@
               ]
             }
           ],
-          "name": "fins:swamp_mucker"
+          "name": "minecraft:slime_ball"
         }
       ]
     },
@@ -31,17 +31,13 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "fins:fwin"
+          "name": "fins:river_pebble_snail_shell"
         }
       ],
       "conditions": [
         {
-          "condition": "minecraft:killed_by_player"
-        },
-        {
-          "condition": "minecraft:random_chance_with_looting",
-          "chance": 0.025,
-          "looting_multiplier": 0.015
+          "condition": "minecraft:random_chance",
+          "chance": 0.5
         }
       ]
     }

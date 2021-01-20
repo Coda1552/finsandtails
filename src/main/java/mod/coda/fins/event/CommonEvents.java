@@ -40,14 +40,14 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
-    @SubscribeEvent
+/*    @SubscribeEvent
     public static void livingDamage(LivingDamageEvent event) {
         if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
             if (event.getSource() == DamageSource.FALL) {
                 event.setAmount(event.getAmount() / 2f);
             }
         }
-    }
+    }*/
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerBiomes(BiomeLoadingEvent event) {
@@ -94,7 +94,8 @@ public class CommonEvents {
             }
 
             if (name.equals("river") || event.getName().equals(new ResourceLocation("minecraft", "river"))) {
-                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.WEE_WEE.get(), 2, 2, 9));
+                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.WEE_WEE.get(), 2, 2, 6));
+                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RIVER_PEBBLE_SNAIL.get(), 2, 1, 1));
             }
         }
     }

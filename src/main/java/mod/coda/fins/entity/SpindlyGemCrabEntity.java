@@ -95,7 +95,7 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     @Override
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (dataTag == null) {
-            setVariant(rand.nextInt(4));
+            setVariant(rand.nextInt(5));
         } else {
             if (dataTag.contains("BucketVariantTag", 3)){
                 this.setVariant(dataTag.getInt("BucketVariantTag"));

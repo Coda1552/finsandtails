@@ -3,6 +3,7 @@ package mod.coda.fins.entity;
 import mod.coda.fins.init.FinsEntities;
 import mod.coda.fins.init.FinsItems;
 import mod.coda.fins.init.FinsSounds;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
@@ -11,14 +12,14 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IWorld;
@@ -42,7 +43,7 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.2);
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
@@ -55,6 +56,35 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ENTITY_ENDERMITE_STEP, 0.15F, 1.0F);
+    }
+
+    @Override
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+        ItemStack heldItem = player.getHeldItem(hand);
+
+        if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive()) {
+            playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
+            heldItem.shrink(1);
+            ItemStack itemstack1 = new ItemStack(FinsItems.FLATBACK_LEAF_SNAIL_POT.get());
+            this.setBucketData(itemstack1);
+            if (!this.world.isRemote) {
+                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
+            }
+            if (heldItem.isEmpty()) {
+                player.setHeldItem(hand, itemstack1);
+            } else if (!player.inventory.addItemStackToInventory(itemstack1)) {
+                player.dropItem(itemstack1, false);
+            }
+            this.remove();
+            return ActionResultType.SUCCESS;
+        }
+        return super.func_230254_b_(player, hand);
+    }
+
+    private void setBucketData(ItemStack bucket) {
+        if (this.hasCustomName()) {
+            bucket.setDisplayName(this.getCustomName());
+        }
     }
 
     protected float getSoundVolume() {

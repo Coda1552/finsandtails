@@ -45,6 +45,9 @@
   "item.fins.wee_wee_bucket": "Wee Wee Bucket",
   "item.fins.vibra_wee": "Vibra Wee",
   "item.fins.vibra_wee_bucket": "Vibra Wee Bucket",
+  "item.fins.flatback_leaf_snail_pot": "Pot of Flatback Leaf Snail",
+  "item.fins.river_pebble_snail_pot": "Pot of River Pebble Snail",
+  "item.fins.river_pebble_snail_shell": "River Pebble Snail Shell",
 
   "item.fins.blu_wee_spawn_egg": "Blu Wee Spawn Egg",
   "item.fins.pea_wee_spawn_egg": "Pea Wee Spawn Egg",
@@ -65,6 +68,7 @@
   "item.fins.white_bull_crab_spawn_egg": "White Bull Crab Spawn Egg",
   "item.fins.wee_wee_spawn_egg": "Wee Wee Spawn Egg",
   "item.fins.vibra_wee_spawn_egg": "Vibra Wee Spawn Egg",
+  "item.fins.river_pebble_snail_spawn_egg": "River Pebble Snail Spawn Egg",
 
   "entity.fins.blu_wee": "Blu Wee",
   "entity.fins.pea_wee": "Pea Wee",
@@ -85,9 +89,13 @@
   "entity.fins.white_bull_crab": "White Bull Crab",
   "entity.fins.wee_wee": "Wee Wee",
   "entity.fins.vibra_wee": "Vibra Wee",
+  "entity.fins.gopjet": "Gopjet",
+  "entity.fins.river_pebble_snail": "River Pebble Snail",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Spindly Gem Crab Gem Block",
+  "block.fins.river_pebble_snail_shell_block": "River Pebble Snail Shell Block",
+  "block.fins.flatback_leaf_snail_shell_block": "Flatback Leaf Snail Shell Block",
 
   "fins.mudhorse.ambient": "Mudhorse grunts",
   "fins.mudhorse.hurt": "Mudhorse hurts",

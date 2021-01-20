@@ -15,7 +15,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -24,9 +23,12 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class PenglilBucketItem extends Item {
-    public PenglilBucketItem(Supplier<? extends EntityType<?>> penglil, Properties properties) {
+public class CreatureBucketItem extends Item {
+    private final Supplier<EntityType<?>> entityType;
+
+    public CreatureBucketItem(Supplier<EntityType<?>> entityType, Properties properties) {
         super(properties);
+        this.entityType = entityType;
     }
 
     public ActionResultType onItemUse(ItemUseContext context) {
@@ -47,13 +49,12 @@ public class PenglilBucketItem extends Item {
             else {
                 blockpos1 = blockpos.offset(direction);
             }
-            EntityType<?> entitytype = FinsEntities.PENGLIL.get();
-            Entity penglil = entitytype.spawn((ServerWorld) world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BUCKET, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP);
-            if (penglil != null) {
+            Supplier<EntityType<?>> entitytype = entityType;
+            Entity entityType = entitytype.get().spawn((ServerWorld) world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BUCKET, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP);
+            if (entityType != null) {
                 if(!context.getPlayer().abilities.isCreativeMode) {
                     itemstack.shrink(1);
                     context.getPlayer().addItemStackToInventory(new ItemStack(Items.BUCKET));
-
                 }
 
                 playEmptySound(context.getPlayer(), world, blockpos);
