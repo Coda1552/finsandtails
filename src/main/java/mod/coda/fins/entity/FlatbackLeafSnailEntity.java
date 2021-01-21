@@ -2,10 +2,8 @@ package mod.coda.fins.entity;
 
 import mod.coda.fins.init.FinsEntities;
 import mod.coda.fins.init.FinsItems;
-import mod.coda.fins.init.FinsSounds;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -13,21 +11,15 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class FlatbackLeafSnailEntity extends AnimalEntity {
     public FlatbackLeafSnailEntity(EntityType<? extends FlatbackLeafSnailEntity> type, World worldIn) {
@@ -36,6 +28,7 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new BreedGoal(this, 1.0f));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.APPLE), false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -62,7 +55,7 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
     public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         ItemStack heldItem = player.getHeldItem(hand);
 
-        if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive()) {
+        if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive() && !this.isChild()) {
             playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
             ItemStack itemstack1 = new ItemStack(FinsItems.FLATBACK_LEAF_SNAIL_POT.get());
@@ -94,7 +87,11 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
     @Nullable
     @Override
     public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
-        return null;
+        return FinsEntities.FLATBACK_LEAF_SNAIL.get().create(world);
+    }
+
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == Items.BROWN_MUSHROOM;
     }
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {

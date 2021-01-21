@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "fins:block/flatback_shell_slab"
+    },
+    "type=double": {
+      "model": "fins:block/flatback_shell_block"
+    },
+    "type=top": {
+      "model": "fins:block/flatback_shell_slab_top"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package mod.coda.fins.entity;
 
+import mod.coda.fins.init.FinsEntities;
 import mod.coda.fins.init.FinsItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
@@ -48,6 +49,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     }
 
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new BreedGoal(this, 1.0f));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.APPLE), false));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -77,7 +79,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     @Nullable
     @Override
     public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
-        return null;
+        return FinsEntities.RIVER_PEBBLE_SNAIL.get().create(world);
     }
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
@@ -89,11 +91,15 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
         return new ItemStack(FinsItems.RIVER_PEBBLE_SNAIL_SPAWN_EGG.get());
     }
 
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == Items.BROWN_MUSHROOM;
+    }
+
     @Override
     public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         ItemStack heldItem = player.getHeldItem(hand);
 
-        if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive()) {
+        if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive() && !this.isChild()) {
             playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
             ItemStack itemstack1 = new ItemStack(FinsItems.RIVER_PEBBLE_SNAIL_POT.get());
@@ -125,7 +131,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
         if (dataTag == null) {
             setVariant(rand.nextInt(4));
         } else {
-            if (dataTag.contains("BucketVariantTag", 3)){
+            if (dataTag.contains("BucketVariantTag", 3)) {
                 this.setVariant(dataTag.getInt("BucketVariantTag"));
             }
         }

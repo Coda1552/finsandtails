@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "fins:flatback_shell_block"
+        }
+    },
+    "result": {
+        "item": "fins:flatback_shell_slab",
+        "count": 6
+    }
+}

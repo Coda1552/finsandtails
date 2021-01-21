@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mod.coda.fins.entity.FlatbackLeafSnailEntity;
+import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -11,8 +12,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Collections;
+
 @OnlyIn(Dist.CLIENT)
-public class FlatbackLeafSnailModel<T extends Entity> extends EntityModel<FlatbackLeafSnailEntity> {
+public class FlatbackLeafSnailModel<T extends Entity> extends AgeableModel<FlatbackLeafSnailEntity> {
     public ModelRenderer body;
     public ModelRenderer shell;
     public ModelRenderer mandibles;
@@ -41,10 +44,13 @@ public class FlatbackLeafSnailModel<T extends Entity> extends EntityModel<Flatba
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) { 
-        ImmutableList.of(this.body).forEach((modelRenderer) -> { 
-            modelRenderer.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        });
+    protected Iterable<ModelRenderer> getHeadParts() {
+        return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    protected Iterable<ModelRenderer> getBodyParts() {
+        return ImmutableList.of(body);
     }
 
     @Override

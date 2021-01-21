@@ -6,23 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:furnace_smelt",
-              "conditions": [
-                {
-                  "condition": "minecraft:entity_properties",
-                  "predicate": {
-                    "flags": {
-                      "is_on_fire": true
-                    }
-                  },
-                  "entity": "this"
-                }
-              ]
-            }
-          ],
-          "name": "minecraft:slime_ball"
+          "name": "fins:river_pebble_snail_shell"
         }
       ]
     },
@@ -31,7 +15,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "fins:river_pebble_snail_shell"
+          "name": "minecraft:slime_ball"
         }
       ],
       "conditions": [

@@ -44,8 +44,8 @@ public class FinsItems {
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SHELL = REGISTER.register("flatback_leaf_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RED_BULL_CRAB_CLAW = REGISTER.register("red_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WHITE_BULL_CRAB_CLAW = REGISTER.register("white_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = REGISTER.register("white_claw_gauntlet", () -> new SwordItem(ItemTier.STONE, 2, -0.6F, new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> RED_CLAW_GAUNTLET = REGISTER.register("red_claw_gauntlet", () -> new SwordItem(ItemTier.STONE, 4, -1.0F, new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = REGISTER.register("white_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 2, -0.6F, new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> RED_CLAW_GAUNTLET = REGISTER.register("red_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 4, -1.4F, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> COOKED_BULL_CRAB_CLAW = REGISTER.register("cooked_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.6f).build())));
 //    public static final RegistryObject<Item> GOPJET_JET = REGISTER.register("gopjet_jet", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
 //    public static final RegistryObject<Item> GOPJET_JETPACK = REGISTER.register("gopjet_jetpack", GopjetJetpackItem::new);
@@ -61,8 +61,18 @@ public class FinsItems {
 
     public static final RegistryObject<BlockItem> CRAB_CRUNCHER = REGISTER.register("crab_cruncher", () -> new BlockItem(FinsBlocks.CRAB_CRUNCHER.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> SPINDLY_GEM_CRAB_GEM_BLOCK = REGISTER.register("spindly_gem_crab_gem_block", () -> new BlockItem(FinsBlocks.SPINDLY_GEM_CRAB_GEM_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<BlockItem> FLATBACK_LEAF_SNAIL_SHELL_BLOCK = REGISTER.register("flatback_leaf_snail_shell_block", () -> new BlockItem(FinsBlocks.FLATBACK_LEAF_SNAIL_SHELL_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<BlockItem> RIVER_PEBBLE_SNAIL_SHELL_BLOCK = REGISTER.register("river_pebble_snail_shell_block", () -> new BlockItem(FinsBlocks.RIVER_PEBBLE_SNAIL_SHELL_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> CHISELED_FLATBACK_SHELL_BRICKS = REGISTER.register("chiseled_flatback_shell_bricks", () -> new BlockItem(FinsBlocks.CHISELED_FLATBACK_SHELL_BRICKS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> FLATBACK_SHELL_BLOCK = REGISTER.register("flatback_shell_block", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> FLATBACK_SHELL_BRICK_SLAB = REGISTER.register("flatback_shell_brick_slab", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_BRICK_SLAB.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> FLATBACK_SHELL_BRICK_STAIRS = REGISTER.register("flatback_shell_brick_stairs", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_BRICK_STAIRS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> FLATBACK_SHELL_BRICKS = REGISTER.register("flatback_shell_bricks", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_BRICKS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> FLATBACK_SHELL_SLAB = REGISTER.register("flatback_shell_slab", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_SLAB.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> FLATBACK_SHELL_STAIRS = REGISTER.register("flatback_shell_stairs", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_STAIRS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> CHISELED_PEBBLE_SHELL_BRICKS = REGISTER.register("chiseled_pebble_shell_bricks", () -> new BlockItem(FinsBlocks.CHISELED_PEBBLE_SHELL_BRICKS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> PEBBLE_SHELL_BRICK_SLAB = REGISTER.register("pebble_shell_brick_slab", () -> new BlockItem(FinsBlocks.PEBBLE_SHELL_BRICK_SLAB.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> PEBBLE_SHELL_BRICK_STAIRS = REGISTER.register("pebble_shell_brick_stairs", () -> new BlockItem(FinsBlocks.PEBBLE_SHELL_BRICK_STAIRS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> PEBBLE_SHELL_BRICKS = REGISTER.register("pebble_shell_bricks", () -> new BlockItem(FinsBlocks.PEBBLE_SHELL_BRICKS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> PEBBLE_SHELL_PILLAR = REGISTER.register("pebble_shell_pillar", () -> new BlockItem(FinsBlocks.PEBBLE_SHELL_PILLAR.get(), new Item.Properties().group(FinsAndTails.GROUP)));
 
     public static final RegistryObject<Item> PEA_WEE_SPAWN_EGG = REGISTER.register("pea_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.PEA_WEE, 0x31a643, 0x1a7a3e, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> BLU_WEE_SPAWN_EGG = REGISTER.register("blu_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.BLU_WEE, 0x3f74a2, 0x2a4b8c, new Item.Properties().group(FinsAndTails.GROUP)));
