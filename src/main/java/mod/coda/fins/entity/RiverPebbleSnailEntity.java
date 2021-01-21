@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -22,10 +23,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,10 +49,17 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new BreedGoal(this, 1.0f));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.APPLE), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.BROWN_MUSHROOM), false));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
+    }
+
+    protected void onGrowingAdult() {
+        super.onGrowingAdult();
+        if (!this.isChild() && this.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+            this.entityDropItem(FinsItems.RIVER_PEBBLE_SNAIL_SHELL.get(), 1);
+        }
     }
 
     public static AttributeModifierMap.MutableAttribute func_234176_m_() {
@@ -79,8 +85,13 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     @Nullable
     @Override
     public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
-        return FinsEntities.RIVER_PEBBLE_SNAIL.get().create(world);
+        RiverPebbleSnailEntity snail = FinsEntities.RIVER_PEBBLE_SNAIL.get().create(world);
+        if (ageable instanceof RiverPebbleSnailEntity) {
+            snail.setVariant(rand.nextInt(5));
+        }
+        return snail;
     }
+
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
         return 0.25F;

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "fins:flatback_shell_block"
+    }
+  ],
+  "result": {
+    "item": "fins:flatback_leaf_snail_shell",
+    "count": 9
+  }
+}

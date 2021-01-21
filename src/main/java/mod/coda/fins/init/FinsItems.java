@@ -44,8 +44,8 @@ public class FinsItems {
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SHELL = REGISTER.register("flatback_leaf_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RED_BULL_CRAB_CLAW = REGISTER.register("red_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WHITE_BULL_CRAB_CLAW = REGISTER.register("white_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = REGISTER.register("white_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 2, -0.6F, new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> RED_CLAW_GAUNTLET = REGISTER.register("red_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 4, -1.4F, new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = REGISTER.register("white_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 2, -0.6F, new Item.Properties().group(FinsAndTails.GROUP).maxDamage(200)));
+    public static final RegistryObject<Item> RED_CLAW_GAUNTLET = REGISTER.register("red_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 4, -1.4F, new Item.Properties().group(FinsAndTails.GROUP).maxDamage(130)));
     public static final RegistryObject<Item> COOKED_BULL_CRAB_CLAW = REGISTER.register("cooked_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.6f).build())));
 //    public static final RegistryObject<Item> GOPJET_JET = REGISTER.register("gopjet_jet", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
 //    public static final RegistryObject<Item> GOPJET_JETPACK = REGISTER.register("gopjet_jetpack", GopjetJetpackItem::new);

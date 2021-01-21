@@ -57,6 +57,7 @@ public class RiverPebbleSnailModel<T extends Entity> extends AgeableModel<RiverP
     public void setRotationAngles(RiverPebbleSnailEntity entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.0f;
         float degree = 6.0f;
+        this.shell.rotateAngleZ = MathHelper.cos(f * 2.0f * 0.4F) * 2.0f * 0.2F * f1;
         this.body.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.2F * f1;
         this.stalks.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 0.2F * f1 + 0.5F;
     }
