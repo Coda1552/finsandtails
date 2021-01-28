@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fins:item/siderol_whiskered_snail_shell"
+  }
+}

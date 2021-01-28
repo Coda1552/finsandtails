@@ -62,6 +62,10 @@ public class CommonEvents {
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.VIBRA_WEE.get(), 5, 2, 5));
         }
 
+        if (event.getCategory() == Biome.Category.EXTREME_HILLS) {
+            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), 2, 1, 2));
+        }
+
         if (event.getCategory() == Biome.Category.BEACH) {
             event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.PENGLIL.get(), 2, 3, 5));
         }
@@ -93,9 +97,13 @@ public class CommonEvents {
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.WHITE_BULL_CRAB.get(), 4, 2, 4));
             }
 
-            if (name.equals("river") || event.getName().equals(new ResourceLocation("minecraft", "river"))) {
+            if (name.equals("river")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.WEE_WEE.get(), 2, 2, 6));
-                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RIVER_PEBBLE_SNAIL.get(), 2, 1, 1));
+                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RIVER_PEBBLE_SNAIL.get(), 5, 1, 1));
+            }
+
+            if (name.equals("mountains")) {
+                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), 5, 1, 2));
             }
         }
     }

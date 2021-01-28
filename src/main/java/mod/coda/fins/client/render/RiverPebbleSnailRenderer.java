@@ -22,7 +22,7 @@ public class RiverPebbleSnailRenderer extends MobRenderer<RiverPebbleSnailEntity
         hashMap.put(4, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/river_pebble_snail/river_pebble_snail_5.png"));
     });
     public RiverPebbleSnailRenderer(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new RiverPebbleSnailModel<>(), 0.3F);
+        super(renderManagerIn, new RiverPebbleSnailModel<>(), 0.2F);
     }
 
     public ResourceLocation getEntityTexture(RiverPebbleSnailEntity entity) {

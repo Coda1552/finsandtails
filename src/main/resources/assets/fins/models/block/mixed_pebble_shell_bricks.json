@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "fins:block/mixed_pebble_shell_bricks"
+  }
+}

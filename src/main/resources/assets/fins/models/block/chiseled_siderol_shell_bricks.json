@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "fins:block/chiseled_siderol_shell_bricks"
+  }
+}

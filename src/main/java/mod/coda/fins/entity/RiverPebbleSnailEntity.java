@@ -38,9 +38,9 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
         this.stepHeight = 1f;
     }
 
-    public static boolean canSnailSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
-        return !worldIn.getBlockState(pos.down()).isIn(Blocks.WATER) && worldIn.getLightSubtracted(pos, 0) > 8;
-    }
+/*    public static boolean canSnailSpawn(EntityType<? extends RiverPebbleSnailEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
+        return worldIn.getBlockState(pos).isIn(Blocks.WATER) && worldIn.getBlockState(pos.up()).isIn(Blocks.WATER);
+    }*/
 
     @Override
     public boolean canBreatheUnderwater() {

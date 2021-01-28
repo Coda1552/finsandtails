@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "fins:siderol_shell_bricks"
+        }
+    },
+    "result": {
+        "item": "fins:siderol_shell_brick_stairs",
+        "count": 4
+    }
+}

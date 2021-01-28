@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "fins:block/siderol_shell_bricks",
+    "top": "fins:block/siderol_shell_bricks",
+    "side": "fins:block/siderol_shell_bricks"
+  }
+}
