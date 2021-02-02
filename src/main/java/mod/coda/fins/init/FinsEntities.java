@@ -35,6 +35,7 @@ public class FinsEntities {
     public static final RegistryObject<EntityType<RiverPebbleSnailEntity>> RIVER_PEBBLE_SNAIL = create("river_pebble_snail", EntityType.Builder.create(RiverPebbleSnailEntity::new, EntityClassification.CREATURE).size(0.3f, 0.3f));
     public static final RegistryObject<EntityType<SiderolWhiskeredSnailEntity>> SIDEROL_WHISKERED_SNAIL = create("siderol_whiskered_snail", EntityType.Builder.create(SiderolWhiskeredSnailEntity::new, EntityClassification.CREATURE).size(0.3f, 0.4f));
     public static final RegistryObject<EntityType<GoldenRiverRayEntity>> GOLDEN_RIVER_RAY = create("golden_river_ray", EntityType.Builder.create(GoldenRiverRayEntity::new, EntityClassification.WATER_CREATURE).size(0.7f, 0.3f));
+    public static final RegistryObject<EntityType<NightLightSquidEntity>> NIGHT_LIGHT_SQUID = create("night_light_squid", EntityType.Builder.create(NightLightSquidEntity::new, EntityClassification.WATER_CREATURE).size(0.4f, 0.3f));
 
     private static <T extends Entity> RegistryObject<EntityType<T>> create(String name, EntityType.Builder<T> builder) {
         return REGISTER.register(name, () -> builder.build(FinsAndTails.MOD_ID + "." + name));

@@ -84,7 +84,7 @@ public class CommonEvents {
 
             if (name.equals("warm_ocean") || name.equals("deep_warm_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 6, 3, 3));
-                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.ORNATE_BUGFISH.get(), 3, 5, 5));
+                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.ORNATE_BUGFISH.get(), 1, 5, 5));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SPINDLY_GEM_CRAB.get(), 7, 1, 3));
             }
 
@@ -95,6 +95,10 @@ public class CommonEvents {
             if (name.equals("lukewarm_ocean") || name.equals("deep_lukewarm_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RED_BULL_CRAB.get(), 2, 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.WHITE_BULL_CRAB.get(), 4, 2, 4));
+            }
+
+            if (name.equals("frozen_ocean") || name.equals("deep_frozen_ocean")) {
+                event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.NIGHT_LIGHT_SQUID.get(), 2, 1, 2));
             }
 
             if (name.equals("river")) {

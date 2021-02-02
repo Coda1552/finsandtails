@@ -53,6 +53,9 @@
   "item.fins.golden_river_ray_bucket": "Bucket of Golden River Ray",
   "item.fins.golden_river_ray_wing_fillet": "Golden River Ray Wing Fillet",
   "item.fins.raw_golden_river_ray_wing": "Raw Golden River Ray Wing",
+  "item.fins.night_light_squid": "Night Light Squid",
+  "item.fins.night_light_squid_tentacle": "Night Light Squid Tentacle",
+  "item.fins.night_light_squid_bucket": "Bucket of Night Light Squid",
 
   "item.fins.blu_wee_spawn_egg": "Blu Wee Spawn Egg",
   "item.fins.pea_wee_spawn_egg": "Pea Wee Spawn Egg",
@@ -76,6 +79,7 @@
   "item.fins.river_pebble_snail_spawn_egg": "River Pebble Snail Spawn Egg",
   "item.fins.siderol_whiskered_snail_spawn_egg": "Siderol Whiskered Snail Spawn Egg",
   "item.fins.golden_river_ray_spawn_egg": "Golden River Ray Spawn Egg",
+  "item.fins.night_light_squid_spawn_egg": "Night Light Squid Spawn Egg",
 
   "entity.fins.blu_wee": "Blu Wee",
   "entity.fins.pea_wee": "Pea Wee",
@@ -124,6 +128,7 @@
   "block.fins.mixed_flatback_shell_bricks": "Mixed Flatback Shell Bricks",
   "block.fins.mixed_flatback_shell_brick_slab": "Mixed Flatback Shell Brick Slab",
   "block.fins.mixed_flatback_shell_brick_stairs": "Mixed Flatback Shell Brick Stairs",
+  "block.fins.chained_tentacle": "Chained Tentacle",
 
   "fins.mudhorse.ambient": "Mudhorse grunts",
   "fins.mudhorse.hurt": "Mudhorse hurts",

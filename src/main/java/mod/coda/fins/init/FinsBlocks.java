@@ -1,6 +1,7 @@
 package mod.coda.fins.init;
 
 import mod.coda.fins.FinsAndTails;
+import mod.coda.fins.block.ChainedTentacleBlock;
 import mod.coda.fins.block.CrabCruncherBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -36,5 +37,6 @@ public class FinsBlocks {
     public static final RegistryObject<Block> MIXED_PEBBLE_SHELL_BRICK_STAIRS = REGISTER.register("mixed_pebble_shell_brick_stairs", () -> new StairsBlock(() -> FinsBlocks.MIXED_PEBBLE_SHELL_BRICKS.get().getDefaultState(), Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 6.0F).sound(SoundType.BONE)));
     public static final RegistryObject<Block> MIXED_FLATBACK_SHELL_BRICK_SLAB = REGISTER.register("mixed_flatback_shell_brick_slab", () -> new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 6.0F).sound(SoundType.BONE)));
     public static final RegistryObject<Block> MIXED_FLATBACK_SHELL_BRICK_STAIRS = REGISTER.register("mixed_flatback_shell_brick_stairs", () -> new StairsBlock(() -> FinsBlocks.MIXED_FLATBACK_SHELL_BRICKS.get().getDefaultState(), Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 6.0F).sound(SoundType.BONE)));
+    public static final RegistryObject<Block> CHAINED_TENTACLE = REGISTER.register("chained_tentacle", () -> new ChainedTentacleBlock(Block.Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(5.0F, 6.0F).sound(SoundType.CHAIN).notSolid()));
 
 }
