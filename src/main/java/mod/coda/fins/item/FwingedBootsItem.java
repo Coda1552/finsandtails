@@ -34,6 +34,13 @@ public class FwingedBootsItem extends ArmorItem {
     }
 
     @Override
+    public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
+        if (!player.isInWater()) {
+            player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 1, 0));
+        }
+    }
+
+    @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
         return slot == EquipmentSlotType.FEET ? SWIM_MODIFIER.get() : super.getAttributeModifiers(slot, stack);
     }

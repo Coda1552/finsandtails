@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fins:item/golden_river_ray_bucket"
+  }
+}

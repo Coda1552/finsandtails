@@ -76,30 +76,31 @@ public class CommonEvents {
 
         if (event.getName() != null) {
             String name = event.getName().getPath();
-            if (name.equals("cold_ocean") || event.getName().equals(new ResourceLocation("minecraft", "deep_cold_ocean"))) {
-                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BLU_WEE.get(), 20, 4, 8));
-                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.TEAL_ARROWFISH.get(), 15, 1, 1));
+            if (name.equals("cold_ocean") || name.equals("deep_cold_ocean")) {
+                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BLU_WEE.get(), 8, 4, 8));
+                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.TEAL_ARROWFISH.get(), 4, 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.PHANTOM_NUDIBRANCH.get(), 3, 1, 1));
             }
 
-            if (name.equals("warm_ocean") || event.getName().equals(new ResourceLocation("minecraft", "deep_warm_ocean"))) {
-                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 10, 3, 3));
+            if (name.equals("warm_ocean") || name.equals("deep_warm_ocean")) {
+                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 6, 3, 3));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.ORNATE_BUGFISH.get(), 3, 5, 5));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SPINDLY_GEM_CRAB.get(), 7, 1, 3));
             }
 
-            if (name.equals("deep_ocean") || event.getName().equals(new ResourceLocation("minecraft", "ocean"))) {
-                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGH_FINNED_BLUE.get(), 5, 6, 12));
+            if (name.equals("ocean") || name.equals("deep_ocean")) {
+                event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGH_FINNED_BLUE.get(), 4, 6, 12));
             }
 
-            if (name.equals("lukewarm_ocean") || event.getName().equals(new ResourceLocation("minecraft", "deep_lukewarm_ocean"))) {
+            if (name.equals("lukewarm_ocean") || name.equals("deep_lukewarm_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RED_BULL_CRAB.get(), 2, 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.WHITE_BULL_CRAB.get(), 4, 2, 4));
             }
 
             if (name.equals("river")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.WEE_WEE.get(), 2, 2, 6));
-                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RIVER_PEBBLE_SNAIL.get(), 5, 1, 1));
+                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RIVER_PEBBLE_SNAIL.get(), 3, 1, 1));
+                event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.GOLDEN_RIVER_RAY.get(), 2, 1, 1));
             }
 
             if (name.equals("mountains")) {

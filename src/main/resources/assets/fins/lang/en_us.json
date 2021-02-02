@@ -50,6 +50,9 @@
   "item.fins.river_pebble_snail_shell": "Pebble Shell",
   "item.fins.siderol_whiskered_snail_pot": "Pot of Siderol Whiskered Snail",
   "item.fins.siderol_whiskered_snail_shell": "Siderol Shell",
+  "item.fins.golden_river_ray_bucket": "Bucket of Golden River Ray",
+  "item.fins.golden_river_ray_wing_fillet": "Golden River Ray Wing Fillet",
+  "item.fins.raw_golden_river_ray_wing": "Raw Golden River Ray Wing",
 
   "item.fins.blu_wee_spawn_egg": "Blu Wee Spawn Egg",
   "item.fins.pea_wee_spawn_egg": "Pea Wee Spawn Egg",
@@ -71,6 +74,8 @@
   "item.fins.wee_wee_spawn_egg": "Wee Wee Spawn Egg",
   "item.fins.vibra_wee_spawn_egg": "Vibra Wee Spawn Egg",
   "item.fins.river_pebble_snail_spawn_egg": "River Pebble Snail Spawn Egg",
+  "item.fins.siderol_whiskered_snail_spawn_egg": "Siderol Whiskered Snail Spawn Egg",
+  "item.fins.golden_river_ray_spawn_egg": "Golden River Ray Spawn Egg",
 
   "entity.fins.blu_wee": "Blu Wee",
   "entity.fins.pea_wee": "Pea Wee",
@@ -93,6 +98,7 @@
   "entity.fins.vibra_wee": "Vibra Wee",
   "entity.fins.river_pebble_snail": "River Pebble Snail",
   "entity.fins.siderol_whiskered_snail": "Siderol Whiskered Snail",
+  "entity.fins.golden_river_ray": "Golden River Ray",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Spindly Gem Crab Gem Block",
@@ -108,8 +114,6 @@
   "block.fins.flatback_shell_block": "Flatback Shell Block",
   "block.fins.flatback_shell_stairs": "Flatback Shell Stairs",
   "block.fins.flatback_shell_slab": "Flatback Shell Slab",
-  "block.fins.mixed_pebble_shell_bricks": "Mixed Pebble Shell Bricks",
-  "block.fins.mixed_flatback_shell_bricks": "Mixed Flatback Shell Bricks",
   "block.fins.chiseled_siderol_shell_bricks": "Chiseled Siderol Shell Bricks",
   "block.fins.siderol_shell_brick_slab": "Siderol Shell Brick Slab",
   "block.fins.siderol_shell_brick_stairs": "Siderol Shell Brick Stairs",

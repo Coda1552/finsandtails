@@ -2,6 +2,7 @@ package mod.coda.fins.entity;
 
 import mod.coda.fins.init.FinsItems;
 import mod.coda.fins.init.FinsSounds;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -9,22 +10,32 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.potion.Potions;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class WhiteBullCrabEntity extends AbstractFishEntity {
+public class WhiteBullCrabEntity extends WaterMobEntity {
+    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(AbstractFishEntity.class, DataSerializers.BOOLEAN);
+
     public WhiteBullCrabEntity(EntityType<? extends WhiteBullCrabEntity> type, World world) {
         super(type, world);
         this.moveController = new WhiteBullCrabEntity.MoveHelperController(this);
@@ -80,7 +91,7 @@ public class WhiteBullCrabEntity extends AbstractFishEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 4);
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 4).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15D);
     }
 
     @org.jetbrains.annotations.Nullable
@@ -100,5 +111,72 @@ public class WhiteBullCrabEntity extends AbstractFishEntity {
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.WHITE_BULL_CRAB_SPAWN_EGG.get());
+    }
+
+    @Override
+    protected void updateAir(int p_209207_1_) {
+    }
+
+    public boolean preventDespawn() {
+        if (this.isFromBucket()) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(FROM_BUCKET, false);
+    }
+
+    private boolean isFromBucket() {
+        return this.dataManager.get(FROM_BUCKET);
+    }
+
+    public void setFromBucket(boolean p_203706_1_) {
+        this.dataManager.set(FROM_BUCKET, p_203706_1_);
+    }
+
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putBoolean("FromBucket", this.isFromBucket());
+    }
+
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.setFromBucket(compound.getBoolean("FromBucket"));
+    }
+
+    protected ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+        ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
+        if (itemstack.getItem() == Items.WATER_BUCKET && this.isAlive()) {
+            this.playSound(SoundEvents.ITEM_BUCKET_FILL_FISH, 1.0F, 1.0F);
+            itemstack.shrink(1);
+            ItemStack itemstack1 = this.getFishBucket();
+            this.setBucketData(itemstack1);
+            if (!this.world.isRemote) {
+                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity)p_230254_1_, itemstack1);
+            }
+
+            if (itemstack.isEmpty()) {
+                p_230254_1_.setHeldItem(p_230254_2_, itemstack1);
+            } else if (!p_230254_1_.inventory.addItemStackToInventory(itemstack1)) {
+                p_230254_1_.dropItem(itemstack1, false);
+            }
+
+            this.remove();
+            return ActionResultType.func_233537_a_(this.world.isRemote);
+        } else {
+            return super.func_230254_b_(p_230254_1_, p_230254_2_);
+        }
+    }
+
+    protected void setBucketData(ItemStack bucket) {
+        if (this.hasCustomName()) {
+            bucket.setDisplayName(this.getCustomName());
+        }
+
     }
 }

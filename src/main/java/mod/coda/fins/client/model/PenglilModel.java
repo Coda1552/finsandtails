@@ -11,10 +11,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-/**
- * penglil - Dino/Tazz
- * Created using Tabula 8.0.0
- */
 @OnlyIn(Dist.CLIENT)
 public class PenglilModel<T extends Entity> extends EntityModel<PenglilEntity> {
     public ModelRenderer body;
@@ -83,6 +79,32 @@ public class PenglilModel<T extends Entity> extends EntityModel<PenglilEntity> {
             this.rightwing.rotateAngleY = MathHelper.cos(f * speed * 0.5F) * degree * -1.5F * f1 + 1.575F;
             this.leftfoot.rotateAngleX = MathHelper.cos(f * speed * 0.5F) * degree * 0.8F * f1 + 1.2F;
             this.rightfoot.rotateAngleX = MathHelper.cos(f * speed * 0.5F) * degree * -0.8F * f1 + 1.2F;
+        }
+        else if(entityIn.isEntitySleeping()) {
+            this.rightwing.setRotationPoint(-2.0F, 0.5F, 1.0F);
+            this.body.setRotationPoint(0.0F, 21.0F, 0.0F);
+            this.rightfoot.setRotationPoint(-2.25F, 2.0F, -1.15F);
+            this.leftfoot.setRotationPoint(2.25F, 2.0F, -1.15F);
+            this.leftwing.setRotationPoint(2.0F, 0.5F, 1.0F);
+
+            this.body.rotateAngleY = 0;
+            this.body.rotateAngleX = 0;
+            this.body.rotateAngleZ = 0;
+
+            this.tail.rotateAngleY = 0;
+            this.tail.rotateAngleX = 0;
+
+            this.rightfoot.rotateAngleY = 0;
+            this.rightfoot.rotateAngleX = 0;
+
+            this.leftfoot.rotateAngleY = 0;
+            this.leftfoot.rotateAngleX = 0;
+
+            this.leftwing.rotateAngleY = 0;
+            this.leftwing.rotateAngleX = 0;
+
+            this.rightwing.rotateAngleX = 0;
+            this.rightwing.rotateAngleY = 0;
         }
         else {
             float speed = 2.0f;
