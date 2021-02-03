@@ -163,18 +163,18 @@ public class MudhorseEntity extends AnimalEntity {
     }
 
     private static class CommanderHurt extends TargetGoal {
-        private final MudhorseEntity mudHorse;
+        private final MudhorseEntity mudhorse;
         private LivingEntity attacker;
         private int timestamp;
 
-        public CommanderHurt(MudhorseEntity mudHorse) {
-            super(mudHorse, false);
-            this.mudHorse = mudHorse;
+        public CommanderHurt(MudhorseEntity mudhorse) {
+            super(mudhorse, false);
+            this.mudhorse = mudhorse;
             this.setMutexFlags(EnumSet.of(Goal.Flag.TARGET));
         }
 
         public boolean shouldExecute() {
-            LivingEntity livingentity = this.mudHorse.getCommander();
+            LivingEntity livingentity = this.mudhorse.getCommander();
             if (livingentity != null) {
                 this.attacker = livingentity.getLastAttackedEntity();
                 int i = livingentity.getLastAttackedEntityTime();
@@ -200,7 +200,7 @@ public class MudhorseEntity extends AnimalEntity {
 
         public void startExecuting() {
             this.goalOwner.setAttackTarget(this.attacker);
-            LivingEntity livingentity = this.mudHorse.getCommander();
+            LivingEntity livingentity = this.mudhorse.getCommander();
             if (livingentity != null) {
                 this.timestamp = livingentity.getLastAttackedEntityTime();
             }
