@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smoking",
-  "ingredient": {
-    "item": "fins:raw_golden_river_ray_wing"
-  },
-  "result": "fins:golden_river_ray_wing_fillet",
-  "experience": 0.35,
-  "cookingtime": 600
-}

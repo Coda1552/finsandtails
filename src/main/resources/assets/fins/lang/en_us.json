@@ -141,5 +141,15 @@
   "fins.penglil.hurt": "Penglil hurts",
   "fins.penglil.death": "Penglil dies",
   "fins.crab.death": "Crab dies",
-  "fins.crab.crunch": "Crab crunches"
+  "fins.crab.crunch": "Crab crunches",
+
+  "fins.entity.penglil.0": "Striped Cream",
+  "fins.entity.penglil.1": "Viridus",
+  "fins.entity.penglil.2": "Blue Angrus",
+  "fins.entity.penglil.3": "Teal Tigrus",
+  "fins.entity.penglil.4": "Red Billed Angrus",
+  "fins.entity.penglil.5": "Sun Masked",
+  "fins.entity.penglil.6": "Dark Billed Angrus",
+  "fins.entity.penglil.7": "Aqua Masked Red Chin"
+
 }
