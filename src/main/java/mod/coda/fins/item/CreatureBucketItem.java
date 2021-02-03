@@ -9,10 +9,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.fish.TropicalFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -34,11 +32,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class CreatureBucketItem extends Item {
+public class CreatureBucketItem extends BucketItem {
     private final Supplier<EntityType<?>> entityType;
 
     public CreatureBucketItem(Supplier<EntityType<?>> entityType, Properties properties) {
-        super(properties);
+        super(Fluids.EMPTY, properties);
         this.entityType = entityType;
     }
 

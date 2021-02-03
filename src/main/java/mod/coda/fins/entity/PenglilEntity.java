@@ -14,7 +14,6 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -115,12 +114,12 @@ public class PenglilEntity extends TameableEntity {
     public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         ItemStack heldItem = player.getHeldItem(hand);
         Item item = heldItem.getItem();
+        ItemStack itemstack1 = new ItemStack(FinsItems.PENGLIL_BUCKET.get());
         ActionResultType actionresulttype = super.func_230254_b_(player, hand);
 
         if (heldItem.getItem() == Items.BUCKET && this.isAlive()) {
             playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
-            ItemStack itemstack1 = new ItemStack(FinsItems.PENGLIL_BUCKET.get());
             this.setBucketData(itemstack1);
             if (!this.world.isRemote) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
@@ -185,7 +184,7 @@ public class PenglilEntity extends TameableEntity {
         }
     }
 
-    @Override
+/*    @Override
     public void tick() {
         super.tick();
         if (target == null && rand.nextInt(120) == 0) {
@@ -202,7 +201,7 @@ public class PenglilEntity extends TameableEntity {
                 getNavigator().tryMoveToXYZ(target.getX(), target.getY(), target.getZ(), 0.15);
             }
         }
-    }
+    }*/
 
     @Override
     public void travel(Vector3d p_213352_1_) {

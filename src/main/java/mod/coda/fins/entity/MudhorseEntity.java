@@ -22,9 +22,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 public class MudhorseEntity extends AnimalEntity {
+    private int attackTimer;
+
     public MudhorseEntity(EntityType<? extends MudhorseEntity> type, World worldIn) {
         super(type, worldIn);
     }
@@ -64,8 +68,11 @@ public class MudhorseEntity extends AnimalEntity {
     }
 
     public boolean attackEntityAsMob(Entity entityIn) {
+        this.attackTimer = 10;
+        this.world.setEntityState(this, (byte)4);
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
+            entityIn.setMotion(entityIn.getMotion().add(0.0D, (double)0.3F, 0.0D));
             this.applyEnchantments(this, entityIn);
         }
 
@@ -94,6 +101,29 @@ public class MudhorseEntity extends AnimalEntity {
 
     protected float getSoundVolume() {
         return 0.4F;
+    }
+
+    public void livingTick() {
+        if (this.attackTimer > 0) {
+            --this.attackTimer;
+        }
+        super.livingTick();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if (id == 4) {
+            this.attackTimer = 10;
+            this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+        }
+        else {
+            super.handleStatusUpdate(id);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getAttackTimer() {
+        return this.attackTimer;
     }
 
     @Nullable

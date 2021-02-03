@@ -112,7 +112,7 @@ public class MudhorseModel<T extends Entity> extends AgeableModel<MudhorseEntity
     public void setRotationAngles(MudhorseEntity entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.5f;
         float degree = 0.8f;
-        this.armRight.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 1.2F * f1 - 0.2F;
+
         this.tail.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * -1.2F * f1 - 0.05F;
         this.armLeft.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 1.2F * f1 - 0.2F;
         this.neck.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 0.4F * f1 - 0.2F;
@@ -120,6 +120,15 @@ public class MudhorseModel<T extends Entity> extends AgeableModel<MudhorseEntity
         this.finLeft.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.8F * f1 + 0.3F;
         this.finRight.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.8F * f1 - 0.3F;
         this.body.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.2F * f1;
+    }
+
+    @Override
+    public void setLivingAnimations(MudhorseEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+        int i = entityIn.getAttackTimer();
+        if (i > 0) {
+            this.armRight.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float) i - partialTick, 10.0F);
+            this.armLeft.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float) i - partialTick, 10.0F);
+        }
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

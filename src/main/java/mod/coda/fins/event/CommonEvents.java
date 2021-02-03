@@ -108,7 +108,7 @@ public class CommonEvents {
             }
 
             if (name.equals("mountains")) {
-                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), 5, 1, 2));
+                event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), 2, 1, 2));
             }
         }
     }
