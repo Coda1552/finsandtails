@@ -143,13 +143,33 @@
   "fins.crab.death": "Crab dies",
   "fins.crab.crunch": "Crab crunches",
 
-  "fins.entity.penglil.0": "Striped Cream",
-  "fins.entity.penglil.1": "Viridus",
-  "fins.entity.penglil.2": "Blue Angrus",
-  "fins.entity.penglil.3": "Teal Tigrus",
-  "fins.entity.penglil.4": "Red Billed Angrus",
-  "fins.entity.penglil.5": "Sun Masked",
-  "fins.entity.penglil.6": "Dark Billed Angrus",
-  "fins.entity.penglil.7": "Aqua Masked Red Chin"
+  "entity.fins.penglil.0": "Striped Cream",
+  "entity.fins.penglil.1": "Viridus",
+  "entity.fins.penglil.2": "Blue Angrus",
+  "entity.fins.penglil.3": "Teal Tigrus",
+  "entity.fins.penglil.4": "Red Billed Angrus",
+  "entity.fins.penglil.5": "Sun Masked",
+  "entity.fins.penglil.6": "Dark Billed Angrus",
+  "entity.fins.penglil.7": "Aqua Masked Red Chin",
 
+  "entity.fins.golden_river_ray.0": "Pick Back",
+  "entity.fins.golden_river_ray.1": "Three Spot",
+  "entity.fins.golden_river_ray.2": "Five Spot",
+
+  "entity.fins.night_light_squid.0": "Void",
+  "entity.fins.night_light_squid.1": "Crimson",
+  "entity.fins.night_light_squid.2": "Midnight",
+  "entity.fins.night_light_squid.3": "Abyssal",
+
+  "entity.fins.river_pebble_snail.0": "Mudstone",
+  "entity.fins.river_pebble_snail.1": "Argillite",
+  "entity.fins.river_pebble_snail.2": "Limestone",
+  "entity.fins.river_pebble_snail.3": "Marl",
+  "entity.fins.river_pebble_snail.4": "Gritstone",
+
+  "entity.fins.spindly_gem_crab.0": "Emerald",
+  "entity.fins.spindly_gem_crab.1": "Pearl",
+  "entity.fins.spindly_gem_crab.2": "Sapphire",
+  "entity.fins.spindly_gem_crab.3": "Ruby",
+  "entity.fins.spindly_gem_crab.4": "Amber"
 }

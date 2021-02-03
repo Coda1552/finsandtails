@@ -78,7 +78,7 @@ public class MudhorseModel<T extends Entity> extends AgeableModel<MudhorseEntity
         this.tail2.setRotationPoint(0.0F, 15.0F, 5.0F);
         this.tail2.addBox(-3.0F, -4.0F, 0.0F, 6.0F, 5.0F, 8.0F, 0.0F, 0.0F, 0.0F);
         this.tail = new ModelRenderer(this, 28, 53);
-        this.tail.setRotationPoint(0.0F,2.0F, 11.0F);
+        this.tail.setRotationPoint(0.0F,8.0F, 11.0F);
         this.tail.addBox(-3.0F, -4.0F, -1.0F, 6.0F, 20.0F, 6.0F, 0.0F, 0.0F, 0.0F);
         this.neck.addChild(this.finNeck);
         this.body.addChild(this.armRight);
@@ -93,7 +93,6 @@ public class MudhorseModel<T extends Entity> extends AgeableModel<MudhorseEntity
         this.body.addChild(this.neck);
         this.neck.addChild(this.head);
         this.tail.addChild(this.tail2);
-        this.body.addChild(this.tail);
     }
 
     @Override
@@ -103,30 +102,42 @@ public class MudhorseModel<T extends Entity> extends AgeableModel<MudhorseEntity
 
     @Override
     protected Iterable<ModelRenderer> getBodyParts() {
-        return ImmutableList.of(body);
+        return ImmutableList.of(body, tail);
     }
 
     @Override
-    public void setRotationAngles(MudhorseEntity entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(MudhorseEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.5f;
         float degree = 0.8f;
+        this.tail.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * -1.2F * limbSwingAmount - 0.05F;
+        this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 1.2F * limbSwingAmount - 0.2F;
+        this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 1.2F * limbSwingAmount - 0.2F;
+        this.neck.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.4F * limbSwingAmount - 0.2F;
+        this.head.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount + 0.2F;
+        this.finLeft.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.8F * limbSwingAmount + 0.3F;
+        this.finRight.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.4F) * degree * -0.8F * limbSwingAmount - 0.3F;
+        this.body.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount;
 
-        this.tail.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * -1.2F * f1 - 0.05F;
-        this.armLeft.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 1.2F * f1 - 0.2F;
-        this.neck.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 0.4F * f1 - 0.2F;
-        this.head.rotateAngleX = MathHelper.cos(f * speed * 0.4F) * degree * 0.2F * f1 + 0.2F;
-        this.finLeft.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.8F * f1 + 0.3F;
-        this.finRight.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * -0.8F * f1 - 0.3F;
-        this.body.rotateAngleY = MathHelper.cos(f * speed * 0.4F) * degree * 0.2F * f1;
+        int i = entityIn.getAttackTimer();
+        if (i > 0) {
+            this.body.rotateAngleX = MathHelper.cos(limbSwing * 1.0f * 0.3F) * 1.0f * 0.3F * limbSwingAmount - 0.3F;
+            this.neck.rotateAngleX = MathHelper.cos(1.0F + limbSwing * 1.0f * 0.3F) * 1.0f * -0.5F * limbSwingAmount + 0.1F;
+            this.head.rotateAngleX = MathHelper.cos(2.0F + limbSwing * 1.0f * 0.3F) * 1.0f * 0.2F * limbSwingAmount + 0.35F;
+            this.finLeft.rotateAngleY = MathHelper.cos(limbSwing * 1.0f * 0.3F) * 1.0f * 0.8F * limbSwingAmount + 0.4F;
+            this.finRight.rotateAngleY = MathHelper.cos(limbSwing * 1.0f * 0.3F) * 1.0f * -0.8F * limbSwingAmount - 0.4F;
+            this.armRight.rotateAngleX = MathHelper.cos(3.0F + limbSwing * 1.0f * 0.5F) * 1.0f * 1.8F * limbSwingAmount - 0.7F;
+            this.armLeft.rotateAngleX = MathHelper.cos(3.0F + limbSwing * 1.0f * 0.5F) * 1.0f * -1.8F * limbSwingAmount - 0.7F;
+            this.tail.setRotationPoint(0.0F, 8.0F, 9.0F);
+        }
+        else {
+            this.body.rotateAngleX = 0.0F;
+            this.tail.setRotationPoint(0.0F,8.0F, 11.0F);
+        }
     }
 
     @Override
     public void setLivingAnimations(MudhorseEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
-        int i = entityIn.getAttackTimer();
-        if (i > 0) {
-            this.armRight.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float) i - partialTick, 10.0F);
-            this.armLeft.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float) i - partialTick, 10.0F);
-        }
+
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
