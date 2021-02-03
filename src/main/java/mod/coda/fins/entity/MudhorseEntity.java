@@ -8,12 +8,15 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.GhastEntity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -26,7 +29,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
+
 public class MudhorseEntity extends AnimalEntity {
+    private LivingEntity commander;
+    private int commanderSetTime;
     private int attackTimer;
 
     public MudhorseEntity(EntityType<? extends MudhorseEntity> type, World worldIn) {
@@ -42,6 +49,7 @@ public class MudhorseEntity extends AnimalEntity {
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new CommanderHurt(this));
     }
 
     @Override
@@ -69,10 +77,10 @@ public class MudhorseEntity extends AnimalEntity {
 
     public boolean attackEntityAsMob(Entity entityIn) {
         this.attackTimer = 10;
-        this.world.setEntityState(this, (byte)4);
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+        this.world.setEntityState(this, (byte) 4);
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
-            entityIn.setMotion(entityIn.getMotion().add(0.0D, (double)0.3F, 0.0D));
+            entityIn.setMotion(entityIn.getMotion().add(0.0D, (double) 0.3F, 0.0D));
             this.applyEnchantments(this, entityIn);
         }
 
@@ -107,6 +115,11 @@ public class MudhorseEntity extends AnimalEntity {
         if (this.attackTimer > 0) {
             --this.attackTimer;
         }
+        if (commanderSetTime > 0) {
+            --commanderSetTime;
+        } else {
+            commander = null;
+        }
         super.livingTick();
     }
 
@@ -115,8 +128,7 @@ public class MudhorseEntity extends AnimalEntity {
         if (id == 4) {
             this.attackTimer = 10;
             this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-        }
-        else {
+        } else {
             super.handleStatusUpdate(id);
         }
     }
@@ -139,5 +151,61 @@ public class MudhorseEntity extends AnimalEntity {
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.MUDHORSE_SPAWN_EGG.get());
+    }
+
+    public LivingEntity getCommander() {
+        return commander;
+    }
+
+    public void setCommander(LivingEntity commander) {
+        this.commander = commander;
+        commanderSetTime = 200;
+    }
+
+    private static class CommanderHurt extends TargetGoal {
+        private final MudhorseEntity mudHorse;
+        private LivingEntity attacker;
+        private int timestamp;
+
+        public CommanderHurt(MudhorseEntity mudHorse) {
+            super(mudHorse, false);
+            this.mudHorse = mudHorse;
+            this.setMutexFlags(EnumSet.of(Goal.Flag.TARGET));
+        }
+
+        public boolean shouldExecute() {
+            LivingEntity livingentity = this.mudHorse.getCommander();
+            if (livingentity != null) {
+                this.attacker = livingentity.getLastAttackedEntity();
+                int i = livingentity.getLastAttackedEntityTime();
+                if (i != this.timestamp && this.isSuitableTarget(this.attacker, EntityPredicate.DEFAULT)) {
+                    if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
+                        if (target instanceof WolfEntity) {
+                            WolfEntity wolfentity = (WolfEntity) target;
+                            return !wolfentity.isTamed() || wolfentity.getOwner() != livingentity;
+                        } else if (target instanceof PlayerEntity && livingentity instanceof PlayerEntity && !((PlayerEntity) livingentity).canAttackPlayer((PlayerEntity) target)) {
+                            return false;
+                        } else if (target instanceof AbstractHorseEntity && ((AbstractHorseEntity) target).isTame()) {
+                            return false;
+                        } else {
+                            return !(target instanceof TameableEntity) || !((TameableEntity) target).isTamed();
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void startExecuting() {
+            this.goalOwner.setAttackTarget(this.attacker);
+            LivingEntity livingentity = this.mudHorse.getCommander();
+            if (livingentity != null) {
+                this.timestamp = livingentity.getLastAttackedEntityTime();
+            }
+
+            super.startExecuting();
+        }
     }
 }

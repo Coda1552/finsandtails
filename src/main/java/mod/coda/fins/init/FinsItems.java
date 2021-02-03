@@ -53,6 +53,7 @@ public class FinsItems {
     public static final RegistryObject<Item> RED_CLAW_GAUNTLET = REGISTER.register("red_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 3, -1.4F, new Item.Properties().group(FinsAndTails.GROUP).maxDamage(130)));
     //public static final RegistryObject<Item> GOPJET_JETPACK = REGISTER.register("gopjet_jetpack", GopjetJetpackItem::new);
     public static final RegistryObject<Item> BUGFISH_MANDIBLES = REGISTER.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().group(FinsAndTails.GROUP).maxDamage(156)));
+    public static final RegistryObject<Item> SWAMP_DIDGERIDOO = REGISTER.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
 
     //Buckets
     public static final RegistryObject<Item> BLU_WEE_BUCKET = REGISTER.register("blu_wee_bucket", () -> new FishBucketItem(FinsEntities.BLU_WEE, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
