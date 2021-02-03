@@ -32,11 +32,17 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class FinsBucketItem extends FishBucketItem {
+    private final boolean hasTooltip;
     private final Supplier<? extends Fluid> fluid;
 
     public FinsBucketItem(Supplier<? extends EntityType<?>> fishType, Supplier<? extends Fluid> fluid, Properties builder) {
+        this(fishType, fluid, builder, true);
+    }
+
+    public FinsBucketItem(Supplier<? extends EntityType<?>> fishType, Supplier<? extends Fluid> fluid, Properties builder, boolean hasTooltip) {
         super(fishType, fluid, builder);
         this.fluid = fluid;
+        this.hasTooltip = hasTooltip;
     }
 
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
@@ -73,7 +79,7 @@ public class FinsBucketItem extends FishBucketItem {
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         super.addInformation(stack, world, tooltip, flag);
-        if (stack.hasTag()) {
+        if (hasTooltip && stack.hasTag()) {
             tooltip.add(new TranslationTextComponent(getFishType().getTranslationKey() + "." + stack.getTag().getInt("BucketVariantTag")).mergeStyle(TextFormatting.GRAY).mergeStyle(TextFormatting.ITALIC));
         }
     }
