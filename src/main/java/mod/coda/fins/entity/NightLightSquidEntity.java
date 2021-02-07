@@ -141,13 +141,13 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putInt("Variant", getVariant());
+        compound.putInt("BucketVariantTag", getVariant());
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        setVariant(compound.getInt("Variant"));
+        setVariant(compound.getInt("BucketVariantTag"));
     }
 
     public boolean attackEntityFrom(DamageSource source, float amount) {

@@ -4,13 +4,11 @@ import mod.coda.fins.init.FinsEntities;
 import mod.coda.fins.init.FinsItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -23,12 +21,12 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.*;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.IServerWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class RiverPebbleSnailEntity extends AnimalEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(RiverPebbleSnailEntity.class, DataSerializers.VARINT);
@@ -140,7 +138,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     @Override
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @javax.annotation.Nullable ILivingEntityData spawnDataIn, @javax.annotation.Nullable CompoundNBT dataTag) {
         if (dataTag == null) {
-            setVariant(rand.nextInt(4));
+            setVariant(rand.nextInt(5));
         } else {
             if (dataTag.contains("BucketVariantTag", 3)) {
                 this.setVariant(dataTag.getInt("BucketVariantTag"));
@@ -166,13 +164,12 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putInt("Variant", getVariant());
+        compound.putInt("BucketVariantTag", getVariant());
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        setVariant(compound.getInt("Variant"));
+        setVariant(compound.getInt("BucketVariantTag"));
     }
-
 }

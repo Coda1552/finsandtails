@@ -126,13 +126,13 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putInt("Variant", getVariant());
+        compound.putInt("BucketVariantTag", getVariant());
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        setVariant(compound.getInt("Variant"));
+        setVariant(compound.getInt("BucketVariantTag"));
     }
 
     public static AttributeModifierMap.MutableAttribute func_234176_m_() {
