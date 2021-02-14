@@ -115,7 +115,7 @@ public class PenglilEntity extends TameableEntity {
         ItemStack itemstack1 = new ItemStack(FinsItems.PENGLIL_BUCKET.get());
         ActionResultType actionresulttype = super.func_230254_b_(player, hand);
 
-        if (heldItem.getItem() == Items.BUCKET && this.isAlive()) {
+        if (heldItem.getItem() == Items.BUCKET && this.isAlive() && !this.isSitting()) {
             playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
             this.setBucketData(itemstack1);
