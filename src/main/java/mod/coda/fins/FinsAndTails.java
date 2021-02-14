@@ -1,39 +1,27 @@
 package mod.coda.fins;
 
 import mod.coda.fins.client.ClientEventHandler;
-import mod.coda.fins.entity.*;
+import mod.coda.fins.entities.*;
 import mod.coda.fins.init.*;
 import mod.coda.fins.network.INetworkPacket;
 import mod.coda.fins.network.TriggerFlyingPacket;
+import mod.coda.fins.util.FinsConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootEntry;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.TableLootEntry;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -43,6 +31,7 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -52,6 +41,7 @@ public class FinsAndTails {
     public static final String MOD_ID = "fins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
+    public static final List<Runnable> CALLBACKS = new ArrayList<>();
     private static int currentNetworkId;
 
     public FinsAndTails() {
@@ -59,12 +49,14 @@ public class FinsAndTails {
         modEventBus.addListener(this::registerClient);
         modEventBus.addListener(this::registerCommon);
 
+        FinsEnchantments.REGISTER.register(modEventBus);
         FinsItems.REGISTER.register(modEventBus);
         FinsBlocks.REGISTER.register(modEventBus);
         FinsEntities.REGISTER.register(modEventBus);
         FinsSounds.REGISTER.register(modEventBus);
         FinsContainers.REGISTER.register(modEventBus);
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
     }
 
@@ -121,6 +113,8 @@ public class FinsAndTails {
 
     private void registerClient(FMLClientSetupEvent event) {
         ClientEventHandler.init();
+        CALLBACKS.forEach(Runnable::run);
+        CALLBACKS.clear();
     }
 
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Supplier<T> supplier, LogicalSide side) {

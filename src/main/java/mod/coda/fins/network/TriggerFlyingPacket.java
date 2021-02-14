@@ -24,6 +24,6 @@ public class TriggerFlyingPacket implements INetworkPacket {
 
     @Override
     public void handle(PlayerEntity player) {
-        player.getPersistentData().putBoolean("FinsFlying", flying);
+//        player.getPersistentData().putBoolean("FinsFlying", flying);
     }
 }

@@ -101,5 +101,22 @@
         "streaming": true
       }
     ]
+  },
+  "didgeridoo.play": {
+    "subtitle": "fins.didgeridoo.play",
+    "sounds": [
+      {
+        "name": "fins:didgeridoo/didgeridoo_1",
+        "streaming": true
+      },
+      {
+        "name": "fins:didgeridoo/didgeridoo_2",
+        "streaming": true
+      },
+      {
+        "name": "fins:didgeridoo/didgeridoo_3",
+        "streaming": true
+      }
+    ]
   }
 }

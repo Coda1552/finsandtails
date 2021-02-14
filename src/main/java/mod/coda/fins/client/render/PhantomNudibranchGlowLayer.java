@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.PhantomNudibranchModel;
-import mod.coda.fins.entity.PhantomNudibranchEntity;
+import mod.coda.fins.entities.PhantomNudibranchEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;

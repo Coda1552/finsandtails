@@ -1,6 +1,56 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fins:item/penglil_bucket"
-  }
+    "layer0": "fins:item/penglil_bucket_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fins:variant": 0
+      },
+      "model": "fins:item/penglil_bucket"
+    },
+    {
+      "predicate": {
+        "fins:variant": 1
+      },
+      "model": "fins:item/penglil_bucket_2"
+    },
+    {
+      "predicate": {
+        "fins:variant": 2
+      },
+      "model": "fins:item/penglil_bucket_3"
+    },
+    {
+      "predicate": {
+        "fins:variant": 3
+      },
+      "model": "fins:item/penglil_bucket_4"
+    },
+    {
+      "predicate": {
+        "fins:variant": 4
+      },
+      "model": "fins:item/penglil_bucket_5"
+    },
+    {
+      "predicate": {
+        "fins:variant": 5
+      },
+      "model": "fins:item/penglil_bucket_6"
+    },
+    {
+      "predicate": {
+        "fins:variant": 6
+      },
+      "model": "fins:item/penglil_bucket_7"
+    },
+    {
+      "predicate": {
+        "fins:variant": 7
+      },
+      "model": "fins:item/penglil_bucket_8"
+    }
+  ]
 }

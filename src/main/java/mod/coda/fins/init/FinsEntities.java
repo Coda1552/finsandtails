@@ -1,11 +1,10 @@
 package mod.coda.fins.init;
 
 import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.entity.*;
+import mod.coda.fins.entities.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -32,7 +31,7 @@ public class FinsEntities {
     public static final RegistryObject<EntityType<WeeWeeEntity>> WEE_WEE = create("wee_wee", EntityType.Builder.create(WeeWeeEntity::new, EntityClassification.WATER_AMBIENT).size(0.3f, 0.3f));
     public static final RegistryObject<EntityType<VibraWeeEntity>> VIBRA_WEE = create("vibra_wee", EntityType.Builder.create(VibraWeeEntity::new, EntityClassification.WATER_AMBIENT).size(0.3f, 0.4f));
     //public static final RegistryObject<EntityType<GopjetEntity>> GOPJET = create("gopjet", EntityType.Builder.create(GopjetEntity::new, EntityClassification.WATER_CREATURE).size(0.7f, 0.5f));
-    public static final RegistryObject<EntityType<RiverPebbleSnailEntity>> RIVER_PEBBLE_SNAIL = create("river_pebble_snail", EntityType.Builder.create(RiverPebbleSnailEntity::new, EntityClassification.CREATURE).size(0.3f, 0.3f));
+    public static final RegistryObject<EntityType<RiverPebbleSnailEntity>> RIVER_PEBBLE_SNAIL = create("river_pebble_snail", EntityType.Builder.create(RiverPebbleSnailEntity::new, EntityClassification.AMBIENT).size(0.3f, 0.3f));
     public static final RegistryObject<EntityType<SiderolWhiskeredSnailEntity>> SIDEROL_WHISKERED_SNAIL = create("siderol_whiskered_snail", EntityType.Builder.create(SiderolWhiskeredSnailEntity::new, EntityClassification.CREATURE).size(0.3f, 0.4f));
     public static final RegistryObject<EntityType<GoldenRiverRayEntity>> GOLDEN_RIVER_RAY = create("golden_river_ray", EntityType.Builder.create(GoldenRiverRayEntity::new, EntityClassification.WATER_CREATURE).size(0.7f, 0.3f));
     public static final RegistryObject<EntityType<NightLightSquidEntity>> NIGHT_LIGHT_SQUID = create("night_light_squid", EntityType.Builder.create(NightLightSquidEntity::new, EntityClassification.WATER_CREATURE).size(0.4f, 0.3f));

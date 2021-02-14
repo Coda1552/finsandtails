@@ -2,7 +2,7 @@ package mod.coda.fins.client.render;
 
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.FlatbackLeafSnailModel;
-import mod.coda.fins.entity.FlatbackLeafSnailEntity;
+import mod.coda.fins.entities.FlatbackLeafSnailEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;

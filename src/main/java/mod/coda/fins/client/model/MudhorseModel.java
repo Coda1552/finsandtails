@@ -1,7 +1,7 @@
 package mod.coda.fins.client.model;
 
 import com.google.common.collect.ImmutableList;
-import mod.coda.fins.entity.MudhorseEntity;
+import mod.coda.fins.entities.MudhorseEntity;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -117,26 +117,13 @@ public class MudhorseModel<T extends Entity> extends AgeableModel<MudhorseEntity
         this.finLeft.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.8F * limbSwingAmount + 0.3F;
         this.finRight.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.4F) * degree * -0.8F * limbSwingAmount - 0.3F;
         this.body.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount;
-
-        int i = entityIn.getAttackTimer();
-        if (i > 0) {
-            this.body.rotateAngleX = MathHelper.cos(limbSwing * 1.0f * 0.3F) * 1.0f * 0.3F * limbSwingAmount - 0.3F;
-            this.neck.rotateAngleX = MathHelper.cos(1.0F + limbSwing * 1.0f * 0.3F) * 1.0f * -0.5F * limbSwingAmount + 0.1F;
-            this.head.rotateAngleX = MathHelper.cos(2.0F + limbSwing * 1.0f * 0.3F) * 1.0f * 0.2F * limbSwingAmount + 0.35F;
-            this.finLeft.rotateAngleY = MathHelper.cos(limbSwing * 1.0f * 0.3F) * 1.0f * 0.8F * limbSwingAmount + 0.4F;
-            this.finRight.rotateAngleY = MathHelper.cos(limbSwing * 1.0f * 0.3F) * 1.0f * -0.8F * limbSwingAmount - 0.4F;
-            this.armRight.rotateAngleX = MathHelper.cos(3.0F + limbSwing * 1.0f * 0.5F) * 1.0f * 1.8F * limbSwingAmount - 0.7F;
-            this.armLeft.rotateAngleX = MathHelper.cos(3.0F + limbSwing * 1.0f * 0.5F) * 1.0f * -1.8F * limbSwingAmount - 0.7F;
-            this.tail.setRotationPoint(0.0F, 8.0F, 9.0F);
-        }
-        else {
-            this.body.rotateAngleX = 0.0F;
-            this.tail.setRotationPoint(0.0F,8.0F, 11.0F);
-        }
+        this.body.rotateAngleX = 0.0F;
+        this.tail.setRotationPoint(0.0F,8.0F, 11.0F);
     }
 
     @Override
     public void setLivingAnimations(MudhorseEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+        int i = entityIn.getAttackTimer();
 
     }
 

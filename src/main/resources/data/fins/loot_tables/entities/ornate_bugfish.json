@@ -1,37 +1,27 @@
 {
 	"type": "minecraft:entity",
-	"pools": [{
+	"pools": [
+		{
 			"rolls": 1,
-			"entries": [{
-				"type": "minecraft:item",
-				"functions": [{
-					"function": "minecraft:furnace_smelt",
-					"conditions": [{
-						"condition": "minecraft:entity_properties",
-						"predicate": {
-							"flags": {
-								"is_on_fire": true
-							}
-						},
-						"entity": "this"
-					}]
-				}],
-				"name": "fins:ornate_bugfish"
-			}]
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "fins:ornate_bugfish"
+				}
+			]
 		},
 		{
 			"rolls": 1,
-			"entries": [{
-				"type": "minecraft:item",
-				"name": "fins:bugfish_mandibles"
-			}],
-			"conditions": [{
-					"condition": "minecraft:killed_by_player"
-				},
+			"entries": [
 				{
-					"condition": "minecraft:random_chance_with_looting",
-					"chance": 0.25,
-					"looting_multiplier": 0.05
+					"type": "minecraft:item",
+					"name": "minecraft:bone_meal"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:random_chance",
+					"chance": 0.05
 				}
 			]
 		}

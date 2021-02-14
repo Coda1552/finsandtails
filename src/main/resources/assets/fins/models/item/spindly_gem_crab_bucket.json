@@ -1,6 +1,38 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fins:item/spindly_gem_crab_bucket"
-  }
+    "layer0": "fins:item/spindly_gem_crab_bucket_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fins:variant": 0
+      },
+      "model": "fins:item/spindly_gem_crab_bucket"
+    },
+    {
+      "predicate": {
+        "fins:variant": 1
+      },
+      "model": "fins:item/spindly_gem_crab_bucket_2"
+    },
+    {
+      "predicate": {
+        "fins:variant": 2
+      },
+      "model": "fins:item/spindly_gem_crab_bucket_3"
+    },
+    {
+      "predicate": {
+        "fins:variant": 3
+      },
+      "model": "fins:item/spindly_gem_crab_bucket_4"
+    },
+    {
+      "predicate": {
+        "fins:variant": 4
+      },
+      "model": "fins:item/spindly_gem_crab_bucket_5"
+    }
+  ]
 }

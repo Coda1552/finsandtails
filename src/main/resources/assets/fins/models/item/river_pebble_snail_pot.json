@@ -1,6 +1,38 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fins:item/river_pebble_snail_pot"
-  }
+    "layer0": "fins:item/river_pebble_snail_pot_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fins:variant": 0
+      },
+      "model": "fins:item/river_pebble_snail_pot"
+    },
+    {
+      "predicate": {
+        "fins:variant": 1
+      },
+      "model": "fins:item/river_pebble_snail_pot_2"
+    },
+    {
+      "predicate": {
+        "fins:variant": 2
+      },
+      "model": "fins:item/river_pebble_snail_pot_3"
+    },
+    {
+      "predicate": {
+        "fins:variant": 3
+      },
+      "model": "fins:item/river_pebble_snail_pot_4"
+    },
+    {
+      "predicate": {
+        "fins:variant": 4
+      },
+      "model": "fins:item/river_pebble_snail_pot_5"
+    }
+  ]
 }

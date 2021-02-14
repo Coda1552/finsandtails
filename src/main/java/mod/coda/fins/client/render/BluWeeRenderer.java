@@ -3,7 +3,7 @@ package mod.coda.fins.client.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.BluWeeModel;
-import mod.coda.fins.entity.BluWeeEntity;
+import mod.coda.fins.entities.BluWeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;

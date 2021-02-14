@@ -1,7 +1,7 @@
 package mod.coda.fins.client.model;
 
 import com.google.common.collect.ImmutableList;
-import mod.coda.fins.entity.RubberBellyGliderEntity;
+import mod.coda.fins.entities.RubberBellyGliderEntity;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;

@@ -1,7 +1,7 @@
 package mod.coda.fins.init;
 
 import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.item.*;
+import mod.coda.fins.items.*;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.RegistryObject;

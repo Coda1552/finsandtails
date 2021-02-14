@@ -3,17 +3,12 @@ package mod.coda.fins.client.render;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.client.model.BluWeeModel;
 import mod.coda.fins.client.model.NightLightSquidModel;
-import mod.coda.fins.entity.BluWeeEntity;
-import mod.coda.fins.entity.NightLightSquidEntity;
-import mod.coda.fins.entity.PenglilEntity;
+import mod.coda.fins.entities.NightLightSquidEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 
 import java.util.Map;

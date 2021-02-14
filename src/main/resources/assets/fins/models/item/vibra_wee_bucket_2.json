@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fins:item/vibra_wee_bucket_2"
+  }
+}

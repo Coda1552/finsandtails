@@ -3,7 +3,7 @@ package mod.coda.fins.client.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.FlatbackSuckerModel;
-import mod.coda.fins.entity.FlatbackSuckerEntity;
+import mod.coda.fins.entities.FlatbackSuckerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;

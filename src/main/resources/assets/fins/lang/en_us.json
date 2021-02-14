@@ -56,6 +56,7 @@
   "item.fins.night_light_squid": "Night Light Squid",
   "item.fins.night_light_squid_tentacle": "Night Light Squid Tentacle",
   "item.fins.night_light_squid_bucket": "Bucket of Night Light Squid",
+  "item.fins.swamp_didgeridoo": "Swamp Didgeridoo",
 
   "item.fins.blu_wee_spawn_egg": "Blu Wee Spawn Egg",
   "item.fins.pea_wee_spawn_egg": "Pea Wee Spawn Egg",
@@ -131,6 +132,8 @@
   "block.fins.mixed_flatback_shell_brick_stairs": "Mixed Flatback Shell Brick Stairs",
   "block.fins.chained_tentacle": "Chained Tentacle",
 
+  "enchantment.fins.fluked_edge": "Fluked Edge",
+
   "fins.mudhorse.ambient": "Mudhorse grunts",
   "fins.mudhorse.hurt": "Mudhorse hurts",
   "fins.mudhorse.death": "Mudhorse dies",
@@ -142,6 +145,7 @@
   "fins.penglil.death": "Penglil dies",
   "fins.crab.death": "Crab dies",
   "fins.crab.crunch": "Crab crunches",
+  "fins.didgeridoo.play": "Didgeridoo plays",
 
   "entity.fins.penglil.0": "Striped Cream",
   "entity.fins.penglil.1": "Viridus",
@@ -151,28 +155,23 @@
   "entity.fins.penglil.5": "Sun Masked",
   "entity.fins.penglil.6": "Dark Billed Angrus",
   "entity.fins.penglil.7": "Aqua Masked Red Chin",
-
   "entity.fins.golden_river_ray.0": "Pick Back",
   "entity.fins.golden_river_ray.1": "Three Spot",
   "entity.fins.golden_river_ray.2": "Five Spot",
-
   "entity.fins.night_light_squid.0": "Void",
   "entity.fins.night_light_squid.1": "Crimson",
   "entity.fins.night_light_squid.2": "Midnight",
   "entity.fins.night_light_squid.3": "Abyssal",
-
   "entity.fins.river_pebble_snail.0": "Mudstone",
   "entity.fins.river_pebble_snail.1": "Argillite",
   "entity.fins.river_pebble_snail.2": "Limestone",
   "entity.fins.river_pebble_snail.3": "Marl",
   "entity.fins.river_pebble_snail.4": "Gritstone",
-
   "entity.fins.spindly_gem_crab.0": "Emerald",
   "entity.fins.spindly_gem_crab.1": "Pearl",
   "entity.fins.spindly_gem_crab.2": "Sapphire",
   "entity.fins.spindly_gem_crab.3": "Ruby",
   "entity.fins.spindly_gem_crab.4": "Amber",
-
   "entity.fins.vibra_wee.0": "Wild",
   "entity.fins.vibra_wee.1": "Weller's Blue",
   "entity.fins.vibra_wee.2": "Tiled Yellowhead",

@@ -3,7 +3,7 @@ package mod.coda.fins.client.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.PeaWeeModel;
-import mod.coda.fins.entity.PeaWeeEntity;
+import mod.coda.fins.entities.PeaWeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;

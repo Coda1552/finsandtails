@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.client.model.NightLightSquidModel;
-import mod.coda.fins.entity.NightLightSquidEntity;
+import mod.coda.fins.entities.NightLightSquidEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;

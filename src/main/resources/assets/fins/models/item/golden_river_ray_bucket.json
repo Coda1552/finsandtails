@@ -1,6 +1,26 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fins:item/golden_river_ray_bucket"
-  }
+    "layer0": "fins:item/golden_river_ray_bucket_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fins:variant": 0
+      },
+      "model": "fins:item/golden_river_ray_bucket"
+    },
+    {
+      "predicate": {
+        "fins:variant": 1
+      },
+      "model": "fins:item/golden_river_ray_bucket_2"
+    },
+    {
+      "predicate": {
+        "fins:variant": 2
+      },
+      "model": "fins:item/golden_river_ray_bucket_3"
+    }
+  ]
 }

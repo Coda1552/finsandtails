@@ -2,10 +2,8 @@ package mod.coda.fins.client.render;
 
 import com.google.common.collect.Maps;
 import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.client.model.PenglilModel;
 import mod.coda.fins.client.model.SpindlyGemCrabModel;
-import mod.coda.fins.entity.PenglilEntity;
-import mod.coda.fins.entity.SpindlyGemCrabEntity;
+import mod.coda.fins.entities.SpindlyGemCrabEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;

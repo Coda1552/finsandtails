@@ -2,10 +2,8 @@ package mod.coda.fins.client.render;
 
 import com.google.common.collect.Maps;
 import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.client.model.FlatbackLeafSnailModel;
 import mod.coda.fins.client.model.RiverPebbleSnailModel;
-import mod.coda.fins.entity.FlatbackLeafSnailEntity;
-import mod.coda.fins.entity.RiverPebbleSnailEntity;
+import mod.coda.fins.entities.RiverPebbleSnailEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;

@@ -1,8 +1,8 @@
 package mod.coda.fins.init;
 
 import mod.coda.fins.FinsAndTails;
-import mod.coda.fins.block.ChainedTentacleBlock;
-import mod.coda.fins.block.CrabCruncherBlock;
+import mod.coda.fins.blocks.ChainedTentacleBlock;
+import mod.coda.fins.blocks.CrabCruncherBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.RegistryObject;
