@@ -60,7 +60,8 @@ public class FwingedBootsItem extends ArmorItem {
                     f1 = f1 * (f5 / f4);
                     f2 = f2 * (f5 / f4);
                     f3 = f3 * (f5 / f4);
-                    player.addVelocity((double) f1 / 3.5, (double) f2 / 2, (double) f3 / 3.5);
+                    if (j > 1) player.addVelocity((double) f1 / 3.5, (double) f2 / 2, (double) f3 / 3.5);
+                    else if (j == 1) player.addVelocity((double) f1 / 1.5, (double) f2 / 2, (double) f3 / 1.5);
                     player.startSpinAttack(1);
                     if (player.isOnGround()) {
                         float f6 = 1.1999999F;

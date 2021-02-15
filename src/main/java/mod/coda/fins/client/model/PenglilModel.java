@@ -110,6 +110,8 @@ public class PenglilModel<T extends Entity> extends EntityModel<PenglilEntity> {
 		else {
 			float speed = 2.0f;
 			float degree = 3.5f;
+			f1 = MathHelper.clamp(f1, -0.275f, 0.275f);
+
 			this.leftwing.rotateAngleY = 0;
 			this.leftwing.rotateAngleX = 0;
 			this.rightwing.rotateAngleX = 0;

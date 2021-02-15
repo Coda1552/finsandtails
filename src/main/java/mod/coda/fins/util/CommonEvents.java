@@ -2,10 +2,13 @@ package mod.coda.fins.util;
 
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.entities.PenglilEntity;
+import mod.coda.fins.init.FinsEnchantments;
 import mod.coda.fins.init.FinsEntities;
 import mod.coda.fins.init.FinsItems;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
@@ -23,6 +26,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -101,6 +107,20 @@ public class CommonEvents {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.WEE_WEE.get(), FinsConfig.Common.INSTANCE.weeWeeSpawnWeight.get(), 2, 6));
                 event.getSpawns().getSpawner(EntityClassification.AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.RIVER_PEBBLE_SNAIL.get(), FinsConfig.Common.INSTANCE.riverPebbleSnailSpawnWeight.get(), 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.GOLDEN_RIVER_RAY.get(), FinsConfig.Common.INSTANCE.goldenRiverRaySpawnWeight.get(), 1, 1));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void uppercuttingAttackEvent(LivingDamageEvent event) {
+        Entity attacker = event.getSource().getTrueSource();
+        LivingEntity target = event.getEntityLiving();
+
+        if(attacker instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) attacker;
+            ItemStack heldItem = livingEntity.getHeldItemMainhand();
+            if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.UPPERCUTTING.get())) {
+                target.setMotion(target.getMotion().add(0.0D, (double)56F, 0.0D));
             }
         }
     }

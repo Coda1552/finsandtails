@@ -17,7 +17,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CrabGauntletItem extends Item {private final float attackDamage;
+public class CrabGauntletItem extends Item {
+    private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
     public CrabGauntletItem(IItemTier tier, int attackDamageIn, float attackSpeedIn, Item.Properties builderIn) {
@@ -27,10 +28,6 @@ public class CrabGauntletItem extends Item {private final float attackDamage;
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)this.attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", (double)attackSpeedIn, AttributeModifier.Operation.ADDITION));
         this.attributeModifiers = builder.build();
-    }
-
-    public float getAttackDamage() {
-        return this.attackDamage;
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state) {

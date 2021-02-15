@@ -5,13 +5,15 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:enchanted_book",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{Enchantments:[{id:\"fins:fluked_edge\",{lvl:1},]}"
+              "function": "minecraft:enchant_randomly",
+              "enchantments": [
+                "fins:fluked_edge"
+              ]
             }
-          ]
+          ],
+          "name": "minecraft:book"
         }
       ]
     }

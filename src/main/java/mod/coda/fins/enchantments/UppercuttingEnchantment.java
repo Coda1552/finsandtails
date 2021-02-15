@@ -7,8 +7,8 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 
-public class FlukedEdgeEnchantment extends Enchantment {
-    public FlukedEdgeEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {
+public class UppercuttingEnchantment extends Enchantment {
+    public UppercuttingEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {
         super(rarity, type, slots);
     }
 
@@ -19,7 +19,7 @@ public class FlukedEdgeEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -33,12 +33,7 @@ public class FlukedEdgeEnchantment extends Enchantment {
     }
 
     @Override
-    protected boolean canApplyTogether(Enchantment ench) {
-        return !ench.equals(Enchantments.DEPTH_STRIDER);
-    }
-
-    @Override
     public boolean canApply(ItemStack stack) {
-        return stack.getItem() == FinsItems.FWINGED_BOOTS.get();
+        return stack.getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || stack.getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get();
     }
 }
