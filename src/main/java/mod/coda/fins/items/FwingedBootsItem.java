@@ -20,9 +20,6 @@ import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.stats.Stats;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -50,7 +47,7 @@ public class FwingedBootsItem extends ArmorItem {
 
         int j = EnchantmentHelper.getEnchantmentLevel(FinsEnchantments.FLUKED_EDGE.get(), stack);
         if (EnchantmentHelper.getEnchantments(stack).containsKey(FinsEnchantments.FLUKED_EDGE.get())) {
-            if (j <= 0 || worldIn.getBlockState(player.getPosition().down()).isIn(Blocks.WATER) && worldIn.getBlockState(player.getPosition()).isAir()/* && player.isSwimming()*/ && player.getMotion().y > 0.25) {
+            if (j <= 0 || worldIn.getBlockState(player.getPosition().down()).isIn(Blocks.WATER) && worldIn.getBlockState(player.getPosition()).isAir() /*&& player.isSwimming()*/ && player.getMotion().y > 0.25) {
 
                 if (j > 0) {
                     float f7 = player.rotationYaw;

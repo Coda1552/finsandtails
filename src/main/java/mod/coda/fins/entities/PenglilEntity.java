@@ -171,6 +171,11 @@ public class PenglilEntity extends TameableEntity {
         return actionresulttype;
     }
 
+    @Override
+    public int getTalkInterval() {
+        return 480;
+    }
+
     private void setBucketData(ItemStack bucket) {
         CompoundNBT compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
