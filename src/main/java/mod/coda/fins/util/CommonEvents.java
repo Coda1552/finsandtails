@@ -22,6 +22,7 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -114,13 +115,16 @@ public class CommonEvents {
     @SubscribeEvent
     public static void uppercuttingAttackEvent(LivingDamageEvent event) {
         Entity attacker = event.getSource().getTrueSource();
-        LivingEntity target = event.getEntityLiving();
 
         if(attacker instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) attacker;
             ItemStack heldItem = livingEntity.getHeldItemMainhand();
             if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.UPPERCUTTING.get())) {
-                target.setMotion(target.getMotion().add(0.0D, (double)56F, 0.0D));
+                if (event.getEntityLiving().isWet()) {
+                    if (!attacker.getEntityWorld().isRemote) {
+                        event.getEntityLiving().setMotion(event.getEntityLiving().getMotion().add(0.0D, (double)0.55F, 0.0D));
+                    }
+                }
             }
         }
     }
@@ -130,15 +134,11 @@ public class CommonEvents {
         ResourceLocation name = event.getName();
         if (name.equals(LootTables.GAMEPLAY_FISHING)) {
             LootPool pool = event.getTable().getPool("main");
-            if (pool != null) {
-                addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 10, 1));
-            }
+            addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 10, 1));
         }
         if (name.equals(LootTables.CHESTS_BURIED_TREASURE)) {
             LootPool pool = event.getTable().getPool("main");
-            if (pool != null) {
-                addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/buried_treasure"), 100, 1));
-            }
+            addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/buried_treasure"), 100, 1));
         }
     }
 
