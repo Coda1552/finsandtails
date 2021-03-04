@@ -122,7 +122,7 @@ public class CommonEvents {
             if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.UPPERCUTTING.get())) {
                 if (event.getEntityLiving().isWet()) {
                     if (!attacker.getEntityWorld().isRemote) {
-                        event.getEntityLiving().setMotion(event.getEntityLiving().getMotion().add(0.0D, (double)0.55F, 0.0D));
+                        event.getEntityLiving().setMotion(event.getEntityLiving().getMotion().add(0.0D, (double)0.7F, 0.0D));
                     }
                 }
             }

@@ -4,10 +4,13 @@ import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.items.*;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+@Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FinsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, FinsAndTails.MOD_ID);
 
@@ -128,4 +131,10 @@ public class FinsItems {
     public static final RegistryObject<BlockItem> MIXED_FLATBACK_SHELL_BRICK_SLAB = REGISTER.register("mixed_flatback_shell_brick_slab", () -> new BlockItem(FinsBlocks.MIXED_FLATBACK_SHELL_BRICK_SLAB.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> MIXED_FLATBACK_SHELL_BRICK_STAIRS = REGISTER.register("mixed_flatback_shell_brick_stairs", () -> new BlockItem(FinsBlocks.MIXED_FLATBACK_SHELL_BRICK_STAIRS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> CHAINED_TENTACLE = REGISTER.register("chained_tentacle", () -> new BlockItem(FinsBlocks.CHAINED_TENTACLE.get(), new Item.Properties().group(FinsAndTails.GROUP)));
-}   
+
+    public static void registerProperties() {
+        ItemModelsProperties.registerProperty(Items.CROSSBOW, new ResourceLocation(FinsAndTails.MOD_ID, "teal_arrowfish"), (stack, world, entity) -> {
+            return entity != null && CrossbowItem.isCharged(stack) && CrossbowItem.hasChargedProjectile(stack, FinsItems.TEAL_ARROWFISH.get()) ? 1 : 0;
+        });
+    }
+}

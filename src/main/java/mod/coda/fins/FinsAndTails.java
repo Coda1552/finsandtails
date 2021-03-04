@@ -18,6 +18,7 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -45,16 +46,16 @@ public class FinsAndTails {
     private static int currentNetworkId;
 
     public FinsAndTails() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::registerClient);
-        modEventBus.addListener(this::registerCommon);
-
-        FinsEnchantments.REGISTER.register(modEventBus);
-        FinsItems.REGISTER.register(modEventBus);
-        FinsBlocks.REGISTER.register(modEventBus);
-        FinsEntities.REGISTER.register(modEventBus);
-        FinsSounds.REGISTER.register(modEventBus);
-        FinsContainers.REGISTER.register(modEventBus);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::registerClient);
+        bus.addListener(this::registerCommon);
+        
+        FinsEnchantments.REGISTER.register(bus);
+        FinsItems.REGISTER.register(bus);
+        FinsBlocks.REGISTER.register(bus);
+        FinsEntities.REGISTER.register(bus);
+        FinsSounds.REGISTER.register(bus);
+        FinsContainers.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
@@ -115,6 +116,7 @@ public class FinsAndTails {
         ClientEventHandler.init();
         CALLBACKS.forEach(Runnable::run);
         CALLBACKS.clear();
+        event.enqueueWork(FinsItems::registerProperties);
     }
 
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Supplier<T> supplier, LogicalSide side) {
