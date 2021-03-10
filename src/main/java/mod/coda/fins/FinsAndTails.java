@@ -116,7 +116,6 @@ public class FinsAndTails {
         ClientEventHandler.init();
         CALLBACKS.forEach(Runnable::run);
         CALLBACKS.clear();
-        event.enqueueWork(FinsItems::registerProperties);
     }
 
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Supplier<T> supplier, LogicalSide side) {

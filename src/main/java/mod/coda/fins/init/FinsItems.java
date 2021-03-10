@@ -7,6 +7,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -113,6 +114,9 @@ public class FinsItems {
     public static final RegistryObject<Item> GOLDEN_RIVER_RAY_SPAWN_EGG = REGISTER.register("golden_river_ray_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOLDEN_RIVER_RAY, 0xae9e63, 0x503a2f, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_SPAWN_EGG = REGISTER.register("night_light_squid_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.NIGHT_LIGHT_SQUID, 0x280827, 0xd6f7eb, new Item.Properties().group(FinsAndTails.GROUP)));
 
+    //Misc.
+    public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = REGISTER.register("banner_pattern_mandibles", () -> new BannerPatternItem(registerPattern("mandibles"), new Item.Properties().maxStackSize(1).group(FinsAndTails.GROUP)));
+
     //Blocks
     public static final RegistryObject<BlockItem> CRAB_CRUNCHER = REGISTER.register("crab_cruncher", () -> new BlockItem(FinsBlocks.CRAB_CRUNCHER.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> SPINDLY_GEM_CRAB_GEM_BLOCK = REGISTER.register("spindly_gem_crab_gem_block", () -> new BlockItem(FinsBlocks.SPINDLY_GEM_CRAB_GEM_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
@@ -140,9 +144,7 @@ public class FinsItems {
     public static final RegistryObject<BlockItem> MIXED_FLATBACK_SHELL_BRICK_STAIRS = REGISTER.register("mixed_flatback_shell_brick_stairs", () -> new BlockItem(FinsBlocks.MIXED_FLATBACK_SHELL_BRICK_STAIRS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> CHAINED_TENTACLE = REGISTER.register("chained_tentacle", () -> new BlockItem(FinsBlocks.CHAINED_TENTACLE.get(), new Item.Properties().group(FinsAndTails.GROUP)));
 
-    public static void registerProperties() {
-        ItemModelsProperties.registerProperty(Items.CROSSBOW, new ResourceLocation(FinsAndTails.MOD_ID, "teal_arrowfish"), (stack, world, entity) -> {
-            return entity != null && CrossbowItem.isCharged(stack) && CrossbowItem.hasChargedProjectile(stack, FinsItems.TEAL_ARROWFISH.get()) ? 1 : 0;
-        });
+    private static BannerPattern registerPattern(String name) {
+        return BannerPattern.create(name.toUpperCase(), name, name, true);
     }
 }

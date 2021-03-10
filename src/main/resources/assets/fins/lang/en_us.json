@@ -57,6 +57,9 @@
   "item.fins.night_light_squid_tentacle": "Night Light Squid Tentacle",
   "item.fins.night_light_squid_bucket": "Bucket of Night Light Squid",
   "item.fins.swamp_didgeridoo": "Swamp Didgeridoo",
+  "item.fins.reef_cocktail": "Reef Cocktail",
+  "item.fins.banner_pattern_mandibles": "Banner Pattern",
+  "item.fins.banner_pattern_mandibles.desc": "Mandibles",
 
   "item.fins.blu_wee_spawn_egg": "Blu Wee Spawn Egg",
   "item.fins.pea_wee_spawn_egg": "Pea Wee Spawn Egg",
@@ -105,7 +108,6 @@
   "entity.fins.siderol_whiskered_snail": "Siderol Whiskered Snail",
   "entity.fins.golden_river_ray": "Golden River Ray",
   "entity.fins.night_light_squid": "Night Light Squid",
-  "entity.fins.teal_arrowfish_arrow": "Teal Arrowfish Arrow",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Spindly Gem Crab Gem Block",
@@ -134,7 +136,6 @@
   "block.fins.chained_tentacle": "Chained Tentacle",
 
   "enchantment.fins.fluked_edge": "Fluked Edge",
-  "enchantment.fins.uppercutting": "Uppercutting",
 
   "fins.mudhorse.ambient": "Mudhorse grunts",
   "fins.mudhorse.hurt": "Mudhorse hurts",
@@ -188,5 +189,22 @@
   "entity.fins.vibra_wee.11": "Zebra",
   "entity.fins.vibra_wee.12": "Metal Dust",
   "entity.fins.vibra_wee.13": "King Yellowfin",
-  "entity.fins.vibra_wee.14": "Tiled Redhead"
+  "entity.fins.vibra_wee.14": "Tiled Redhead",
+
+  "block.minecraft.banner.mandibles.black": "Black Mandibles",
+  "block.minecraft.banner.mandibles.red": "Red Mandibles",
+  "block.minecraft.banner.mandibles.green": "Green Mandibles",
+  "block.minecraft.banner.mandibles.brown": "Brown Mandibles",
+  "block.minecraft.banner.mandibles.blue": "Blue Mandibles",
+  "block.minecraft.banner.mandibles.purple": "Purple Mandibles",
+  "block.minecraft.banner.mandibles.cyan": "Cyan Mandibles",
+  "block.minecraft.banner.mandibles.silver": "Light Gray Mandibles",
+  "block.minecraft.banner.mandibles.gray": "Gray Mandibles",
+  "block.minecraft.banner.mandibles.pink": "Pink Mandibles",
+  "block.minecraft.banner.mandibles.lime": "Lime Mandibles",
+  "block.minecraft.banner.mandibles.yellow": "Yellow Mandibles",
+  "block.minecraft.banner.mandibles.lightBlue": "Light Blue Mandibles",
+  "block.minecraft.banner.mandibles.magenta": "Magenta Mandibles",
+  "block.minecraft.banner.mandibles.orange": "Orange Mandibles",
+  "block.minecraft.banner.mandibles.white": "White Mandibles"
 }
