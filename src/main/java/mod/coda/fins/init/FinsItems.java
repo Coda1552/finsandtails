@@ -1,9 +1,12 @@
 package mod.coda.fins.init;
 
+import javafx.scene.effect.Effect;
 import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.items.*;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -47,6 +50,11 @@ public class FinsItems {
     public static final RegistryObject<Item> GOLDEN_RIVER_RAY_WING_FILLET = REGISTER.register("golden_river_ray_wing_fillet", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(8).saturation(0.8F).build())));
     public static final RegistryObject<Item> WHITE_BULL_CRAB_CLAW = REGISTER.register("white_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> COOKED_BULL_CRAB_CLAW = REGISTER.register("cooked_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.6f).build())));
+    public static final RegistryObject<Item> SEAFOOD_SOUP = REGISTER.register("seafood_soup", () -> new SoupItem(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(18).saturation(1.2f).build()).maxStackSize(1)));
+    public static final RegistryObject<Item> CRAB_SANDWICH = REGISTER.register("crab_sandwich", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(17).saturation(0.8f).build())));
+    public static final RegistryObject<Item> LUMINOUS_CALAMARI = REGISTER.register("luminous_calamari", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(2).saturation(0.3f).effect(() -> new EffectInstance(Effects.NIGHT_VISION, 100), 0.5f).build())));
+    public static final RegistryObject<Item> COOKED_LUMINOUS_CALAMARI = REGISTER.register("cooked_luminous_calamari", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.5f).effect(() -> new EffectInstance(Effects.NIGHT_VISION, 200), 1.0f).build())));
+    public static final RegistryObject<Item> REEF_COCKTAIL = REGISTER.register("reef_cocktail", () -> new SoupItem(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.5f).build()).maxStackSize(1)));
 
     //Gear
     public static final RegistryObject<Item> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", MudhorsePouchItem::new);

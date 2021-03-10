@@ -47,6 +47,21 @@
           "type": "minecraft:item",
           "weight": 10,
           "name": "fins:teal_arrowfish"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 7,
+          "name": "fins:vibra_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "fins:wee_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "fins:spindly_gem_crab"
         }
       ]
     }
