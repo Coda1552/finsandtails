@@ -5,10 +5,15 @@ import mod.coda.fins.FinsAndTails;
 import mod.coda.fins.items.*;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.potion.PotionUtils;
+import net.minecraft.potion.Potions;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.brewing.BrewingRecipe;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
@@ -52,10 +57,11 @@ public class FinsItems {
     public static final RegistryObject<Item> WHITE_BULL_CRAB_CLAW = REGISTER.register("white_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> COOKED_BULL_CRAB_CLAW = REGISTER.register("cooked_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.6f).build())));
     public static final RegistryObject<Item> SEAFOOD_SOUP = REGISTER.register("seafood_soup", () -> new SoupItem(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(18).saturation(1.2f).build()).maxStackSize(1)));
-    public static final RegistryObject<Item> CRAB_SANDWICH = REGISTER.register("crab_sandwich", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(17).saturation(0.8f).build())));
+    public static final RegistryObject<Item> CRAB_SANDWICH = REGISTER.register("crab_sandwich", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(17).saturation(0.8f).effect(() -> new EffectInstance(Effects.STRENGTH, 160), 1.0F).build())));
     public static final RegistryObject<Item> LUMINOUS_CALAMARI = REGISTER.register("luminous_calamari", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(2).saturation(0.3f).effect(() -> new EffectInstance(Effects.NIGHT_VISION, 100), 0.5f).build())));
     public static final RegistryObject<Item> COOKED_LUMINOUS_CALAMARI = REGISTER.register("cooked_luminous_calamari", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.5f).effect(() -> new EffectInstance(Effects.NIGHT_VISION, 200), 1.0f).build())));
-    public static final RegistryObject<Item> REEF_COCKTAIL = REGISTER.register("reef_cocktail", () -> new SoupItem(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.5f).build()).maxStackSize(1)));
+    public static final RegistryObject<Item> REEF_COCKTAIL = REGISTER.register("reef_cocktail", () -> new SoupItem(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(6).saturation(0.5f).effect(() -> new EffectInstance(Effects.RESISTANCE, 100), 1.0F).effect(() -> new EffectInstance(Effects.WATER_BREATHING, 200), 0.75F).build()).maxStackSize(1)));
+    public static final RegistryObject<Item> WEE_DELIGHT = REGISTER.register("wee_delight", () -> new SoupItem(new Item.Properties().group(FinsAndTails.GROUP).food(new Food.Builder().hunger(8).saturation(0.4f).fastToEat().build()).maxStackSize(1)));
 
     //Gear
     public static final RegistryObject<Item> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", MudhorsePouchItem::new);
@@ -80,8 +86,8 @@ public class FinsItems {
     public static final RegistryObject<Item> PENGLIL_BUCKET = REGISTER.register("penglil_bucket", () -> new FinsBucketItem(FinsEntities.PENGLIL, () -> Fluids.EMPTY, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final RegistryObject<Item> SPINDLY_GEM_CRAB_BUCKET = REGISTER.register("spindly_gem_crab_bucket", () -> new FinsBucketItem(FinsEntities.SPINDLY_GEM_CRAB, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final RegistryObject<Item> WEE_WEE_BUCKET = REGISTER.register("wee_wee_bucket", () -> new FishBucketItem(FinsEntities.WEE_WEE, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
-    public static final RegistryObject<Item> RED_BULL_CRAB_BUCKET = REGISTER.register("red_bull_crab_bucket", () -> new FishBucketItem(FinsEntities.RED_BULL_CRAB, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
-    public static final RegistryObject<Item> WHITE_BULL_CRAB_BUCKET = REGISTER.register("white_bull_crab_bucket", () -> new FishBucketItem(FinsEntities.WHITE_BULL_CRAB, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
+    public static final RegistryObject<Item> RED_BULL_CRAB_BUCKET = REGISTER.register("red_bull_crab_bucket", () -> new FinsBucketItem(FinsEntities.RED_BULL_CRAB, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
+    public static final RegistryObject<Item> WHITE_BULL_CRAB_BUCKET = REGISTER.register("white_bull_crab_bucket", () -> new FinsBucketItem(FinsEntities.WHITE_BULL_CRAB, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final RegistryObject<Item> VIBRA_WEE_BUCKET = REGISTER.register("vibra_wee_bucket", () -> new FinsBucketItem(FinsEntities.VIBRA_WEE, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final RegistryObject<Item> GOLDEN_RIVER_RAY_BUCKET = REGISTER.register("golden_river_ray_bucket", () -> new FinsBucketItem(FinsEntities.GOLDEN_RIVER_RAY, () -> Fluids.WATER, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_POT = REGISTER.register("flatback_leaf_snail_pot", () -> new FinsBucketItem(FinsEntities.FLATBACK_LEAF_SNAIL, () -> Fluids.EMPTY, new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1)));
@@ -107,7 +113,7 @@ public class FinsItems {
     public static final RegistryObject<Item> RED_BULL_CRAB_SPAWN_EGG = REGISTER.register("red_bull_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.RED_BULL_CRAB, 0x6e4c3d, 0xa62d2b, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WHITE_BULL_CRAB_SPAWN_EGG = REGISTER.register("white_bull_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WHITE_BULL_CRAB, 0x6e4c3d, 0xdddddd, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WEE_WEE_SPAWN_EGG = REGISTER.register("wee_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WEE_WEE, 0x8b9da5, 0x516279, new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> VIBRA_WEE_SPAWN_EGG = REGISTER.register("vibra_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.VIBRA_WEE, 0x2a1b18, 0x7f4f42, new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> VIBRA_WEE_SPAWN_EGG = REGISTER.register("vibra_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.VIBRA_WEE, 0x0b1a50, 0xf09c35, new Item.Properties().group(FinsAndTails.GROUP)));
     //public static final RegistryObject<Item> GOPJET_SPAWN_EGG = REGISTER.register("gopjet_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOPJET, 0x000000, 0x000000, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RIVER_PEBBLE_SNAIL_SPAWN_EGG = REGISTER.register("river_pebble_snail_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.RIVER_PEBBLE_SNAIL, 0xb8b2ab, 0x665852, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SIDEROL_WHISKERED_SNAIL_SPAWN_EGG = REGISTER.register("siderol_whiskered_snail_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.SIDEROL_WHISKERED_SNAIL, 0x9e8372, 0x92402b, new Item.Properties().group(FinsAndTails.GROUP)));
@@ -116,6 +122,7 @@ public class FinsItems {
 
     //Misc.
     public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = REGISTER.register("banner_pattern_mandibles", () -> new BannerPatternItem(registerPattern("mandibles"), new Item.Properties().maxStackSize(1).group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> BANNER_PATTERN_SHELL = REGISTER.register("banner_pattern_shell", () -> new BannerPatternItem(registerPattern("shell"), new Item.Properties().maxStackSize(1).group(FinsAndTails.GROUP)));
 
     //Blocks
     public static final RegistryObject<BlockItem> CRAB_CRUNCHER = REGISTER.register("crab_cruncher", () -> new BlockItem(FinsBlocks.CRAB_CRUNCHER.get(), new Item.Properties().group(FinsAndTails.GROUP)));

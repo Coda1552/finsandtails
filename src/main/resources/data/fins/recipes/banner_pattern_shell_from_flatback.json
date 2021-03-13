@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "fins:flatback_leaf_snail_shell"
+    }
+  ],
+  "result": {
+    "item": "fins:banner_pattern_shell"
+  }
+}

@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bread"
+        },
+        {
+            "item": "minecraft:bread"
+        },
+        {
+            "item": "fins:spindly_gem_crab"
+        },
+        {
+            "item": "fins:cooked_bull_crab_claw"
+        }
+    ],
+    "result": {
+        "item": "fins:crab_sandwich",
+        "count": 1
+    }
+}
