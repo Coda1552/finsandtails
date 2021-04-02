@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class PenglilRenderer extends MobRenderer<PenglilEntity, PenglilModel<Pen
         hashMap.put(5, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_6.png"));
         hashMap.put(6, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_7.png"));
         hashMap.put(7, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_8.png"));
+        hashMap.put(8, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/lord_penglil.png"));
     });
 
     public PenglilRenderer(EntityRendererManager renderManagerIn) {
@@ -29,6 +31,17 @@ public class PenglilRenderer extends MobRenderer<PenglilEntity, PenglilModel<Pen
 
     @Override
     public ResourceLocation getEntityTexture(PenglilEntity entity) {
-        return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
+        if (entity.getName().getString().equals("Lord")) {
+            return TEXTURES.get(8);
+        }
+        else if (entity.getName().getString().equals("Lord Penglil")) {
+            return TEXTURES.get(8);
+        }
+        else if (entity.getName().getString().equals("Lord_Penglil")) {
+            return TEXTURES.get(8);
+        }
+        else {
+            return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
+        }
     }
 }

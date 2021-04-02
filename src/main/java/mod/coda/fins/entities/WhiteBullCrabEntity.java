@@ -49,6 +49,11 @@ public class WhiteBullCrabEntity extends WaterMobEntity {
         return new GroundPathNavigator(this, world);
     }
 
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.9f;
+    }
+
     static class MoveHelperController extends MovementController {
         private final WhiteBullCrabEntity crab;
 

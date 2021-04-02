@@ -51,6 +51,11 @@ public class RedBullCrabEntity extends WaterMobEntity {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, RedBullCrabEntity.class, false));
     }
 
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.9f;
+    }
+
     protected PathNavigator createNavigator(World world) {
         return new GroundPathNavigator(this, world);
     }
