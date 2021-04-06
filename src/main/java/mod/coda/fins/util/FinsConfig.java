@@ -83,7 +83,7 @@ public class FinsConfig {
             builder.push("Swamp Creature Spawn Weight");
             flatbackSuckerSpawnWeight = builder.comment("Spawn weight of Flatback Suckers").defineInRange("flatback_sucker_spawn_weight", 1, 1, 1000);
             swampMuckerSpawnWeight = builder.comment("Spawn weight of Swamp Muckers").defineInRange("swamp_mucker_spawn_weight", 1, 1, 1000);
-            mudhorseSpawnWeight = builder.comment("Spawn weight of Mudhorses").defineInRange("mudhorse_spawn_weight", 1000, 1, 1000);
+            mudhorseSpawnWeight = builder.comment("Spawn weight of Mudhorses").defineInRange("mudhorse_spawn_weight", 4, 1, 1000);
             builder.pop();
 
             builder.push("Mountain Creature Spawn Weight");

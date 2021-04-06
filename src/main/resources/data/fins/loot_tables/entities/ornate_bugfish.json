@@ -15,7 +15,7 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "minecraft:bone_meal"
+					"name": "fins:bugfish_mandibles"
 				}
 			],
 			"conditions": [
