@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "fins:block/crab_cruncher" }
+    "": {
+      "model": "fins:block/crab_cruncher"
+    }
   }
 }

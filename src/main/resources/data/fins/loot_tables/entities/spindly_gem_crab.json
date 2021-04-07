@@ -6,22 +6,20 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "fins:spindly_gem_crab"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:bone_meal"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:random_chance",
-          "chance": 0.05
+          "name": "fins:spindly_gem_crab",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "this",
+              "ops": [
+                {
+                  "source": "Variant",
+                  "target": "Crab",
+                  "op": "replace"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

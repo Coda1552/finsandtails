@@ -2,5 +2,37 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "fins:item/spindly_gem_crab"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fins:crab": 0
+      },
+      "model": "fins:item/emerald_spindly_gem_crab"
+    },
+    {
+      "predicate": {
+        "fins:crab": 1
+      },
+      "model": "fins:item/pearl_spindly_gem_crab"
+    },
+    {
+      "predicate": {
+        "fins:crab": 2
+      },
+      "model": "fins:item/sapphire_spindly_gem_crab"
+    },
+    {
+      "predicate": {
+        "fins:crab": 3
+      },
+      "model": "fins:item/ruby_spindly_gem_crab"
+    },
+    {
+      "predicate": {
+        "fins:crab": 4
+      },
+      "model": "fins:item/amber_spindly_gem_crab"
+    }
+  ]
 }
