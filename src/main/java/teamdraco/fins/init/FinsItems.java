@@ -36,7 +36,7 @@ public class FinsItems {
     public static final RegistryObject<Item> SPINDLY_GEM_CRAB_GEM = REGISTER.register("spindly_gem_crab_gem", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SHELL = REGISTER.register("flatback_leaf_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RED_BULL_CRAB_CLAW = REGISTER.register("red_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
-    //public static final RegistryObject<Item> GOPJET_JET = REGISTER.register("gopjet_jet", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> GOPJET_JET = REGISTER.register("gopjet_jet", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RIVER_PEBBLE_SNAIL_SHELL = REGISTER.register("river_pebble_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SIDEROL_WHISKERED_SNAIL_SHELL = REGISTER.register("siderol_whiskered_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_TENTACLE = REGISTER.register("night_light_squid_tentacle", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
@@ -67,7 +67,7 @@ public class FinsItems {
     public static final RegistryObject<Item> GEM_CRAB_AMULET = REGISTER.register("gem_crab_amulet", GemCrabAmuletItem::new);
     public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = REGISTER.register("white_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 2, -0.6F, new Item.Properties().group(FinsAndTails.GROUP).maxDamage(200)));
     public static final RegistryObject<Item> RED_CLAW_GAUNTLET = REGISTER.register("red_claw_gauntlet", () -> new CrabGauntletItem(ItemTier.STONE, 3, -1.4F, new Item.Properties().group(FinsAndTails.GROUP).maxDamage(130)));
-    //public static final RegistryObject<Item> GOPJET_JETPACK = REGISTER.register("gopjet_jetpack", GopjetJetpackItem::new);
+    public static final RegistryObject<Item> GOPJET_JETPACK = REGISTER.register("gopjet_jetpack", GopjetJetpackItem::new);
     public static final RegistryObject<Item> BUGFISH_MANDIBLES = REGISTER.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().group(FinsAndTails.GROUP).maxDamage(156)));
     public static final RegistryObject<Item> SWAMP_DIDGERIDOO = REGISTER.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1).maxDamage(64)));
 
@@ -107,12 +107,12 @@ public class FinsItems {
     public static final RegistryObject<Item> PENGLIL_SPAWN_EGG = REGISTER.register("penglil_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.PENGLIL,0x234040, 0xa7d7c1, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SPINDLY_GEM_CRAB_SPAWN_EGG = REGISTER.register("spindly_gem_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.SPINDLY_GEM_CRAB, 0xf39111, 0x1a4591, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SPAWN_EGG = REGISTER.register("flatback_leaf_snail_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.FLATBACK_LEAF_SNAIL, 0x4a2c1a, 0xd1a06b, new Item.Properties().group(FinsAndTails.GROUP)));
-    //public static final RegistryObject<Item> RUBBER_BELLY_GLIDER_SPAWN_EGG = REGISTER.register("rubber_belly_glider_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.RUBBER_BELLY_GLIDER, 0x81b676, 0xe3b334, new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> RUBBER_BELLY_GLIDER_SPAWN_EGG = REGISTER.register("rubber_belly_glider_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.RUBBER_BELLY_GLIDER, 0x8dc87f, 0xffc52c, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RED_BULL_CRAB_SPAWN_EGG = REGISTER.register("red_bull_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.RED_BULL_CRAB, 0x6e4c3d, 0xa62d2b, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WHITE_BULL_CRAB_SPAWN_EGG = REGISTER.register("white_bull_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WHITE_BULL_CRAB, 0x6e4c3d, 0xdddddd, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WEE_WEE_SPAWN_EGG = REGISTER.register("wee_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WEE_WEE, 0x8b9da5, 0x516279, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> VIBRA_WEE_SPAWN_EGG = REGISTER.register("vibra_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.VIBRA_WEE, 0x0b1a50, 0xf09c35, new Item.Properties().group(FinsAndTails.GROUP)));
-    //public static final RegistryObject<Item> GOPJET_SPAWN_EGG = REGISTER.register("gopjet_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOPJET, 0x000000, 0x000000, new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> GOPJET_SPAWN_EGG = REGISTER.register("gopjet_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOPJET, 0x000000, 0x000000, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RIVER_PEBBLE_SNAIL_SPAWN_EGG = REGISTER.register("river_pebble_snail_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.RIVER_PEBBLE_SNAIL, 0xb8b2ab, 0x665852, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SIDEROL_WHISKERED_SNAIL_SPAWN_EGG = REGISTER.register("siderol_whiskered_snail_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.SIDEROL_WHISKERED_SNAIL, 0x9e8372, 0x92402b, new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GOLDEN_RIVER_RAY_SPAWN_EGG = REGISTER.register("golden_river_ray_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOLDEN_RIVER_RAY, 0xae9e63, 0x503a2f, new Item.Properties().group(FinsAndTails.GROUP)));

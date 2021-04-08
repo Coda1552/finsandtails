@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fins:item/spindly_gem_crab"
+    "layer0": "fins:item/ruby_spindly_gem_crab"
   },
   "overrides": [
     {

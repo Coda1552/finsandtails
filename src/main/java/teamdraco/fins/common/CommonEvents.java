@@ -1,10 +1,9 @@
 package teamdraco.fins.common;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.event.TickEvent;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.util.DamageSource;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.FinsConfig;
-import teamdraco.fins.common.entities.PenglilEntity;
 import teamdraco.fins.init.FinsEnchantments;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
@@ -12,10 +11,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
-import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -28,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -36,7 +31,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import teamdraco.fins.network.TriggerFlyingPacket;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,14 +38,15 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
-/*    @SubscribeEvent
+
+    @SubscribeEvent
     public static void livingDamage(LivingDamageEvent event) {
         if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
             if (event.getSource() == DamageSource.FALL) {
                 event.setAmount(event.getAmount() / 2f);
             }
         }
-    }*/
+    }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerBiomes(BiomeLoadingEvent event) {
@@ -90,10 +85,12 @@ public class CommonEvents {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), FinsConfig.Common.INSTANCE.bandedRedbackShrimpSpawnWeight.get(), 3, 3));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.ORNATE_BUGFISH.get(), FinsConfig.Common.INSTANCE.ornateBugfishSpawnWeight.get(), 5, 5));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SPINDLY_GEM_CRAB.get(), FinsConfig.Common.INSTANCE.spindlyGemCrabSpawnWeight.get(), 1, 3));
+                event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RUBBER_BELLY_GLIDER.get(), FinsConfig.Common.INSTANCE.rubberBellyGliderSpawnWeight.get(), 1, 2));
             }
 
             if (name.equals("ocean") || name.equals("deep_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGH_FINNED_BLUE.get(), FinsConfig.Common.INSTANCE.highFinnedBlueSpawnWeight.get(), 6, 12));
+                event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.GOPJET.get(), FinsConfig.Common.INSTANCE.gopjetSpawnWeight.get(), 2, 3));
             }
 
             if (name.equals("lukewarm_ocean") || name.equals("deep_lukewarm_ocean")) {
@@ -154,14 +151,6 @@ public class CommonEvents {
                 throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);
             }
             lootEntries.add(entry);
-        }
-    }
-
-    @SubscribeEvent
-    public static void spawnEntity(EntityJoinWorldEvent event) {
-        Entity entity = event.getEntity();
-        if (entity instanceof DolphinEntity) {
-            ((DolphinEntity) entity).targetSelector.addGoal(0, new NearestAttackableTargetGoal<>((MobEntity) entity, PenglilEntity.class, true));
         }
     }
 

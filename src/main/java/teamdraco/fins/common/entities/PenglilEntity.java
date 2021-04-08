@@ -445,34 +445,10 @@ public class PenglilEntity extends TameableEntity {
         }
     }
 
-    static class Navigator extends SwimmerPathNavigator {
-        Navigator(PenglilEntity penglil, World worldIn) {
-            super(penglil, worldIn);
-        }
-
-        protected boolean canNavigate() {
-            return true;
-        }
-
-        protected PathFinder getPathFinder(int p_179679_1_) {
-            this.nodeProcessor = new WalkAndSwimNodeProcessor();
-            return new PathFinder(this.nodeProcessor, p_179679_1_);
-        }
-
-        public boolean canEntityStandOnPos(BlockPos pos) {
-            if (this.entity instanceof PenglilEntity) {
-                return !this.world.getBlockState(pos.down()).isAir();
-            }
-            else return !this.world.getBlockState(pos.down()).isAir();
-        }
-    }
-
     static class WanderGoal extends RandomWalkingGoal {
-        private final PenglilEntity penglil;
 
         private WanderGoal(PenglilEntity penglil, double speedIn, int chance) {
             super(penglil, speedIn, chance);
-            this.penglil = penglil;
         }
 
         public boolean shouldExecute() {
