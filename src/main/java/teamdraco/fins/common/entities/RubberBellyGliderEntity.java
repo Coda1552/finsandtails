@@ -249,7 +249,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         }
 
         public boolean shouldExecute() {
-            return glider.isInWater() && !glider.isPuffed() && !glider.world.getEntitiesInAABBexcluding(glider, this.glider.getBoundingBox().grow(5.0D), RubberBellyGliderEntity.ENEMY_MATCHER).isEmpty();
+            return glider.isInWater() && !glider.isPuffed() && !glider.world.getEntitiesInAABBexcluding(glider, this.glider.getBoundingBox().grow(2.5D), RubberBellyGliderEntity.ENEMY_MATCHER).isEmpty();
         }
 
         public void startExecuting() {

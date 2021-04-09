@@ -34,9 +34,9 @@ public class FinsItems {
     public static final RegistryObject<Item> MUDHORSE_LEATHER = REGISTER.register("mudhorse_leather", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> FWIN = REGISTER.register("fwin", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SPINDLY_GEM_CRAB_GEM = REGISTER.register("spindly_gem_crab_gem", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SHELL = REGISTER.register("flatback_leaf_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RED_BULL_CRAB_CLAW = REGISTER.register("red_bull_crab_claw", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GOPJET_JET = REGISTER.register("gopjet_jet", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SHELL = REGISTER.register("flatback_leaf_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RIVER_PEBBLE_SNAIL_SHELL = REGISTER.register("river_pebble_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SIDEROL_WHISKERED_SNAIL_SHELL = REGISTER.register("siderol_whiskered_snail_shell", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_TENTACLE = REGISTER.register("night_light_squid_tentacle", () -> new Item(new Item.Properties().group(FinsAndTails.GROUP)));
