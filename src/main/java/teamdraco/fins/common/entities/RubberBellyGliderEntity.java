@@ -125,6 +125,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         this.goalSelector.addGoal(0, new FindWaterGoal(this));
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(1, new RubberBellyGliderEntity.PuffGoal(this));
+        this.goalSelector.addGoal(1, new BreedGoal(this, 2.0D));
         this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 1) {
             @Override
@@ -190,9 +191,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
 
     @Override
     public AgeableEntity func_241840_a(ServerWorld serverWorld, AgeableEntity ageableEntity) {
-        RubberBellyGliderEntity entity = new RubberBellyGliderEntity(FinsEntities.RUBBER_BELLY_GLIDER.get(), this.world);
-        entity.onInitialSpawn(serverWorld, this.world.getDifficultyForLocation(entity.getPosition()), SpawnReason.BREEDING, null, null);
-        return null;
+        return FinsEntities.RUBBER_BELLY_GLIDER.get().create(world);
     }
 
     public void onCollideWithPlayer(PlayerEntity entityIn) {

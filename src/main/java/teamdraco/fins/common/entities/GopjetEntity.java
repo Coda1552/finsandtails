@@ -70,8 +70,12 @@ public class GopjetEntity extends AbstractFishEntity {
             --boostTimer;
         }
         if (boostTimer == 0) {
-            boostTimer = BOOST_TIMER + rand.nextInt(1500);
+            boostTimer = BOOST_TIMER;
+            setMotion(getVectorForRotation(rotationPitch, rotationYaw).mul(2.0d, 0.0d, 2.0d));
             setBoosting(true);
+        }
+        if (boostTimer <= 450) {
+            setBoosting(false);
         }
     }
 

@@ -23,7 +23,7 @@ public class RubberBellyGliderRenderer extends MobRenderer<RubberBellyGliderEnti
     @Override
     protected void preRenderCallback(RubberBellyGliderEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
-        matrixStackIn.translate(0, 0, 0.2);
+        matrixStackIn.translate(0, 0, 0.0);
         if (entitylivingbaseIn.isPuffed()) {
             matrixStackIn.translate(0, -0.25, 0);
         }
