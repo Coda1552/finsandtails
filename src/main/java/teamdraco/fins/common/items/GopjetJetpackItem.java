@@ -39,6 +39,7 @@ public class GopjetJetpackItem extends ArmorItem {
             boolean canFly = world.isRainingAt(player.getPosition());
             int flyingTicksRemaining = 0;
             int stackIndex = -1;
+
             if (!canFly) {
                 if (world.getBlockState(world.getHeight(Heightmap.Type.MOTION_BLOCKING, player.getPosition()).down()).getMaterial() == Material.WATER) {
                     canFly = true;
@@ -111,11 +112,13 @@ public class GopjetJetpackItem extends ArmorItem {
                             if (newStack != null) {
                                 if (flyingStack.isEmpty()) {
                                     player.inventory.setInventorySlotContents(stackIndex, newStack);
-                                } else if (player.inventory.addItemStackToInventory(newStack)) {
+                                }
+                                else if (!player.inventory.addItemStackToInventory(newStack)) {
                                     player.dropItem(newStack, false);
                                 }
                             }
-                        } else {
+                        }
+                        else {
                             CompoundNBT tag = flyingStack.getOrCreateTag();
                             tag.putInt("FinsFlyingTicks", tag.getInt("FinsFlyingTicks") + 1);
                         }

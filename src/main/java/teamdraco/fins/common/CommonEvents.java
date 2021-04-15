@@ -111,32 +111,11 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void uppercuttingAttackEvent(LivingDamageEvent event) {
-        Entity attacker = event.getSource().getTrueSource();
-
-        if(attacker instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity) attacker;
-            ItemStack heldItem = livingEntity.getHeldItemMainhand();
-            if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.UPPERCUTTING.get())) {
-                if (event.getEntityLiving().isWet()) {
-                    if (!attacker.getEntityWorld().isRemote) {
-                        event.getEntityLiving().setMotion(event.getEntityLiving().getMotion().add(0.0D, (double)0.7F, 0.0D));
-                    }
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onLootLoad(LootTableLoadEvent event) throws IllegalAccessException {
         ResourceLocation name = event.getName();
         if (name.equals(LootTables.GAMEPLAY_FISHING)) {
             LootPool pool = event.getTable().getPool("main");
             addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 10, 1));
-        }
-        if (name.equals(LootTables.CHESTS_BURIED_TREASURE)) {
-            LootPool pool = event.getTable().getPool("main");
-            addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/buried_treasure"), 100, 1));
         }
     }
 
@@ -166,6 +145,9 @@ public class CommonEvents {
         list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.FWIN.get(), 1), 2, 3, 1.5f));
         list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 7), new ItemStack(FinsItems.MUDHORSE_LEATHER.get(), 1), 2, 4, 1.5f));
         list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(FinsItems.FLATBACK_LEAF_SNAIL_SHELL.get(), 1), 2, 4, 1.5f));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(FinsItems.RIVER_PEBBLE_SNAIL_SHELL.get(), 1), 2, 4, 1.5f));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.SIDEROL_WHISKERED_SNAIL_SHELL.get(), 1), 2, 4, 1.5f));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.GOPJET_JET.get(), 5), 2, 4, 2.0f));
     }
 
     private static VillagerTrades.ITrade cdForItems(ItemStack selling, int maxUses, int xp) {

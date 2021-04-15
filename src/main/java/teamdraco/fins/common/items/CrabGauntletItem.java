@@ -59,4 +59,9 @@ public class CrabGauntletItem extends Item {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
         return equipmentSlot == EquipmentSlotType.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(equipmentSlot);
     }
+
+    @Override
+    public int getItemEnchantability(ItemStack stack) {
+        return 1;
+    }
 }

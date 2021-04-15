@@ -153,7 +153,9 @@
   "block.fins.spindly_amber_block": "Block of Spindly Amber",
 
   "enchantment.fins.fluked_edge": "Fluked Edge",
+  "enchantment.fins.fluked_edge.desc": "Allows you to jump out of the water. You must be at the right angle for this to work.",
   "enchantment.fins.uppercutting": "Uppercutting",
+  "enchantment.fins.uppercutting.desc": "Propels the attack target upwards when in water.",
 
   "fins.mudhorse.ambient": "Mudhorse grunts",
   "fins.mudhorse.hurt": "Mudhorse hurts",

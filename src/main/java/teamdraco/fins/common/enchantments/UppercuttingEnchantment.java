@@ -1,5 +1,7 @@
 package teamdraco.fins.common.enchantments;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import teamdraco.fins.init.FinsItems;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
@@ -13,7 +15,7 @@ public class UppercuttingEnchantment extends Enchantment {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return false;
+        return true;
     }
 
     @Override
@@ -33,6 +35,16 @@ public class UppercuttingEnchantment extends Enchantment {
 
     @Override
     public boolean canApply(ItemStack stack) {
-        return stack.getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || stack.getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get();
+        return stack.getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || stack.getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get() && stack.getItem() != FinsItems.FWINGED_BOOTS.get();
+    }
+
+    @Override
+    public void onEntityDamaged(LivingEntity user, Entity target, int level) {
+        super.onEntityDamaged(user, target, level);
+        if (target.isWet() && user.getHeldItemMainhand().getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || user.getHeldItemMainhand().getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get()) {
+            if (!user.getEntityWorld().isRemote) {
+                target.setMotion(target.getMotion().add(0.0D, 0.3D, 0.0D));
+            }
+        }
     }
 }

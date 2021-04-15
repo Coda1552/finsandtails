@@ -66,6 +66,11 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
         return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 4).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.9f;
+    }
+
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_COD_HURT;
     }
