@@ -116,6 +116,7 @@ public class GopjetJetpackItem extends ArmorItem {
                                 else if (!player.inventory.addItemStackToInventory(newStack)) {
                                     player.dropItem(newStack, false);
                                 }
+                                flyingStack.getOrCreateTag().remove("FinsFlyingTicks");
                             }
                         }
                         else {
