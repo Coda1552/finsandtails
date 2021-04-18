@@ -105,7 +105,6 @@ public class BandedRedbackShrimpModel<T extends Entity> extends EntityModel<T> {
         this.legs4.rotateAngleX = MathHelper.cos(0.5F + f * speed * 0.5F) * degree * 0.8F * f1;
         this.antennaleft.rotateAngleX = MathHelper.cos(f * speed * 0.2F) * degree * 0.6F * f1 - 0.1F;
         this.antennaright.rotateAngleX = MathHelper.cos(f * speed * 0.2F) * degree * 0.6F * f1 - 0.1F;
-
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

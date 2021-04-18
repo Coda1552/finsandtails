@@ -3,6 +3,7 @@ package teamdraco.fins.client;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.TickEvent;
 import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.screen.CrabCruncherScreen;
 import teamdraco.fins.client.screen.MudhorsePorchScreen;
 import teamdraco.fins.init.FinsBlocks;
 import teamdraco.fins.init.FinsContainers;
@@ -52,6 +53,7 @@ public class ClientEvents {
 
         RenderTypeLookup.setRenderLayer(FinsBlocks.CHAINED_TENTACLE.get(), RenderType.getCutout());
         ScreenManager.registerFactory(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePorchScreen::new);
+        ScreenManager.registerFactory(FinsContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
     }
 
     @SubscribeEvent

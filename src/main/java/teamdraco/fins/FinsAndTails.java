@@ -79,6 +79,7 @@ public class FinsAndTails {
         FinsContainers.REGISTER.register(bus);
         FinsEntities.REGISTER.register(bus);
         FinsSounds.REGISTER.register(bus);
+        FinsRecipes.SERIALIZERS.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);

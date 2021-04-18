@@ -2,28 +2,77 @@ package teamdraco.fins.common.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import teamdraco.fins.init.FinsItems;
-import teamdraco.fins.init.FinsSounds;
-
-import java.util.Random;
+import net.minecraftforge.fml.network.NetworkHooks;
+import org.jetbrains.annotations.Nullable;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.common.container.CrabCruncherContainer;
 
 public class CrabCruncherBlock extends Block {
-    protected final Random rand = new Random();
+    private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container." + FinsAndTails.MOD_ID + "crab_cruncher");
 
     public CrabCruncherBlock(Properties properties) {
         super(properties);
     }
 
     @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!worldIn.isRemote) {
+            NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
+                @Override
+                public ITextComponent getDisplayName() {
+                    return new StringTextComponent("container." + FinsAndTails.MOD_ID + "crab_cruncher");
+                }
+
+                @Nullable
+                @Override
+                public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+                    return new CrabCruncherContainer(p_createMenu_1_, p_createMenu_2_);
+                }
+            });
+        return ActionResultType.CONSUME;
+        }
+        else {
+            return ActionResultType.SUCCESS;
+        }
+    }
+
+    @Override
+    public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
+        return new SimpleNamedContainerProvider((id, inventory, player) -> new CrabCruncherContainer(id, inventory, IWorldPosCallable.of(worldIn, pos)), CONTAINER_NAME);
+    }
+
+    @Override
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.isIn(newState.getBlock())) {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+            if (tileentity instanceof IInventory) {
+                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory)tileentity);
+                worldIn.updateComparatorOutputLevel(pos, this);
+            }
+
+            super.onReplaced(state, worldIn, pos, newState, isMoving);
+        }
+    }
+
+/*    @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(handIn);
         if(!worldIn.isRemote) {
@@ -38,5 +87,5 @@ public class CrabCruncherBlock extends Block {
             }
         }
         return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
-    }
+    }*/
 }
