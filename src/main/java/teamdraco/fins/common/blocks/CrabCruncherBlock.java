@@ -10,6 +10,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -56,7 +57,7 @@ public class CrabCruncherBlock extends Block {
 
     @Override
     public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
-        return new SimpleNamedContainerProvider((id, inventory, player) -> new CrabCruncherContainer(id, inventory, IWorldPosCallable.of(worldIn, pos)), CONTAINER_NAME);
+        return new SimpleNamedContainerProvider((id, inventory, player) -> new CrabCruncherContainer(id, inventory, IWorldPosCallable.of(worldIn, pos), ItemStack.EMPTY), CONTAINER_NAME);
     }
 
     @Override

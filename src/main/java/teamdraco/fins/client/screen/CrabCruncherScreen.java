@@ -2,7 +2,6 @@ package teamdraco.fins.client.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -11,7 +10,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.container.CrabCruncherContainer;
-import teamdraco.fins.init.FinsContainers;
 
 @OnlyIn(Dist.CLIENT)
 public class CrabCruncherScreen extends ContainerScreen<CrabCruncherContainer> {
@@ -37,7 +35,7 @@ public class CrabCruncherScreen extends ContainerScreen<CrabCruncherContainer> {
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
         this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), (float) this.playerInventoryTitleX, (float) this.playerInventoryTitleY, 4210752);
 
-        this.font.drawString(matrixStack, "CrabCruncher", ((float) xSize / 2 - font.getStringWidth("CrabCruncher") / 2), 6f, 4210752);
+        this.font.drawString(matrixStack, "Crab Cruncher", ((float) xSize / 2 - font.getStringWidth("Crab Cruncher") / 2), 6f, 4210752);
     }
 
     @Override

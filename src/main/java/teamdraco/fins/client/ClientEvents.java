@@ -1,7 +1,5 @@
 package teamdraco.fins.client;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.event.TickEvent;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.client.screen.CrabCruncherScreen;
 import teamdraco.fins.client.screen.MudhorsePorchScreen;
@@ -20,7 +18,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import teamdraco.fins.client.render.*;
-import teamdraco.fins.network.TriggerFlyingPacket;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {

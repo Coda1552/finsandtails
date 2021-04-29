@@ -7,6 +7,8 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.FurnaceResultSlot;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.IWorldPosCallable;
 import teamdraco.fins.common.container.slot.CrabCruncherSlot;
 import teamdraco.fins.init.FinsBlocks;
@@ -15,22 +17,25 @@ import teamdraco.fins.init.FinsContainers;
 public class CrabCruncherContainer extends Container {
     private final IWorldPosCallable worldPosCallable;
     private final PlayerEntity player;
+    private final CrabCruncherInventory stackInventory;
 
     public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory) {
-        this(windowId, playerInventory, IWorldPosCallable.DUMMY);
+        this(windowId, playerInventory, IWorldPosCallable.DUMMY, ItemStack.EMPTY);
     }
 
-    public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
+    public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable, ItemStack inventoryStack) {
         super(FinsContainers.CRAB_CRUNCHER.get(), windowId);
+        CrabCruncherInventory inventory = getStackInventory(inventoryStack);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
+        this.stackInventory = inventory;
 
         // Input Slots
-        this.addSlot(new CrabCruncherSlot(playerInventory, 0, 14, 17));
-        this.addSlot(new CrabCruncherSlot(playerInventory, 1, 32, 17));
+        this.addSlot(new CrabCruncherSlot(inventory, 0, 27, 47));
+        this.addSlot(new CrabCruncherSlot(inventory, 1, 76, 47));
 
         // Result Slot
-        this.addSlot(new FurnaceResultSlot(playerInventory.player, (IInventory) playerInventory, 10, 141, 35));
+        this.addSlot(new FurnaceResultSlot(playerInventory.player, inventory, 10, 134, 47));
 
         // Main Player Inv
         for (int row = 0; row < 3; row++) {
@@ -43,6 +48,18 @@ public class CrabCruncherContainer extends Container {
         for (int col = 0; col < 9; col++) {
             this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
         }
+    }
+
+    private static CrabCruncherInventory getStackInventory(ItemStack stack) {
+        CrabCruncherInventory inventory = new CrabCruncherInventory();
+        if (!stack.isEmpty() && stack.hasTag()) {
+            ListNBT items = stack.getTag().getList("Items", 10);
+            for (int i = 0; i < items.size(); i++) {
+                CompoundNBT item = items.getCompound(i);
+                inventory.setInventorySlotContents(item.getByte("Slot"), ItemStack.read(item));
+            }
+        }
+        return inventory;
     }
 
     @Override
@@ -63,7 +80,7 @@ public class CrabCruncherContainer extends Container {
                     return ItemStack.EMPTY;
                 }
             }
-            else if (!this.mergeItemStack(stack1, 0, 10, true)) {
+            else if (!this.mergeItemStack(stack1, 0, 2, true)) {
                 return ItemStack.EMPTY;
             }
 
