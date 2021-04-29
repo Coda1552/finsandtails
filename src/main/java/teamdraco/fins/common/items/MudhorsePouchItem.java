@@ -19,10 +19,10 @@ public class MudhorsePouchItem extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack stack = playerIn.getHeldItem(handIn);
-        if (!worldIn.isRemote) {
-            playerIn.openContainer(new INamedContainerProvider() {
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        if (!world.isRemote) {
+            player.openContainer(new INamedContainerProvider() {
                 @Override
                 public ITextComponent getDisplayName() {
                     return stack.getDisplayName();

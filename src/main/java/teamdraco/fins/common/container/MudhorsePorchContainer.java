@@ -1,18 +1,20 @@
 package teamdraco.fins.common.container;
 
-import teamdraco.fins.init.FinsContainers;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.init.FinsContainers;
+import teamdraco.fins.init.FinsItems;
 
 public class MudhorsePorchContainer extends Container {
     private final MudhorsePorchInventory stackInventory;
-    private final ItemStack itemStack;
+    private ItemStack itemStack;
 
     public MudhorsePorchContainer(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, ItemStack.EMPTY);
@@ -39,12 +41,12 @@ public class MudhorsePorchContainer extends Container {
 
         for(int k = 0; k < 3; ++k) {
             for(int i1 = 0; i1 < 9; ++i1) {
-                this.addSlot(new Slot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 84 + k * 18));
+                this.addSlot(new PlayerInventorySlot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 84 + k * 18));
             }
         }
 
         for(int l = 0; l < 9; ++l) {
-            this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 142));
+            this.addSlot(new PlayerInventorySlot(playerInventory, l, 8 + l * 18, 142));
         }
     }
 
@@ -102,6 +104,23 @@ public class MudhorsePorchContainer extends Container {
         this.stackInventory.closeInventory(playerIn);
         if (!playerIn.world.isRemote && stackInventory.isDirty()) {
             stackInventory.write(itemStack);
+        }
+    }
+
+    private class PlayerInventorySlot extends Slot {
+        public PlayerInventorySlot(IInventory inventory, int index, int xPosition, int yPosition) {
+            super(inventory, index, xPosition, yPosition);
+        }
+
+        //Kind of a weird workaround, can't really think of other ways to do this but this should work for now
+        @Override
+        public void putStack(ItemStack stack) {
+            if (!itemStack.isEmpty() && getStack() == itemStack) {
+                itemStack = ItemStack.EMPTY;
+            } else if (stack.getItem() == FinsItems.MUDHORSE_POUCH.get()) {
+                itemStack = stack;
+            }
+            super.putStack(stack);
         }
     }
 }
