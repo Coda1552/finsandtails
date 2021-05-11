@@ -421,7 +421,7 @@ public class PenglilEntity extends TameableEntity {
                 }
             }
             else if (this.penglil.onGround) {
-                this.penglil.setAIMoveSpeed(Math.max(this.penglil.getAIMoveSpeed() / 1.0F, 0.06F));
+                this.penglil.setAIMoveSpeed(Math.max(this.penglil.getAIMoveSpeed(), 0.06F));
             }
         }
 
@@ -431,7 +431,7 @@ public class PenglilEntity extends TameableEntity {
                 double d0 = this.posX - this.penglil.getPosX();
                 double d1 = this.posY - this.penglil.getPosY();
                 double d2 = this.posZ - this.penglil.getPosZ();
-                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
                 this.penglil.rotationYaw = this.limitAngle(this.penglil.rotationYaw, f, 90.0F);
