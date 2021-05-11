@@ -51,27 +51,12 @@ public class FinsAndTails {
     public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
     public static final List<Runnable> CALLBACKS = new ArrayList<>();
     private static int currentNetworkId;
-    private static boolean wasJumping;
-
-    public void playerTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            Minecraft minecraft = Minecraft.getInstance();
-            boolean jumping = minecraft.gameSettings.keyBindJump.isKeyDown();
-            if (jumping != wasJumping) {
-                TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
-                packet.handle(minecraft.player);
-                FinsAndTails.NETWORK.sendToServer(packet);
-            }
-            wasJumping = jumping;
-        }
-    }
 
     public FinsAndTails() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
         bus.addListener(this::registerClient);
         bus.addListener(this::registerCommon);
-        forgeBus.addListener(this::playerTick);
 
         FinsEnchantments.REGISTER.register(bus);
         FinsItems.REGISTER.register(bus);

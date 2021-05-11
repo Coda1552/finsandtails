@@ -1,5 +1,7 @@
 package teamdraco.fins.client;
 
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.event.TickEvent;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.client.screen.CrabCruncherScreen;
 import teamdraco.fins.client.screen.MudhorsePorchScreen;
@@ -18,9 +20,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import teamdraco.fins.client.render.*;
+import teamdraco.fins.network.TriggerFlyingPacket;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
+    private static boolean wasJumping;
 
     public static void init() {
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.BLU_WEE.get(), BluWeeRenderer::new);
@@ -58,5 +62,19 @@ public class ClientEvents {
         ItemColors handler = event.getItemColors();
         IItemColor eggColor = (stack, tintIndex) -> ((FinsSpawnEggItem) stack.getItem()).getColor(tintIndex);
         for (FinsSpawnEggItem e : FinsSpawnEggItem.UNADDED_EGGS) handler.register(eggColor, e);
+    }
+
+    @SubscribeEvent
+    public void playerTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            Minecraft minecraft = Minecraft.getInstance();
+            boolean jumping = minecraft.gameSettings.keyBindJump.isKeyDown();
+            if (jumping != wasJumping) {
+                TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
+                packet.handle(minecraft.player);
+                FinsAndTails.NETWORK.sendToServer(packet);
+            }
+            wasJumping = jumping;
+        }
     }
 }
