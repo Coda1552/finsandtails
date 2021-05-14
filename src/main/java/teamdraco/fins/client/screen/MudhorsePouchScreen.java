@@ -2,7 +2,7 @@ package teamdraco.fins.client.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import teamdraco.fins.common.container.MudhorsePorchContainer;
+import teamdraco.fins.common.container.MudhorsePouchContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -11,10 +11,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MudhorsePorchScreen extends ContainerScreen<MudhorsePorchContainer> {
+public class MudhorsePouchScreen extends ContainerScreen<MudhorsePouchContainer> {
    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/dispenser.png");
 
-   public MudhorsePorchScreen(MudhorsePorchContainer container, PlayerInventory playerInventory, ITextComponent title) {
+   public MudhorsePouchScreen(MudhorsePouchContainer container, PlayerInventory playerInventory, ITextComponent title) {
       super(container, playerInventory, title);
       this.passEvents = false;
       this.playerInventoryTitleY = this.ySize - 94;

@@ -8,21 +8,20 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.init.FinsContainers;
 import teamdraco.fins.init.FinsItems;
 
-public class MudhorsePorchContainer extends Container {
-    private final MudhorsePorchInventory stackInventory;
+public class MudhorsePouchContainer extends Container {
+    private final MudhorsePouchInventory stackInventory;
     private ItemStack itemStack;
 
-    public MudhorsePorchContainer(int id, PlayerInventory playerInventory) {
+    public MudhorsePouchContainer(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, ItemStack.EMPTY);
     }
 
-    public MudhorsePorchContainer(int id, PlayerInventory playerInventory, ItemStack inventoryStack) {
+    public MudhorsePouchContainer(int id, PlayerInventory playerInventory, ItemStack inventoryStack) {
         super(FinsContainers.MUDHORSE_POUCH.get(), id);
-        MudhorsePorchInventory inventory = getStackInventory(inventoryStack);
+        MudhorsePouchInventory inventory = getStackInventory(inventoryStack);
         assertInventorySize(inventory, 9);
         this.stackInventory = inventory;
         this.itemStack = inventoryStack;
@@ -50,8 +49,8 @@ public class MudhorsePorchContainer extends Container {
         }
     }
 
-    private static MudhorsePorchInventory getStackInventory(ItemStack stack) {
-        MudhorsePorchInventory inventory = new MudhorsePorchInventory();
+    private static MudhorsePouchInventory getStackInventory(ItemStack stack) {
+        MudhorsePouchInventory inventory = new MudhorsePouchInventory();
         if (!stack.isEmpty() && stack.hasTag()) {
             ListNBT items = stack.getTag().getList("Items", 10);
             for (int i = 0; i < items.size(); i++) {

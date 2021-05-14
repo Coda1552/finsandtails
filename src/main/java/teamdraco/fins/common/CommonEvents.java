@@ -75,7 +75,7 @@ public class CommonEvents {
 
         if (event.getName() != null) {
             String name = event.getName().getPath();
-            if (name.equals("cold_ocean") || name.equals("deep_cold_ocean")) {
+            if (name.equals("cold_ocean") || name.equals("deep_cold+_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BLU_WEE.get(), FinsConfig.Common.INSTANCE.bluWeeSpawnWeight.get(), 4, 8));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.TEAL_ARROWFISH.get(), FinsConfig.Common.INSTANCE.tealArrowfishSpawnWeight.get(), 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.PHANTOM_NUDIBRANCH.get(), FinsConfig.Common.INSTANCE.phantomNudibranchSpawnWeight.get(), 1, 1));
@@ -147,7 +147,7 @@ public class CommonEvents {
         list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(FinsItems.FLATBACK_LEAF_SNAIL_SHELL.get(), 1), 2, 4, 1.5f));
         list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(FinsItems.RIVER_PEBBLE_SNAIL_SHELL.get(), 1), 2, 4, 1.5f));
         list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.SIDEROL_WHISKERED_SNAIL_SHELL.get(), 1), 2, 4, 1.5f));
-        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.GOPJET_JET.get(), 5), 2, 4, 2.0f));
+        list.add(new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 4), new ItemStack(FinsItems.GOPJET_JET.get(), 1), 2, 4, 2.0f));
     }
 
     private static VillagerTrades.ITrade cdForItems(ItemStack selling, int maxUses, int xp) {

@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.TickEvent;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.client.screen.CrabCruncherScreen;
-import teamdraco.fins.client.screen.MudhorsePorchScreen;
+import teamdraco.fins.client.screen.MudhorsePouchScreen;
 import teamdraco.fins.init.FinsBlocks;
 import teamdraco.fins.init.FinsContainers;
 import teamdraco.fins.init.FinsEntities;
@@ -53,7 +53,7 @@ public class ClientEvents {
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
 
         RenderTypeLookup.setRenderLayer(FinsBlocks.CHAINED_TENTACLE.get(), RenderType.getCutout());
-        ScreenManager.registerFactory(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePorchScreen::new);
+        ScreenManager.registerFactory(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
         ScreenManager.registerFactory(FinsContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
     }
 

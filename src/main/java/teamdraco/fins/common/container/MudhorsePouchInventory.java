@@ -5,10 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 
-public class MudhorsePorchInventory extends Inventory {
+public class MudhorsePouchInventory extends Inventory {
     private boolean isDirty;
 
-    public MudhorsePorchInventory() {
+    public MudhorsePouchInventory() {
         super(9);
     }
 

@@ -1,7 +1,7 @@
 package teamdraco.fins.common.items;
 
 import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.common.container.MudhorsePorchContainer;
+import teamdraco.fins.common.container.MudhorsePouchContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -30,7 +30,7 @@ public class MudhorsePouchItem extends Item {
 
                 @Override
                 public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-                    return new MudhorsePorchContainer(p_createMenu_1_, p_createMenu_2_, stack);
+                    return new MudhorsePouchContainer(p_createMenu_1_, p_createMenu_2_, stack);
                 }
             });
         }
