@@ -4,17 +4,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 
 public class TriggerFlyingPacket implements INetworkPacket {
-    private boolean flying;
+    private final boolean flying;
 
-    public TriggerFlyingPacket() {}
+    public TriggerFlyingPacket(PacketBuffer buffer) {
+        flying = buffer.readBoolean();
+    }
 
     public TriggerFlyingPacket(boolean flying) {
         this.flying = flying;
-    }
-
-    @Override
-    public void read(PacketBuffer buffer) {
-        flying = buffer.readBoolean();
     }
 
     @Override

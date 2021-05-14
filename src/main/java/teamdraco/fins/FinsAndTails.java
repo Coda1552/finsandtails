@@ -1,13 +1,5 @@
 package teamdraco.fins;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import teamdraco.fins.client.ClientEvents;
-import teamdraco.fins.init.*;
-import teamdraco.fins.network.INetworkPacket;
-import teamdraco.fins.network.TriggerFlyingPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -18,8 +10,11 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,12 +32,16 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import teamdraco.fins.client.ClientEvents;
 import teamdraco.fins.common.entities.*;
+import teamdraco.fins.init.*;
+import teamdraco.fins.network.INetworkPacket;
+import teamdraco.fins.network.TriggerFlyingPacket;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 @Mod(FinsAndTails.MOD_ID)
 public class FinsAndTails {
@@ -54,7 +53,6 @@ public class FinsAndTails {
 
     public FinsAndTails() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
         bus.addListener(this::registerClient);
         bus.addListener(this::registerCommon);
 
@@ -130,12 +128,8 @@ public class FinsAndTails {
         CALLBACKS.clear();
     }
 
-    private <T extends INetworkPacket> void registerMessage(Class<T> message, Supplier<T> supplier, LogicalSide side) {
-        NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, buffer -> {
-            T msg = supplier.get();
-            msg.read(buffer);
-            return msg;
-        }, (msg, contextSupplier) -> {
+    private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<PacketBuffer, T> reader, LogicalSide side) {
+        NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, reader, (msg, contextSupplier) -> {
             NetworkEvent.Context context = contextSupplier.get();
             context.enqueueWork(() -> msg.handle(context.getDirection().getOriginationSide().isServer() ? getClientPlayer() : context.getSender()));
             context.setPacketHandled(true);

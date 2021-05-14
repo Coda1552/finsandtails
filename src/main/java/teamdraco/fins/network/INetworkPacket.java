@@ -12,7 +12,6 @@ public interface INetworkPacket {
         return NetworkRegistry.newSimpleChannel(new ResourceLocation(FinsAndTails.MOD_ID, name), () -> version, version::equals, version::equals);
     }
 
-    default void read(PacketBuffer buffer) {}
     default void write(PacketBuffer buffer) {}
     void handle(PlayerEntity player);
 }

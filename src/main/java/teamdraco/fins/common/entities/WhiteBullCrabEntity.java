@@ -28,7 +28,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class WhiteBullCrabEntity extends WaterMobEntity {
-    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(AbstractFishEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(WhiteBullCrabEntity.class, DataSerializers.BOOLEAN);
 
     public WhiteBullCrabEntity(EntityType<? extends WhiteBullCrabEntity> type, World world) {
         super(type, world);

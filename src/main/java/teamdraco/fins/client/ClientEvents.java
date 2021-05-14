@@ -1,6 +1,8 @@
 package teamdraco.fins.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraftforge.event.TickEvent;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.client.screen.CrabCruncherScreen;
@@ -20,12 +22,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import teamdraco.fins.client.render.*;
+import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.network.TriggerFlyingPacket;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
-    private static boolean wasJumping;
-
     public static void init() {
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.BLU_WEE.get(), BluWeeRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.PEA_WEE.get(), PeaWeeRenderer::new);
@@ -64,17 +65,25 @@ public class ClientEvents {
         for (FinsSpawnEggItem e : FinsSpawnEggItem.UNADDED_EGGS) handler.register(eggColor, e);
     }
 
-    @SubscribeEvent
-    public void playerTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            Minecraft minecraft = Minecraft.getInstance();
-            boolean jumping = minecraft.gameSettings.keyBindJump.isKeyDown();
-            if (jumping != wasJumping) {
-                TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
-                packet.handle(minecraft.player);
-                FinsAndTails.NETWORK.sendToServer(packet);
+    @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    public static class ModBus {
+        private static boolean wasJumping;
+
+        @SubscribeEvent
+        public static void clientTick(TickEvent.ClientTickEvent event) {
+            if (event.phase == TickEvent.Phase.END) {
+                Minecraft minecraft = Minecraft.getInstance();
+                final ClientPlayerEntity player = minecraft.player;
+                if (player != null && player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
+                    boolean jumping = minecraft.gameSettings.keyBindJump.isKeyDown();
+                    if (jumping != wasJumping) {
+                        TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
+                        packet.handle(player);
+                        FinsAndTails.NETWORK.sendToServer(packet);
+                    }
+                    wasJumping = jumping;
+                }
             }
-            wasJumping = jumping;
         }
     }
 }

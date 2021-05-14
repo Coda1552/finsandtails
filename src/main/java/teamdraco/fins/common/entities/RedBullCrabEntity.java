@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class RedBullCrabEntity extends WaterMobEntity {
-    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(AbstractFishEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(RedBullCrabEntity.class, DataSerializers.BOOLEAN);
 
     public RedBullCrabEntity(EntityType<? extends RedBullCrabEntity> type, World world) {
         super(type, world);

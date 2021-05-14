@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(PenglilEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(GoldenRiverRayEntity.class, DataSerializers.VARINT);
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, World world) {
         super(type, world);

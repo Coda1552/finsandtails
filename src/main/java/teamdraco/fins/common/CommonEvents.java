@@ -1,17 +1,9 @@
 package teamdraco.fins.common;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.util.DamageSource;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.FinsConfig;
-import teamdraco.fins.init.FinsEnchantments;
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -20,6 +12,7 @@ import net.minecraft.loot.LootEntry;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.TableLootEntry;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
@@ -31,6 +24,10 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.FinsConfig;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -38,7 +35,6 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
-
     @SubscribeEvent
     public static void livingDamage(LivingDamageEvent event) {
         if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
@@ -123,7 +119,7 @@ public class CommonEvents {
         return TableLootEntry.builder(location).weight(weight).quality(quality).build();
     }
 
-    private static void addEntry(LootPool pool, LootEntry entry) throws IllegalAccessException {
+    private static void addEntry(LootPool pool, LootEntry entry) {
         List<LootEntry> lootEntries = ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "field_186453_a");
         if (lootEntries != null) {
             if (lootEntries.stream().anyMatch(e -> e == entry)) {
