@@ -8,7 +8,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.common.recipes.CrunchingRecipe;
+import teamdraco.fins.common.crafting.CrunchingRecipe;
 
 public class FinsRecipes {
     public static final DeferredRegister<IRecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, FinsAndTails.MOD_ID);

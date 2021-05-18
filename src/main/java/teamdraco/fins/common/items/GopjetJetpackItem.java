@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -52,8 +53,6 @@ public class GopjetJetpackItem extends ArmorItem {
                             flyingTicksRemaining = 100 - ticksJumping;
                         } else if (item == Items.POTION && PotionUtils.getPotionFromItem(inventoryStack) == Potions.WATER) {
                             flyingTicksRemaining = 30 - ticksJumping;
-                        } else if (Block.getBlockFromItem(item) == Blocks.WET_SPONGE) {
-                            flyingTicksRemaining = 40 - ticksJumping;
                         } else {
                             continue;
                         }

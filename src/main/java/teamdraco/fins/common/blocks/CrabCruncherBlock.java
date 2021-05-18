@@ -73,6 +73,7 @@ public class CrabCruncherBlock extends Block {
         }
     }
 
+
 /*    @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(handIn);

@@ -2,6 +2,7 @@ package teamdraco.fins.common.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.FurnaceResultSlot;
@@ -9,10 +10,16 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.world.World;
 import teamdraco.fins.common.container.slot.CrabCruncherSlot;
+import teamdraco.fins.common.crafting.CrunchingRecipe;
 import teamdraco.fins.init.FinsBlocks;
 import teamdraco.fins.init.FinsContainers;
+import teamdraco.fins.init.FinsRecipes;
+
+import java.util.Optional;
 
 public class CrabCruncherContainer extends Container {
     private final IWorldPosCallable worldPosCallable;
@@ -93,5 +100,27 @@ public class CrabCruncherContainer extends Container {
         }
 
         return stack;
+    }
+
+    protected static void updateCraftingResult(int id, World world, PlayerEntity player, CrabCruncherInventory inventory) {
+        if (!world.isRemote) {
+            ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)player;
+            ItemStack itemstack = ItemStack.EMPTY;
+            Optional<CrunchingRecipe> optional = world.getServer().getRecipeManager().getRecipe(FinsRecipes.CRUNCHING_TYPE, inventory, world);
+            if (optional.isPresent()) {
+                CrunchingRecipe recipe = optional.get();
+                itemstack = recipe.getCraftingResult(inventory);
+            }
+
+            inventory.setInventorySlotContents(2, itemstack);
+            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 2, itemstack));
+        }
+    }
+
+    @Override
+    public void onCraftMatrixChanged(IInventory inventoryIn) {
+        this.worldPosCallable.consume((p_217069_1_, p_217069_2_) -> {
+            updateCraftingResult(this.windowId, p_217069_1_, this.player, stackInventory);
+        });
     }
 }

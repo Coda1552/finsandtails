@@ -1,0 +1,12 @@
+{
+  "type": "fins:crunching",
+  "ingredients": [
+    {
+      "item": "fins:spindly_gem_crab",
+      "crab": 0
+    }
+  ],
+  "result": {
+    "item": "fins:spindly_emerald"
+  }
+}

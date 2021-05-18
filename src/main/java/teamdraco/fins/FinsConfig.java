@@ -31,6 +31,7 @@ public class FinsConfig {
     public static int goldenRiverRaySpawnWeight;
     public static int rubberBellyGliderSpawnWeight;
     public static int gopjetSpawnWeight;
+    public static boolean finsFishingLoot;
 
     @SubscribeEvent
     public static void configLoad(ModConfig.ModConfigEvent event) {
@@ -76,8 +77,13 @@ public class FinsConfig {
         public final ForgeConfigSpec.IntValue goldenRiverRaySpawnWeight;
         public final ForgeConfigSpec.IntValue rubberBellyGliderSpawnWeight;
         public final ForgeConfigSpec.IntValue gopjetSpawnWeight;
+        public final ForgeConfigSpec.BooleanValue finsFishingLoot;
 
         Common(ForgeConfigSpec.Builder builder) {
+            builder.push("General");
+            finsFishingLoot = builder.comment("Should Fins and Tails fish should appear in the fishing loot table?").define("fins_fishing_loot", true);
+            builder.pop();
+
             builder.push("Jungle Creature Spawn Weight");
             peaWeeSpawnWeight = builder.comment("Spawn weight of Pea Wees").defineInRange("pea_wee_spawn_weight", 10, 1, 1000);
             vibraWeeSpawnWeight = builder.comment("Spawn weight of Vibra Wees").defineInRange("vibra_wee_spawn_weight", 5, 1, 1000);
@@ -159,6 +165,7 @@ public class FinsConfig {
             FinsConfig.goldenRiverRaySpawnWeight = INSTANCE.goldenRiverRaySpawnWeight.get();
             FinsConfig.rubberBellyGliderSpawnWeight = INSTANCE.rubberBellyGliderSpawnWeight.get();
             FinsConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
+            FinsConfig.finsFishingLoot = INSTANCE.finsFishingLoot.get();
         }
     }
 }

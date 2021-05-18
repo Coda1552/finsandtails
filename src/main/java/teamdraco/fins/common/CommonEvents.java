@@ -111,7 +111,9 @@ public class CommonEvents {
         ResourceLocation name = event.getName();
         if (name.equals(LootTables.GAMEPLAY_FISHING)) {
             LootPool pool = event.getTable().getPool("main");
-            addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 10, 1));
+            if (FinsConfig.Common.INSTANCE.finsFishingLoot.get()) {
+                addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 100, 1));
+            }
         }
     }
 

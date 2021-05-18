@@ -1,4 +1,4 @@
-package teamdraco.fins.common.recipes;
+package teamdraco.fins.common.crafting;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -29,7 +29,6 @@ public class CrunchingRecipe implements IRecipe<CrabCruncherInventory> {
         this.recipeItems = recipeItems;
         this.isSimple = recipeItems.stream().allMatch(Ingredient::isSimple);
     }
-
 
     @Override
     public boolean matches(CrabCruncherInventory inv, World worldIn) {
