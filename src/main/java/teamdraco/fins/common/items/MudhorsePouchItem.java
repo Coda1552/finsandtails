@@ -1,5 +1,6 @@
 package teamdraco.fins.common.items;
 
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.container.MudhorsePouchContainer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,17 +23,7 @@ public class MudhorsePouchItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote) {
-            player.openContainer(new INamedContainerProvider() {
-                @Override
-                public ITextComponent getDisplayName() {
-                    return stack.getDisplayName();
-                }
-
-                @Override
-                public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-                    return new MudhorsePouchContainer(p_createMenu_1_, p_createMenu_2_, stack);
-                }
-            });
+            player.openContainer(new SimpleNamedContainerProvider((windowId, inventory, owner) -> new MudhorsePouchContainer(windowId, inventory, stack), stack.getDisplayName()));
         }
         return ActionResult.resultSuccess(stack);
     }

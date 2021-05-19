@@ -2,6 +2,7 @@ package teamdraco.fins.common.crafting;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.network.PacketBuffer;
@@ -17,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrunchingRecipe implements IRecipe<CrabCruncherInventory> {
+public class CrunchingRecipe implements IRecipe<CraftingInventory> {
     private final ResourceLocation id;
     private final ItemStack recipeOutput;
     private final NonNullList<Ingredient> recipeItems;
@@ -31,7 +32,7 @@ public class CrunchingRecipe implements IRecipe<CrabCruncherInventory> {
     }
 
     @Override
-    public boolean matches(CrabCruncherInventory inv, World worldIn) {
+    public boolean matches(CraftingInventory inv, World worldIn) {
         RecipeItemHelper recipeitemhelper = new RecipeItemHelper();
         List<ItemStack> inputs = new ArrayList<>();
         int i = 0;
@@ -50,7 +51,7 @@ public class CrunchingRecipe implements IRecipe<CrabCruncherInventory> {
     }
 
     @Override
-    public ItemStack getCraftingResult(CrabCruncherInventory inv) {
+    public ItemStack getCraftingResult(CraftingInventory inv) {
         return this.recipeOutput.copy();
     }
 

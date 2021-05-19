@@ -3,16 +3,18 @@ package teamdraco.fins.common.container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.CraftResultInventory;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.CraftingResultSlot;
 import net.minecraft.inventory.container.FurnaceResultSlot;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
+import teamdraco.fins.common.container.slot.CrabCruncherResultSlot;
 import teamdraco.fins.common.container.slot.CrabCruncherSlot;
 import teamdraco.fins.common.crafting.CrunchingRecipe;
 import teamdraco.fins.init.FinsBlocks;
@@ -24,25 +26,24 @@ import java.util.Optional;
 public class CrabCruncherContainer extends Container {
     private final IWorldPosCallable worldPosCallable;
     private final PlayerEntity player;
-    private final CrabCruncherInventory stackInventory;
+    private final CraftingInventory inventory = new CraftingInventory(this, 2, 1);
+    private final CraftResultInventory craftResult = new CraftResultInventory();
 
     public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory) {
-        this(windowId, playerInventory, IWorldPosCallable.DUMMY, ItemStack.EMPTY);
+        this(windowId, playerInventory, IWorldPosCallable.DUMMY);
     }
 
-    public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable, ItemStack inventoryStack) {
+    public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
         super(FinsContainers.CRAB_CRUNCHER.get(), windowId);
-        CrabCruncherInventory inventory = getStackInventory(inventoryStack);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
-        this.stackInventory = inventory;
+
+        // Result Slot
+        this.addSlot(new CrabCruncherResultSlot(player, inventory, craftResult, 0, 134, 47));
 
         // Input Slots
         this.addSlot(new CrabCruncherSlot(inventory, 0, 27, 47));
         this.addSlot(new CrabCruncherSlot(inventory, 1, 76, 47));
-
-        // Result Slot
-        this.addSlot(new FurnaceResultSlot(playerInventory.player, inventory, 10, 134, 47));
 
         // Main Player Inv
         for (int row = 0; row < 3; row++) {
@@ -55,18 +56,6 @@ public class CrabCruncherContainer extends Container {
         for (int col = 0; col < 9; col++) {
             this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
         }
-    }
-
-    private static CrabCruncherInventory getStackInventory(ItemStack stack) {
-        CrabCruncherInventory inventory = new CrabCruncherInventory();
-        if (!stack.isEmpty() && stack.hasTag()) {
-            ListNBT items = stack.getTag().getList("Items", 10);
-            for (int i = 0; i < items.size(); i++) {
-                CompoundNBT item = items.getCompound(i);
-                inventory.setInventorySlotContents(item.getByte("Slot"), ItemStack.read(item));
-            }
-        }
-        return inventory;
     }
 
     @Override
@@ -102,25 +91,28 @@ public class CrabCruncherContainer extends Container {
         return stack;
     }
 
-    protected static void updateCraftingResult(int id, World world, PlayerEntity player, CrabCruncherInventory inventory) {
+    protected void updateCraftingResult(World world) {
         if (!world.isRemote) {
             ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)player;
             ItemStack itemstack = ItemStack.EMPTY;
             Optional<CrunchingRecipe> optional = world.getServer().getRecipeManager().getRecipe(FinsRecipes.CRUNCHING_TYPE, inventory, world);
             if (optional.isPresent()) {
-                CrunchingRecipe recipe = optional.get();
-                itemstack = recipe.getCraftingResult(inventory);
+                itemstack = optional.get().getCraftingResult(inventory);
             }
 
-            inventory.setInventorySlotContents(2, itemstack);
-            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 2, itemstack));
+            craftResult.setInventorySlotContents(0, itemstack);
+            serverplayerentity.connection.sendPacket(new SSetSlotPacket(windowId, 0, itemstack));
         }
     }
 
     @Override
     public void onCraftMatrixChanged(IInventory inventoryIn) {
-        this.worldPosCallable.consume((p_217069_1_, p_217069_2_) -> {
-            updateCraftingResult(this.windowId, p_217069_1_, this.player, stackInventory);
-        });
+        this.worldPosCallable.consume((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
+    }
+
+    @Override
+    public void onContainerClosed(PlayerEntity playerIn) {
+        super.onContainerClosed(playerIn);
+        this.worldPosCallable.consume((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, p_217068_2_, inventory));
     }
 }
