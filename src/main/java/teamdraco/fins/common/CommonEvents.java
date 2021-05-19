@@ -35,6 +35,7 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
+
     @SubscribeEvent
     public static void livingDamage(LivingDamageEvent event) {
         if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {

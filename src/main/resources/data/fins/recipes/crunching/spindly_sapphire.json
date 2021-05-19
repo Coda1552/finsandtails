@@ -1,12 +1,13 @@
 {
-  "type": "fins:crunching",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
       "item": "fins:spindly_gem_crab",
-      "crab": 0
+      "fins:crab": 2
     }
   ],
   "result": {
-    "item": "fins:spindly_emerald"
+    "item": "minecraft:spruce_button",
+    "count": 1
   }
 }

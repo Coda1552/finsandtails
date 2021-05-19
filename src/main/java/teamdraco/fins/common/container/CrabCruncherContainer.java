@@ -7,8 +7,6 @@ import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.CraftingResultSlot;
-import net.minecraft.inventory.container.FurnaceResultSlot;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SSetSlotPacket;
@@ -65,30 +63,51 @@ public class CrabCruncherContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-        ItemStack stack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
-            ItemStack stack1 = slot.getStack();
-            stack = stack1.copy();
-
-            if (index < 3) {
-                if (!this.mergeItemStack(stack1, 0, this.inventorySlots.size(), true)) {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+            if (index == 0) {
+                this.worldPosCallable.consume((p_217067_2_, p_217067_3_) -> {
+                    itemstack1.getItem().onCreated(itemstack1, p_217067_2_, playerIn);
+                });
+                if (!this.mergeItemStack(itemstack1, 3, 39,true)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!this.mergeItemStack(stack1, 0, 2, true)) {
+
+                slot.onSlotChange(itemstack1, itemstack);
+            } else if (index >= 3 && index < 39) {
+                if (!this.mergeItemStack(itemstack1, 1, 3, false)) {
+                    if (index < 37) {
+                        if (!this.mergeItemStack(itemstack1, 37, 39, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (!this.mergeItemStack(itemstack1, 3, 30, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            } else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
                 return ItemStack.EMPTY;
             }
 
-            if (stack1.isEmpty()) {
+            if (itemstack1.isEmpty()) {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.onSlotChanged();
+            }
+
+            if (itemstack1.getCount() == itemstack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
+            if (index == 0) {
+                playerIn.dropItem(itemstack2, false);
             }
         }
 
-        return stack;
+        return itemstack;
     }
 
     protected void updateCraftingResult(World world) {

@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import teamdraco.fins.common.container.CrabCruncherInventory;
 import teamdraco.fins.init.FinsRecipes;
 
 import javax.annotation.Nullable;
@@ -37,7 +36,7 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
         List<ItemStack> inputs = new ArrayList<>();
         int i = 0;
 
-        for (int j = 0; j < inv.getSizeInventory() - 1; ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 ++i;
