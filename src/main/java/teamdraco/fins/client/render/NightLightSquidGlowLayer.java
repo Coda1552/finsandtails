@@ -22,7 +22,7 @@ public class NightLightSquidGlowLayer<T extends NightLightSquidEntity, M extends
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(this.getRenderType());
-        this.getEntityModel().render(matrixStackIn, ivertexbuilder,  2000, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0F);
+        this.getEntityModel().render(matrixStackIn, ivertexbuilder, 2000, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0F);
     }
 
     public RenderType getRenderType() {

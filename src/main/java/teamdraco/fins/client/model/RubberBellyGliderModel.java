@@ -74,28 +74,7 @@ public class RubberBellyGliderModel<T extends Entity> extends AgeableModel<Rubbe
 
 	@Override
 	public void setRotationAngles(RubberBellyGliderEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
-		if (entity.isInWater()) {
-			float speed = 1.0f;
-			float degree = 1.0f;		this.body.rotateAngleZ = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.1F * limbSwingAmount;
-			this.body.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount - 0.05F;
-			this.body.rotateAngleY = 0;
-			this.rightWingFront.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 1.2F * limbSwingAmount;
-			this.rightWingFront.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 0.6F * limbSwingAmount - 0.2F;
-			this.rightWingFront.rotateAngleX = 0;
-			this.rightWingBack.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 1.2F * limbSwingAmount;
-			this.rightWingBack.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 0.6F * limbSwingAmount - 0.2F;
-			this.rightWingBack.rotateAngleX = 0;
-			this.leftWingFront.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -1.2F * limbSwingAmount;
-			this.leftWingFront.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -0.6F * limbSwingAmount + 0.2F;
-			this.leftWingFront.rotateAngleX = 0;
-			this.leftWingBack.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -1.2F * limbSwingAmount;
-			this.leftWingBack.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -0.6F * limbSwingAmount + 0.2F;
-			this.leftWingBack.rotateAngleX = 0;
-			this.tail.rotateAngleZ = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.3F * limbSwingAmount;
-			this.tail.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.4F * limbSwingAmount;
-			this.tail.rotateAngleY = 0;
-		}
-		else {
+		if (entity.isOnGround() && !entity.isInWater()){
 			float speed = 4.5f;
 			float degree = 1.5f;
 			limbSwingAmount = MathHelper.clamp(limbSwingAmount, -0.3f, 0.3f);
@@ -117,6 +96,28 @@ public class RubberBellyGliderModel<T extends Entity> extends AgeableModel<Rubbe
 			this.leftWingBack.rotateAngleZ = MathHelper.cos(-1.0F + limbSwing * speed * 0.4F) * degree * -0.8F * limbSwingAmount - 0.25F;
 			this.leftWingBack.rotateAngleY = MathHelper.cos(-1.0F + limbSwing * speed * 0.4F) * degree * -0.2F * limbSwingAmount + 0.25F;
 			this.leftWingBack.rotateAngleX = 0;
+		}
+		else {
+			float speed = 1.0f;
+			float degree = 1.0f;
+			this.body.rotateAngleZ = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.1F * limbSwingAmount;
+			this.body.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount - 0.05F;
+			this.body.rotateAngleY = 0;
+			this.rightWingFront.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 1.2F * limbSwingAmount;
+			this.rightWingFront.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 0.6F * limbSwingAmount - 0.2F;
+			this.rightWingFront.rotateAngleX = 0;
+			this.rightWingBack.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 1.2F * limbSwingAmount;
+			this.rightWingBack.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 0.6F * limbSwingAmount - 0.2F;
+			this.rightWingBack.rotateAngleX = 0;
+			this.leftWingFront.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -1.2F * limbSwingAmount;
+			this.leftWingFront.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -0.6F * limbSwingAmount + 0.2F;
+			this.leftWingFront.rotateAngleX = 0;
+			this.leftWingBack.rotateAngleZ = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -1.2F * limbSwingAmount;
+			this.leftWingBack.rotateAngleY = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * -0.6F * limbSwingAmount + 0.2F;
+			this.leftWingBack.rotateAngleX = 0;
+			this.tail.rotateAngleZ = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.3F * limbSwingAmount;
+			this.tail.rotateAngleX = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.4F * limbSwingAmount;
+			this.tail.rotateAngleY = 0;
 		}
 	}
 }

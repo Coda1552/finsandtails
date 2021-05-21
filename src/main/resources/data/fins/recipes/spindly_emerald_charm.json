@@ -1,0 +1,12 @@
+{
+  "type": "fins:crunching",
+  "base": {
+    "item": "fins:empty_charm"
+  },
+  "addition": {
+    "item": "fins:spindly_emerald"
+  },
+  "result": {
+    "item": "fins:spindly_emerald_charm"
+  }
+}

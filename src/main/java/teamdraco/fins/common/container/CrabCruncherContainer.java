@@ -11,6 +11,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import teamdraco.fins.common.container.slot.CrabCruncherResultSlot;
 import teamdraco.fins.common.container.slot.CrabCruncherSlot;
@@ -18,6 +19,7 @@ import teamdraco.fins.common.crafting.CrunchingRecipe;
 import teamdraco.fins.init.FinsBlocks;
 import teamdraco.fins.init.FinsContainers;
 import teamdraco.fins.init.FinsRecipes;
+import teamdraco.fins.init.FinsSounds;
 
 import java.util.Optional;
 
@@ -118,6 +120,7 @@ public class CrabCruncherContainer extends Container {
             if (optional.isPresent()) {
                 itemstack = optional.get().getCraftingResult(inventory);
             }
+            world.playSound(player, player.getPosition(), FinsSounds.CRAB_CRUNCH.get(), SoundCategory.BLOCKS, 0.6F, 1.0F);
 
             craftResult.setInventorySlotContents(0, itemstack);
             serverplayerentity.connection.sendPacket(new SSetSlotPacket(windowId, 0, itemstack));

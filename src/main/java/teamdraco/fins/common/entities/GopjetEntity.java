@@ -1,11 +1,11 @@
 package teamdraco.fins.common.entities;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.controller.DolphinLookController;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.common.entities.ai.GopjetLookController;
 import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.EntityType;
@@ -20,7 +20,6 @@ import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -36,13 +35,13 @@ import java.util.EnumSet;
 public class GopjetEntity extends AbstractFishEntity {
     private static final EntityPredicate field_213810_bA = (new EntityPredicate()).setDistance(10.0D).allowFriendlyFire().allowInvulnerable().setLineOfSiteRequired();
     private static final DataParameter<Boolean> IS_BOOSTING = EntityDataManager.createKey(GopjetEntity.class, DataSerializers.BOOLEAN);
-    private static final int BOOST_TIMER = 500;
+    private static final int BOOST_TIMER = 400;
     private int boostTimer = BOOST_TIMER;
 
     public GopjetEntity(EntityType<? extends GopjetEntity> type, World world) {
         super(type, world);
         this.moveController = new GopjetEntity.MoveHelperController(this);
-        this.lookController = new GopjetLookController(this, 10);
+        this.lookController = new DolphinLookController(this, 10);
     }
 
     @Override
@@ -72,10 +71,13 @@ public class GopjetEntity extends AbstractFishEntity {
         if (boostTimer == 0) {
             boostTimer = BOOST_TIMER;
             setMotion(getVectorForRotation(rotationPitch, rotationYaw).mul(2.0d, 0.0d, 2.0d));
-            setBoosting(true);
         }
-        if (boostTimer <= 450) {
+        if (boostTimer <= 350) {
             setBoosting(false);
+        }
+        world.setEntityState(this, (byte)38);
+        if (isBoosting()) {
+            world.setEntityState(this, (byte)39);
         }
     }
 
@@ -89,7 +91,7 @@ public class GopjetEntity extends AbstractFishEntity {
 
     @Override
     protected ItemStack getFishBucket() {
-        return null;
+        return new ItemStack(FinsItems.GOPJET_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
@@ -106,6 +108,37 @@ public class GopjetEntity extends AbstractFishEntity {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_COD_FLOP;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if (id == 38) {
+            this.swimmingParticles(ParticleTypes.BUBBLE);
+        }
+        if (id == 39) {
+            this.boostingParticles(ParticleTypes.BUBBLE);
+        } else {
+            super.handleStatusUpdate(id);
+        }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void swimmingParticles(IParticleData p_208401_1_) {
+        double d0 = this.rand.nextGaussian() * 0.056D;
+        double d1 = this.rand.nextGaussian() * 0.034D;
+        double d2 = this.rand.nextGaussian() * 0.025D;
+        this.world.addParticle(p_208401_1_, this.getPosX(), this.getPosYRandom(), this.getPosZ(), d0, d1, d2);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void boostingParticles(IParticleData p_208401_1_) {
+        for (int i = 0; i < 4; i++) {
+            double d0 = this.rand.nextGaussian() * 0.056D;
+            double d1 = this.rand.nextGaussian() * 0.034D;
+            double d2 = this.rand.nextGaussian() * 0.025D;
+            this.world.addParticle(p_208401_1_, this.getPosX(), this.getPosYRandom(), this.getPosZ(), d0, d1, d2);
+        }
     }
 
     @Override

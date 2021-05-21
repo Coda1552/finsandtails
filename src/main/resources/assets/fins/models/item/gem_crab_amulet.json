@@ -2,5 +2,19 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "fins:item/gem_crab_amulet"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fins:broken": 0
+      },
+      "model": "fins:item/gem_crab_amulet"
+    },
+    {
+      "predicate": {
+        "fins:broken": 1
+      },
+      "model": "fins:item/gem_crab_amulet_broken"
+    }
+  ]
 }

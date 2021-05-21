@@ -1,0 +1,12 @@
+{
+  "type": "fins:crunching",
+  "base": {
+    "item": "fins:night_light_squid"
+  },
+  "addition": {
+    "item": "fins:night_light_squid"
+  },
+  "result": {
+    "item": "fins:night_light_squid_tentacle"
+  }
+}

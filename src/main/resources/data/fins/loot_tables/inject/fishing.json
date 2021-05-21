@@ -61,7 +61,27 @@
         {
           "type": "minecraft:item",
           "weight": 2,
-          "name": "fins:spindly_gem_crab"
+          "name": "fins:ruby_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "fins:amber_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "fins:emerald_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "fins:pearl_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "fins:sapphire_spindly_gem_crab"
         },
         {
           "type": "minecraft:item",

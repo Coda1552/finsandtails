@@ -117,7 +117,7 @@ public class FinsConfig {
             bandedRedbackShrimpSpawnWeight = builder.comment("Spawn weight of Banded Redback Shrimp").defineInRange("banded_redback_shrimp_spawn_weight", 6, 1, 1000);
             ornateBugfishSpawnWeight = builder.comment("Spawn weight of Ornate Bugfish").defineInRange("orante_bugfish_spawn_weight", 1, 1, 1000);
             spindlyGemCrabSpawnWeight = builder.comment("Spawn weight of Spindly Gem Crabs").defineInRange("spindly_gem_crab_spawn_weight", 7, 1, 1000);
-            rubberBellyGliderSpawnWeight = builder.comment("Spawn weight of Rubber Belly Glider").defineInRange("rubber_belly_glider_spawn_weight", 2, 1, 1000);
+            rubberBellyGliderSpawnWeight = builder.comment("Spawn weight of Rubber Belly Glider").defineInRange("rubber_belly_glider_spawn_weight", 3, 1, 1000);
             builder.pop();
 
             builder.push("Ocean Creature Spawn Weight");
@@ -136,7 +136,7 @@ public class FinsConfig {
 
             builder.push("River Creature Spawn Weight");
             weeWeeSpawnWeight = builder.comment("Spawn weight of Wee Wees").defineInRange("wee_wee_spawn_weight", 2, 1, 1000);
-            riverPebbleSnailSpawnWeight = builder.comment("Spawn weight of River Pebble Snails").defineInRange("river_pebble_snail_spawn_weight", 3, 1, 1000);
+            riverPebbleSnailSpawnWeight = builder.comment("Spawn weight of River Pebble Snails").defineInRange("river_pebble_snail_spawn_weight", 2, 1, 1000);
             goldenRiverRaySpawnWeight = builder.comment("Spawn weight of Golden River Rays").defineInRange("golden_river_ray_spawn_weight", 2, 1, 1000);
             builder.pop();
         }

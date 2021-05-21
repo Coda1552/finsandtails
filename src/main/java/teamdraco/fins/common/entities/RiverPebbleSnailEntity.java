@@ -48,7 +48,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BreedGoal(this, 1.0f));
+        this.goalSelector.addGoal(0, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.BROWN_MUSHROOM), false));
         this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -68,7 +68,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
 
     @Override
     protected float getWaterSlowDown() {
-        return 0.9f;
+        return 0.9F;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {

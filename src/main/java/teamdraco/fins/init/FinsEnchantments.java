@@ -1,6 +1,7 @@
 package teamdraco.fins.init;
 
 import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.common.enchantments.CrabsFavorEnchantment;
 import teamdraco.fins.common.enchantments.FlukedEdgeEnchantment;
 import teamdraco.fins.common.enchantments.UppercuttingEnchantment;
 import net.minecraft.enchantment.Enchantment;
@@ -15,5 +16,5 @@ public class FinsEnchantments {
 
     public static final RegistryObject<Enchantment> FLUKED_EDGE = REGISTER.register("fluked_edge", () -> new FlukedEdgeEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET}));
     public static final RegistryObject<Enchantment> UPPERCUTTING = REGISTER.register("uppercutting", () -> new UppercuttingEnchantment(Enchantment.Rarity.UNCOMMON, EnchantmentType.WEAPON, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND}));
-
+    public static final RegistryObject<Enchantment> CRABS_FAVOR = REGISTER.register("crabs_favor", () -> new CrabsFavorEnchantment(Enchantment.Rarity.RARE, EnchantmentType.WEAPON, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND}));
 }

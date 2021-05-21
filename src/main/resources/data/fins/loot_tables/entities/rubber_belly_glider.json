@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "fins:amber_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "fins:ruby_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "fins:sapphire_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "fins:pearl_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "fins:emerald_spindly_gem_crab"
+        }
+      ]
+    }
+  ]
+}

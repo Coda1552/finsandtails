@@ -121,12 +121,6 @@ public class MudhorseModel<T extends Entity> extends AgeableModel<MudhorseEntity
         this.tail.setRotationPoint(0.0F,8.0F, 11.0F);
     }
 
-    @Override
-    public void setLivingAnimations(MudhorseEntity entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
-        int i = entityIn.getAttackTimer();
-
-    }
-
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

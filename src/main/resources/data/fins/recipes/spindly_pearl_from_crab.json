@@ -1,0 +1,12 @@
+{
+  "type": "fins:crunching",
+  "base": {
+    "item": "fins:pearl_spindly_gem_crab"
+  },
+  "addition": {
+    "item": "fins:pearl_spindly_gem_crab"
+  },
+  "result": {
+    "item": "fins:spindly_pearl"
+  }
+}

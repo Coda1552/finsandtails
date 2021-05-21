@@ -1,7 +1,9 @@
 package teamdraco.fins.common;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -13,11 +15,15 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -26,6 +32,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.FinsConfig;
+import teamdraco.fins.common.items.charms.ISpindlyCharmItem;
+import teamdraco.fins.init.FinsEnchantments;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
 
@@ -45,7 +53,7 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void registerBiomes(BiomeLoadingEvent event) {
         if (event.getCategory() == Biome.Category.SWAMP) {
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SWAMP_MUCKER.get(), FinsConfig.Common.INSTANCE.swampMuckerSpawnWeight.get(), 2, 4));
@@ -72,7 +80,7 @@ public class CommonEvents {
 
         if (event.getName() != null) {
             String name = event.getName().getPath();
-            if (name.equals("cold_ocean") || name.equals("deep_cold+_ocean")) {
+            if (name.equals("cold_ocean") || name.equals("deep_cold_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BLU_WEE.get(), FinsConfig.Common.INSTANCE.bluWeeSpawnWeight.get(), 4, 8));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.TEAL_ARROWFISH.get(), FinsConfig.Common.INSTANCE.tealArrowfishSpawnWeight.get(), 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.PHANTOM_NUDIBRANCH.get(), FinsConfig.Common.INSTANCE.phantomNudibranchSpawnWeight.get(), 1, 1));
@@ -108,13 +116,30 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onLootLoad(LootTableLoadEvent event) throws IllegalAccessException {
-        ResourceLocation name = event.getName();
-        if (name.equals(LootTables.GAMEPLAY_FISHING)) {
-            LootPool pool = event.getTable().getPool("main");
-            if (FinsConfig.Common.INSTANCE.finsFishingLoot.get()) {
-                addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 100, 1));
+    public static void crabsFavorXPDrops(LivingExperienceDropEvent event) {
+        Entity attacker = event.getAttackingPlayer();
+
+        if (attacker instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) attacker;
+            ItemStack heldItem = livingEntity.getHeldItemMainhand();
+            if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.CRABS_FAVOR.get())) {
+                int i = EnchantmentHelper.getEnchantmentLevel(FinsEnchantments.CRABS_FAVOR.get(), event.getAttackingPlayer().getHeldItem(Hand.MAIN_HAND));
+                    event.setDroppedExperience(event.getOriginalExperience() * i + attacker.getEntityWorld().rand.nextInt(3));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLootLoad(LootTableLoadEvent event) {
+        ResourceLocation name = event.getName();
+        LootPool pool = event.getTable().getPool("main");
+        if (name.equals(LootTables.GAMEPLAY_FISHING)) {
+            if (FinsConfig.Common.INSTANCE.finsFishingLoot.get()) {
+                addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 10, 1));
+            }
+        }
+        if (name.equals(LootTables.GAMEPLAY_HERO_OF_THE_VILLAGE_FISHERMAN_GIFT)) {
+            addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fisherman_gift"), 15, 1));
         }
     }
 
@@ -132,7 +157,7 @@ public class CommonEvents {
         }
     }
 
-    //Thanks to Wolf for helping with the trade code
+    // Thanks to WolfShotz for helping with the trade code
     @SubscribeEvent
     public static void addWandererTrades(WandererTradesEvent event) {
         List<VillagerTrades.ITrade> list = event.getGenericTrades();

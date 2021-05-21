@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "fins:cooked_banded_redback_shrimp"
+    },
+    {
+      "item": "minecraft:mushroom_stew"
+    },
+    {
+      "item": "fins:pearl_spindly_gem_crab"
+    }
+  ],
+  "result": {
+    "item": "fins:reef_cocktail",
+    "count": 1
+  }
+}

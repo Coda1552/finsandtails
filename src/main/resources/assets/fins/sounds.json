@@ -4,7 +4,7 @@
     "sounds": [
       {
         "name": "fins:mudhorse/ambient",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -13,7 +13,7 @@
     "sounds": [
       {
         "name": "fins:mudhorse/death",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -22,7 +22,7 @@
     "sounds": [
       {
         "name": "fins:mudhorse/hurt",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -31,7 +31,7 @@
     "sounds": [
       {
         "name": "fins:rubber_belly_glider/ambient",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -40,7 +40,7 @@
     "sounds": [
       {
         "name": "fins:rubber_belly_glider/death",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -49,7 +49,7 @@
     "sounds": [
       {
         "name": "fins:rubber_belly_glider/hurt",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -58,11 +58,11 @@
     "sounds": [
       {
         "name": "fins:penglil/ambient",
-        "streaming": true
+        "stream": true
       },
       {
         "name": "fins:penglil/screech",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -71,7 +71,7 @@
     "sounds": [
       {
         "name": "fins:penglil/death",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -80,7 +80,7 @@
     "sounds": [
       {
         "name": "fins:penglil/hurt",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -89,7 +89,7 @@
     "sounds": [
       {
         "name": "fins:crab/death",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -98,7 +98,7 @@
     "sounds": [
       {
         "name": "fins:crab/crunch",
-        "streaming": true
+        "stream": true
       }
     ]
   },
@@ -107,15 +107,24 @@
     "sounds": [
       {
         "name": "fins:didgeridoo/didgeridoo_1",
-        "streaming": true
+        "stream": true
       },
       {
         "name": "fins:didgeridoo/didgeridoo_2",
-        "streaming": true
+        "stream": true
       },
       {
         "name": "fins:didgeridoo/didgeridoo_3",
-        "streaming": true
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.crashing_tides": {
+    "category": "disc",
+    "sounds": [
+      {
+        "name": "fins:music_disc/crashing_tides",
+        "stream": true
       }
     ]
   }

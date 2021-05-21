@@ -122,9 +122,11 @@ public class RubberBellyGliderEntity extends AnimalEntity {
     }
 
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new RubberBellyGliderEntity.PuffGoal(this));
         this.goalSelector.addGoal(0, new FindWaterGoal(this));
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(1, new RubberBellyGliderEntity.PuffGoal(this));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
         this.goalSelector.addGoal(1, new BreedGoal(this, 2.0D));
         this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 1) {
@@ -134,12 +136,10 @@ public class RubberBellyGliderEntity extends AnimalEntity {
             }
         });
         this.goalSelector.addGoal(2, new RubberBellyGliderEntity.WanderGoal(this, 1.0D, 1));
+        this.goalSelector.addGoal(3, new GliderJumpGoal(this));
         this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(5, new GliderJumpGoal(this));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, MobEntity.class, 10, true, false, RubberBellyGliderEntity::isEntityPrey));
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, SpindlyGemCrabEntity.class, 90, true, false, null));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MobEntity.class, 10, true, false, RubberBellyGliderEntity::isEntityPrey));
     }
 
     public static AttributeModifierMap.MutableAttribute registerRBGAttributes() {
@@ -378,9 +378,8 @@ public class RubberBellyGliderEntity extends AnimalEntity {
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() == FinsItems.SPINDLY_GEM_CRAB.get();
+        return stack.getItem() == FinsItems.AMBER_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.RUBY_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.EMERALD_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.SAPPHIRE_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.PEARL_SPINDLY_GEM_CRAB.get();
     }
-
 
     static class WanderGoal extends RandomWalkingGoal {
 

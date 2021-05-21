@@ -1,5 +1,9 @@
 package teamdraco.fins.common.entities;
 
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
 import net.minecraft.entity.EntityType;
@@ -57,37 +61,6 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
         return new GroundPathNavigator(this, world);
     }
 
-    static class MoveHelperController extends MovementController {
-        private final SpindlyGemCrabEntity crab;
-
-        MoveHelperController(SpindlyGemCrabEntity crab) {
-            super(crab);
-            this.crab = crab;
-        }
-
-        public void tick() {
-            if (this.crab.areEyesInFluid(FluidTags.WATER)) {
-                this.crab.setMotion(this.crab.getMotion().add(0.0D, 0.0D, 0.0D));
-            }
-
-            if (this.action == MovementController.Action.MOVE_TO && !this.crab.getNavigator().noPath()) {
-                double d0 = this.posX - this.crab.getPosX();
-                double d1 = this.posY - this.crab.getPosY();
-                double d2 = this.posZ - this.crab.getPosZ();
-                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-                d1 = d1 / d3;
-                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.crab.rotationYaw = this.limitAngle(this.crab.rotationYaw, f, 90.0F);
-                this.crab.renderYawOffset = this.crab.rotationYaw;
-                float f1 = (float) (this.speed * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.crab.setAIMoveSpeed(MathHelper.lerp(0.125F, this.crab.getAIMoveSpeed(), f1));
-                this.crab.setMotion(this.crab.getMotion().add(0.0D, (double) this.crab.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
-            } else {
-                this.crab.setAIMoveSpeed(0.0F);
-            }
-        }
-    }
-
     protected ItemStack getFishBucket() {
         return new ItemStack(FinsItems.SPINDLY_GEM_CRAB_BUCKET.get());
     }
@@ -136,11 +109,31 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
         setVariant(compound.getInt("Variant"));
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8);
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if (id == 38) {
+            this.shineParticles(ParticleTypes.END_ROD);
+        }
+        else {
+            super.handleStatusUpdate(id);
+        }
     }
 
-    @org.jetbrains.annotations.Nullable
+    @OnlyIn(Dist.CLIENT)
+    private void shineParticles(IParticleData p_208401_1_) {
+        if (rand.nextFloat() > 0.975D) {
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            this.world.addParticle(p_208401_1_, this.getPosX(), this.getPosYRandom(), this.getPosZ(), d0, d1, d2);
+        }
+    }
+
+    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D);
+    }
+
+    @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_TROPICAL_FISH_HURT;
@@ -157,5 +150,42 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.SPINDLY_GEM_CRAB_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        world.setEntityState(this, (byte)38);
+    }
+
+    static class MoveHelperController extends MovementController {
+        private final SpindlyGemCrabEntity crab;
+
+        MoveHelperController(SpindlyGemCrabEntity crab) {
+            super(crab);
+            this.crab = crab;
+        }
+
+        public void tick() {
+            if (this.crab.areEyesInFluid(FluidTags.WATER)) {
+                this.crab.setMotion(this.crab.getMotion().add(0.0D, 0.0D, 0.0D));
+            }
+
+            if (this.action == MovementController.Action.MOVE_TO && !this.crab.getNavigator().noPath()) {
+                double d0 = this.posX - this.crab.getPosX();
+                double d1 = this.posY - this.crab.getPosY();
+                double d2 = this.posZ - this.crab.getPosZ();
+                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                d1 = d1 / d3;
+                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                this.crab.rotationYaw = this.limitAngle(this.crab.rotationYaw, f, 90.0F);
+                this.crab.renderYawOffset = this.crab.rotationYaw;
+                float f1 = (float) (this.speed * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.crab.setAIMoveSpeed(MathHelper.lerp(0.125F, this.crab.getAIMoveSpeed(), f1));
+                this.crab.setMotion(this.crab.getMotion().add(0.0D, (double) this.crab.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
+            } else {
+                this.crab.setAIMoveSpeed(0.0F);
+            }
+        }
     }
 }
