@@ -137,7 +137,6 @@ public class FinsItems {
 
     //Blocks
     public static final RegistryObject<BlockItem> CRAB_CRUNCHER = REGISTER.register("crab_cruncher", () -> new BlockItem(FinsBlocks.CRAB_CRUNCHER.get(), new Item.Properties().group(FinsAndTails.GROUP)));
-    public static final RegistryObject<BlockItem> SPINDLY_GEM_CRAB_GEM_BLOCK = REGISTER.register("spindly_gem_crab_gem_block", () -> new BlockItem(FinsBlocks.SPINDLY_GEM_CRAB_GEM_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> CHISELED_FLATBACK_SHELL_BRICKS = REGISTER.register("chiseled_flatback_shell_bricks", () -> new BlockItem(FinsBlocks.CHISELED_FLATBACK_SHELL_BRICKS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> FLATBACK_SHELL_BLOCK = REGISTER.register("flatback_shell_block", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> FLATBACK_SHELL_BRICK_SLAB = REGISTER.register("flatback_shell_brick_slab", () -> new BlockItem(FinsBlocks.FLATBACK_SHELL_BRICK_SLAB.get(), new Item.Properties().group(FinsAndTails.GROUP)));
@@ -161,6 +160,7 @@ public class FinsItems {
     public static final RegistryObject<BlockItem> MIXED_FLATBACK_SHELL_BRICK_SLAB = REGISTER.register("mixed_flatback_shell_brick_slab", () -> new BlockItem(FinsBlocks.MIXED_FLATBACK_SHELL_BRICK_SLAB.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> MIXED_FLATBACK_SHELL_BRICK_STAIRS = REGISTER.register("mixed_flatback_shell_brick_stairs", () -> new BlockItem(FinsBlocks.MIXED_FLATBACK_SHELL_BRICK_STAIRS.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> CHAINED_TENTACLE = REGISTER.register("chained_tentacle", () -> new BlockItem(FinsBlocks.CHAINED_TENTACLE.get(), new Item.Properties().group(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> SPINDLY_GEM_CRAB_GEM_BLOCK = REGISTER.register("spindly_gem_crab_gem_block", () -> new BlockItem(FinsBlocks.SPINDLY_GEM_CRAB_GEM_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> SPINDLY_EMERALD_BLOCK = REGISTER.register("spindly_emerald_block", () -> new BlockItem(FinsBlocks.SPINDLY_EMERALD_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> SPINDLY_PEARL_BLOCK = REGISTER.register("spindly_pearl_block", () -> new BlockItem(FinsBlocks.SPINDLY_PEARL_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> SPINDLY_SAPPHIRE_BLOCK = REGISTER.register("spindly_sapphire_block", () -> new BlockItem(FinsBlocks.SPINDLY_SAPPHIRE_BLOCK.get(), new Item.Properties().group(FinsAndTails.GROUP)));

@@ -7,10 +7,12 @@ import net.minecraft.item.crafting.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import teamdraco.fins.init.FinsBlocks;
+import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsRecipes;
 
 public class CrunchingRecipe implements IRecipe<CraftingInventory> {
@@ -59,6 +61,17 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
 
     public IRecipeType<?> getType() {
         return FinsRecipes.CRUNCHING_TYPE;
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> i = NonNullList.create();
+
+        i.add(base);
+        i.add(addition);
+        i.add(Ingredient.fromStacks(new ItemStack(FinsItems.CRAB_CRUNCHER.get())));
+
+        return i;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrunchingRecipe> {

@@ -119,7 +119,7 @@ public class CommonEvents {
     public static void crabsFavorXPDrops(LivingExperienceDropEvent event) {
         Entity attacker = event.getAttackingPlayer();
 
-        if (attacker instanceof LivingEntity) {
+        if (attacker != null) {
             LivingEntity livingEntity = (LivingEntity) attacker;
             ItemStack heldItem = livingEntity.getHeldItemMainhand();
             if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.CRABS_FAVOR.get())) {
