@@ -72,6 +72,7 @@ public class CommonEvents {
 
         if (event.getCategory() == Biome.Category.BEACH) {
             event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.PENGLIL.get(), FinsConfig.Common.INSTANCE.penglilSpawnWeight.get(), 3, 5));
+            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RUBBER_BELLY_GLIDER.get(), FinsConfig.Common.INSTANCE.rubberBellyGliderSpawnWeight.get(), 1, 2));
         }
 
         if (event.getCategory() == Biome.Category.FOREST) {

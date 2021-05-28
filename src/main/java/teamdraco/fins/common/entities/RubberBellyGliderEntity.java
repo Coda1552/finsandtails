@@ -181,7 +181,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
     }
 
     public static boolean canGliderSpawn(EntityType<? extends RubberBellyGliderEntity> type, IWorld worldIn, SpawnReason reason, BlockPos p_223363_3_, Random randomIn) {
-        return worldIn.getBlockState(p_223363_3_).isIn(Blocks.WATER) && worldIn.getBlockState(p_223363_3_.up()).isIn(Blocks.WATER);
+        return (worldIn.getFluidState(p_223363_3_).isTagged(FluidTags.WATER));
     }
 
     @Override

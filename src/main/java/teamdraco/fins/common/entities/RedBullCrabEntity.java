@@ -146,8 +146,8 @@ public class RedBullCrabEntity extends WaterMobEntity {
     protected void updateAir(int p_209207_1_) {
     }
 
-    public static boolean canCrabSpawn(EntityType<? extends WaterMobEntity> crab, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
-        return worldIn.getBlockState(pos.down()).isIn(Blocks.SAND) && worldIn.getBlockState(pos).isIn(Blocks.WATER);
+    public static boolean canCrabSpawn(EntityType<? extends WaterMobEntity> type, IWorld worldIn, SpawnReason reason, BlockPos p_223363_3_, Random randomIn) {
+        return worldIn.getBlockState(p_223363_3_).isIn(Blocks.WATER) && worldIn.getBlockState(p_223363_3_.up()).isIn(Blocks.WATER);
     }
 
     protected ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {

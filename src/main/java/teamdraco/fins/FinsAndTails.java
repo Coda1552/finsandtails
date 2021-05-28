@@ -92,7 +92,7 @@ public class FinsAndTails {
         EntitySpawnPlacementRegistry.register(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canAnimalSpawn);
         EntitySpawnPlacementRegistry.register(FinsEntities.GOLDEN_RIVER_RAY.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::func_223363_b);
         EntitySpawnPlacementRegistry.register(FinsEntities.NIGHT_LIGHT_SQUID.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, NightLightSquidEntity::func_223365_b);
-        EntitySpawnPlacementRegistry.register(FinsEntities.RUBBER_BELLY_GLIDER.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RubberBellyGliderEntity::canGliderSpawn);
+        // EntitySpawnPlacementRegistry.register(FinsEntities.RUBBER_BELLY_GLIDER.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RubberBellyGliderEntity::canGliderSpawn);
         EntitySpawnPlacementRegistry.register(FinsEntities.GOPJET.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::func_223363_b);
 
         BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.fromItems(FinsItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
@@ -115,8 +115,8 @@ public class FinsAndTails {
         event.put(FinsEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderEntity.registerRBGAttributes().create());
         event.put(FinsEntities.RED_BULL_CRAB.get(), RedBullCrabEntity.func_234176_m_().create());
         event.put(FinsEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabEntity.func_234176_m_().create());
-        event.put(FinsEntities.WEE_WEE.get(), WhiteBullCrabEntity.func_234176_m_().create());
-        event.put(FinsEntities.VIBRA_WEE.get(), WhiteBullCrabEntity.func_234176_m_().create());
+        event.put(FinsEntities.WEE_WEE.get(), AbstractFishEntity.func_234176_m_().create());
+        event.put(FinsEntities.VIBRA_WEE.get(), AbstractFishEntity.func_234176_m_().create());
         event.put(FinsEntities.GOPJET.get(), GopjetEntity.func_234176_m_().create());
         event.put(FinsEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailEntity.func_234176_m_().create());
         event.put(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailEntity.func_234176_m_().create());
