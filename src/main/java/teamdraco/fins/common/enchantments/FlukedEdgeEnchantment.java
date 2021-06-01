@@ -14,7 +14,7 @@ public class FlukedEdgeEnchantment extends Enchantment {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return true;
+        return stack.getItem() == FinsItems.FWINGED_BOOTS.get();
     }
 
     @Override
@@ -35,10 +35,5 @@ public class FlukedEdgeEnchantment extends Enchantment {
     @Override
     protected boolean canApplyTogether(Enchantment ench) {
         return !ench.equals(Enchantments.DEPTH_STRIDER);
-    }
-
-    @Override
-    public boolean canApply(ItemStack stack) {
-        return stack.getItem() == FinsItems.FWINGED_BOOTS.get() && stack.getItem() != FinsItems.RED_CLAW_GAUNTLET.get() && stack.getItem() != FinsItems.WHITE_CLAW_GAUNTLET.get();
     }
 }

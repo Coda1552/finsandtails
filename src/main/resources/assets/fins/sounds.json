@@ -127,5 +127,22 @@
         "stream": true
       }
     ]
+  },
+  "jetpack.use": {
+    "subtitle": "fins.jetpack.use",
+    "sounds": [
+      {
+        "name": "fins:jetpack/use_1",
+        "stream": true
+      },
+      {
+        "name": "fins:jetpack/use_2",
+        "stream": true
+      },
+      {
+        "name": "fins:jetpack/use_3",
+        "stream": true
+      }
+    ]
   }
 }

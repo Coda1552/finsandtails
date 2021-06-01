@@ -15,7 +15,7 @@ public class UppercuttingEnchantment extends Enchantment {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return true;
+        return stack.getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || stack.getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get();
     }
 
     @Override
@@ -31,11 +31,6 @@ public class UppercuttingEnchantment extends Enchantment {
     @Override
     public boolean isAllowedOnBooks() {
         return true;
-    }
-
-    @Override
-    public boolean canApply(ItemStack stack) {
-        return stack.getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || stack.getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get() && stack.getItem() != FinsItems.FWINGED_BOOTS.get();
     }
 
     @Override

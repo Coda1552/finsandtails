@@ -28,6 +28,11 @@
   "item.fins.penglil_bucket": "Ведро Пенглила",
   "item.fins.spindly_gem_crab_bucket": "Ведро Долговязого Самоцветного Краба",
   "item.fins.spindly_gem_crab": "Долговязый Самоцветный Краб",
+  "item.fins.ruby_spindly_gem_crab": "Долговязый Рубиновый Краб",
+  "item.fins.pearl_spindly_gem_crab": "Долговязый Жемчужный Краб",
+  "item.fins.sapphire_spindly_gem_crab": "Долговязый Сапфировый Краб",
+  "item.fins.emerald_spindly_gem_crab": "Долговязый Изумрудный Краб",
+  "item.fins.amber_spindly_gem_crab": "Долговязый Янтарный Краб",
   "item.fins.spindly_gem_crab_gem": "Долговязый Самоцвет",
   "item.fins.bugfish_mandibles": "Жвала Клюватки",
   "item.fins.gem_crab_amulet": "Амулет Самоцветного Краба",
@@ -72,6 +77,15 @@
   "item.fins.spindly_sapphire": "Долговязый Сапфир",
   "item.fins.spindly_ruby": "Долговязый Рубин",
   "item.fins.spindly_amber": "Долговязый Янтарь",
+  "item.fins.empty_charm": "Пустой Амулет",
+  "item.fins.spindly_amber_charm": "Амулет с Долговязым Янтарём",
+  "item.fins.spindly_ruby_charm": "Амулет с Долговязым Рубином",
+  "item.fins.spindly_pearl_charm": "Амулет с Долговязым Жемчугом",
+  "item.fins.spindly_sapphire_charm": "Амулет с Долговязым Сапфиром",
+  "item.fins.spindly_emerald_charm": "Амулет с Долговязым Изумрудом",
+  "item.fins.gopjet_bucket": "Ведро Гопджета",
+  "item.fins.music_disc_crashing_tides": "Музыкальный Диск",
+  "item.fins.music_disc_crashing_tides.desc": "Mr. Esuoh - Crashing Tides",
 
   "item.fins.blu_wee_spawn_egg": "Яйцо Призыва Голубого Ви",
   "item.fins.pea_wee_spawn_egg": "Яйцо Призыва Горохового Ви",
@@ -153,9 +167,11 @@
   "block.fins.spindly_amber_block": "Долговязый Янтарный Блок",
 
   "enchantment.fins.fluked_edge": "Рифленый Край",
-  "enchantment.fins.fluked_edge.desc": "Позволяет выпрыгивать из воды . Чтобы это сработало вы должны находиться под правильным углом.",
+  "enchantment.fins.fluked_edge.desc": "Позволяет выпрыгивать из воды. Чтобы это сработало вы должны находиться под правильным углом.",
   "enchantment.fins.uppercutting": "Апперкот",
-  "enchantment.fins.uppercutting.desc": "Запускает атакуемую цель вверх когда находитесь в воде. ",
+  "enchantment.fins.uppercutting.desc": "Запускает атакуемую цель вверх когда находитесь в воде.",
+  "enchantment.fins.crabs_favor": "Покровительство Краба",
+  "enchantment.fins.crabs_favor.desc": "Вы получаете больше опыта при убийстве существ.",
 
   "fins.mudhorse.ambient": "Грязевой Конёк Ворчит",
   "fins.mudhorse.hurt": "Грязевой Конёк Повреждён",
@@ -242,5 +258,7 @@
   "block.minecraft.banner.shell.lightBlue": "Голубая Раковина",
   "block.minecraft.banner.shell.magenta": "Пурпурная Раковина",
   "block.minecraft.banner.shell.orange": "Ораньжевая Раковина",
-  "block.minecraft.banner.shell.white": "Белая Раковина"
+  "block.minecraft.banner.shell.white": "Белая Раковина",
+
+  "category.fins.crunching_recipe": "Хруст"
 }

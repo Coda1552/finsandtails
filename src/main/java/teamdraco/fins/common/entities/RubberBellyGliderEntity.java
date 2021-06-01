@@ -180,8 +180,8 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         }
     }
 
-    public static boolean canGliderSpawn(EntityType<? extends RubberBellyGliderEntity> type, IWorld worldIn, SpawnReason reason, BlockPos p_223363_3_, Random randomIn) {
-        return (worldIn.getFluidState(p_223363_3_).isTagged(FluidTags.WATER));
+    public static boolean canGliderSpawn(EntityType<? extends RubberBellyGliderEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
+        return worldIn.getFluidState(pos).isTagged(FluidTags.WATER) && pos.getY() >= 40;
     }
 
     @Override

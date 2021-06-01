@@ -24,4 +24,5 @@ public class FinsSounds {
     public static final RegistryObject<SoundEvent> CRAB_CRUNCH = REGISTER.register("crab.crunch", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "crab.crunch")));
     public static final RegistryObject<SoundEvent> DIDGERIDOO_PLAY = REGISTER.register("didgeridoo.play", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "didgeridoo.play")));
     public static final RegistryObject<SoundEvent> CRASHING_TIDES = REGISTER.register("music_disc.crashing_tides", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "music_disc.crashing_tides")));
+    public static final RegistryObject<SoundEvent> JETPACK_USE = REGISTER.register("jetpack.use", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "jetpack.use")));
 }
