@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(GoldenRiverRayEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(GoldenRiverRayEntity.class, DataSerializers.INT);
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, World world) {
         super(type, world);
@@ -43,58 +43,58 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, RiverPebbleSnailEntity.class, false));
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 6).createMutableAttribute(Attributes.ATTACK_DAMAGE, 1);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1);
     }
 
-    public void onCollideWithPlayer(PlayerEntity entityIn) {
-        if (entityIn instanceof ServerPlayerEntity && entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 1)) {
-            ((ServerPlayerEntity)entityIn).connection.sendPacket(new SChangeGameStatePacket(SChangeGameStatePacket.field_241773_j_, 0.0F));
-            entityIn.addPotionEffect(new EffectInstance(Effects.POISON, 120, 0));
+    public void playerTouch(PlayerEntity entityIn) {
+        if (entityIn instanceof ServerPlayerEntity && entityIn.hurt(DamageSource.mobAttack(this), 1)) {
+            ((ServerPlayerEntity)entityIn).connection.send(new SChangeGameStatePacket(SChangeGameStatePacket.PUFFER_FISH_STING, 0.0F));
+            entityIn.addEffect(new EffectInstance(Effects.POISON, 120, 0));
         }
     }
 
     @Override
-    protected void setBucketData(ItemStack bucket) {
+    protected void saveToBucketTag(ItemStack bucket) {
         CompoundNBT compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
         if (this.hasCustomName()) {
-            bucket.setDisplayName(this.getCustomName());
+            bucket.setHoverName(this.getCustomName());
         }
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
     }
 
     public int getVariant() {
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
+        this.entityData.set(VARIANT, variant);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @javax.annotation.Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        spawnDataIn = super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @javax.annotation.Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         if (dataTag == null) {
-            setVariant(rand.nextInt(3));
+            setVariant(random.nextInt(3));
         } else {
             if (dataTag.contains("Variant", 3)){
                 this.setVariant(dataTag.getInt("Variant"));
@@ -104,24 +104,24 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
     }
 
     @Override
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.GOLDEN_RIVER_RAY_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_COD_AMBIENT;
+        return SoundEvents.COD_AMBIENT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COD_DEATH;
+        return SoundEvents.COD_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return SoundEvents.COD_HURT;
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override
@@ -129,24 +129,24 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
         return new ItemStack(FinsItems.GOLDEN_RIVER_RAY_SPAWN_EGG.get());
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    public boolean hurt(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;
         } else {
-            Entity entity = source.getTrueSource();
+            Entity entity = source.getEntity();
 
             if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
-            return super.attackEntityFrom(source, amount);
+            return super.hurt(source, amount);
         }
     }
 
-    public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+    public boolean doHurtTarget(Entity entityIn) {
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
 
         return flag;
@@ -161,8 +161,8 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
             this.fish = fish;
         }
 
-        public boolean shouldExecute() {
-            return super.shouldExecute();
+        public boolean canUse() {
+            return super.canUse();
         }
     }
 }

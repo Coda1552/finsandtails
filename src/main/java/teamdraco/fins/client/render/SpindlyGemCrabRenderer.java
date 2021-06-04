@@ -25,7 +25,7 @@ public class SpindlyGemCrabRenderer extends MobRenderer<SpindlyGemCrabEntity, Sp
     }
 
     @Override
-    public ResourceLocation getEntityTexture(SpindlyGemCrabEntity entity) {
+    public ResourceLocation getTextureLocation(SpindlyGemCrabEntity entity) {
         return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
     }
 }

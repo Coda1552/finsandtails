@@ -32,26 +32,26 @@ import net.minecraftforge.common.util.Lazy;
 import javax.annotation.Nullable;
 
 public class FwingedBootsItem extends ArmorItem {
-    public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":fwinged", 3, new int[]{1, 2, 3, 1}, 3, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.fromItems(Items.LEATHER));
+    public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":fwinged", 3, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(Items.LEATHER));
     public static final Lazy<Multimap<Attribute, AttributeModifier>> SWIM_MODIFIER = Lazy.of(() -> ImmutableMultimap.of(ForgeMod.SWIM_SPEED.get(), new AttributeModifier("Swim modifier", 1.25, AttributeModifier.Operation.ADDITION)));
 
     public FwingedBootsItem() {
-        super(MATERIAL, EquipmentSlotType.FEET, new Item.Properties().group(FinsAndTails.GROUP));
+        super(MATERIAL, EquipmentSlotType.FEET, new Item.Properties().tab(FinsAndTails.GROUP));
     }
 
     @Override
     public void onArmorTick(ItemStack stack, World worldIn, PlayerEntity player) {
         if (!player.isInWater()) {
-            player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 1, 0));
+            player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 1, 0));
         }
 
-        int j = EnchantmentHelper.getEnchantmentLevel(FinsEnchantments.FLUKED_EDGE.get(), stack);
+        int j = EnchantmentHelper.getItemEnchantmentLevel(FinsEnchantments.FLUKED_EDGE.get(), stack);
         if (EnchantmentHelper.getEnchantments(stack).containsKey(FinsEnchantments.FLUKED_EDGE.get())) {
-            if (j <= 0 || worldIn.getBlockState(player.getPosition().down()).isIn(Blocks.WATER) && worldIn.getBlockState(player.getPosition()).isAir() /*&& player.isSwimming()*/ && player.getMotion().y > 0.25) {
+            if (j <= 0 || worldIn.getBlockState(player.blockPosition().below()).is(Blocks.WATER) && worldIn.getBlockState(player.blockPosition()).isAir() /*&& player.isSwimming()*/ && player.getDeltaMovement().y > 0.25) {
 
                 if (j > 0) {
-                    float f7 = player.rotationYaw;
-                    float f = player.rotationPitch;
+                    float f7 = player.yRot;
+                    float f = player.xRot;
                     float f1 = -MathHelper.sin(f7 * ((float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
                     float f2 = -MathHelper.sin(f * ((float)Math.PI / 180F));
                     float f3 = MathHelper.cos(f7 * ((float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
@@ -60,9 +60,9 @@ public class FwingedBootsItem extends ArmorItem {
                     f1 = f1 * (f5 / f4);
                     f2 = f2 * (f5 / f4);
                     f3 = f3 * (f5 / f4);
-                    if (j > 1) player.addVelocity((double) f1 / 3.5, (double) f2 / 2, (double) f3 / 3.5);
-                    else if (j == 1) player.addVelocity((double) f1 / 1.5, (double) f2 / 2, (double) f3 / 1.5);
-                    player.startSpinAttack(1);
+                    if (j > 1) player.push((double) f1 / 3.5, (double) f2 / 2, (double) f3 / 3.5);
+                    else if (j == 1) player.push((double) f1 / 1.5, (double) f2 / 2, (double) f3 / 1.5);
+                    player.startAutoSpinAttack(1);
                     if (player.isOnGround()) {
                         float f6 = 1.1999999F;
                         player.move(MoverType.SELF, new Vector3d(0.0D, (double) 1.1999999F, 0.0D));

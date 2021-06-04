@@ -1,5 +1,6 @@
 package teamdraco.fins.common.entities;
 
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
@@ -7,9 +8,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.fins.init.FinsItems;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
@@ -31,113 +29,120 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
+import java.util.List;
+import java.util.function.Predicate;
+
+import static net.minecraft.util.EntityPredicates.NO_CREATIVE_OR_SPECTATOR;
+import static net.minecraft.util.EntityPredicates.NO_SPECTATORS;
 
 public class GopjetEntity extends AbstractFishEntity {
-    private static final EntityPredicate field_213810_bA = (new EntityPredicate()).setDistance(10.0D).allowFriendlyFire().allowInvulnerable().setLineOfSiteRequired();
-    private static final DataParameter<Boolean> IS_BOOSTING = EntityDataManager.createKey(GopjetEntity.class, DataSerializers.BOOLEAN);
+    private static final EntityPredicate SWIM_WITH_PLAYER_TARGETING = (new EntityPredicate()).range(10.0D).allowSameTeam().allowInvulnerable().allowUnseeable();
+    private static final DataParameter<Boolean> IS_BOOSTING = EntityDataManager.defineId(GopjetEntity.class, DataSerializers.BOOLEAN);
     private static final int BOOST_TIMER = 400;
     private int boostTimer = BOOST_TIMER;
 
     public GopjetEntity(EntityType<? extends GopjetEntity> type, World world) {
         super(type, world);
-        this.moveController = new GopjetEntity.MoveHelperController(this);
-        this.lookController = new DolphinLookController(this, 10);
+        this.moveControl = new GopjetEntity.MoveHelperController(this);
+        this.lookControl = new DolphinLookController(this, 10);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, NO_SPECTATORS::test));
         this.goalSelector.addGoal(2, new GopjetEntity.SwimGoal(this));
         this.goalSelector.addGoal(2, new GopjetEntity.SwimWithPlayerGoal(this, 4.0D));
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 10).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.MOVEMENT_SPEED, 0.3D);
     }
 
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(IS_BOOSTING, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(IS_BOOSTING, false);
     }
 
     @Override
     public void tick() {
+        List<PlayerEntity> list = level.getEntitiesOfClass(PlayerEntity.class, this.getBoundingBox().inflate(3.0D), NO_CREATIVE_OR_SPECTATOR);
+
         super.tick();
         if (boostTimer > 0) {
             --boostTimer;
         }
-        if (boostTimer == 0) {
+        if (boostTimer == 0 || !list.isEmpty() && !fromBucket()) {
             boostTimer = BOOST_TIMER;
-            setMotion(getVectorForRotation(rotationPitch, rotationYaw).mul(2.0d, 0.0d, 2.0d));
+            setDeltaMovement(calculateViewVector(xRot, yRot).multiply(2.0d, 0.0d, 2.0d));
         }
         if (boostTimer <= 350) {
             setBoosting(false);
         }
-        world.setEntityState(this, (byte)38);
+        level.broadcastEntityEvent(this, (byte)38);
         if (isBoosting()) {
-            world.setEntityState(this, (byte)39);
+            level.broadcastEntityEvent(this, (byte)39);
         }
     }
 
     public void setBoosting(boolean isBoosting) {
-        this.getDataManager().set(IS_BOOSTING, isBoosting);
+        this.getEntityData().set(IS_BOOSTING, isBoosting);
     }
 
     public boolean isBoosting() {
-        return this.getDataManager().get(IS_BOOSTING);
+        return this.getEntityData().get(IS_BOOSTING);
     }
 
     @Override
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.GOPJET_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_COD_AMBIENT;
+        return SoundEvents.COD_AMBIENT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COD_DEATH;
+        return SoundEvents.COD_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return SoundEvents.COD_HURT;
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if (id == 38) {
             this.swimmingParticles(ParticleTypes.BUBBLE);
         }
         if (id == 39) {
             this.boostingParticles(ParticleTypes.BUBBLE);
         } else {
-            super.handleStatusUpdate(id);
+            super.handleEntityEvent(id);
         }
 
     }
 
     @OnlyIn(Dist.CLIENT)
     private void swimmingParticles(IParticleData p_208401_1_) {
-        double d0 = this.rand.nextGaussian() * 0.056D;
-        double d1 = this.rand.nextGaussian() * 0.034D;
-        double d2 = this.rand.nextGaussian() * 0.025D;
-        this.world.addParticle(p_208401_1_, this.getPosX(), this.getPosYRandom(), this.getPosZ(), d0, d1, d2);
+        double d0 = this.random.nextGaussian() * 0.056D;
+        double d1 = this.random.nextGaussian() * 0.034D;
+        double d2 = this.random.nextGaussian() * 0.025D;
+        this.level.addParticle(p_208401_1_, this.getX(), this.getRandomY(), this.getZ(), d0, d1, d2);
     }
 
     @OnlyIn(Dist.CLIENT)
     private void boostingParticles(IParticleData p_208401_1_) {
         for (int i = 0; i < 4; i++) {
-            double d0 = this.rand.nextGaussian() * 0.056D;
-            double d1 = this.rand.nextGaussian() * 0.034D;
-            double d2 = this.rand.nextGaussian() * 0.025D;
-            this.world.addParticle(p_208401_1_, this.getPosX(), this.getPosYRandom(), this.getPosZ(), d0, d1, d2);
+            double d0 = this.random.nextGaussian() * 0.056D;
+            double d1 = this.random.nextGaussian() * 0.034D;
+            double d2 = this.random.nextGaussian() * 0.025D;
+            this.level.addParticle(p_208401_1_, this.getX(), this.getRandomY(), this.getZ(), d0, d1, d2);
         }
     }
 
@@ -154,8 +159,8 @@ public class GopjetEntity extends AbstractFishEntity {
             this.fish = fish;
         }
 
-        public boolean shouldExecute() {
-            return super.shouldExecute();
+        public boolean canUse() {
+            return super.canUse();
         }
     }
 
@@ -169,41 +174,41 @@ public class GopjetEntity extends AbstractFishEntity {
 
         public void tick() {
             if (this.gopjet.isInWater()) {
-                this.gopjet.setMotion(this.gopjet.getMotion().add(0.0D, 0.005D, 0.0D));
+                this.gopjet.setDeltaMovement(this.gopjet.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
             }
 
-            if (this.action == MovementController.Action.MOVE_TO && !this.gopjet.getNavigator().noPath()) {
-                double d0 = this.posX - this.gopjet.getPosX();
-                double d1 = this.posY - this.gopjet.getPosY();
-                double d2 = this.posZ - this.gopjet.getPosZ();
+            if (this.operation == MovementController.Action.MOVE_TO && !this.gopjet.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.gopjet.getX();
+                double d1 = this.wantedY - this.gopjet.getY();
+                double d2 = this.wantedZ - this.gopjet.getZ();
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
                 if (d3 < (double)2.5000003E-7F) {
-                    this.mob.setMoveForward(0.0F);
+                    this.mob.setZza(0.0F);
                 } else {
                     float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                    this.gopjet.rotationYaw = this.limitAngle(this.gopjet.rotationYaw, f, 10.0F);
-                    this.gopjet.renderYawOffset = this.gopjet.rotationYaw;
-                    this.gopjet.rotationYawHead = this.gopjet.rotationYaw;
-                    float f1 = (float)(this.speed * this.gopjet.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                    this.gopjet.yRot = this.rotlerp(this.gopjet.yRot, f, 10.0F);
+                    this.gopjet.yBodyRot = this.gopjet.yRot;
+                    this.gopjet.yHeadRot = this.gopjet.yRot;
+                    float f1 = (float)(this.speedModifier * this.gopjet.getAttributeValue(Attributes.MOVEMENT_SPEED));
                     if (this.gopjet.isInWater()) {
-                        this.gopjet.setAIMoveSpeed(f1 * 0.02F);
+                        this.gopjet.setSpeed(f1 * 0.02F);
                         float f2 = -((float)(MathHelper.atan2(d1, (double)MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
                         f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
-                        this.gopjet.rotationPitch = this.limitAngle(this.gopjet.rotationPitch, f2, 5.0F);
-                        float f3 = MathHelper.cos(this.gopjet.rotationPitch * ((float)Math.PI / 180F));
-                        float f4 = MathHelper.sin(this.gopjet.rotationPitch * ((float)Math.PI / 180F));
-                        this.gopjet.moveForward = f3 * f1;
-                        this.gopjet.moveVertical = -f4 * f1;
+                        this.gopjet.xRot = this.rotlerp(this.gopjet.xRot, f2, 5.0F);
+                        float f3 = MathHelper.cos(this.gopjet.xRot * ((float)Math.PI / 180F));
+                        float f4 = MathHelper.sin(this.gopjet.xRot * ((float)Math.PI / 180F));
+                        this.gopjet.zza = f3 * f1;
+                        this.gopjet.yya = -f4 * f1;
                     } else {
-                        this.gopjet.setAIMoveSpeed(f1 * 0.1F);
+                        this.gopjet.setSpeed(f1 * 0.1F);
                     }
 
                 }
             } else {
-                this.gopjet.setAIMoveSpeed(0.0F);
-                this.gopjet.setMoveStrafing(0.0F);
-                this.gopjet.setMoveVertical(0.0F);
-                this.gopjet.setMoveForward(0.0F);
+                this.gopjet.setSpeed(0.0F);
+                this.gopjet.setXxa(0.0F);
+                this.gopjet.setYya(0.0F);
+                this.gopjet.setZza(0.0F);
             }
         }
     }
@@ -216,33 +221,33 @@ public class GopjetEntity extends AbstractFishEntity {
         SwimWithPlayerGoal(GopjetEntity gopjetIn, double speedIn) {
             this.gopjet = gopjetIn;
             this.speed = speedIn;
-            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
         }
 
-        public boolean shouldExecute() {
-            this.targetPlayer = this.gopjet.world.getClosestPlayer(GopjetEntity.field_213810_bA, this.gopjet);
+        public boolean canUse() {
+            this.targetPlayer = this.gopjet.level.getNearestPlayer(GopjetEntity.SWIM_WITH_PLAYER_TARGETING, this.gopjet);
             if (this.targetPlayer == null) {
                 return false;
             } else {
-                return this.targetPlayer.isSwimming() && this.gopjet.getAttackTarget() != this.targetPlayer;
+                return this.targetPlayer.isSwimming() && this.gopjet.getTarget() != this.targetPlayer;
             }
         }
 
-        public boolean shouldContinueExecuting() {
-            return this.targetPlayer != null && this.targetPlayer.isSwimming() && this.gopjet.getDistanceSq(this.targetPlayer) < 256.0D;
+        public boolean canContinueToUse() {
+            return this.targetPlayer != null && this.targetPlayer.isSwimming() && this.gopjet.distanceToSqr(this.targetPlayer) < 256.0D;
         }
 
-        public void resetTask() {
+        public void stop() {
             this.targetPlayer = null;
-            this.gopjet.getNavigator().clearPath();
+            this.gopjet.getNavigation().stop();
         }
 
         public void tick() {
-            this.gopjet.getLookController().setLookPositionWithEntity(this.targetPlayer, (float)(this.gopjet.getHorizontalFaceSpeed() + 20), (float)this.gopjet.getVerticalFaceSpeed());
-            if (this.gopjet.getDistanceSq(this.targetPlayer) < 6.25D) {
-                this.gopjet.getNavigator().clearPath();
+            this.gopjet.getLookControl().setLookAt(this.targetPlayer, (float)(this.gopjet.getMaxHeadYRot() + 20), (float)this.gopjet.getMaxHeadXRot());
+            if (this.gopjet.distanceToSqr(this.targetPlayer) < 6.25D) {
+                this.gopjet.getNavigation().stop();
             } else {
-                this.gopjet.getNavigator().tryMoveToEntityLiving(this.targetPlayer, this.speed);
+                this.gopjet.getNavigation().moveTo(this.targetPlayer, this.speed);
             }
         }
     }

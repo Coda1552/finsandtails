@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class VibraWeeEntity extends AbstractGroupFishEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(VibraWeeEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(VibraWeeEntity.class, DataSerializers.INT);
 
     public VibraWeeEntity(EntityType<? extends VibraWeeEntity> type, World world) {
         super(type, world);
@@ -38,13 +38,13 @@ public class VibraWeeEntity extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(4, new VibraWeeEntity.SwimGoal(this));
         this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
     }
 
     @Override
-    public int getMaxGroupSize() {
+    public int getMaxSchoolSize() {
         return 9;
     }
 
@@ -56,16 +56,16 @@ public class VibraWeeEntity extends AbstractGroupFishEntity {
             this.fish = fish;
         }
 
-        public boolean shouldExecute() {
-            return super.shouldExecute();
+        public boolean canUse() {
+            return super.canUse();
         }
     }
     
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (dataTag == null) {
-            setVariant(rand.nextInt(15));
+            setVariant(random.nextInt(15));
         } else {
             if (dataTag.contains("Variant", 3)){
                 this.setVariant(dataTag.getInt("Variant"));
@@ -74,56 +74,56 @@ public class VibraWeeEntity extends AbstractGroupFishEntity {
         return spawnDataIn;
     }
 
-    protected void setBucketData(ItemStack bucket) {
+    protected void saveToBucketTag(ItemStack bucket) {
         CompoundNBT compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
     }
 
     public int getVariant() {
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
+        this.entityData.set(VARIANT, variant);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
     @Override
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.VIBRA_WEE_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_COD_AMBIENT;
+        return SoundEvents.COD_AMBIENT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COD_DEATH;
+        return SoundEvents.COD_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return SoundEvents.COD_HURT;
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override

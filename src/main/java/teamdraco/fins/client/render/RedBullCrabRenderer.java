@@ -14,7 +14,7 @@ public class RedBullCrabRenderer extends MobRenderer<RedBullCrabEntity, BullCrab
         super(renderManagerIn, new BullCrabModel<>(), 0.3F);
     }
 
-    public ResourceLocation getEntityTexture(RedBullCrabEntity entity) {
+    public ResourceLocation getTextureLocation(RedBullCrabEntity entity) {
         return TEXTURE;
     }
 }

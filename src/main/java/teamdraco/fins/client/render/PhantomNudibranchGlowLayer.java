@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
 public class PhantomNudibranchGlowLayer<T extends PhantomNudibranchEntity, M extends PhantomNudibranchModel<T>>  extends LayerRenderer<T, M> {
-    private static final RenderType TEXTURE = RenderType.getEyes(new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/phantom_nudibranch.png"));
+    private static final RenderType TEXTURE = RenderType.eyes(new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/phantom_nudibranch.png"));
 
     public PhantomNudibranchGlowLayer(IEntityRenderer<T, M> rendererIn) {
         super(rendererIn);
@@ -22,7 +22,7 @@ public class PhantomNudibranchGlowLayer<T extends PhantomNudibranchEntity, M ext
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(this.getRenderType());
-        this.getEntityModel().render(matrixStackIn, ivertexbuilder, 2000, OverlayTexture.NO_OVERLAY, 0.5F, 0.5F, 0.5F, 0.5F);
+        this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder, 2000, OverlayTexture.NO_OVERLAY, 0.5F, 0.5F, 0.5F, 0.5F);
     }
 
     public RenderType getRenderType() {

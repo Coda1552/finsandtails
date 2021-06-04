@@ -23,41 +23,41 @@ public class CrabGauntletItem extends Item {
 
     public CrabGauntletItem(IItemTier tier, int attackDamageIn, float attackSpeedIn, Item.Properties builderIn) {
         super(builderIn);
-        this.attackDamage = (float)attackDamageIn + tier.getAttackDamage();
+        this.attackDamage = (float)attackDamageIn + tier.getAttackDamageBonus();
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)this.attackDamage, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", (double)attackSpeedIn, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double)this.attackDamage, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", (double)attackSpeedIn, AttributeModifier.Operation.ADDITION));
         this.attributeModifiers = builder.build();
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state) {
-        if (state.isIn(Blocks.COBWEB)) {
+        if (state.is(Blocks.COBWEB)) {
             return 15.0F;
         } else {
             Material material = state.getMaterial();
-            return material != Material.PLANTS && material != Material.TALL_PLANTS && material != Material.CORAL && !state.isIn(BlockTags.LEAVES) && material != Material.GOURD ? 1.0F : 1.5F;
+            return material != Material.PLANT && material != Material.REPLACEABLE_PLANT && material != Material.CORAL && !state.is(BlockTags.LEAVES) && material != Material.VEGETABLE ? 1.0F : 1.5F;
         }
     }
 
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damageItem(1, attacker, (entity) -> {
-            entity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        stack.hurtAndBreak(1, attacker, (entity) -> {
+            entity.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
         });
         return true;
     }
 
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        if (state.getBlockHardness(worldIn, pos) != 0.0F) {
-            stack.damageItem(2, entityLiving, (entity) -> {
-                entity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+    public boolean mineBlock(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+        if (state.getDestroySpeed(worldIn, pos) != 0.0F) {
+            stack.hurtAndBreak(2, entityLiving, (entity) -> {
+                entity.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
             });
         }
 
         return true;
     }
 
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
-        return equipmentSlot == EquipmentSlotType.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(equipmentSlot);
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlotType equipmentSlot) {
+        return equipmentSlot == EquipmentSlotType.MAINHAND ? this.attributeModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
     }
 
     @Override

@@ -23,61 +23,61 @@ public class CrabCruncherResultSlot extends Slot {
       this.craftMatrix = craftingInventory;
    }
 
-   public boolean isItemValid(ItemStack stack) {
+   public boolean mayPlace(ItemStack stack) {
       return false;
    }
 
-   public ItemStack decrStackSize(int amount) {
-      if (this.getHasStack()) {
-         this.amountCrafted += Math.min(amount, this.getStack().getCount());
+   public ItemStack remove(int amount) {
+      if (this.hasItem()) {
+         this.amountCrafted += Math.min(amount, this.getItem().getCount());
       }
 
-      return super.decrStackSize(amount);
+      return super.remove(amount);
    }
 
-   protected void onCrafting(ItemStack stack, int amount) {
+   protected void onQuickCraft(ItemStack stack, int amount) {
       this.amountCrafted += amount;
-      this.onCrafting(stack);
+      this.checkTakeAchievements(stack);
    }
 
    protected void onSwapCraft(int numItemsCrafted) {
       this.amountCrafted += numItemsCrafted;
    }
 
-   protected void onCrafting(ItemStack stack) {
+   protected void checkTakeAchievements(ItemStack stack) {
       if (this.amountCrafted > 0) {
-         stack.onCrafting(this.player.world, this.player, this.amountCrafted);
+         stack.onCraftedBy(this.player.level, this.player, this.amountCrafted);
          BasicEventHooks.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
       }
 
-      if (this.inventory instanceof IRecipeHolder) {
-         ((IRecipeHolder)this.inventory).onCrafting(this.player);
+      if (this.container instanceof IRecipeHolder) {
+         ((IRecipeHolder)this.container).awardUsedRecipes(this.player);
       }
 
       this.amountCrafted = 0;
    }
 
    public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
-      this.onCrafting(stack);
+      this.checkTakeAchievements(stack);
       ForgeHooks.setCraftingPlayer(thePlayer);
-      NonNullList<ItemStack> nonnulllist = thePlayer.world.getRecipeManager().getRecipeNonNull(FinsRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.world);
+      NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FinsRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.level);
       ForgeHooks.setCraftingPlayer(null);
       for(int i = 0; i < nonnulllist.size(); ++i) {
-         ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
+         ItemStack itemstack = this.craftMatrix.getItem(i);
          ItemStack itemstack1 = nonnulllist.get(i);
          if (!itemstack.isEmpty()) {
-            this.craftMatrix.decrStackSize(i, 1);
-            itemstack = this.craftMatrix.getStackInSlot(i);
+            this.craftMatrix.removeItem(i, 1);
+            itemstack = this.craftMatrix.getItem(i);
          }
 
          if (!itemstack1.isEmpty()) {
             if (itemstack.isEmpty()) {
-               this.craftMatrix.setInventorySlotContents(i, itemstack1);
-            } else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1)) {
+               this.craftMatrix.setItem(i, itemstack1);
+            } else if (ItemStack.isSame(itemstack, itemstack1) && ItemStack.tagMatches(itemstack, itemstack1)) {
                itemstack1.grow(itemstack.getCount());
-               this.craftMatrix.setInventorySlotContents(i, itemstack1);
-            } else if (!this.player.inventory.addItemStackToInventory(itemstack1)) {
-               this.player.dropItem(itemstack1, false);
+               this.craftMatrix.setItem(i, itemstack1);
+            } else if (!this.player.inventory.add(itemstack1)) {
+               this.player.drop(itemstack1, false);
             }
          }
       }

@@ -15,29 +15,31 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class SwampDidgeridooItem extends Item {
     public SwampDidgeridooItem(Properties properties) {
         super(properties);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        List<MudhorseEntity> mudhorses = world.getEntitiesWithinAABB(FinsEntities.MUDHORSE.get(), player.getBoundingBox().grow(8), entity -> entity.getCommander() == null);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        List<MudhorseEntity> mudhorses = world.getEntities(FinsEntities.MUDHORSE.get(), player.getBoundingBox().inflate(8), entity -> entity.getCommander() == null);
         if (mudhorses.isEmpty()) {
-            player.playSound(SoundEvents.ENTITY_VILLAGER_NO, 0.4f, 1);
-            addParticleEffect(ParticleTypes.SMOKE, world, player.getPosX() - 0.5, player.getPosY() + 1, player.getPosZ() - 0.5);
-            return ActionResult.resultPass(stack);
+            player.playSound(SoundEvents.VILLAGER_NO, 0.4f, 1);
+            addParticleEffect(ParticleTypes.SMOKE, world, player.getX() - 0.5, player.getY() + 1, player.getZ() - 0.5);
+            return ActionResult.pass(stack);
         }
 
         for (MudhorseEntity mudhorseEntity : mudhorses) {
             mudhorseEntity.setCommander(player);
-            addParticleEffect(ParticleTypes.HAPPY_VILLAGER, world, mudhorseEntity.getPosX() - 0.5, mudhorseEntity.getPosY() + 1.4, mudhorseEntity.getPosZ() - 0.5);
+            addParticleEffect(ParticleTypes.HAPPY_VILLAGER, world, mudhorseEntity.getX() - 0.5, mudhorseEntity.getY() + 1.4, mudhorseEntity.getZ() - 0.5);
         }
         player.playSound(FinsSounds.DIDGERIDOO_PLAY.get(), 0.4f, 1);
-        player.getCooldownTracker().setCooldown(this, 600);
-        stack.damageItem(1, player, entity -> entity.sendBreakAnimation(hand));
-        return ActionResult.resultSuccess(stack);
+        player.getCooldowns().addCooldown(this, 600);
+        stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(hand));
+        return ActionResult.success(stack);
     }
 
     private void addParticleEffect(IParticleData particleData, World world, double x, double y, double z) {

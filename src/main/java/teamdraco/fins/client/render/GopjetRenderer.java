@@ -15,7 +15,7 @@ public class GopjetRenderer extends MobRenderer<GopjetEntity, GopjetModel<Gopjet
         super(renderManagerIn, new GopjetModel<>(), 0.3F);
     }
 
-    public ResourceLocation getEntityTexture(GopjetEntity entity) {
+    public ResourceLocation getTextureLocation(GopjetEntity entity) {
         return entity.isBoosting() ? BOOSTING : STANDARD;
     }
 }

@@ -22,6 +22,8 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.container.CrabCruncherContainer;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class CrabCruncherBlock extends Block {
     private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container." + FinsAndTails.MOD_ID + "crab_cruncher");
 
@@ -30,9 +32,9 @@ public class CrabCruncherBlock extends Block {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isRemote) {
-            NetworkHooks.openGui((ServerPlayerEntity) player, state.getContainer(worldIn, pos));
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!worldIn.isClientSide) {
+            NetworkHooks.openGui((ServerPlayerEntity) player, state.getMenuProvider(worldIn, pos));
             return ActionResultType.CONSUME;
         } else {
             return ActionResultType.SUCCESS;
@@ -40,20 +42,20 @@ public class CrabCruncherBlock extends Block {
     }
 
     @Override
-    public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
-        return new SimpleNamedContainerProvider((id, inventory, player) -> new CrabCruncherContainer(id, inventory, IWorldPosCallable.of(worldIn, pos)), CONTAINER_NAME);
+    public INamedContainerProvider getMenuProvider(BlockState state, World worldIn, BlockPos pos) {
+        return new SimpleNamedContainerProvider((id, inventory, player) -> new CrabCruncherContainer(id, inventory, IWorldPosCallable.create(worldIn, pos)), CONTAINER_NAME);
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.isIn(newState.getBlock())) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof IInventory) {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory)tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+                InventoryHelper.dropContents(worldIn, pos, (IInventory)tileentity);
+                worldIn.updateNeighbourForOutputSignal(pos, this);
             }
 
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 

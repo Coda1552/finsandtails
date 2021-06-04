@@ -8,7 +8,7 @@
   "item.fins.banded_redback_shrimp": "Camarão Listrado de Costas Vermelhas",
   "item.fins.cooked_banded_redback_shrimp": "Camarão Listrado de Costas Vermelhas Cozido",
   "item.fins.banded_redback_shrimp_bucket": "Balde com Camarão Listrado de Costas Vermelhas",
-  "item.fins.teal_arrowfish": ""Peixe seta verde-azulado",",
+  "item.fins.teal_arrowfish": "Peixe seta verde-azulado",
   "item.fins.teal_arrowfish_bucket": "Balde com Peixe seta verde-azulado",
   "item.fins.swamp_mucker": "Limpador do Pântano",
   "item.fins.swamp_mucker_bucket": "Balde com Limpador do Pântano",
@@ -21,7 +21,7 @@
   "item.fins.mudhorse_leather": "Couro de Cavalo-da-Lama",
   "item.fins.mudhorse_pouch": "Bolsa de Cavalo-da-Lama",
   "item.fins.phantom_nudibranch_bucket": "Balde de Nudibrânquio Fantasma",
-  "item.fins.ornate_bugfish": Peixe Inseto Ornamentado",
+  "item.fins.ornate_bugfish": "Peixe Inseto Ornamentado",
   "item.fins.ornate_bugfish_bucket": "Balde com Peixe Inseto Ornamentado",
   "item.fins.bugmeat": "Carne de Peixe Inseto",
   "item.fins.cooked_bugmeat": "Carne de Peixe Inseto Cozida",
@@ -37,7 +37,7 @@
   "item.fins.gem_crab_amulet": "Amuleto de Jóia Delgada",
   "item.fins.flatback_leaf_snail_shell": "Concha de Caracol Folha",
   "item.fins.red_bull_crab_bucket": "Balde com Caranguejo Touro Vermelho",
-  "item"item.fins.white_bull_crab_bucket": "Balde com Caranguejo Touro Branco",
+  "item.fins.white_bull_crab_bucket": "Balde com Caranguejo Touro Branco",
   "item.fins.cooked_bull_crab_claw": "Garra de Caranguejo Touro Cozida",
   "item.fins.white_bull_crab_claw": "Garra de Caranguejo Touro Branco",
   "item.fins.red_bull_crab_claw": "Garra de Caranguejo Touro Vermelho",
@@ -45,7 +45,7 @@
   "item.fins.white_claw_gauntlet": "Manopla de Garra Branca",
   "item.fins.gopjet_jet": "Jato de Peixe Jato",
   "item.fins.gopjet_jetpack": "Mochila de Peixe Jato",
-  "item"item.fins.wee_wee": "Pequenino",
+  "item.fins.wee_wee": "Pequenino",
   "item.fins.wee_wee_bucket": "Balde com Pequenino",
   "item.fins.vibra_wee": "Pequeno Vibrante",
   "item.fins.vibra_wee_bucket": "Balde de Pequeno Vibrante",
@@ -59,7 +59,7 @@
   "item.fins.raw_golden_river_ray_wing": "Asa de Arraia Dourada do Rio Crua",
   "item.fins.night_light_squid": "Lula Luz Noturna",
   "item.fins.night_light_squid_tentacle": "Tentáculo de Lula Luz Noturna Luminosa",
-  "item.fins.night_light_squid_bucket": "Balde com Lula Luz Noturna"
+  "item.fins.night_light_squid_bucket": "Balde com Lula Luz Noturna",
   "item.fins.swamp_didgeridoo": "Didgeridoo do Pântano",
   "item.fins.reef_cocktail": "Coquetel do Recife",
   "item.fins.seafood_soup": "Sopa de Frutos do Mar",
@@ -71,7 +71,7 @@
   "item.fins.banner_pattern_mandibles.desc": "Mandíbulas",
   "item.fins.banner_pattern_shell": "Desenho para estandarte",
   "item.fins.banner_pattern_shell.desc": "Concha",
- "item.fins.spindly_emerald": "Esmeralda Delgada",
+  "item.fins.spindly_emerald": "Esmeralda Delgada",
   "item.fins.spindly_pearl": "Pérola Delgada",
   "item.fins.spindly_sapphire": "Safira Delgada",
   "item.fins.spindly_ruby": "Rubi Delgado",
@@ -86,7 +86,7 @@
   "item.fins.music_disc_crashing_tides": "Disco de Música",
   "item.fins.music_disc_crashing_tides.desc": "Mr. Esuoh - Crashing Tides",
 
-"item.fins.blu_wee_spawn_egg": "Ovo Gerador de Azulzinho",
+  "item.fins.blu_wee_spawn_egg": "Ovo Gerador de Azulzinho",
   "item.fins.pea_wee_spawn_egg": "Ovo Gerador de Peixe Ervilha",
   "item.fins.banded_redback_shrimp_spawn_egg": "Ovo Gerador de Camarão Listrado de Costas Vermelhas",
   "item.fins.teal_arrowfish_spawn_egg": "Ovo Gerador de Peixe seta verde-azulado",
@@ -257,7 +257,7 @@
   "block.minecraft.banner.shell.lightBlue": "Concha Azul Claro",
   "block.minecraft.banner.shell.magenta": "Concha magenta",
   "block.minecraft.banner.shell.orange": "Concha Laranja",
-  "block.minecraft.banner.shell.white": "Concha Branca"
+  "block.minecraft.banner.shell.white": "Concha Branca",
 
   "category.fins.crunching_recipe": "Esmagando"
 }

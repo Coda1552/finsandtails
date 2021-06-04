@@ -52,7 +52,7 @@ public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe>
     @Override
     public void setIngredients(CrunchingRecipe crunchingRecipe, IIngredients iIngredients) {
         iIngredients.setInputIngredients(crunchingRecipe.getIngredients());
-        iIngredients.setOutput(VanillaTypes.ITEM, crunchingRecipe.getRecipeOutput());
+        iIngredients.setOutput(VanillaTypes.ITEM, crunchingRecipe.getResultItem());
     }
 
     @Override

@@ -12,7 +12,7 @@ public class CrabCruncherSlot extends Slot {
     }
 
     @Override
-    public boolean isItemValid(ItemStack stack) {
+    public boolean mayPlace(ItemStack stack) {
         return  stack.getItem() == FinsItems.AMBER_SPINDLY_GEM_CRAB.get()
                 || stack.getItem() == FinsItems.RUBY_SPINDLY_GEM_CRAB.get()
                 || stack.getItem() == FinsItems.EMERALD_SPINDLY_GEM_CRAB.get()

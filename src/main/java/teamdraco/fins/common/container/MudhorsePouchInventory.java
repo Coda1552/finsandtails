@@ -17,18 +17,18 @@ public class MudhorsePouchInventory extends Inventory {
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
+    public void setChanged() {
+        super.setChanged();
         isDirty = true;
     }
 
     public void write(ItemStack stack) {
         CompoundNBT tag = new CompoundNBT();
         ListNBT list = new ListNBT();
-        for (int i = 0; i < getSizeInventory(); i++) {
+        for (int i = 0; i < getContainerSize(); i++) {
             CompoundNBT item = new CompoundNBT();
             item.putByte("Slot", (byte) i);
-            list.add(getStackInSlot(i).write(item));
+            list.add(getItem(i).save(item));
         }
         tag.put("Items", list);
         stack.setTag(tag);

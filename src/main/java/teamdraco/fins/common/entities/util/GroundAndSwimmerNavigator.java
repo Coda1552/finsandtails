@@ -1,4 +1,4 @@
-package teamdraco.fins.common.entities.pathfinding;
+package teamdraco.fins.common.entities.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -15,20 +15,20 @@ public class GroundAndSwimmerNavigator extends SwimmerPathNavigator {
     }
 
     @Override
-    protected boolean canNavigate() {
+    protected boolean canUpdatePath() {
         return true;
     }
 
     @Override
-    protected PathFinder getPathFinder(int p_179679_1_) {
-        this.nodeProcessor = new WalkAndSwimNodeProcessor();
-        return new PathFinder(this.nodeProcessor, p_179679_1_);
+    protected PathFinder createPathFinder(int p_179679_1_) {
+        this.nodeEvaluator = new WalkAndSwimNodeProcessor();
+        return new PathFinder(this.nodeEvaluator, p_179679_1_);
     }
 
     @Override
-    public boolean canEntityStandOnPos(BlockPos pos) {
-        BlockPos blockPos = pos.down();
-        BlockState state = this.world.getBlockState(blockPos);
-        return this.world.getBlockState(pos).isIn(Blocks.WATER) || !state.getBlock().isAir(state, world, blockPos);
+    public boolean isStableDestination(BlockPos pos) {
+        BlockPos blockPos = pos.below();
+        BlockState state = this.level.getBlockState(blockPos);
+        return this.level.getBlockState(pos).is(Blocks.WATER) || !state.getBlock().isAir(state, level, blockPos);
     }
 }

@@ -37,17 +37,17 @@ public class VibraWeeRenderer extends MobRenderer<VibraWeeEntity, VibraWeeModel<
     }
 
     @Override
-    public ResourceLocation getEntityTexture(VibraWeeEntity entity) {
+    public ResourceLocation getTextureLocation(VibraWeeEntity entity) {
         return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
     }
 
-    protected void applyRotations(VibraWeeEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+    protected void setupRotations(VibraWeeEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         float f = 4.3F * MathHelper.sin(0.6F * ageInTicks);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f));
         if (!entityLiving.isInWater()) {
             matrixStackIn.translate((double)0.1F, (double)0.1F, (double)-0.1F);
-            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90.0F));
+            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
         }
     }
 }

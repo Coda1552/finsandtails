@@ -7,6 +7,8 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 public class FlukedEdgeEnchantment extends Enchantment {
     public FlukedEdgeEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {
         super(rarity, type, slots);
@@ -33,7 +35,7 @@ public class FlukedEdgeEnchantment extends Enchantment {
     }
 
     @Override
-    protected boolean canApplyTogether(Enchantment ench) {
+    protected boolean checkCompatibility(Enchantment ench) {
         return !ench.equals(Enchantments.DEPTH_STRIDER);
     }
 }

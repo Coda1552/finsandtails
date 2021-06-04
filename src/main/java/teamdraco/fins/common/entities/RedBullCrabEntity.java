@@ -33,13 +33,15 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Random;
 
+import net.minecraft.entity.ai.controller.MovementController.Action;
+
 public class RedBullCrabEntity extends WaterMobEntity {
-    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(RedBullCrabEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.defineId(RedBullCrabEntity.class, DataSerializers.BOOLEAN);
 
     public RedBullCrabEntity(EntityType<? extends RedBullCrabEntity> type, World world) {
         super(type, world);
-        this.moveController = new RedBullCrabEntity.MoveHelperController(this);
-        this.stepHeight = 0.7f;
+        this.moveControl = new RedBullCrabEntity.MoveHelperController(this);
+        this.maxUpStep = 0.7f;
     }
 
     @Override
@@ -56,28 +58,28 @@ public class RedBullCrabEntity extends WaterMobEntity {
         return 0.9f;
     }
 
-    protected PathNavigator createNavigator(World world) {
+    protected PathNavigator createNavigation(World world) {
         return new GroundPathNavigator(this, world);
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    public boolean hurt(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;
         } else {
-            Entity entity = source.getTrueSource();
+            Entity entity = source.getEntity();
 
             if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
-            return super.attackEntityFrom(source, amount);
+            return super.hurt(source, amount);
         }
     }
 
-    public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+    public boolean doHurtTarget(Entity entityIn) {
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
 
         return flag;
@@ -87,11 +89,11 @@ public class RedBullCrabEntity extends WaterMobEntity {
         return new ItemStack(FinsItems.RED_BULL_CRAB_BUCKET.get());
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 6).createMutableAttribute(Attributes.ATTACK_DAMAGE, 1).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
-    public boolean preventDespawn() {
+    public boolean requiresCustomPersistence() {
         if (this.isFromBucket()) {
             return false;
         }
@@ -100,33 +102,33 @@ public class RedBullCrabEntity extends WaterMobEntity {
         }
     }
 
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(FROM_BUCKET, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(FROM_BUCKET, false);
     }
 
     private boolean isFromBucket() {
-        return this.dataManager.get(FROM_BUCKET);
+        return this.entityData.get(FROM_BUCKET);
     }
 
     public void setFromBucket(boolean p_203706_1_) {
-        this.dataManager.set(FROM_BUCKET, p_203706_1_);
+        this.entityData.set(FROM_BUCKET, p_203706_1_);
     }
 
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putBoolean("FromBucket", this.isFromBucket());
     }
 
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.setFromBucket(compound.getBoolean("FromBucket"));
     }
 
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_TROPICAL_FISH_HURT;
+        return SoundEvents.TROPICAL_FISH_HURT;
     }
 
     protected SoundEvent getDeathSound() {
@@ -134,7 +136,7 @@ public class RedBullCrabEntity extends WaterMobEntity {
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+        return SoundEvents.TROPICAL_FISH_FLOP;
     }
 
     @Override
@@ -143,40 +145,40 @@ public class RedBullCrabEntity extends WaterMobEntity {
     }
 
     @Override
-    protected void updateAir(int p_209207_1_) {
+    protected void handleAirSupply(int p_209207_1_) {
     }
 
     public static boolean canCrabSpawn(EntityType<? extends WaterMobEntity> type, IWorld worldIn, SpawnReason reason, BlockPos p_223363_3_, Random randomIn) {
-        return worldIn.getBlockState(p_223363_3_).isIn(Blocks.WATER) && worldIn.getBlockState(p_223363_3_.up()).isIn(Blocks.WATER);
+        return worldIn.getBlockState(p_223363_3_).is(Blocks.WATER) && worldIn.getBlockState(p_223363_3_.above()).is(Blocks.WATER);
     }
 
-    protected ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
-        ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
+    protected ActionResultType mobInteract(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+        ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
         if (itemstack.getItem() == Items.WATER_BUCKET && this.isAlive()) {
-            this.playSound(SoundEvents.ITEM_BUCKET_FILL_FISH, 1.0F, 1.0F);
+            this.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0F, 1.0F);
             itemstack.shrink(1);
             ItemStack itemstack1 = this.getFishBucket();
             this.setBucketData(itemstack1);
-            if (!this.world.isRemote) {
+            if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity)p_230254_1_, itemstack1);
             }
 
             if (itemstack.isEmpty()) {
-                p_230254_1_.setHeldItem(p_230254_2_, itemstack1);
-            } else if (!p_230254_1_.inventory.addItemStackToInventory(itemstack1)) {
-                p_230254_1_.dropItem(itemstack1, false);
+                p_230254_1_.setItemInHand(p_230254_2_, itemstack1);
+            } else if (!p_230254_1_.inventory.add(itemstack1)) {
+                p_230254_1_.drop(itemstack1, false);
             }
 
             this.remove();
-            return ActionResultType.func_233537_a_(this.world.isRemote);
+            return ActionResultType.sidedSuccess(this.level.isClientSide);
         } else {
-            return super.func_230254_b_(p_230254_1_, p_230254_2_);
+            return super.mobInteract(p_230254_1_, p_230254_2_);
         }
     }
 
     protected void setBucketData(ItemStack bucket) {
         if (this.hasCustomName()) {
-            bucket.setDisplayName(this.getCustomName());
+            bucket.setHoverName(this.getCustomName());
         }
 
     }
@@ -190,24 +192,24 @@ public class RedBullCrabEntity extends WaterMobEntity {
         }
 
         public void tick() {
-            if (this.crab.areEyesInFluid(FluidTags.WATER)) {
-                this.crab.setMotion(this.crab.getMotion().add(0.0D, 0.0D, 0.0D));
+            if (this.crab.isEyeInFluid(FluidTags.WATER)) {
+                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.action == Action.MOVE_TO && !this.crab.getNavigator().noPath()) {
-                double d0 = this.posX - this.crab.getPosX();
-                double d1 = this.posY - this.crab.getPosY();
-                double d2 = this.posZ - this.crab.getPosZ();
+            if (this.operation == Action.MOVE_TO && !this.crab.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.crab.getX();
+                double d1 = this.wantedY - this.crab.getY();
+                double d2 = this.wantedZ - this.crab.getZ();
                 double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.crab.rotationYaw = this.limitAngle(this.crab.rotationYaw, f, 90.0F);
-                this.crab.renderYawOffset = this.crab.rotationYaw;
-                float f1 = (float) (this.speed * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.crab.setAIMoveSpeed(MathHelper.lerp(0.125F, this.crab.getAIMoveSpeed(), f1));
-                this.crab.setMotion(this.crab.getMotion().add(0.0D, (double) this.crab.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
+                this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
+                this.crab.yBodyRot = this.crab.yRot;
+                float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.crab.setSpeed(MathHelper.lerp(0.125F, this.crab.getSpeed(), f1));
+                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
-                this.crab.setAIMoveSpeed(0.0F);
+                this.crab.setSpeed(0.0F);
             }
         }
     }

@@ -26,7 +26,7 @@ public class FinsJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        RecipeManager manager = Minecraft.getInstance().world.getRecipeManager();
+        RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
 
         registration.addRecipes(getRecipes(manager, FinsRecipes.CRUNCHING_TYPE), CrunchingRecipeCategory.ID);
     }

@@ -30,7 +30,7 @@ public class CrabCruncherContainer extends Container {
     private final CraftResultInventory craftResult = new CraftResultInventory();
 
     public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory) {
-        this(windowId, playerInventory, IWorldPosCallable.DUMMY);
+        this(windowId, playerInventory, IWorldPosCallable.NULL);
     }
 
     public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
@@ -59,44 +59,44 @@ public class CrabCruncherContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return isWithinUsableDistance(worldPosCallable, playerIn, FinsBlocks.CRAB_CRUNCHER.get());
+    public boolean stillValid(PlayerEntity playerIn) {
+        return stillValid(worldPosCallable, playerIn, FinsBlocks.CRAB_CRUNCHER.get());
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
-                this.worldPosCallable.consume((p_217067_2_, p_217067_3_) -> {
-                    itemstack1.getItem().onCreated(itemstack1, p_217067_2_, playerIn);
+                this.worldPosCallable.execute((p_217067_2_, p_217067_3_) -> {
+                    itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, playerIn);
                 });
-                if (!this.mergeItemStack(itemstack1, 3, 39,true)) {
+                if (!this.moveItemStackTo(itemstack1, 3, 39,true)) {
                     return ItemStack.EMPTY;
                 }
 
-                slot.onSlotChange(itemstack1, itemstack);
+                slot.onQuickCraft(itemstack1, itemstack);
             } else if (index >= 3 && index < 39) {
-                if (!this.mergeItemStack(itemstack1, 1, 3, false)) {
+                if (!this.moveItemStackTo(itemstack1, 1, 3, false)) {
                     if (index < 37) {
-                        if (!this.mergeItemStack(itemstack1, 37, 39, false)) {
+                        if (!this.moveItemStackTo(itemstack1, 37, 39, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (!this.mergeItemStack(itemstack1, 3, 30, false)) {
+                    } else if (!this.moveItemStackTo(itemstack1, 3, 30, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
-            } else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 3, 39, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
@@ -105,7 +105,7 @@ public class CrabCruncherContainer extends Container {
 
             ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
             if (index == 0) {
-                playerIn.dropItem(itemstack2, false);
+                playerIn.drop(itemstack2, false);
             }
         }
 
@@ -113,28 +113,28 @@ public class CrabCruncherContainer extends Container {
     }
 
     protected void updateCraftingResult(World world) {
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)player;
             ItemStack itemstack = ItemStack.EMPTY;
-            Optional<CrunchingRecipe> optional = world.getServer().getRecipeManager().getRecipe(FinsRecipes.CRUNCHING_TYPE, inventory, world);
+            Optional<CrunchingRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(FinsRecipes.CRUNCHING_TYPE, inventory, world);
             if (optional.isPresent()) {
-                itemstack = optional.get().getCraftingResult(inventory);
+                itemstack = optional.get().assemble(inventory);
             }
-            world.playSound(player, player.getPosition(), FinsSounds.CRAB_CRUNCH.get(), SoundCategory.BLOCKS, 0.6F, 1.0F);
+            world.playSound(player, player.blockPosition(), FinsSounds.CRAB_CRUNCH.get(), SoundCategory.BLOCKS, 0.6F, 1.0F);
 
-            craftResult.setInventorySlotContents(0, itemstack);
-            serverplayerentity.connection.sendPacket(new SSetSlotPacket(windowId, 0, itemstack));
+            craftResult.setItem(0, itemstack);
+            serverplayerentity.connection.send(new SSetSlotPacket(containerId, 0, itemstack));
         }
     }
 
     @Override
-    public void onCraftMatrixChanged(IInventory inventoryIn) {
-        this.worldPosCallable.consume((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
+    public void slotsChanged(IInventory inventoryIn) {
+        this.worldPosCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
     }
 
     @Override
-    public void onContainerClosed(PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
-        this.worldPosCallable.consume((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, p_217068_2_, inventory));
+    public void removed(PlayerEntity playerIn) {
+        super.removed(playerIn);
+        this.worldPosCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, p_217068_2_, inventory));
     }
 }

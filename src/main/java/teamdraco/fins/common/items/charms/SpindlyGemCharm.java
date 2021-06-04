@@ -11,21 +11,21 @@ import net.minecraft.world.World;
 import teamdraco.fins.common.items.FinsArmorMaterial;
 
 public class SpindlyGemCharm extends ArmorItem implements ISpindlyCharmItem {
-    public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gem_crab_amulet", 1, new int[]{1, 2, 3, 1}, 3, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0.0F, null);
+    public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gem_crab_amulet", 1, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
 
     public SpindlyGemCharm() {
-        super(MATERIAL, EquipmentSlotType.CHEST, new Item.Properties().group(FinsAndTails.GROUP).maxDamage(2).rarity(Rarity.RARE));
+        super(MATERIAL, EquipmentSlotType.CHEST, new Item.Properties().tab(FinsAndTails.GROUP).durability(2).rarity(Rarity.RARE));
     }
 
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
         if (player.isAlive() && isUsable(stack) && player.getHealth() <= 4.0F) {
-            player.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 1200, 0, false, false, true));
-            player.addPotionEffect(new EffectInstance(Effects.STRENGTH, 600, 0, false, false, true));
-            player.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 1200, 0, false, false, true));
-            player.addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 0, false, false, true));
-            player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 400, 0, false, false, true));
-            stack.damageItem(1, player, e -> e.sendBreakAnimation(net.minecraft.inventory.EquipmentSlotType.CHEST));
+            player.addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 1200, 0, false, false, true));
+            player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST, 600, 0, false, false, true));
+            player.addEffect(new EffectInstance(Effects.WATER_BREATHING, 1200, 0, false, false, true));
+            player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 1200, 0, false, false, true));
+            player.addEffect(new EffectInstance(Effects.REGENERATION, 400, 0, false, false, true));
+            stack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(net.minecraft.inventory.EquipmentSlotType.CHEST));
         }
     }
 

@@ -27,7 +27,7 @@ public class TealArrowfishEntity extends AbstractGroupFishEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 3.0D, true));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(3, new TealArrowfishEntity.SwimGoal(this));
         this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, false));
@@ -37,7 +37,7 @@ public class TealArrowfishEntity extends AbstractGroupFishEntity {
     }
 
     @Override
-    public int getMaxGroupSize() {
+    public int getMaxSchoolSize() {
         return 3;
     }
 
@@ -49,57 +49,57 @@ public class TealArrowfishEntity extends AbstractGroupFishEntity {
             this.fish = fish;
         }
 
-        public boolean shouldExecute() {
-            return super.shouldExecute();
+        public boolean canUse() {
+            return super.canUse();
         }
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    public boolean hurt(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;
         } else {
-            Entity entity = source.getTrueSource();
+            Entity entity = source.getEntity();
 
             if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
-            return super.attackEntityFrom(source, amount);
+            return super.hurt(source, amount);
         }
     }
 
-    public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+    public boolean doHurtTarget(Entity entityIn) {
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
 
         return flag;
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8).createMutableAttribute(Attributes.ATTACK_DAMAGE, 1);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8).add(Attributes.ATTACK_DAMAGE, 1);
     }
 
     @Override
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.TEAL_ARROWFISH_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_COD_AMBIENT;
+        return SoundEvents.COD_AMBIENT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COD_DEATH;
+        return SoundEvents.COD_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return SoundEvents.COD_HURT;
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override

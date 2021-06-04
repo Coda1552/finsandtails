@@ -23,7 +23,7 @@ public class GoldenRiverRayRenderer extends MobRenderer<GoldenRiverRayEntity, Go
     }
 
     @Override
-    public ResourceLocation getEntityTexture(GoldenRiverRayEntity entity) {
+    public ResourceLocation getTextureLocation(GoldenRiverRayEntity entity) {
         return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
     }
 }

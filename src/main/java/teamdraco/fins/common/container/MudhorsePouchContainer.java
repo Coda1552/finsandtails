@@ -22,17 +22,17 @@ public class MudhorsePouchContainer extends Container {
     public MudhorsePouchContainer(int id, PlayerInventory playerInventory, ItemStack inventoryStack) {
         super(FinsContainers.MUDHORSE_POUCH.get(), id);
         MudhorsePouchInventory inventory = getStackInventory(inventoryStack);
-        assertInventorySize(inventory, 9);
+        checkContainerSize(inventory, 9);
         this.stackInventory = inventory;
         this.itemStack = inventoryStack;
-        inventory.openInventory(playerInventory.player);
+        inventory.startOpen(playerInventory.player);
 
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 3; ++j) {
                 this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
                     @Override
-                    public boolean isItemValid(ItemStack stack) {
-                        return super.isItemValid(stack) && stack.getItem() != FinsItems.MUDHORSE_POUCH.get();
+                    public boolean mayPlace(ItemStack stack) {
+                        return super.mayPlace(stack) && stack.getItem() != FinsItems.MUDHORSE_POUCH.get();
                     }
                 });
             }
@@ -55,36 +55,36 @@ public class MudhorsePouchContainer extends Container {
             ListNBT items = stack.getTag().getList("Items", 10);
             for (int i = 0; i < items.size(); i++) {
                 CompoundNBT item = items.getCompound(i);
-                inventory.setInventorySlotContents(item.getByte("Slot"), ItemStack.read(item));
+                inventory.setItem(item.getByte("Slot"), ItemStack.of(item));
             }
         }
         return inventory;
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return this.stackInventory.isUsableByPlayer(playerIn);
+    public boolean stillValid(PlayerEntity playerIn) {
+        return this.stackInventory.stillValid(playerIn);
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
         ItemStack resultStack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack slotStack = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack slotStack = slot.getItem();
             resultStack = slotStack.copy();
             if (index < 9) {
-                if (!this.mergeItemStack(slotStack, 9, 45, true)) {
+                if (!this.moveItemStackTo(slotStack, 9, 45, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(slotStack, 0, 9, false)) {
+            } else if (!this.moveItemStackTo(slotStack, 0, 9, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (slotStack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (slotStack.getCount() == resultStack.getCount()) {
@@ -98,10 +98,10 @@ public class MudhorsePouchContainer extends Container {
     }
 
     @Override
-    public void onContainerClosed(PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
-        this.stackInventory.closeInventory(playerIn);
-        if (!playerIn.world.isRemote && stackInventory.isDirty()) {
+    public void removed(PlayerEntity playerIn) {
+        super.removed(playerIn);
+        this.stackInventory.stopOpen(playerIn);
+        if (!playerIn.level.isClientSide && stackInventory.isDirty()) {
             stackInventory.write(itemStack);
         }
     }
@@ -113,13 +113,13 @@ public class MudhorsePouchContainer extends Container {
 
         //Kind of a weird workaround, can't really think of other ways to do this but this should work for now
         @Override
-        public void putStack(ItemStack stack) {
-            if (!itemStack.isEmpty() && getStack() == itemStack) {
+        public void set(ItemStack stack) {
+            if (!itemStack.isEmpty() && getItem() == itemStack) {
                 itemStack = ItemStack.EMPTY;
             } else if (stack.getItem() == FinsItems.MUDHORSE_POUCH.get()) {
                 itemStack = stack;
             }
-            super.putStack(stack);
+            super.set(stack);
         }
     }
 }

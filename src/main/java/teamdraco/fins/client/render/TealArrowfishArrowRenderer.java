@@ -22,27 +22,27 @@ public class TealArrowfishArrowRenderer extends EntityRenderer<TealArrowfishArro
     }
 
     @Override
-    public ResourceLocation getEntityTexture(TealArrowfishArrowEntity entity) {
+    public ResourceLocation getTextureLocation(TealArrowfishArrowEntity entity) {
         return TEXTURE;
     }
 
     public void render(TealArrowfishArrowEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        matrixStackIn.push();
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90.0F));
-        matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch) + 90.0F));
+        matrixStackIn.pushPose();
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.yRotO, entityIn.yRot) - 90.0F));
+        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.xRotO, entityIn.xRot) + 90.0F));
         matrixStackIn.translate(0.0, -1.3f, 0);
-        float f9 = (float) entityIn.arrowShake - partialTicks;
+        float f9 = (float) entityIn.shakeTime - partialTicks;
         if (f9 > 0.0F) {
             float f10 = -MathHelper.sin(f9 * 3.0F) * f9;
-            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(f10));
+            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(f10));
         }
-        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(this.model.getRenderType(this.getEntityTexture(entityIn)));
-        this.model.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(this.model.renderType(this.getTextureLocation(entityIn)));
+        this.model.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
 //        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(45.0F));
         matrixStackIn.scale(0.05625F, 0.05625F, 0.05625F);
 
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 }

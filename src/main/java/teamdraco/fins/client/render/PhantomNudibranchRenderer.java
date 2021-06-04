@@ -15,7 +15,7 @@ public class PhantomNudibranchRenderer extends MobRenderer<PhantomNudibranchEnti
         this.addLayer(new PhantomNudibranchGlowLayer(this));
     }
 
-    public ResourceLocation getEntityTexture(PhantomNudibranchEntity entity) {
+    public ResourceLocation getTextureLocation(PhantomNudibranchEntity entity) {
         return TEXTURE;
     }
 }

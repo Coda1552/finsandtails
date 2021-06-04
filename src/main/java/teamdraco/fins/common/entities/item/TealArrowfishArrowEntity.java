@@ -28,19 +28,19 @@ public class TealArrowfishArrowEntity extends AbstractArrowEntity implements IEn
     }
 
     @Override
-    protected ItemStack getArrowStack() {
+    protected ItemStack getPickupItem() {
         return new ItemStack(arrow);
     }
 
-    protected float getWaterDrag() {
+    protected float getWaterInertia() {
         return 0.99F;
     }
 
     @Override
     public void writeSpawnData(PacketBuffer buffer) {
-        Entity shooter = func_234616_v_();
-        buffer.writeInt(shooter == null ? 0 : shooter.getEntityId());
-        buffer.writeVarInt(Item.getIdFromItem(arrow));
+        Entity shooter = getOwner();
+        buffer.writeInt(shooter == null ? 0 : shooter.getId());
+        buffer.writeVarInt(Item.getId(arrow));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TealArrowfishArrowEntity extends AbstractArrowEntity implements IEn
     }
 
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

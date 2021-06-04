@@ -1,5 +1,7 @@
 package teamdraco.fins.common.entities;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.fish.PufferfishEntity;
 import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -23,13 +25,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class FlatbackSuckerEntity extends AbstractFishEntity {
     public FlatbackSuckerEntity(EntityType<? extends FlatbackSuckerEntity> type, World world) {
         super(type, world);
-        this.moveController = new FlatbackSuckerEntity.MoveHelperController(this);
+        this.moveControl = new FlatbackSuckerEntity.MoveHelperController(this);
     }
 
-    protected PathNavigator createNavigator(World world) {
+    protected PathNavigator createNavigation(World world) {
         return new GroundPathNavigator(this, world);
     }
 
@@ -42,36 +46,45 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
         }
 
         public void tick() {
-            if (this.fish.areEyesInFluid(FluidTags.WATER)) {
-                this.fish.setMotion(this.fish.getMotion().add(0.0D, 0.0D, 0.0D));
+            if (this.fish.isEyeInFluid(FluidTags.WATER)) {
+                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.action == MovementController.Action.MOVE_TO && !this.fish.getNavigator().noPath()) {
-                double d0 = this.posX - this.fish.getPosX();
-                double d1 = this.posY - this.fish.getPosY();
-                double d2 = this.posZ - this.fish.getPosZ();
+            if (this.operation == MovementController.Action.MOVE_TO && !this.fish.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.fish.getX();
+                double d1 = this.wantedY - this.fish.getY();
+                double d2 = this.wantedZ - this.fish.getZ();
                 double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                this.fish.rotationYaw = this.limitAngle(this.fish.rotationYaw, f, 90.0F);
-                this.fish.renderYawOffset = this.fish.rotationYaw;
-                float f1 = (float)(this.speed * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.fish.setAIMoveSpeed(MathHelper.lerp(0.125F, this.fish.getAIMoveSpeed(), f1));
-                this.fish.setMotion(this.fish.getMotion().add(0.0D, (double)this.fish.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
+                this.fish.yRot = this.rotlerp(this.fish.yRot, f, 90.0F);
+                this.fish.yBodyRot = this.fish.yRot;
+                float f1 = (float)(this.speedModifier * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.fish.setSpeed(MathHelper.lerp(0.125F, this.fish.getSpeed(), f1));
+                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, (double)this.fish.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
-                this.fish.setAIMoveSpeed(0.0F);
+                this.fish.setSpeed(0.0F);
             }
         }
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 6);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        List<LivingEntity> list = this.level.getEntitiesOfClass(FlatbackSuckerEntity.class, this.getBoundingBox().inflate(2.0D));
+        if (this.isAlive() && list.size() >= 3 && random.nextFloat() > 0.99F) {
+            this.playSound(SoundEvents.PUFFER_FISH_STING, 0.2F, 1.0F);
+        }
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NOT_SPECTATING::test));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(4, new FlatbackSuckerEntity.SwimGoal(this));
     }
 
@@ -83,30 +96,30 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
             this.fish = fish;
         }
 
-        public boolean shouldExecute() {
-            return super.shouldExecute();
+        public boolean canUse() {
+            return super.canUse();
         }
     }
 
     @Override
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.FLATBACK_SUCKER_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_COD_AMBIENT;
+        return SoundEvents.COD_AMBIENT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COD_DEATH;
+        return SoundEvents.COD_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return SoundEvents.COD_HURT;
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override

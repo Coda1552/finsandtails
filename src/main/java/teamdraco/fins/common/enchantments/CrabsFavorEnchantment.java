@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import teamdraco.fins.init.FinsItems;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 public class CrabsFavorEnchantment extends Enchantment {
     public CrabsFavorEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {
         super(rarity, type, slots);
@@ -37,12 +39,12 @@ public class CrabsFavorEnchantment extends Enchantment {
     }
 
     @Override
-    public boolean canApply(ItemStack stack) {
+    public boolean canEnchant(ItemStack stack) {
         return stack.getItem() instanceof SwordItem || stack.getItem() instanceof AxeItem;
     }
 
     @Override
-    protected boolean canApplyTogether(Enchantment ench) {
-        return ench != Enchantments.LOOTING;
+    protected boolean checkCompatibility(Enchantment ench) {
+        return ench != Enchantments.MOB_LOOTING;
     }
 }

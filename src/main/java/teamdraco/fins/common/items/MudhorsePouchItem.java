@@ -16,15 +16,15 @@ import net.minecraft.world.World;
 
 public class MudhorsePouchItem extends Item {
     public MudhorsePouchItem() {
-        super(new Item.Properties().group(FinsAndTails.GROUP).maxStackSize(1));
+        super(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1));
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        if (!world.isRemote) {
-            player.openContainer(new SimpleNamedContainerProvider((windowId, inventory, owner) -> new MudhorsePouchContainer(windowId, inventory, stack), stack.getDisplayName()));
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (!world.isClientSide) {
+            player.openMenu(new SimpleNamedContainerProvider((windowId, inventory, owner) -> new MudhorsePouchContainer(windowId, inventory, stack), stack.getHoverName()));
         }
-        return ActionResult.resultSuccess(stack);
+        return ActionResult.success(stack);
     }
 }

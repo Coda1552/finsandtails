@@ -17,23 +17,23 @@ public class HighFinnedBlueRenderer extends MobRenderer<HighFinnedBlueEntity, Hi
         super(renderManagerIn, new HighFinnedBlueModel<>(), 0.2F);
     }
 
-    public ResourceLocation getEntityTexture(HighFinnedBlueEntity entity) {
+    public ResourceLocation getTextureLocation(HighFinnedBlueEntity entity) {
         return TEXTURE;
     }
 
-    protected void applyRotations(HighFinnedBlueEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+    protected void setupRotations(HighFinnedBlueEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         float f = 4.3F * MathHelper.sin(0.6F * ageInTicks);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f));
         if (!entityLiving.isInWater()) {
             matrixStackIn.translate((double)0.1F, (double)0.1F, (double)-0.1F);
-            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90.0F));
+            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
         }
     }
 
     @Override
-    protected void preRenderCallback(HighFinnedBlueEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-        super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+    protected void scale(HighFinnedBlueEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+        super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
         matrixStackIn.translate(0.0f, -0.1f, 0.0f);
     }
 }

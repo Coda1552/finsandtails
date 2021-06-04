@@ -14,7 +14,7 @@ public class FlatbackLeafSnailRenderer extends MobRenderer<FlatbackLeafSnailEnti
         super(renderManagerIn, new FlatbackLeafSnailModel<>(), 0.3F);
     }
 
-    public ResourceLocation getEntityTexture(FlatbackLeafSnailEntity entity) {
+    public ResourceLocation getTextureLocation(FlatbackLeafSnailEntity entity) {
         return TEXTURE;
     }
 }

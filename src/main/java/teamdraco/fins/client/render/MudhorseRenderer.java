@@ -14,7 +14,7 @@ public class MudhorseRenderer extends MobRenderer<MudhorseEntity, MudhorseModel<
         super(renderManagerIn, new MudhorseModel<>(), 0.6F);
     }
 
-    public ResourceLocation getEntityTexture(MudhorseEntity entity) {
+    public ResourceLocation getTextureLocation(MudhorseEntity entity) {
         return TEXTURE;
     }
 }

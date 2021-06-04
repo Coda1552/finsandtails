@@ -7,6 +7,8 @@ import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import net.minecraft.item.Item.Properties;
+
 public class TealArrowfishItem extends ArrowItem {
 
     public TealArrowfishItem(Properties builder) {
@@ -16,9 +18,9 @@ public class TealArrowfishItem extends ArrowItem {
     @Override
     public AbstractArrowEntity createArrow(World world, ItemStack stack, LivingEntity shooter) {
         TealArrowfishArrowEntity arrow = new TealArrowfishArrowEntity(world, this);
-        arrow.setPosition(shooter.getPosX(), shooter.getPosYEye() - 0.1d, shooter.getPosZ());
-        arrow.setShooter(shooter);
-        arrow.setDamage(2.25);
+        arrow.setPos(shooter.getX(), shooter.getEyeY() - 0.1d, shooter.getZ());
+        arrow.setOwner(shooter);
+        arrow.setBaseDamage(2.25);
         return arrow;
     }
 

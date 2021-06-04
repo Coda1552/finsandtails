@@ -1,6 +1,6 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.common.entities.ai.SwampMuckerJumpGoal;
+import teamdraco.fins.common.entities.util.ai.SwampMuckerJumpGoal;
 import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -29,33 +29,33 @@ public class SwampMuckerEntity  extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(1, new SwimGoal(this));
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 6).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.5);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.MOVEMENT_SPEED, 0.5);
     }
 
     @Override
-    public int getMaxGroupSize() {
+    public int getMaxSchoolSize() {
         return 5;
     }
 
     @Override
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.SWAMP_MUCKER_BUCKET.get());
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_COD_AMBIENT;
+        return SoundEvents.COD_AMBIENT;
     }
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COD_DEATH;
+        return SoundEvents.COD_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return SoundEvents.COD_HURT;
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     static class SwimGoal extends RandomSwimmingGoal {
@@ -66,8 +66,8 @@ public class SwampMuckerEntity  extends AbstractGroupFishEntity {
             this.fish = fish;
         }
 
-        public boolean shouldExecute() {
-            return this.fish.func_212800_dy() && super.shouldExecute();
+        public boolean canUse() {
+            return this.fish.canRandomSwim() && super.canUse();
         }
     }
 

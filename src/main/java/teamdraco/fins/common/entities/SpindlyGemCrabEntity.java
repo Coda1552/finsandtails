@@ -41,35 +41,35 @@ import net.minecraftforge.common.Tags;
 import javax.annotation.Nullable;
 
 public class SpindlyGemCrabEntity extends AbstractFishEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(SpindlyGemCrabEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(SpindlyGemCrabEntity.class, DataSerializers.INT);
 
     public SpindlyGemCrabEntity(EntityType<? extends SpindlyGemCrabEntity> type, World world) {
         super(type, world);
-        this.moveController = new SpindlyGemCrabEntity.MoveHelperController(this);
-        this.stepHeight = 0.7f;
+        this.moveControl = new SpindlyGemCrabEntity.MoveHelperController(this);
+        this.maxUpStep = 0.7f;
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new TemptGoal(this, 1.0D, false, Ingredient.fromTag(Tags.Items.GEMS)));
+        this.goalSelector.addGoal(0, new TemptGoal(this, 1.0D, false, Ingredient.of(Tags.Items.GEMS)));
         this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(3, new LookRandomlyGoal(this));
     }
 
-    protected PathNavigator createNavigator(World world) {
+    protected PathNavigator createNavigation(World world) {
         return new GroundPathNavigator(this, world);
     }
 
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.SPINDLY_GEM_CRAB_BUCKET.get());
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (dataTag == null) {
-            setVariant(rand.nextInt(5));
+            setVariant(random.nextInt(5));
         } else {
             if (dataTag.contains("Variant", 3)){
                 this.setVariant(dataTag.getInt("Variant"));
@@ -78,65 +78,65 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
         return spawnDataIn;
     }
 
-    protected void setBucketData(ItemStack bucket) {
+    protected void saveToBucketTag(ItemStack bucket) {
         CompoundNBT compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant()); 
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
     }
 
     public int getVariant() {
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
+        this.entityData.set(VARIANT, variant);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if (id == 38) {
             this.shineParticles(ParticleTypes.END_ROD);
         }
         else {
-            super.handleStatusUpdate(id);
+            super.handleEntityEvent(id);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     private void shineParticles(IParticleData p_208401_1_) {
-        if (rand.nextFloat() > 0.975D) {
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            this.world.addParticle(p_208401_1_, this.getPosX(), this.getPosYRandom(), this.getPosZ(), d0, d1, d2);
+        if (random.nextFloat() > 0.975D) {
+            double d0 = this.random.nextGaussian() * 0.02D;
+            double d1 = this.random.nextGaussian() * 0.02D;
+            double d2 = this.random.nextGaussian() * 0.02D;
+            this.level.addParticle(p_208401_1_, this.getX(), this.getRandomY(), this.getZ(), d0, d1, d2);
         }
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D);
     }
 
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_TROPICAL_FISH_HURT;
+        return SoundEvents.TROPICAL_FISH_HURT;
     }
 
     protected SoundEvent getDeathSound() {
@@ -144,7 +144,7 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+        return SoundEvents.TROPICAL_FISH_FLOP;
     }
 
     @Override
@@ -155,7 +155,7 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     @Override
     public void tick() {
         super.tick();
-        world.setEntityState(this, (byte)38);
+        level.broadcastEntityEvent(this, (byte)38);
     }
 
     static class MoveHelperController extends MovementController {
@@ -167,24 +167,24 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
         }
 
         public void tick() {
-            if (this.crab.areEyesInFluid(FluidTags.WATER)) {
-                this.crab.setMotion(this.crab.getMotion().add(0.0D, 0.0D, 0.0D));
+            if (this.crab.isEyeInFluid(FluidTags.WATER)) {
+                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.action == MovementController.Action.MOVE_TO && !this.crab.getNavigator().noPath()) {
-                double d0 = this.posX - this.crab.getPosX();
-                double d1 = this.posY - this.crab.getPosY();
-                double d2 = this.posZ - this.crab.getPosZ();
+            if (this.operation == MovementController.Action.MOVE_TO && !this.crab.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.crab.getX();
+                double d1 = this.wantedY - this.crab.getY();
+                double d2 = this.wantedZ - this.crab.getZ();
                 double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.crab.rotationYaw = this.limitAngle(this.crab.rotationYaw, f, 90.0F);
-                this.crab.renderYawOffset = this.crab.rotationYaw;
-                float f1 = (float) (this.speed * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.crab.setAIMoveSpeed(MathHelper.lerp(0.125F, this.crab.getAIMoveSpeed(), f1));
-                this.crab.setMotion(this.crab.getMotion().add(0.0D, (double) this.crab.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
+                this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
+                this.crab.yBodyRot = this.crab.yRot;
+                float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.crab.setSpeed(MathHelper.lerp(0.125F, this.crab.getSpeed(), f1));
+                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
-                this.crab.setAIMoveSpeed(0.0F);
+                this.crab.setSpeed(0.0F);
             }
         }
     }

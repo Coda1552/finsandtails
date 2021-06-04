@@ -30,24 +30,24 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
 
     @Override
     public boolean matches(CraftingInventory inv, World worldIn) {
-        return this.base.test(inv.getStackInSlot(0)) && this.addition.test(inv.getStackInSlot(1));
+        return this.base.test(inv.getItem(0)) && this.addition.test(inv.getItem(1));
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack itemstack = this.result.copy();
         return itemstack;
     }
 
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return this.result;
     }
 
-    public ItemStack getIcon() {
+    public ItemStack getToastSymbol() {
         return new ItemStack(FinsBlocks.CRAB_CRUNCHER.get());
     }
 
@@ -69,7 +69,7 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
 
         i.add(base);
         i.add(addition);
-        i.add(Ingredient.fromStacks(new ItemStack(FinsItems.CRAB_CRUNCHER.get())));
+        i.add(Ingredient.of(new ItemStack(FinsItems.CRAB_CRUNCHER.get())));
 
         return i;
     }
@@ -77,26 +77,26 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrunchingRecipe> {
 
         @Override
-        public CrunchingRecipe read(ResourceLocation recipeId, JsonObject json) {
-            Ingredient ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "base"));
-             Ingredient ingredient1 = Ingredient.deserialize(JSONUtils.getJsonObject(json, "addition"));
-            ItemStack itemstack = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+        public CrunchingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+            Ingredient ingredient = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "base"));
+             Ingredient ingredient1 = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "addition"));
+            ItemStack itemstack = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
             return new CrunchingRecipe(recipeId, ingredient, ingredient1, itemstack);
         }
 
         @Override
-        public CrunchingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-            Ingredient ingredient = Ingredient.read(buffer);
-            Ingredient ingredient1 = Ingredient.read(buffer);
-            ItemStack itemstack = buffer.readItemStack();
+        public CrunchingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+            Ingredient ingredient = Ingredient.fromNetwork(buffer);
+            Ingredient ingredient1 = Ingredient.fromNetwork(buffer);
+            ItemStack itemstack = buffer.readItem();
             return new CrunchingRecipe(recipeId, ingredient, ingredient1, itemstack);
         }
 
         @Override
-        public void write(PacketBuffer buffer, CrunchingRecipe recipe) {
-            recipe.base.write(buffer);
-            recipe.addition.write(buffer);
-            buffer.writeItemStack(recipe.result);
+        public void toNetwork(PacketBuffer buffer, CrunchingRecipe recipe) {
+            recipe.base.toNetwork(buffer);
+            recipe.addition.toNetwork(buffer);
+            buffer.writeItem(recipe.result);
         }
     }
 }

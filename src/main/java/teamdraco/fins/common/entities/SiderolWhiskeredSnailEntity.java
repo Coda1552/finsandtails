@@ -30,61 +30,61 @@ public class SiderolWhiskeredSnailEntity extends AnimalEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0f));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.BROWN_MUSHROOM), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(Items.BROWN_MUSHROOM), false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
-    protected void onGrowingAdult() {
-        super.onGrowingAdult();
-        if (!this.isChild() && this.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
-            this.entityDropItem(FinsItems.SIDEROL_WHISKERED_SNAIL_SHELL.get(), 1);
+    protected void ageBoundaryReached() {
+        super.ageBoundaryReached();
+        if (!this.isBaby() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+            this.spawnAtLocation(FinsItems.SIDEROL_WHISKERED_SNAIL_SHELL.get(), 1);
         }
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8).add(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COD_HURT;
+        return SoundEvents.COD_HURT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COD_DEATH;
+        return SoundEvents.COD_DEATH;
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.ENTITY_ENDERMITE_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.ENDERMITE_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
-        ItemStack heldItem = player.getHeldItem(hand);
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        ItemStack heldItem = player.getItemInHand(hand);
 
-        if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive() && !this.isChild()) {
-            playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
+        if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive() && !this.isBaby()) {
+            playSound(SoundEvents.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
             ItemStack itemstack1 = new ItemStack(FinsItems.SIDEROL_WHISKERED_SNAIL_POT.get());
             this.setBucketData(itemstack1);
-            if (!this.world.isRemote) {
+            if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
             }
             if (heldItem.isEmpty()) {
-                player.setHeldItem(hand, itemstack1);
-            } else if (!player.inventory.addItemStackToInventory(itemstack1)) {
-                player.dropItem(itemstack1, false);
+                player.setItemInHand(hand, itemstack1);
+            } else if (!player.inventory.add(itemstack1)) {
+                player.drop(itemstack1, false);
             }
             this.remove();
             return ActionResultType.SUCCESS;
         }
-        return super.func_230254_b_(player, hand);
+        return super.mobInteract(player, hand);
     }
 
     private void setBucketData(ItemStack bucket) {
         if (this.hasCustomName()) {
-            bucket.setDisplayName(this.getCustomName());
+            bucket.setHoverName(this.getCustomName());
         }
     }
 
@@ -94,11 +94,11 @@ public class SiderolWhiskeredSnailEntity extends AnimalEntity {
 
     @Nullable
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
         return FinsEntities.SIDEROL_WHISKERED_SNAIL.get().create(world);
     }
 
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return stack.getItem() == Items.BROWN_MUSHROOM;
     }
 

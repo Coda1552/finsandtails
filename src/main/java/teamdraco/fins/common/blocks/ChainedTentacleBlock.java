@@ -5,6 +5,8 @@ import net.minecraft.block.ChainBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class ChainedTentacleBlock extends ChainBlock {
     public ChainedTentacleBlock(Properties properties) {
         super(properties);

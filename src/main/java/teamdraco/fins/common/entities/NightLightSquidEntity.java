@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class NightLightSquidEntity extends AbstractGroupFishEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(NightLightSquidEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(NightLightSquidEntity.class, DataSerializers.INT);
     public float prevSquidPitch;
     public float squidRotation;
     private float randomMotionVecX;
@@ -51,7 +51,7 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
 
     public NightLightSquidEntity(EntityType<? extends NightLightSquidEntity> type, World worldIn) {
         super(type, worldIn);
-        this.moveController = new NightLightSquidEntity.MoveHelperController(this);
+        this.moveControl = new NightLightSquidEntity.MoveHelperController(this);
     }
 
     protected void registerGoals() {
@@ -59,15 +59,15 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(2, new NightLightSquidEntity.SwimGoal(this));
     }
 
-    public void onCollideWithPlayer(PlayerEntity entityIn) {
+    public void playerTouch(PlayerEntity entityIn) {
         if (entityIn instanceof ServerPlayerEntity) {
-            entityIn.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 200, 0));
+            entityIn.addEffect(new EffectInstance(Effects.NIGHT_VISION, 200, 0));
         }
 
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234227_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 10.0D);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D);
     }
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
@@ -75,40 +75,40 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SQUID_AMBIENT;
+        return SoundEvents.SQUID_AMBIENT;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_SQUID_HURT;
+        return SoundEvents.SQUID_HURT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SQUID_DEATH;
+        return SoundEvents.SQUID_DEATH;
     }
 
     protected float getSoundVolume() {
         return 0.4F;
     }
 
-    protected boolean canTriggerWalking() {
+    protected boolean isMovementNoisy() {
         return false;
     }
 
     @Override
-    protected ItemStack getFishBucket() {
+    protected ItemStack getBucketItemStack() {
         return new ItemStack(FinsItems.NIGHT_LIGHT_SQUID_BUCKET.get());
     }
 
     @Override
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (dataTag == null) {
-            setVariant(rand.nextInt(4));
+            setVariant(random.nextInt(4));
         } else {
             if (dataTag.contains("Variant", 3)){
                 this.setVariant(dataTag.getInt("Variant"));
@@ -117,39 +117,39 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
         return spawnDataIn;
     }
 
-    protected void setBucketData(ItemStack bucket) {
+    protected void saveToBucketTag(ItemStack bucket) {
         CompoundNBT compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
     }
 
     public int getVariant() {
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
+        this.entityData.set(VARIANT, variant);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (super.attackEntityFrom(source, amount) && this.getRevengeTarget() != null) {
+    public boolean hurt(DamageSource source, float amount) {
+        if (super.hurt(source, amount) && this.getLastHurtByMob() != null) {
             this.squirtInk();
             return true;
         } else {
@@ -157,30 +157,30 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
         }
     }
 
-    private Vector3d func_207400_b(Vector3d p_207400_1_) {
-        Vector3d vector3d = p_207400_1_.rotatePitch(this.prevSquidPitch * ((float)Math.PI / 180F));
-        return vector3d.rotateYaw(-this.prevRenderYawOffset * ((float)Math.PI / 180F));
+    private Vector3d rotateVector(Vector3d p_207400_1_) {
+        Vector3d vector3d = p_207400_1_.xRot(this.prevSquidPitch * ((float)Math.PI / 180F));
+        return vector3d.yRot(-this.yBodyRotO * ((float)Math.PI / 180F));
     }
 
     private void squirtInk() {
-        this.playSound(SoundEvents.ENTITY_SQUID_SQUIRT, this.getSoundVolume(), this.getSoundPitch());
-        Vector3d vector3d = this.func_207400_b(new Vector3d(0.0D, -1.0D, 0.0D)).add(this.getPosX(), this.getPosY(), this.getPosZ());
+        this.playSound(SoundEvents.SQUID_SQUIRT, this.getSoundVolume(), this.getVoicePitch());
+        Vector3d vector3d = this.rotateVector(new Vector3d(0.0D, -1.0D, 0.0D)).add(this.getX(), this.getY(), this.getZ());
 
         for(int i = 0; i < 30; ++i) {
-            Vector3d vector3d1 = this.func_207400_b(new Vector3d((double)this.rand.nextFloat() * 0.6D - 0.3D, -1.0D, (double)this.rand.nextFloat() * 0.6D - 0.3D));
-            Vector3d vector3d2 = vector3d1.scale(0.3D + (double)(this.rand.nextFloat() * 2.0F));
-            ((ServerWorld)this.world).spawnParticle(ParticleTypes.SQUID_INK, vector3d.x, vector3d.y + 0.5D, vector3d.z, 0, vector3d2.x, vector3d2.y, vector3d2.z, (double)0.1F);
+            Vector3d vector3d1 = this.rotateVector(new Vector3d((double)this.random.nextFloat() * 0.6D - 0.3D, -1.0D, (double)this.random.nextFloat() * 0.6D - 0.3D));
+            Vector3d vector3d2 = vector3d1.scale(0.3D + (double)(this.random.nextFloat() * 2.0F));
+            ((ServerWorld)this.level).sendParticles(ParticleTypes.SQUID_INK, vector3d.x, vector3d.y + 0.5D, vector3d.z, 0, vector3d2.x, vector3d2.y, vector3d2.z, (double)0.1F);
         }
 
     }
 
     public void travel(Vector3d travelVector) {
-        if (this.isServerWorld() && this.isInWater()) {
+        if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.01F, travelVector);
-            this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale(0.9D));
-            if (this.getAttackTarget() == null) {
-                this.setMotion(this.getMotion().add(0.0D, -0.005D, 0.0D));
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         } else {
             super.travel(travelVector);
@@ -188,16 +188,16 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
 
     }
 
-    public static boolean func_223365_b(EntityType<NightLightSquidEntity> entity, IWorld world, SpawnReason reason, BlockPos pos, Random p_223365_4_) {
-        return pos.getY() < world.getSeaLevel() && world.getBlockState(pos.up()).isIn(Blocks.WATER);
+    public static boolean checkSquidSpawnRules(EntityType<NightLightSquidEntity> entity, IWorld world, SpawnReason reason, BlockPos pos, Random p_223365_4_) {
+        return pos.getY() < world.getSeaLevel() && world.getBlockState(pos.above()).is(Blocks.WATER);
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if (id == 19) {
             this.squidRotation = 0.0F;
         } else {
-            super.handleStatusUpdate(id);
+            super.handleEntityEvent(id);
         }
 
     }
@@ -218,27 +218,27 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
         private FleeGoal() {
         }
 
-        public boolean shouldExecute() {
-            LivingEntity livingentity = NightLightSquidEntity.this.getRevengeTarget();
+        public boolean canUse() {
+            LivingEntity livingentity = NightLightSquidEntity.this.getLastHurtByMob();
             if (NightLightSquidEntity.this.isInWater() && livingentity != null) {
-                return NightLightSquidEntity.this.getDistanceSq(livingentity) < 100.0D;
+                return NightLightSquidEntity.this.distanceToSqr(livingentity) < 100.0D;
             } else {
                 return false;
             }
         }
 
-        public void startExecuting() {
+        public void start() {
             this.tickCounter = 0;
         }
 
         public void tick() {
             ++this.tickCounter;
-            LivingEntity livingentity = NightLightSquidEntity.this.getRevengeTarget();
+            LivingEntity livingentity = NightLightSquidEntity.this.getLastHurtByMob();
             if (livingentity != null) {
-                Vector3d vector3d = new Vector3d(NightLightSquidEntity.this.getPosX() - livingentity.getPosX(), NightLightSquidEntity.this.getPosY() - livingentity.getPosY(), NightLightSquidEntity.this.getPosZ() - livingentity.getPosZ());
-                BlockState blockstate = NightLightSquidEntity.this.world.getBlockState(new BlockPos(NightLightSquidEntity.this.getPosX() + vector3d.x, NightLightSquidEntity.this.getPosY() + vector3d.y, NightLightSquidEntity.this.getPosZ() + vector3d.z));
-                FluidState fluidstate = NightLightSquidEntity.this.world.getFluidState(new BlockPos(NightLightSquidEntity.this.getPosX() + vector3d.x, NightLightSquidEntity.this.getPosY() + vector3d.y, NightLightSquidEntity.this.getPosZ() + vector3d.z));
-                if (fluidstate.isTagged(FluidTags.WATER) || blockstate.isAir()) {
+                Vector3d vector3d = new Vector3d(NightLightSquidEntity.this.getX() - livingentity.getX(), NightLightSquidEntity.this.getY() - livingentity.getY(), NightLightSquidEntity.this.getZ() - livingentity.getZ());
+                BlockState blockstate = NightLightSquidEntity.this.level.getBlockState(new BlockPos(NightLightSquidEntity.this.getX() + vector3d.x, NightLightSquidEntity.this.getY() + vector3d.y, NightLightSquidEntity.this.getZ() + vector3d.z));
+                FluidState fluidstate = NightLightSquidEntity.this.level.getFluidState(new BlockPos(NightLightSquidEntity.this.getX() + vector3d.x, NightLightSquidEntity.this.getY() + vector3d.y, NightLightSquidEntity.this.getZ() + vector3d.z));
+                if (fluidstate.is(FluidTags.WATER) || blockstate.isAir()) {
                     double d0 = vector3d.length();
                     if (d0 > 0.0D) {
                         vector3d.normalize();
@@ -260,7 +260,7 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
                 }
 
                 if (this.tickCounter % 10 == 5) {
-                    NightLightSquidEntity.this.world.addParticle(ParticleTypes.BUBBLE, NightLightSquidEntity.this.getPosX(), NightLightSquidEntity.this.getPosY(), NightLightSquidEntity.this.getPosZ(), 0.0D, 0.0D, 0.0D);
+                    NightLightSquidEntity.this.level.addParticle(ParticleTypes.BUBBLE, NightLightSquidEntity.this.getX(), NightLightSquidEntity.this.getY(), NightLightSquidEntity.this.getZ(), 0.0D, 0.0D, 0.0D);
                 }
 
             }
@@ -276,29 +276,29 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
         }
 
         public void tick() {
-            if (this.fish.areEyesInFluid(FluidTags.WATER)) {
-                this.fish.setMotion(this.fish.getMotion().add(0.0D, 0.005D, 0.0D));
+            if (this.fish.isEyeInFluid(FluidTags.WATER)) {
+                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
             }
 
-            if (this.action == MovementController.Action.MOVE_TO && !this.fish.getNavigator().noPath()) {
-                float f = (float)(this.speed * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.fish.setAIMoveSpeed(MathHelper.lerp(0.125F, this.fish.getAIMoveSpeed(), f));
-                double d0 = this.posX - this.fish.getPosX();
-                double d1 = this.posY - this.fish.getPosY();
-                double d2 = this.posZ - this.fish.getPosZ();
+            if (this.operation == MovementController.Action.MOVE_TO && !this.fish.getNavigation().isDone()) {
+                float f = (float)(this.speedModifier * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.fish.setSpeed(MathHelper.lerp(0.125F, this.fish.getSpeed(), f));
+                double d0 = this.wantedX - this.fish.getX();
+                double d1 = this.wantedY - this.fish.getY();
+                double d2 = this.wantedZ - this.fish.getZ();
                 if (d1 != 0.0D) {
                     double d3 = (double)MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-                    this.fish.setMotion(this.fish.getMotion().add(0.0D, (double)this.fish.getAIMoveSpeed() * (d1 / d3) * 0.1D, 0.0D));
+                    this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, (double)this.fish.getSpeed() * (d1 / d3) * 0.1D, 0.0D));
                 }
 
                 if (d0 != 0.0D || d2 != 0.0D) {
                     float f1 = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                    this.fish.rotationYaw = this.limitAngle(this.fish.rotationYaw, f1, 90.0F);
-                    this.fish.renderYawOffset = this.fish.rotationYaw;
+                    this.fish.yRot = this.rotlerp(this.fish.yRot, f1, 90.0F);
+                    this.fish.yBodyRot = this.fish.yRot;
                 }
 
             } else {
-                this.fish.setAIMoveSpeed(0.0F);
+                this.fish.setSpeed(0.0F);
             }
         }
     }
@@ -316,8 +316,8 @@ public class NightLightSquidEntity extends AbstractGroupFishEntity {
             this.fish = fish;
         }
 
-        public boolean shouldExecute() {
-            return super.shouldExecute();
+        public boolean canUse() {
+            return super.canUse();
         }
     }
 }

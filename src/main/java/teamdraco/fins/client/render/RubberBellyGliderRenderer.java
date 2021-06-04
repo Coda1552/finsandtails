@@ -16,13 +16,13 @@ public class RubberBellyGliderRenderer extends MobRenderer<RubberBellyGliderEnti
         super(renderManagerIn, new RubberBellyGliderModel<>(), 0.4F);
     }
 
-    public ResourceLocation getEntityTexture(RubberBellyGliderEntity entity) {
+    public ResourceLocation getTextureLocation(RubberBellyGliderEntity entity) {
         return entity.isPuffed() ? TEXTURE_PUFFED : TEXTURE_NORMAL;
     }
 
     @Override
-    protected void preRenderCallback(RubberBellyGliderEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-        super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+    protected void scale(RubberBellyGliderEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+        super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
         matrixStackIn.translate(0, 0, 0.0);
         if (entitylivingbaseIn.isPuffed()) {
             matrixStackIn.translate(0, -0.25, 0);

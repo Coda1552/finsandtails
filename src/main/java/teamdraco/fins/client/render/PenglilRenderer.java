@@ -30,7 +30,7 @@ public class PenglilRenderer extends MobRenderer<PenglilEntity, PenglilModel<Pen
     }
 
     @Override
-    public ResourceLocation getEntityTexture(PenglilEntity entity) {
+    public ResourceLocation getTextureLocation(PenglilEntity entity) {
         String s = entity.getName().getString();
 
         if (s.equals("Lord") || s.equals("Lord Penglil") || s.equals("Lord_Penglil")) {

@@ -13,19 +13,21 @@ import net.minecraft.world.World;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.items.FinsArmorMaterial;
 
+import net.minecraft.item.Item.Properties;
+
 public class SpindlySapphireCharm extends ArmorItem implements ISpindlyCharmItem {
-    public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":spindly_sapphire_charm", 1, new int[]{1, 2, 3, 1}, 8, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0.0F, null);
+    public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":spindly_sapphire_charm", 1, new int[]{1, 2, 3, 1}, 8, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
 
     public SpindlySapphireCharm() {
-        super(MATERIAL, EquipmentSlotType.CHEST, new Properties().group(FinsAndTails.GROUP).maxDamage(25).rarity(Rarity.UNCOMMON));
+        super(MATERIAL, EquipmentSlotType.CHEST, new Properties().tab(FinsAndTails.GROUP).durability(25).rarity(Rarity.UNCOMMON));
     }
 
     @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-        if (player.isAlive() && player.getHealth() <= 4.0F && !player.getCooldownTracker().hasCooldown(this)) {
-            player.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 100, 0, false, false, true));
-            stack.damageItem(1, player, e -> e.sendBreakAnimation(EquipmentSlotType.CHEST));
-            player.getCooldownTracker().setCooldown(this, 200);
+        if (player.isAlive() && player.getHealth() <= 4.0F && !player.getCooldowns().isOnCooldown(this)) {
+            player.addEffect(new EffectInstance(Effects.WATER_BREATHING, 100, 0, false, false, true));
+            stack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(EquipmentSlotType.CHEST));
+            player.getCooldowns().addCooldown(this, 200);
         }
     }
 }

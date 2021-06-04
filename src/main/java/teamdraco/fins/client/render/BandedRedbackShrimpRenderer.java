@@ -17,17 +17,17 @@ public class BandedRedbackShrimpRenderer extends MobRenderer<BandedRedbackShrimp
         super(renderManagerIn, new BandedRedbackShrimpModel<>(), 0.4F);
     }
 
-    public ResourceLocation getEntityTexture(BandedRedbackShrimpEntity entity) {
+    public ResourceLocation getTextureLocation(BandedRedbackShrimpEntity entity) {
         return TEXTURE;
     }
 
-    protected void applyRotations(BandedRedbackShrimpEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+    protected void setupRotations(BandedRedbackShrimpEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         float f = 4.3F * MathHelper.sin(0.6F * ageInTicks);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f));
         if (!entityLiving.isInWater()) {
             matrixStackIn.translate((double)0.1F, (double)0.1F, (double)-0.1F);
-            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90.0F));
+            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
         }
     }
 }

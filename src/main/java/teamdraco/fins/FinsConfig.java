@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FinsConfig {
+    public static boolean finsFishingLoot;
     public static int peaWeeSpawnWeight;
     public static int vibraWeeSpawnWeight;
     public static int flatbackSuckerSpawnWeight;
@@ -31,7 +32,7 @@ public class FinsConfig {
     public static int goldenRiverRaySpawnWeight;
     public static int rubberBellyGliderSpawnWeight;
     public static int gopjetSpawnWeight;
-    public static boolean finsFishingLoot;
+    public static int papaWeeSpawnWeight;
 
     @SubscribeEvent
     public static void configLoad(ModConfig.ModConfigEvent event) {
@@ -54,6 +55,7 @@ public class FinsConfig {
             SPEC = pair.getRight();
         }
 
+        public final ForgeConfigSpec.BooleanValue finsFishingLoot;
         public final ForgeConfigSpec.IntValue peaWeeSpawnWeight;
         public final ForgeConfigSpec.IntValue vibraWeeSpawnWeight;
         public final ForgeConfigSpec.IntValue flatbackSuckerSpawnWeight;
@@ -77,7 +79,7 @@ public class FinsConfig {
         public final ForgeConfigSpec.IntValue goldenRiverRaySpawnWeight;
         public final ForgeConfigSpec.IntValue rubberBellyGliderSpawnWeight;
         public final ForgeConfigSpec.IntValue gopjetSpawnWeight;
-        public final ForgeConfigSpec.BooleanValue finsFishingLoot;
+        public final ForgeConfigSpec.IntValue papaWeeSpawnWeight;
 
         Common(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -117,12 +119,13 @@ public class FinsConfig {
             bandedRedbackShrimpSpawnWeight = builder.comment("Spawn weight of Banded Redback Shrimp").defineInRange("banded_redback_shrimp_spawn_weight", 6, 1, 1000);
             ornateBugfishSpawnWeight = builder.comment("Spawn weight of Ornate Bugfish").defineInRange("orante_bugfish_spawn_weight", 1, 1, 1000);
             spindlyGemCrabSpawnWeight = builder.comment("Spawn weight of Spindly Gem Crabs").defineInRange("spindly_gem_crab_spawn_weight", 7, 1, 1000);
-            rubberBellyGliderSpawnWeight = builder.comment("Spawn weight of Rubber Belly Glider").defineInRange("rubber_belly_glider_spawn_weight", 3, 1, 1000);
+            rubberBellyGliderSpawnWeight = builder.comment("Spawn weight of Rubber Belly Gliders").defineInRange("rubber_belly_glider_spawn_weight", 3, 1, 1000);
             builder.pop();
 
             builder.push("Ocean Creature Spawn Weight");
             highFinnedBlueSpawnWeight = builder.comment("Spawn weight of High-finned Blue").defineInRange("high_finned_blue_spawn_weight", 2, 1, 1000);
             gopjetSpawnWeight = builder.comment("Spawn weight of Gopjets").defineInRange("gopjet_spawn_weight", 1, 1, 1000);
+            papaWeeSpawnWeight = builder.comment("Spawn weight of Papa Wees").defineInRange("papa_wee_spawn_weight", 2, 1, 1000);
             builder.pop();
 
             builder.push("Lukewarm Ocean Creature Spawn Weight");
@@ -131,7 +134,7 @@ public class FinsConfig {
             builder.pop();
 
             builder.push("Frozen Ocean Creature Spawn Weight");
-            nightLightSquidSpawnWeight = builder.comment("Spawn weight of Night Light Squids").defineInRange("night_light_squids_spawn_weight", 2, 1, 1000);
+            nightLightSquidSpawnWeight = builder.comment("Spawn weight of Night Light Squid").defineInRange("night_light_squids_spawn_weight", 2, 1, 1000);
             builder.pop();
 
             builder.push("River Creature Spawn Weight");
@@ -142,6 +145,7 @@ public class FinsConfig {
         }
 
         public static void reload() {
+            FinsConfig.finsFishingLoot = INSTANCE.finsFishingLoot.get();
             FinsConfig.peaWeeSpawnWeight = INSTANCE.peaWeeSpawnWeight.get();
             FinsConfig.vibraWeeSpawnWeight = INSTANCE.vibraWeeSpawnWeight.get();
             FinsConfig.flatbackSuckerSpawnWeight = INSTANCE.flatbackSuckerSpawnWeight.get();
@@ -165,7 +169,7 @@ public class FinsConfig {
             FinsConfig.goldenRiverRaySpawnWeight = INSTANCE.goldenRiverRaySpawnWeight.get();
             FinsConfig.rubberBellyGliderSpawnWeight = INSTANCE.rubberBellyGliderSpawnWeight.get();
             FinsConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
-            FinsConfig.finsFishingLoot = INSTANCE.finsFishingLoot.get();
+            FinsConfig.papaWeeSpawnWeight = INSTANCE.papaWeeSpawnWeight.get();
         }
     }
 }

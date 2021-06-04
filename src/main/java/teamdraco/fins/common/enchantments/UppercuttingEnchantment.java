@@ -8,6 +8,8 @@ import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 public class UppercuttingEnchantment extends Enchantment {
     public UppercuttingEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {
         super(rarity, type, slots);
@@ -34,11 +36,11 @@ public class UppercuttingEnchantment extends Enchantment {
     }
 
     @Override
-    public void onEntityDamaged(LivingEntity user, Entity target, int level) {
-        super.onEntityDamaged(user, target, level);
-        if (target.isWet() && user.getHeldItemMainhand().getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || user.getHeldItemMainhand().getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get()) {
-            if (!user.getEntityWorld().isRemote) {
-                target.setMotion(target.getMotion().add(0.0D, 0.3D, 0.0D));
+    public void doPostAttack(LivingEntity user, Entity target, int level) {
+        super.doPostAttack(user, target, level);
+        if (target.isInWaterOrRain() && user.getMainHandItem().getItem() == FinsItems.RED_CLAW_GAUNTLET.get() || user.getMainHandItem().getItem() == FinsItems.WHITE_CLAW_GAUNTLET.get()) {
+            if (!user.getCommandSenderWorld().isClientSide) {
+                target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.3D, 0.0D));
             }
         }
     }

@@ -26,13 +26,13 @@ public class NightLightSquidRenderer extends MobRenderer<NightLightSquidEntity, 
     }
 
     @Override
-    public ResourceLocation getEntityTexture(NightLightSquidEntity entity) {
+    public ResourceLocation getTextureLocation(NightLightSquidEntity entity) {
         return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
     }
 
     @Override
-    protected void applyRotations(NightLightSquidEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180.0F));
+    protected void setupRotations(NightLightSquidEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F));
     }
 }

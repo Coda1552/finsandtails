@@ -14,7 +14,7 @@ public class SiderolWhiskeredSnailRenderer extends MobRenderer<SiderolWhiskeredS
         super(renderManagerIn, new SiderolWhiskeredSnailModel<>(), 0.25F);
     }
 
-    public ResourceLocation getEntityTexture(SiderolWhiskeredSnailEntity entity) {
+    public ResourceLocation getTextureLocation(SiderolWhiskeredSnailEntity entity) {
         return TEXTURE;
     }
 }

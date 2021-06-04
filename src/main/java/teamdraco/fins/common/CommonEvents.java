@@ -46,7 +46,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void livingDamage(LivingDamageEvent event) {
-        if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
+        if (event.getEntityLiving().getItemBySlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
             if (event.getSource() == DamageSource.FALL) {
                 event.setAmount(event.getAmount() / 2f);
             }
@@ -122,10 +122,10 @@ public class CommonEvents {
 
         if (attacker != null) {
             LivingEntity livingEntity = (LivingEntity) attacker;
-            ItemStack heldItem = livingEntity.getHeldItemMainhand();
+            ItemStack heldItem = livingEntity.getMainHandItem();
             if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.CRABS_FAVOR.get())) {
-                int i = EnchantmentHelper.getEnchantmentLevel(FinsEnchantments.CRABS_FAVOR.get(), event.getAttackingPlayer().getHeldItem(Hand.MAIN_HAND));
-                    event.setDroppedExperience(event.getOriginalExperience() * i + attacker.getEntityWorld().rand.nextInt(3));
+                int i = EnchantmentHelper.getItemEnchantmentLevel(FinsEnchantments.CRABS_FAVOR.get(), event.getAttackingPlayer().getItemInHand(Hand.MAIN_HAND));
+                    event.setDroppedExperience(event.getOriginalExperience() * i + attacker.getCommandSenderWorld().random.nextInt(3));
             }
         }
     }
@@ -134,22 +134,22 @@ public class CommonEvents {
     public static void onLootLoad(LootTableLoadEvent event) {
         ResourceLocation name = event.getName();
         LootPool pool = event.getTable().getPool("main");
-        if (name.equals(LootTables.GAMEPLAY_FISHING)) {
+        if (name.equals(LootTables.FISHING)) {
             if (FinsConfig.Common.INSTANCE.finsFishingLoot.get()) {
                 addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 10, 1));
             }
         }
-        if (name.equals(LootTables.GAMEPLAY_HERO_OF_THE_VILLAGE_FISHERMAN_GIFT)) {
+        if (name.equals(LootTables.FISHERMAN_GIFT)) {
             addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fisherman_gift"), 15, 1));
         }
     }
 
     private static LootEntry getInjectEntry(ResourceLocation location, int weight, int quality) {
-        return TableLootEntry.builder(location).weight(weight).quality(quality).build();
+        return TableLootEntry.lootTableReference(location).setWeight(weight).setQuality(quality).build();
     }
 
     private static void addEntry(LootPool pool, LootEntry entry) {
-        List<LootEntry> lootEntries = ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "field_186453_a");
+        List<LootEntry> lootEntries = ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "entries");
         if (lootEntries != null) {
             if (lootEntries.stream().anyMatch(e -> e == entry)) {
                 throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);

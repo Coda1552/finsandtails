@@ -55,10 +55,12 @@ public class ClientEvents {
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.NIGHT_LIGHT_SQUID.get(), NightLightSquidRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FinsEntities.PAPA_WEE.get(), PapaWeeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FinsEntities.WHERBLE.get(), WherbleRenderer::new);
 
-        RenderTypeLookup.setRenderLayer(FinsBlocks.CHAINED_TENTACLE.get(), RenderType.getCutout());
-        ScreenManager.registerFactory(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
-        ScreenManager.registerFactory(FinsContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
+        RenderTypeLookup.setRenderLayer(FinsBlocks.CHAINED_TENTACLE.get(), RenderType.cutout());
+        ScreenManager.register(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
+        ScreenManager.register(FinsContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
     }
 
     @SubscribeEvent
@@ -77,8 +79,8 @@ public class ClientEvents {
             if (event.phase == TickEvent.Phase.END) {
                 Minecraft minecraft = Minecraft.getInstance();
                 final ClientPlayerEntity player = minecraft.player;
-                if (player != null && player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
-                    boolean jumping = minecraft.gameSettings.keyBindJump.isKeyDown();
+                if (player != null && player.getItemBySlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
+                    boolean jumping = minecraft.options.keyJump.isDown();
                     if (jumping != wasJumping) {
                         TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
                         packet.handle(player);

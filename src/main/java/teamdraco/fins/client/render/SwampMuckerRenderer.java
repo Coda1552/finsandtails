@@ -14,7 +14,7 @@ public class SwampMuckerRenderer extends MobRenderer<SwampMuckerEntity, SwampMuc
         super(renderManagerIn, new SwampMuckerModel<>(), 0.3F);
     }
 
-    public ResourceLocation getEntityTexture(SwampMuckerEntity entity) {
+    public ResourceLocation getTextureLocation(SwampMuckerEntity entity) {
         return TEXTURE;
     }
 

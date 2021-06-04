@@ -2,7 +2,7 @@ package teamdraco.fins.common.entities;
 
 import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
-import teamdraco.fins.common.entities.pathfinding.GroundAndSwimmerNavigator;
+import teamdraco.fins.common.entities.util.GroundAndSwimmerNavigator;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
@@ -43,20 +43,20 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class PenglilEntity extends TameableEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(PenglilEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Boolean> field_213428_bG = EntityDataManager.createKey(PenglilEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> field_213429_bH = EntityDataManager.createKey(PenglilEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(PenglilEntity.class, DataSerializers.INT);
+    private static final DataParameter<Boolean> IS_LYING = EntityDataManager.defineId(PenglilEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> RELAX_STATE_ONE = EntityDataManager.defineId(PenglilEntity.class, DataSerializers.BOOLEAN);
 
     public PenglilEntity(EntityType<? extends PenglilEntity> type, World world) {
         super(type, world);
-        this.moveController = new PenglilEntity.MoveHelperController(this);
-        this.setPathPriority(PathNodeType.WATER, 0.0F);
-        this.stepHeight = 1;
+        this.moveControl = new PenglilEntity.MoveHelperController(this);
+        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
+        this.maxUpStep = 1;
     }
 
     @Override
-    protected PathNavigator createNavigator(World worldIn) {
-        return new GroundAndSwimmerNavigator(this, world);
+    protected PathNavigator createNavigation(World worldIn) {
+        return new GroundAndSwimmerNavigator(this, level);
     }
 
     @Override
@@ -65,28 +65,29 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public boolean isPushedByWater() {
+    public boolean isPushedByFluid() {
         return false;
     }
 
     public static boolean canPenglilSpawn(EntityType<? extends TameableEntity> penglil, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
-        return worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND && worldIn.getLightSubtracted(pos, 0) > 8;
+        return worldIn.getBlockState(pos.below()).getBlock() == Blocks.SAND && worldIn.getRawBrightness(pos, 0) > 8;
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SitGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(3, new PenglilEntity.MorningGiftGoal(this));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PapaWeeEntity.class, 8.0F, 1.6D, 1.4D));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new PenglilEntity.WanderGoal(this, 1.0D, 10));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 1) {
             @Override
-            public boolean shouldExecute() {
-                return super.shouldExecute() && isInWater();
+            public boolean canUse() {
+                return super.canUse() && isInWater();
             }
         });
-        this.goalSelector.addGoal(2, new PenglilEntity.WanderGoal(this, 1.0D, 10));
+        this.goalSelector.addGoal(3, new PenglilEntity.MorningGiftGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, true));
@@ -94,12 +95,12 @@ public class PenglilEntity extends TameableEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, true));
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234176_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 10).createMutableAttribute(Attributes.ATTACK_DAMAGE, 1).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
-    public void setTamed(boolean tamed) {
-        super.setTamed(tamed);
+    public void setTame(boolean tamed) {
+        super.setTame(tamed);
         if (tamed) {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0D);
             this.setHealth(20.0F);
@@ -109,23 +110,23 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
-        ItemStack heldItem = player.getHeldItem(hand);
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        ItemStack heldItem = player.getItemInHand(hand);
         Item item = heldItem.getItem();
         ItemStack itemstack1 = new ItemStack(FinsItems.PENGLIL_BUCKET.get());
-        ActionResultType actionresulttype = super.func_230254_b_(player, hand);
+        ActionResultType actionresulttype = super.mobInteract(player, hand);
 
-        if (heldItem.getItem() == Items.BUCKET && this.isAlive() && !this.isSitting()) {
-            playSound(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
+        if (heldItem.getItem() == Items.BUCKET && this.isAlive() && !this.isOrderedToSit()) {
+            playSound(SoundEvents.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
             this.setBucketData(itemstack1);
-            if (!this.world.isRemote) {
+            if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
             }
             if (heldItem.isEmpty()) {
-                player.setHeldItem(hand, itemstack1);
-            } else if (!player.inventory.addItemStackToInventory(itemstack1)) {
-                player.dropItem(itemstack1, false);
+                player.setItemInHand(hand, itemstack1);
+            } else if (!player.inventory.add(itemstack1)) {
+                player.drop(itemstack1, false);
             }
             this.remove();
             return ActionResultType.SUCCESS;
@@ -138,33 +139,33 @@ public class PenglilEntity extends TameableEntity {
                 heldItem.shrink(1);
             }
             heal(2);
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            this.world.addParticle(ParticleTypes.HEART, this.getPosXRandom(1.0D), this.getPosYRandom() + 0.5D, this.getPosZRandom(1.0D), d0, d1, d2);
+            double d0 = this.random.nextGaussian() * 0.02D;
+            double d1 = this.random.nextGaussian() * 0.02D;
+            double d2 = this.random.nextGaussian() * 0.02D;
+            this.level.addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
             return ActionResultType.SUCCESS;
         }
 
-        if (item == FinsItems.HIGH_FINNED_BLUE.get() && !this.isTamed()) {
-            if (!player.abilities.isCreativeMode) {
+        if (item == FinsItems.HIGH_FINNED_BLUE.get() && !this.isTame()) {
+            if (!player.abilities.instabuild) {
                 heldItem.shrink(1);
             }
-            if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
-                this.setTamedBy(player);
-                this.navigator.clearPath();
-                this.func_233687_w_(true);
-                this.setAttackTarget((LivingEntity) null);
-                this.world.setEntityState(this, (byte) 7);
+            if (this.random.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                this.tame(player);
+                this.navigation.stop();
+                this.setOrderedToSit(true);
+                this.setTarget((LivingEntity) null);
+                this.level.broadcastEntityEvent(this, (byte) 7);
             }
             else {
-                this.world.setEntityState(this, (byte) 6);
+                this.level.broadcastEntityEvent(this, (byte) 6);
             }
             return ActionResultType.SUCCESS;
         }
-        if (this.isOwner(player) && item != FinsItems.HIGH_FINNED_BLUE.get()){
-            func_233687_w_(!isEntitySleeping());
-            this.isJumping = false;
-            this.navigator.clearPath();
+        if (this.isOwnedBy(player) && item != FinsItems.HIGH_FINNED_BLUE.get()){
+            setOrderedToSit(!isInSittingPose());
+            this.jumping = false;
+            this.navigation.stop();
             return ActionResultType.SUCCESS;
         }
 
@@ -172,29 +173,29 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public int getTalkInterval() {
+    public int getAmbientSoundInterval() {
         return 480;
     }
 
     private void setBucketData(ItemStack bucket) {
         CompoundNBT compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
-        if (isTamed()) {
-            compoundnbt.putUniqueId("Owner", getOwnerId());
+        if (isTame()) {
+            compoundnbt.putUUID("Owner", getOwnerUUID());
         }
         if (this.hasCustomName()) {
-            bucket.setDisplayName(this.getCustomName());
+            bucket.setHoverName(this.getCustomName());
         }
     }
 
     @Override
     public void travel(Vector3d travelVector) {
-        if (this.isServerWorld() && this.isInWater()) {
+        if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, travelVector);
-            this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale(0.9D));
-            if (this.getAttackTarget() == null) {
-                this.setMotion(this.getMotion().add(0.0D, -0.005D, 0.0D));
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         } else {
             super.travel(travelVector);
@@ -202,47 +203,46 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
-        this.dataManager.register(field_213428_bG, false);
-        this.dataManager.register(field_213429_bH, false);
-
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
+        this.entityData.define(IS_LYING, false);
+        this.entityData.define(RELAX_STATE_ONE, false);
     }
 
     public int getVariant() {
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
+        this.entityData.set(VARIANT, variant);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        spawnDataIn = super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         if (dataTag == null) {
-            setVariant(rand.nextInt(8));
+            setVariant(random.nextInt(8));
         } else {
             if (dataTag.contains("Variant", 3)){
                 this.setVariant(dataTag.getInt("Variant"));
             }
-            if (dataTag.hasUniqueId("Owner")) {
-                this.setOwnerId(dataTag.getUniqueId("Owner"));
-                this.setTamed(true);
+            if (dataTag.hasUUID("Owner")) {
+                this.setOwnerUUID(dataTag.getUUID("Owner"));
+                this.setTame(true);
             }
         }
         return spawnDataIn;
@@ -250,7 +250,7 @@ public class PenglilEntity extends TameableEntity {
 
     @Nullable
     @Override
-    public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+    public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
         return null;
     }
 
@@ -275,20 +275,20 @@ public class PenglilEntity extends TameableEntity {
         return new ItemStack(FinsItems.PENGLIL_SPAWN_EGG.get());
     }
 
-    public boolean func_213416_eg() {
-        return this.dataManager.get(field_213428_bG);
+    public boolean isLying() {
+        return this.entityData.get(IS_LYING);
     }
 
-    public void func_213419_u(boolean p_213419_1_) {
-        this.dataManager.set(field_213428_bG, p_213419_1_);
+    public void setLying(boolean p_213419_1_) {
+        this.entityData.set(IS_LYING, p_213419_1_);
     }
 
-    public void func_213415_v(boolean p_213415_1_) {
-        this.dataManager.set(field_213429_bH, p_213415_1_);
+    public void setRelaxStateOne(boolean p_213415_1_) {
+        this.entityData.set(RELAX_STATE_ONE, p_213415_1_);
     }
 
-    public boolean func_213409_eh() {
-        return this.dataManager.get(field_213429_bH);
+    public boolean isRelaxStateOne() {
+        return this.entityData.get(RELAX_STATE_ONE);
     }
 
     static class MorningGiftGoal extends Goal {
@@ -301,10 +301,10 @@ public class PenglilEntity extends TameableEntity {
             this.penglil = catIn;
         }
 
-        public boolean shouldExecute() {
-            if (!this.penglil.isTamed()) {
+        public boolean canUse() {
+            if (!this.penglil.isTame()) {
                 return false;
-            } else if (this.penglil.isSitting()) {
+            } else if (this.penglil.isOrderedToSit()) {
                 return false;
             } else {
                 LivingEntity livingentity = this.penglil.getOwner();
@@ -314,19 +314,19 @@ public class PenglilEntity extends TameableEntity {
                         return false;
                     }
 
-                    if (this.penglil.getDistanceSq(this.owner) > 100.0D) {
+                    if (this.penglil.distanceToSqr(this.owner) > 100.0D) {
                         return false;
                     }
 
-                    BlockPos blockpos = this.owner.getPosition();
-                    BlockState blockstate = this.penglil.world.getBlockState(blockpos);
-                    if (blockstate.getBlock().isIn(BlockTags.BEDS)) {
-                        this.bedPos = blockstate.func_235903_d_(BedBlock.HORIZONTAL_FACING).map((p_234186_1_) -> {
-                            return blockpos.offset(p_234186_1_.getOpposite());
+                    BlockPos blockpos = this.owner.blockPosition();
+                    BlockState blockstate = this.penglil.level.getBlockState(blockpos);
+                    if (blockstate.getBlock().is(BlockTags.BEDS)) {
+                        this.bedPos = blockstate.getOptionalValue(BedBlock.FACING).map((p_234186_1_) -> {
+                            return blockpos.relative(p_234186_1_.getOpposite());
                         }).orElseGet(() -> {
                             return new BlockPos(blockpos);
                         });
-                        return !this.func_220805_g();
+                        return !this.spaceIsOccupied();
                     }
                 }
 
@@ -334,9 +334,9 @@ public class PenglilEntity extends TameableEntity {
             }
         }
 
-        private boolean func_220805_g() {
-            for(PenglilEntity penglilentity : this.penglil.world.getEntitiesWithinAABB(PenglilEntity.class, (new AxisAlignedBB(this.bedPos)).grow(2.0D))) {
-                if (penglilentity != this.penglil && (penglilentity.func_213416_eg() || penglilentity.func_213409_eh())) {
+        private boolean spaceIsOccupied() {
+            for(PenglilEntity penglilentity : this.penglil.level.getEntitiesOfClass(PenglilEntity.class, (new AxisAlignedBB(this.bedPos)).inflate(2.0D))) {
+                if (penglilentity != this.penglil && (penglilentity.isLying() || penglilentity.isRelaxStateOne())) {
                     return true;
                 }
             }
@@ -344,60 +344,60 @@ public class PenglilEntity extends TameableEntity {
             return false;
         }
 
-        public boolean shouldContinueExecuting() {
-            return this.penglil.isTamed() && !this.penglil.isSitting() && this.owner != null && this.owner.isSleeping() && this.bedPos != null && !this.func_220805_g();
+        public boolean canContinueToUse() {
+            return this.penglil.isTame() && !this.penglil.isOrderedToSit() && this.owner != null && this.owner.isSleeping() && this.bedPos != null && !this.spaceIsOccupied();
         }
 
-        public void startExecuting() {
+        public void start() {
             if (this.bedPos != null) {
-                this.penglil.setSleeping(false);
-                this.penglil.getNavigator().tryMoveToXYZ((double)this.bedPos.getX(), (double)this.bedPos.getY(), (double)this.bedPos.getZ(), (double)1.1F);
+                this.penglil.setInSittingPose(false);
+                this.penglil.getNavigation().moveTo((double)this.bedPos.getX(), (double)this.bedPos.getY(), (double)this.bedPos.getZ(), (double)1.1F);
             }
 
         }
 
-        public void resetTask() {
-            this.penglil.func_213419_u(false);
-            float f = this.penglil.world.func_242415_f(1.0F);
-            if (this.owner.getSleepTimer() >= 100 && (double)f > 0.77D && (double)f < 0.8D && (double)this.penglil.world.getRandom().nextFloat() < 0.5D) {
-                this.func_220804_h();
+        public void stop() {
+            this.penglil.setLying(false);
+            float f = this.penglil.level.getTimeOfDay(1.0F);
+            if (this.owner.getSleepTimer() >= 100 && (double)f > 0.77D && (double)f < 0.8D && (double)this.penglil.level.getRandom().nextFloat() < 0.5D) {
+                this.giveMorningGift();
             }
 
             this.tickCounter = 0;
-            this.penglil.func_213415_v(false);
-            this.penglil.getNavigator().clearPath();
+            this.penglil.setRelaxStateOne(false);
+            this.penglil.getNavigation().stop();
         }
 
-        private void func_220804_h() {
-            Random random = this.penglil.getRNG();
+        private void giveMorningGift() {
+            Random random = this.penglil.getRandom();
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-            blockpos$mutable.setPos(this.penglil.getPosition());
-            this.penglil.attemptTeleport((double)(blockpos$mutable.getX() + random.nextInt(11) - 5), (double)(blockpos$mutable.getY() + random.nextInt(5) - 2), (double)(blockpos$mutable.getZ() + random.nextInt(11) - 5), false);
-            blockpos$mutable.setPos(this.penglil.getPosition());
-            LootTable loottable = this.penglil.world.getServer().getLootTableManager().getLootTableFromLocation(LootTables.GAMEPLAY_FISHING);
-            LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.penglil.world)).withParameter(LootParameters.field_237457_g_, this.penglil.getPositionVec()).withParameter(LootParameters.THIS_ENTITY, this.penglil).withRandom(random);
+            blockpos$mutable.set(this.penglil.blockPosition());
+            this.penglil.randomTeleport((double)(blockpos$mutable.getX() + random.nextInt(11) - 5), (double)(blockpos$mutable.getY() + random.nextInt(5) - 2), (double)(blockpos$mutable.getZ() + random.nextInt(11) - 5), false);
+            blockpos$mutable.set(this.penglil.blockPosition());
+            LootTable loottable = this.penglil.level.getServer().getLootTables().get(LootTables.FISHING);
+            LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.penglil.level)).withParameter(LootParameters.ORIGIN, this.penglil.position()).withParameter(LootParameters.THIS_ENTITY, this.penglil).withRandom(random);
 
-            for(ItemStack itemstack : loottable.generate(lootcontext$builder.build(LootParameterSets.GIFT))) {
-                this.penglil.world.addEntity(new ItemEntity(this.penglil.world, (double)blockpos$mutable.getX() - (double)MathHelper.sin(this.penglil.renderYawOffset * ((float)Math.PI / 180F)), (double)blockpos$mutable.getY(), (double)blockpos$mutable.getZ() + (double)MathHelper.cos(this.penglil.renderYawOffset * ((float)Math.PI / 180F)), itemstack));
+            for(ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootParameterSets.GIFT))) {
+                this.penglil.level.addFreshEntity(new ItemEntity(this.penglil.level, (double)blockpos$mutable.getX() - (double)MathHelper.sin(this.penglil.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutable.getY(), (double)blockpos$mutable.getZ() + (double)MathHelper.cos(this.penglil.yBodyRot * ((float)Math.PI / 180F)), itemstack));
             }
 
         }
 
         public void tick() {
             if (this.owner != null && this.bedPos != null) {
-                this.penglil.setSleeping(false);
-                this.penglil.getNavigator().tryMoveToXYZ((double)this.bedPos.getX(), (double)this.bedPos.getY(), (double)this.bedPos.getZ(), (double)1.1F);
-                if (this.penglil.getDistanceSq(this.owner) < 2.5D) {
+                this.penglil.setInSittingPose(false);
+                this.penglil.getNavigation().moveTo((double)this.bedPos.getX(), (double)this.bedPos.getY(), (double)this.bedPos.getZ(), (double)1.1F);
+                if (this.penglil.distanceToSqr(this.owner) < 2.5D) {
                     ++this.tickCounter;
                     if (this.tickCounter > 16) {
-                        this.penglil.func_213419_u(true);
-                        this.penglil.func_213415_v(false);
+                        this.penglil.setLying(true);
+                        this.penglil.setRelaxStateOne(false);
                     } else {
-                        this.penglil.faceEntity(this.owner, 45.0F, 45.0F);
-                        this.penglil.func_213415_v(true);
+                        this.penglil.lookAt(this.owner, 45.0F, 45.0F);
+                        this.penglil.setRelaxStateOne(true);
                     }
                 } else {
-                    this.penglil.func_213419_u(false);
+                    this.penglil.setLying(false);
                 }
             }
 
@@ -414,33 +414,33 @@ public class PenglilEntity extends TameableEntity {
 
         private void updateSpeed() {
             if (this.penglil.isInWater()) {
-                this.penglil.setMotion(this.penglil.getMotion().add(0.0D, 0.005D, 0.0D));
+                this.penglil.setDeltaMovement(this.penglil.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
 
-                if (this.penglil.isChild()) {
-                    this.penglil.setAIMoveSpeed(Math.max(this.penglil.getAIMoveSpeed() / 3.0F, 0.06F));
+                if (this.penglil.isBaby()) {
+                    this.penglil.setSpeed(Math.max(this.penglil.getSpeed() / 3.0F, 0.06F));
                 }
             }
             else if (this.penglil.onGround) {
-                this.penglil.setAIMoveSpeed(Math.max(this.penglil.getAIMoveSpeed(), 0.06F));
+                this.penglil.setSpeed(Math.max(this.penglil.getSpeed(), 0.06F));
             }
         }
 
         public void tick() {
             this.updateSpeed();
-            if (this.action == MovementController.Action.MOVE_TO && !this.penglil.getNavigator().noPath()) {
-                double d0 = this.posX - this.penglil.getPosX();
-                double d1 = this.posY - this.penglil.getPosY();
-                double d2 = this.posZ - this.penglil.getPosZ();
+            if (this.operation == MovementController.Action.MOVE_TO && !this.penglil.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.penglil.getX();
+                double d1 = this.wantedY - this.penglil.getY();
+                double d2 = this.wantedZ - this.penglil.getZ();
                 double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                this.penglil.rotationYaw = this.limitAngle(this.penglil.rotationYaw, f, 90.0F);
-                this.penglil.renderYawOffset = this.penglil.rotationYaw;
-                float f1 = (float)(this.speed * this.penglil.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.penglil.setAIMoveSpeed(MathHelper.lerp(0.125F, this.penglil.getAIMoveSpeed(), f1));
-                this.penglil.setMotion(this.penglil.getMotion().add(0.0D, (double)this.penglil.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
+                this.penglil.yRot = this.rotlerp(this.penglil.yRot, f, 90.0F);
+                this.penglil.yBodyRot = this.penglil.yRot;
+                float f1 = (float)(this.speedModifier * this.penglil.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.penglil.setSpeed(MathHelper.lerp(0.125F, this.penglil.getSpeed(), f1));
+                this.penglil.setDeltaMovement(this.penglil.getDeltaMovement().add(0.0D, (double)this.penglil.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
-                this.penglil.setAIMoveSpeed(0.0F);
+                this.penglil.setSpeed(0.0F);
             }
         }
     }
@@ -451,8 +451,8 @@ public class PenglilEntity extends TameableEntity {
             super(penglil, speedIn, chance);
         }
 
-        public boolean shouldExecute() {
-            return !this.creature.isInWater() && super.shouldExecute();
+        public boolean canUse() {
+            return !this.mob.isInWater() && super.canUse();
         }
     }
 
