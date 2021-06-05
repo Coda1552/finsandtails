@@ -38,7 +38,7 @@ public class FinsEntities {
     public static final RegistryObject<EntityType<TealArrowfishArrowEntity>> TEAL_ARROWFISH_ARROW = create("teal_arrowfish_arrow", EntityType.Builder.<TealArrowfishArrowEntity>of(TealArrowfishArrowEntity::new, EntityClassification.MISC).sized(0.5F, 0.5F));
     public static final RegistryObject<EntityType<GopjetEntity>> GOPJET = create("gopjet", EntityType.Builder.of(GopjetEntity::new, EntityClassification.WATER_CREATURE).sized(0.7f, 0.5f));
     public static final RegistryObject<EntityType<PapaWeeEntity>> PAPA_WEE = create("papa_wee", EntityType.Builder.of(PapaWeeEntity::new, EntityClassification.WATER_CREATURE).sized(0.5f, 0.5f));
-    public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, EntityClassification.CREATURE).sized(0.5f, 0.4f));
+    public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, EntityClassification.CREATURE).sized(0.6f, 0.4f));
 
     private static <T extends Entity> RegistryObject<EntityType<T>> create(String name, EntityType.Builder<T> builder) {
         return REGISTER.register(name, () -> builder.build(FinsAndTails.MOD_ID + "." + name));

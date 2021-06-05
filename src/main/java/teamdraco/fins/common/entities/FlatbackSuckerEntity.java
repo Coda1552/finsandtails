@@ -24,6 +24,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import teamdraco.fins.init.FinsSounds;
 
 import java.util.List;
 
@@ -35,6 +36,52 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
 
     protected PathNavigator createNavigation(World world) {
         return new GroundPathNavigator(this, world);
+    }
+
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        List<LivingEntity> list = this.level.getEntitiesOfClass(FlatbackSuckerEntity.class, this.getBoundingBox().inflate(2.0D));
+        if (this.isAlive() && list.size() >= 3 && random.nextFloat() > 0.99F) {
+            this.playSound(FinsSounds.FLATBACK_SUCKER_CLICK.get(), 0.2F, 1.0F);
+        }
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(4, new FlatbackSuckerEntity.SwimGoal(this));
+    }
+
+    @Override
+    protected ItemStack getBucketItemStack() {
+        return new ItemStack(FinsItems.FLATBACK_SUCKER_BUCKET.get());
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.COD_AMBIENT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.COD_DEATH;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.COD_HURT;
+    }
+
+    protected SoundEvent getFlopSound() {
+        return SoundEvents.COD_FLOP;
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.FLATBACK_SUCKER_SPAWN_EGG.get());
     }
 
     static class MoveHelperController extends MovementController {
@@ -68,26 +115,6 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
         }
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        List<LivingEntity> list = this.level.getEntitiesOfClass(FlatbackSuckerEntity.class, this.getBoundingBox().inflate(2.0D));
-        if (this.isAlive() && list.size() >= 3 && random.nextFloat() > 0.99F) {
-            this.playSound(SoundEvents.PUFFER_FISH_STING, 0.2F, 1.0F);
-        }
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(4, new FlatbackSuckerEntity.SwimGoal(this));
-    }
-
     static class SwimGoal extends RandomSwimmingGoal {
         private final FlatbackSuckerEntity fish;
 
@@ -99,31 +126,5 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
         public boolean canUse() {
             return super.canUse();
         }
-    }
-
-    @Override
-    protected ItemStack getBucketItemStack() {
-        return new ItemStack(FinsItems.FLATBACK_SUCKER_BUCKET.get());
-    }
-
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.COD_AMBIENT;
-    }
-
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.COD_DEATH;
-    }
-
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.COD_HURT;
-    }
-
-    protected SoundEvent getFlopSound() {
-        return SoundEvents.COD_FLOP;
-    }
-
-    @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
-        return new ItemStack(FinsItems.FLATBACK_SUCKER_SPAWN_EGG.get());
     }
 }

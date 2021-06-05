@@ -144,5 +144,14 @@
         "stream": true
       }
     ]
+  },
+  "click": {
+    "subtitle": "fins.click",
+    "sounds": [
+      {
+        "name": "fins:click",
+        "stream": true
+      }
+    ]
   }
 }

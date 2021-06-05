@@ -2,12 +2,14 @@ package teamdraco.fins.common.entities;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -18,8 +20,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -34,7 +35,7 @@ import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
 
 public class WherbleEntity extends AnimalEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(PenglilEntity.class, DataSerializers.INT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(WherbleEntity.class, DataSerializers.INT);
 
     public WherbleEntity(EntityType<? extends AnimalEntity> p_i48568_1_, World p_i48568_2_) {
         super(p_i48568_1_, p_i48568_2_);
@@ -44,8 +45,8 @@ public class WherbleEntity extends AnimalEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.0D));
-        this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(Tags.Items.SEEDS), false));
+        this.goalSelector.addGoal(1, new MateGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(Items.BEETROOT), false));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, FoxEntity.class, 8.0F, 1.0D, 1.15D));
@@ -98,7 +99,10 @@ public class WherbleEntity extends AnimalEntity {
                 bucket.getOrCreateTag().putInt("Age", getAge());
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, bucket);
             }
-
+            if (isFood(heldItem) && canFindSnow() && !this.level.isClientSide && this.getAge() == 0 && this.canFallInLove()) {
+                setInLove(player);
+                this.usePlayerItem(player, heldItem);
+            }
             if (heldItem.isEmpty()) {
                 player.setItemInHand(hand, bucket);
             } else if (!player.inventory.add(bucket)) {
@@ -122,7 +126,7 @@ public class WherbleEntity extends AnimalEntity {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return stack.getItem() == Items.POTATO;
+        return stack.getItem() == Items.BEETROOT;
     }
 
     @Override
@@ -163,4 +167,46 @@ public class WherbleEntity extends AnimalEntity {
         return this.isBaby() ? 0.2F : 0.4F;
     }
 
+    private boolean canFindSnow() {
+        BlockPos blockpos = this.blockPosition();
+        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+
+        for(int i = 0; i < 3; ++i) {
+            for(int j = 0; j < 8; ++j) {
+                for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
+                    for(int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
+                        blockpos$mutable.setWithOffset(blockpos, k, i, l);
+                        if (this.level.getBlockState(blockpos$mutable).is(Blocks.SNOW) || this.level.getBlockState(blockpos$mutable).is(Blocks.SNOW_BLOCK)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    class MateGoal extends BreedGoal {
+        private final WherbleEntity wherble;
+
+        public MateGoal(WherbleEntity p_i229957_2_, double p_i229957_3_) {
+            super(p_i229957_2_, p_i229957_3_);
+            this.wherble = p_i229957_2_;
+        }
+
+        public boolean canUse() {
+            if (super.canUse()) {
+                if (!canFindSnow()) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+
+
+    }
 }
