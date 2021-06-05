@@ -45,6 +45,7 @@ public class OrnateBugfishEntity extends AbstractGroupFishEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, RubberBellyGliderEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VibraWeeEntity.class, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, false));
     }
 
     @Override

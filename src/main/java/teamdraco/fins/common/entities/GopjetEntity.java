@@ -73,7 +73,7 @@ public class GopjetEntity extends AbstractFishEntity {
         if (boostTimer > 0) {
             --boostTimer;
         }
-        if (boostTimer == 0 || !list.isEmpty() && !fromBucket()) {
+        if (boostTimer == 0 || !list.isEmpty()/* && !this.fromBucket()*/) {
             boostTimer = BOOST_TIMER;
             setDeltaMovement(calculateViewVector(xRot, yRot).multiply(2.0d, 0.0d, 2.0d));
         }

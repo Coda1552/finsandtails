@@ -1,9 +1,9 @@
 {
   "type": "minecraft:campfire_cooking",
   "ingredient": {
-    "item": "fins:banded_redback_shrimp"
+    "item": "fins:wherble_fin"
   },
-  "result": "fins:cooked_banded_redback_shrimp",
+  "result": "fins:cooked_wherble_fin",
   "experience": 0.35,
   "cookingtime": 600
 }

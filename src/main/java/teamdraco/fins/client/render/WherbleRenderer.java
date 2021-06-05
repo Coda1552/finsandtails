@@ -22,6 +22,7 @@ public class WherbleRenderer extends MobRenderer<WherbleEntity, WherbleModel<Whe
         hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/wherble/wherble_2.png"));
         hashMap.put(2, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/wherble/wherble_3.png"));
         hashMap.put(3, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/wherble/wherble_4.png"));
+        hashMap.put(4, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/wherble/child.png"));
     });
 
     public WherbleRenderer(EntityRendererManager renderManagerIn) {
@@ -30,6 +31,6 @@ public class WherbleRenderer extends MobRenderer<WherbleEntity, WherbleModel<Whe
 
     @Override
     public ResourceLocation getTextureLocation(WherbleEntity entity) {
-        return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
+        return entity.isBaby() ? TEXTURES.get(4) : TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
     }
 }

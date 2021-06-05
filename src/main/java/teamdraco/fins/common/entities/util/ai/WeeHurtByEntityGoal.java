@@ -21,7 +21,7 @@ public class WeeHurtByEntityGoal extends Goal {
 
     @Override
     public void start() {
-        List<PapaWeeEntity> list = wee.level.getEntitiesOfClass(PapaWeeEntity.class, wee.getBoundingBox().inflate(5.0D));
+        List<PapaWeeEntity> list = wee.level.getEntitiesOfClass(PapaWeeEntity.class, wee.getBoundingBox().inflate(7.5D));
         LivingEntity attacker = wee.getLastHurtByMob();
 
         if (!list.isEmpty()) {

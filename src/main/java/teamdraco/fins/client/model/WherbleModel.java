@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.fins.common.entities.WherbleEntity;
@@ -68,7 +69,15 @@ public class WherbleModel<T extends Entity> extends AgeableModel<WherbleEntity> 
 
     @Override
     public void setupAnim(WherbleEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+        float speed = 2.2f;
+        float degree = 1.0f;
+        this.legLeft.xRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 1.25F * limbSwingAmount;
+        this.legRight.xRot = MathHelper.cos(3.0F + limbSwing * speed * 0.4F) * degree * 1.25F * limbSwingAmount;
+        this.body.xRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.2F * limbSwingAmount;
+        this.tail.xRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.5F * limbSwingAmount - 0.25F;
+        this.body.zRot = MathHelper.cos(limbSwing * speed * 0.1F) * degree * 0.2F * limbSwingAmount;
+        this.tail.yRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.4F * limbSwingAmount;
+        this.tailFin.zRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.6F * limbSwingAmount;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

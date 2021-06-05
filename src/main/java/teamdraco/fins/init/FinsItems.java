@@ -66,7 +66,10 @@ public class FinsItems {
     public static final RegistryObject<Item> COOKED_LUMINOUS_CALAMARI = REGISTER.register("cooked_luminous_calamari", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(6).saturationMod(0.5f).effect(() -> new EffectInstance(Effects.NIGHT_VISION, 200), 1.0f).build())));
     public static final RegistryObject<Item> REEF_COCKTAIL = REGISTER.register("reef_cocktail", () -> new SoupItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(6).saturationMod(0.5f).effect(() -> new EffectInstance(Effects.DAMAGE_RESISTANCE, 100), 1.0F).effect(() -> new EffectInstance(Effects.WATER_BREATHING, 200), 0.75F).build()).stacksTo(1)));
     public static final RegistryObject<Item> WEE_DELIGHT = REGISTER.register("wee_delight", () -> new SoupItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(8).saturationMod(0.4f).fast().build()).stacksTo(1)));
-    public static final RegistryObject<Item> COOKED_PAPA_WEE = REGISTER.register("cooked_papa_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(7).saturationMod(0.6f).build())));
+    public static final RegistryObject<Item> COOKED_PAPA_WEE = REGISTER.register("cooked_papa_wee", () -> new PapaWeeItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(7).saturationMod(0.6f).build())));
+    public static final RegistryObject<Item> WHERBLE_FIN = REGISTER.register("wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.2F).meat().fast().build())));
+    public static final RegistryObject<Item> COOKED_WHERBLE_FIN = REGISTER.register("cooked_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(6).saturationMod(0.3F).meat().fast().build())));
+    public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = REGISTER.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.2F).fast().build())));
 
     //Gear
     public static final RegistryObject<Item> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", MudhorsePouchItem::new);
@@ -108,6 +111,7 @@ public class FinsItems {
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_BUCKET = REGISTER.register("night_light_squid_bucket", () -> new FinsBucketItem(FinsEntities.NIGHT_LIGHT_SQUID, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> GOPJET_BUCKET = REGISTER.register("gopjet_bucket", () -> new FinsBucketItem(FinsEntities.GOPJET, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> PAPA_WEE_BUCKET = REGISTER.register("papa_wee_bucket", () -> new FinsBucketItem(FinsEntities.PAPA_WEE, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
+    public static final RegistryObject<Item> BABY_WHERBLE_POT = REGISTER.register("baby_wherble_pot", () -> new BabyWherblePotItem(FinsEntities.WHERBLE, () -> Fluids.EMPTY, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
 
     //Spawn Eggs
     public static final RegistryObject<Item> PEA_WEE_SPAWN_EGG = REGISTER.register("pea_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.PEA_WEE, 0x5ca430, 0x2a6e18, new Item.Properties().tab(FinsAndTails.GROUP)));

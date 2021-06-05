@@ -1,12 +1,16 @@
 package teamdraco.fins.common.entities;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -16,9 +20,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.DifficultyInstance;
@@ -46,8 +48,10 @@ public class WherbleEntity extends AnimalEntity {
         this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(Tags.Items.SEEDS), false));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, FoxEntity.class, 8.0F, 1.0D, 1.15D));
+        this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, WolfEntity.class, 8.0F, 1.0D, 1.15D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -64,7 +68,7 @@ public class WherbleEntity extends AnimalEntity {
         return this.entityData.get(VARIANT);
     }
 
-    private void setVariant(int variant) {
+    public void setVariant(int variant) {
         this.entityData.set(VARIANT, variant);
     }
 
@@ -78,6 +82,33 @@ public class WherbleEntity extends AnimalEntity {
     public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
+    }
+
+    @Override
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        ItemStack heldItem = player.getItemInHand(hand);
+        if (isBaby() && heldItem.getItem() == Items.FLOWER_POT && this.isAlive()) {
+            this.playSound(SoundEvents.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
+            heldItem.shrink(1);
+            ItemStack bucket = new ItemStack(FinsItems.BABY_WHERBLE_POT.get());
+            if (this.hasCustomName()) {
+                bucket.setHoverName(this.getCustomName());
+            }
+            if (!this.level.isClientSide) {
+                bucket.getOrCreateTag().putInt("Age", getAge());
+                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, bucket);
+            }
+
+            if (heldItem.isEmpty()) {
+                player.setItemInHand(hand, bucket);
+            } else if (!player.inventory.add(bucket)) {
+                player.drop(bucket, false);
+            }
+
+            this.remove();
+            return ActionResultType.sidedSuccess(this.level.isClientSide);
+        }
+        return super.mobInteract(player, hand);
     }
 
     @Nullable

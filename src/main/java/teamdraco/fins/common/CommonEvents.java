@@ -4,7 +4,11 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
+import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,6 +24,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
@@ -32,6 +37,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.FinsConfig;
+import teamdraco.fins.common.entities.WherbleEntity;
 import teamdraco.fins.common.items.charms.ISpindlyCharmItem;
 import teamdraco.fins.init.FinsEnchantments;
 import teamdraco.fins.init.FinsEntities;
@@ -50,6 +56,13 @@ public class CommonEvents {
             if (event.getSource() == DamageSource.FALL) {
                 event.setAmount(event.getAmount() / 2f);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+        if (event.getEntity() instanceof WolfEntity || event.getEntity() instanceof FoxEntity) {
+            ((MobEntity) event.getEntity()).targetSelector.addGoal(0, new NearestAttackableTargetGoal<>((MobEntity) event.getEntity(), WherbleEntity.class, true));
         }
     }
 
@@ -77,6 +90,10 @@ public class CommonEvents {
 
         if (event.getCategory() == Biome.Category.FOREST) {
             event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_LEAF_SNAIL.get(), FinsConfig.Common.INSTANCE.flatbackLeafSnailSpawnWeight.get(), 1, 2));
+        }
+
+        if (event.getCategory() == Biome.Category.ICY) {
+            event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.WHERBLE.get(), FinsConfig.Common.INSTANCE.wherbleSpawnWeight.get(), 2, 6));
         }
 
         if (event.getName() != null) {

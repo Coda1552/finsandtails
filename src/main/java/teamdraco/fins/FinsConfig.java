@@ -33,6 +33,7 @@ public class FinsConfig {
     public static int rubberBellyGliderSpawnWeight;
     public static int gopjetSpawnWeight;
     public static int papaWeeSpawnWeight;
+    public static int wherbleSpawnWeight;
 
     @SubscribeEvent
     public static void configLoad(ModConfig.ModConfigEvent event) {
@@ -80,6 +81,7 @@ public class FinsConfig {
         public final ForgeConfigSpec.IntValue rubberBellyGliderSpawnWeight;
         public final ForgeConfigSpec.IntValue gopjetSpawnWeight;
         public final ForgeConfigSpec.IntValue papaWeeSpawnWeight;
+        public final ForgeConfigSpec.IntValue wherbleSpawnWeight;
 
         Common(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -142,6 +144,10 @@ public class FinsConfig {
             riverPebbleSnailSpawnWeight = builder.comment("Spawn weight of River Pebble Snails").defineInRange("river_pebble_snail_spawn_weight", 2, 1, 1000);
             goldenRiverRaySpawnWeight = builder.comment("Spawn weight of Golden River Rays").defineInRange("golden_river_ray_spawn_weight", 2, 1, 1000);
             builder.pop();
+
+            builder.push("Icy Spawn Weight");
+            wherbleSpawnWeight = builder.comment("Spawn weight of Wherbles").defineInRange("wherble_spawn_weight", 1, 1, 1000);
+            builder.pop();
         }
 
         public static void reload() {
@@ -170,6 +176,7 @@ public class FinsConfig {
             FinsConfig.rubberBellyGliderSpawnWeight = INSTANCE.rubberBellyGliderSpawnWeight.get();
             FinsConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
             FinsConfig.papaWeeSpawnWeight = INSTANCE.papaWeeSpawnWeight.get();
+            FinsConfig.wherbleSpawnWeight = INSTANCE.wherbleSpawnWeight.get();
         }
     }
 }

@@ -1,5 +1,6 @@
 package teamdraco.fins.common.entities;
 
+import teamdraco.fins.common.entities.util.ai.WeeHurtByEntityGoal;
 import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
@@ -30,8 +31,9 @@ public class WeeWeeEntity extends AbstractFishEntity {
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, PenglilEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(4, new WeeWeeEntity.SwimGoal(this));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(2, new WeeWeeEntity.SwimGoal(this));
+        this.goalSelector.addGoal(3, new WeeHurtByEntityGoal(this));
     }
 
     static class SwimGoal extends RandomSwimmingGoal {
