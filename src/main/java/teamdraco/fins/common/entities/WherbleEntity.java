@@ -45,7 +45,7 @@ public class WherbleEntity extends AnimalEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.0D));
-        this.goalSelector.addGoal(1, new MateGoal(this, 1.0D));
+        this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(Items.BEETROOT), false));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -98,10 +98,6 @@ public class WherbleEntity extends AnimalEntity {
             if (!this.level.isClientSide) {
                 bucket.getOrCreateTag().putInt("Age", getAge());
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, bucket);
-            }
-            if (isFood(heldItem) && canFindSnow() && !this.level.isClientSide && this.getAge() == 0 && this.canFallInLove()) {
-                setInLove(player);
-                this.usePlayerItem(player, heldItem);
             }
             if (heldItem.isEmpty()) {
                 player.setItemInHand(hand, bucket);
@@ -165,48 +161,5 @@ public class WherbleEntity extends AnimalEntity {
     @Override
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
         return this.isBaby() ? 0.2F : 0.4F;
-    }
-
-    private boolean canFindSnow() {
-        BlockPos blockpos = this.blockPosition();
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-
-        for(int i = 0; i < 3; ++i) {
-            for(int j = 0; j < 8; ++j) {
-                for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
-                    for(int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
-                        blockpos$mutable.setWithOffset(blockpos, k, i, l);
-                        if (this.level.getBlockState(blockpos$mutable).is(Blocks.SNOW) || this.level.getBlockState(blockpos$mutable).is(Blocks.SNOW_BLOCK)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    class MateGoal extends BreedGoal {
-        private final WherbleEntity wherble;
-
-        public MateGoal(WherbleEntity p_i229957_2_, double p_i229957_3_) {
-            super(p_i229957_2_, p_i229957_3_);
-            this.wherble = p_i229957_2_;
-        }
-
-        public boolean canUse() {
-            if (super.canUse()) {
-                if (!canFindSnow()) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                return false;
-            }
-        }
-
-
     }
 }
