@@ -46,7 +46,7 @@ public class GopjetJetpackItem extends ArmorItem {
         BlockState state;
         while ((!(state = player.level.getBlockState(position)).getMaterial().blocksMotion() && state.getFluidState().isEmpty()) || state.getBlock() instanceof LeavesBlock) {
             position.move(Direction.DOWN);
-            if (position.getY() <= 0) return null;
+            if (position.getY() <= 0) return BlockPos.ZERO;
         }
         return position;
     }
