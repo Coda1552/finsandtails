@@ -41,12 +41,12 @@ public class GopjetJetpackItem extends ArmorItem {
         super(MATERIAL, EquipmentSlotType.CHEST, new Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(128));
     }
 
-    private BlockPos getBlockUnderPlayer(PlayerEntity player) {
+    public BlockPos getBlockUnderPlayer(PlayerEntity player) {
         final BlockPos.Mutable position = player.blockPosition().mutable();
         BlockState state;
         while ((!(state = player.level.getBlockState(position)).getMaterial().blocksMotion() && state.getFluidState().isEmpty()) || state.getBlock() instanceof LeavesBlock) {
             position.move(Direction.DOWN);
-            if (position.getY() <= 0) return BlockPos.ZERO;
+            if (position.getY() <= 0) return null;
         }
         return position;
     }
@@ -57,87 +57,92 @@ public class GopjetJetpackItem extends ArmorItem {
             boolean canFly = world.isRainingAt(player.blockPosition());
             int flyingTicksRemaining = 0;
             int stackIndex = -1;
+            BlockPos pos = getBlockUnderPlayer(player);
 
             if (!canFly) {
-                if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(getBlockUnderPlayer(player)).getMaterial() == Material.WATER) {
-                    canFly = true;
-                } else {
-                    for (int i = 0; i < player.inventory.getContainerSize(); i++) {
-                        ItemStack inventoryStack = player.inventory.getItem(i);
-                        Item item = inventoryStack.getItem();
-                        int ticksJumping = inventoryStack.hasTag() ? inventoryStack.getTag().getInt("FinsFlyingTicks") : 0;
-                        if (item == Items.WATER_BUCKET) {
-                            flyingTicksRemaining = 100 - ticksJumping;
-                        } else if (item == Items.POTION && PotionUtils.getPotion(inventoryStack) == Potions.WATER) {
-                            flyingTicksRemaining = 30 - ticksJumping;
-                        } else {
-                            continue;
-                        }
-                        stackIndex = i;
+                if (pos != null)
+                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
                         canFly = true;
-                        break;
+                    } else {
+                        for (int i = 0; i < player.inventory.getContainerSize(); i++) {
+                            ItemStack inventoryStack = player.inventory.getItem(i);
+                            Item item = inventoryStack.getItem();
+                            int ticksJumping = inventoryStack.hasTag() ? inventoryStack.getTag().getInt("FinsFlyingTicks") : 0;
+                            if (item == Items.WATER_BUCKET) {
+                                flyingTicksRemaining = 100 - ticksJumping;
+                            } else if (item == Items.POTION && PotionUtils.getPotion(inventoryStack) == Potions.WATER) {
+                                flyingTicksRemaining = 30 - ticksJumping;
+                            } else {
+                                continue;
+                            }
+                            stackIndex = i;
+                            canFly = true;
+                            break;
+                        }
                     }
-                }
             }
             CompoundNBT persistentData = player.getPersistentData();
             if (persistentData.getBoolean("FinsFlying")) {
-                if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(getBlockUnderPlayer(player)).getMaterial() == Material.WATER) {
-                    player.fallDistance = 0;
-                    int ticksJumping = persistentData.getInt("FinsFlyingTicks") + 1;
-                    if (ticksJumping % 10 == 0) {
-                        stack.hurtAndBreak(1, player, playerEntity -> playerEntity.broadcastBreakEvent(EquipmentSlotType.CHEST));
-                    }
-                    persistentData.putInt("FinsFlyingTicks", ticksJumping);
-                    player.setDeltaMovement(player.getDeltaMovement().add(0, 0.1, 0));
-                }
-                if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(getBlockUnderPlayer(player)).getMaterial() == Material.WATER) {
-                    if (random.nextInt(100) < this.bubbleSoundTime++) {
-                        this.bubbleSoundTime = 0;
-                        world.playSound(player, player.blockPosition(), FinsSounds.JETPACK_USE.get(), SoundCategory.AMBIENT, 1.0F, 1.0F);
-                    }
+                if (pos != null) {
 
-                    if (world.isClientSide) {
-                        for (int i = 0; i < 4; i++) {
-                            float sign = Math.signum(i - 2);
-                            if (sign == 0) {
-                                sign = 1;
-                            }
-                            double playerRotation = Math.toRadians(player.yBodyRot + 35 * sign);
-                            double xOffset = random.nextGaussian() * 0.05;
-                            double yOffset = random.nextGaussian() * 0.01;
-                            double zOffset = random.nextGaussian() * 0.05;
-                            double xPos = player.getX() + xOffset - Math.sin(-playerRotation) * 0.35;
-                            double yPos = player.getY() + yOffset + 0.7;
-                            double zPos = player.getZ() + zOffset - Math.cos(playerRotation) * 0.35;
-                            for (int j = 0; j <= 8; j++) {
-                                world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, xPos, yPos, zPos, 0, -0.10, 0);
+                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                        player.fallDistance = 0;
+                        int ticksJumping = persistentData.getInt("FinsFlyingTicks") + 1;
+                        if (ticksJumping % 10 == 0) {
+                            stack.hurtAndBreak(1, player, playerEntity -> playerEntity.broadcastBreakEvent(EquipmentSlotType.CHEST));
+                        }
+                        persistentData.putInt("FinsFlyingTicks", ticksJumping);
+                        player.setDeltaMovement(player.getDeltaMovement().add(0, 0.1, 0));
+                    }
+                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                        if (random.nextInt(100) < this.bubbleSoundTime++) {
+                            this.bubbleSoundTime = 0;
+                            world.playSound(player, player.blockPosition(), FinsSounds.JETPACK_USE.get(), SoundCategory.AMBIENT, 1.0F, 1.0F);
+                        }
+
+                        if (world.isClientSide) {
+                            for (int i = 0; i < 4; i++) {
+                                float sign = Math.signum(i - 2);
+                                if (sign == 0) {
+                                    sign = 1;
+                                }
+                                double playerRotation = Math.toRadians(player.yBodyRot + 35 * sign);
+                                double xOffset = random.nextGaussian() * 0.05;
+                                double yOffset = random.nextGaussian() * 0.01;
+                                double zOffset = random.nextGaussian() * 0.05;
+                                double xPos = player.getX() + xOffset - Math.sin(-playerRotation) * 0.35;
+                                double yPos = player.getY() + yOffset + 0.7;
+                                double zPos = player.getZ() + zOffset - Math.cos(playerRotation) * 0.35;
+                                for (int j = 0; j <= 8; j++) {
+                                    world.addParticle(random.nextInt(2) == 0 ? ParticleTypes.SPLASH : ParticleTypes.BUBBLE, xPos, yPos, zPos, 0, -0.10, 0);
+                                }
                             }
                         }
-                    }
-                    if (stackIndex != -1) {
-                        ItemStack flyingStack = player.inventory.getItem(stackIndex);
-                        if (flyingTicksRemaining - 1 <= 0) {
-                            Item item = flyingStack.getItem();
-                            flyingStack.shrink(1);
-                            ItemStack newStack = null;
-                            if (item == Items.WATER_BUCKET) {
-                                newStack = new ItemStack(Items.BUCKET);
-                            } else if (item == Items.POTION && PotionUtils.getPotion(flyingStack) == Potions.WATER) {
-                                newStack = new ItemStack(Items.GLASS_BOTTLE);
-                            } else if (Block.byItem(item) == Blocks.WET_SPONGE) {
-                                newStack = new ItemStack(Blocks.SPONGE);
-                            }
-                            if (newStack != null) {
-                                if (flyingStack.isEmpty()) {
-                                    player.inventory.setItem(stackIndex, newStack);
-                                } else if (!player.inventory.add(newStack)) {
-                                    player.drop(newStack, false);
+                        if (stackIndex != -1) {
+                            ItemStack flyingStack = player.inventory.getItem(stackIndex);
+                            if (flyingTicksRemaining - 1 <= 0) {
+                                Item item = flyingStack.getItem();
+                                flyingStack.shrink(1);
+                                ItemStack newStack = null;
+                                if (item == Items.WATER_BUCKET) {
+                                    newStack = new ItemStack(Items.BUCKET);
+                                } else if (item == Items.POTION && PotionUtils.getPotion(flyingStack) == Potions.WATER) {
+                                    newStack = new ItemStack(Items.GLASS_BOTTLE);
+                                } else if (Block.byItem(item) == Blocks.WET_SPONGE) {
+                                    newStack = new ItemStack(Blocks.SPONGE);
                                 }
-                                flyingStack.getOrCreateTag().remove("FinsFlyingTicks");
+                                if (newStack != null) {
+                                    if (flyingStack.isEmpty()) {
+                                        player.inventory.setItem(stackIndex, newStack);
+                                    } else if (!player.inventory.add(newStack)) {
+                                        player.drop(newStack, false);
+                                    }
+                                    flyingStack.getOrCreateTag().remove("FinsFlyingTicks");
+                                }
+                            } else {
+                                CompoundNBT tag = flyingStack.getOrCreateTag();
+                                tag.putInt("FinsFlyingTicks", tag.getInt("FinsFlyingTicks") + 1);
                             }
-                        } else {
-                            CompoundNBT tag = flyingStack.getOrCreateTag();
-                            tag.putInt("FinsFlyingTicks", tag.getInt("FinsFlyingTicks") + 1);
                         }
                     }
                 }
