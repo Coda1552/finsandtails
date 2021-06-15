@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
@@ -33,6 +34,8 @@ import org.jetbrains.annotations.Nullable;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
+
+import java.util.Random;
 
 public class WherbleEntity extends AnimalEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(WherbleEntity.class, DataSerializers.INT);
@@ -57,6 +60,10 @@ public class WherbleEntity extends AnimalEntity {
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
         return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8).add(Attributes.MOVEMENT_SPEED, 0.2);
+    }
+
+    public static boolean checkWherbleSpawnRules(EntityType<? extends WherbleEntity> p_223316_0_, IWorld p_223316_1_, SpawnReason p_223316_2_, BlockPos p_223316_3_, Random p_223316_4_) {
+        return p_223316_1_.getBlockState(p_223316_3_.below()).is(Blocks.GRASS_BLOCK) && p_223316_1_.getRawBrightness(p_223316_3_, 0) > 8 && p_223316_1_.getRandom().nextFloat() > 0.9F;
     }
 
     @Override
@@ -117,7 +124,11 @@ public class WherbleEntity extends AnimalEntity {
         if (dataTag == null) {
             setVariant(random.nextInt(4));
         }
-        return spawnDataIn;
+        if (spawnDataIn == null) {
+            spawnDataIn = new AgeableData(1);
+        }
+
+        return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override
@@ -127,17 +138,17 @@ public class WherbleEntity extends AnimalEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return FinsSounds.MUDHORSE_AMBIENT.get();
+        return FinsSounds.WHERBLE_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FinsSounds.MUDHORSE_HURT.get();
+        return FinsSounds.WHERBLE_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FinsSounds.MUDHORSE_DEATH.get();
+        return FinsSounds.WHERBLE_DEATH.get();
     }
 
     @Override

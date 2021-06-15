@@ -153,5 +153,36 @@
         "stream": true
       }
     ]
+  },
+  "wherble.ambient": {
+    "subtitle": "fins.wherble.ambient",
+    "sounds": [
+      {
+        "name": "fins:wherble/ambient_1",
+        "stream": true
+      },
+      {
+        "name": "fins:wherble/ambient_2",
+        "stream": true
+      }
+    ]
+  },
+  "wherble.death": {
+    "subtitle": "fins.wherble.death",
+    "sounds": [
+      {
+        "name": "fins:wherble/death",
+        "stream": true
+      }
+    ]
+  },
+  "wherble.hurt": {
+    "subtitle": "fins.wherble.hurt",
+    "sounds": [
+      {
+        "name": "fins:wherble/hurt",
+        "stream": true
+      }
+    ]
   }
 }

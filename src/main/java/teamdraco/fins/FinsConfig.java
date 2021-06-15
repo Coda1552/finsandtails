@@ -32,7 +32,6 @@ public class FinsConfig {
     public static int goldenRiverRaySpawnWeight;
     public static int rubberBellyGliderSpawnWeight;
     public static int gopjetSpawnWeight;
-    public static int papaWeeSpawnWeight;
     public static int wherbleSpawnWeight;
 
     @SubscribeEvent
@@ -80,7 +79,6 @@ public class FinsConfig {
         public final ForgeConfigSpec.IntValue goldenRiverRaySpawnWeight;
         public final ForgeConfigSpec.IntValue rubberBellyGliderSpawnWeight;
         public final ForgeConfigSpec.IntValue gopjetSpawnWeight;
-        public final ForgeConfigSpec.IntValue papaWeeSpawnWeight;
         public final ForgeConfigSpec.IntValue wherbleSpawnWeight;
 
         Common(ForgeConfigSpec.Builder builder) {
@@ -127,7 +125,6 @@ public class FinsConfig {
             builder.push("Ocean Creature Spawn Weight");
             highFinnedBlueSpawnWeight = builder.comment("Spawn weight of High-finned Blue").defineInRange("high_finned_blue_spawn_weight", 2, 1, 1000);
             gopjetSpawnWeight = builder.comment("Spawn weight of Gopjets").defineInRange("gopjet_spawn_weight", 1, 1, 1000);
-            papaWeeSpawnWeight = builder.comment("Spawn weight of Papa Wees").defineInRange("papa_wee_spawn_weight", 2, 1, 1000);
             builder.pop();
 
             builder.push("Lukewarm Ocean Creature Spawn Weight");
@@ -146,7 +143,7 @@ public class FinsConfig {
             builder.pop();
 
             builder.push("Icy Spawn Weight");
-            wherbleSpawnWeight = builder.comment("Spawn weight of Wherbles").defineInRange("wherble_spawn_weight", 1, 1, 1000);
+            wherbleSpawnWeight = builder.comment("Spawn weight of Wherbles").defineInRange("wherble_spawn_weight", 3, 1, 1000);
             builder.pop();
         }
 
@@ -175,7 +172,6 @@ public class FinsConfig {
             FinsConfig.goldenRiverRaySpawnWeight = INSTANCE.goldenRiverRaySpawnWeight.get();
             FinsConfig.rubberBellyGliderSpawnWeight = INSTANCE.rubberBellyGliderSpawnWeight.get();
             FinsConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
-            FinsConfig.papaWeeSpawnWeight = INSTANCE.papaWeeSpawnWeight.get();
             FinsConfig.wherbleSpawnWeight = INSTANCE.wherbleSpawnWeight.get();
         }
     }

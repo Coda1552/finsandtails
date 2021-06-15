@@ -1,6 +1,6 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.common.entities.util.ai.SwampMuckerJumpGoal;
+import teamdraco.fins.common.entities.util.goals.SwampMuckerJumpGoal;
 import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;

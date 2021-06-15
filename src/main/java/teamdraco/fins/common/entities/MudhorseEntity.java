@@ -1,6 +1,7 @@
 package teamdraco.fins.common.entities;
 
 import net.minecraft.util.math.MathHelper;
+import teamdraco.fins.common.entities.util.goals.MudhorseForageGoal;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
@@ -37,7 +38,7 @@ public class MudhorseEntity extends AnimalEntity {
     private int commanderSetTime;
     private int attackTimer;
     public int eatAnimationTick;
-    private EatGrassGoal eatBlockGoal;
+    private MudhorseForageGoal eatBlockGoal;
 
     public MudhorseEntity(EntityType<? extends MudhorseEntity> type, World worldIn) {
         super(type, worldIn);
@@ -45,7 +46,7 @@ public class MudhorseEntity extends AnimalEntity {
 
     @Override
     protected void registerGoals() {
-        this.eatBlockGoal = new EatGrassGoal(this);
+        this.eatBlockGoal = new MudhorseForageGoal(this);
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(FinsItems.SWAMP_MUCKER.get()), false));

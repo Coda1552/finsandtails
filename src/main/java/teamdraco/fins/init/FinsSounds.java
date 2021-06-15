@@ -26,4 +26,7 @@ public class FinsSounds {
     public static final RegistryObject<SoundEvent> CRASHING_TIDES = REGISTER.register("music_disc.crashing_tides", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "music_disc.crashing_tides")));
     public static final RegistryObject<SoundEvent> JETPACK_USE = REGISTER.register("jetpack.use", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "jetpack.use")));
     public static final RegistryObject<SoundEvent> FLATBACK_SUCKER_CLICK = REGISTER.register("click", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "click")));
+    public static final RegistryObject<SoundEvent> WHERBLE_DEATH = REGISTER.register("wherble.death", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wherble.death")));
+    public static final RegistryObject<SoundEvent> WHERBLE_HURT = REGISTER.register("wherble.hurt", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wherble.hurt")));
+    public static final RegistryObject<SoundEvent> WHERBLE_AMBIENT = REGISTER.register("wherble.ambient", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wherble.ambient")));
 }

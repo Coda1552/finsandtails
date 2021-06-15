@@ -1,4 +1,4 @@
-package teamdraco.fins.common.entities.util.ai;
+package teamdraco.fins.common.entities.util.goals;
 
 import teamdraco.fins.common.entities.SwampMuckerEntity;
 import net.minecraft.entity.Entity;

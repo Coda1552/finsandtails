@@ -14,10 +14,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
-import net.minecraft.loot.LootEntry;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.TableLootEntry;
+import net.minecraft.loot.*;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -26,9 +26,7 @@ import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -38,7 +36,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.FinsConfig;
 import teamdraco.fins.common.entities.WherbleEntity;
-import teamdraco.fins.common.items.charms.ISpindlyCharmItem;
 import teamdraco.fins.init.FinsEnchantments;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
@@ -142,22 +139,22 @@ public class CommonEvents {
             ItemStack heldItem = livingEntity.getMainHandItem();
             if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.CRABS_FAVOR.get())) {
                 int i = EnchantmentHelper.getItemEnchantmentLevel(FinsEnchantments.CRABS_FAVOR.get(), event.getAttackingPlayer().getItemInHand(Hand.MAIN_HAND));
-                    event.setDroppedExperience(event.getOriginalExperience() * i + attacker.getCommandSenderWorld().random.nextInt(3));
+                event.setDroppedExperience(event.getOriginalExperience() * i + attacker.getCommandSenderWorld().random.nextInt(3));
             }
         }
     }
 
     @SubscribeEvent
-    public static void onLootLoad(LootTableLoadEvent event) {
+    public static void onLootLoad(LootTableLoadEvent event) throws IllegalAccessException {
         ResourceLocation name = event.getName();
-        LootPool pool = event.getTable().getPool("main");
-        if (name.equals(LootTables.FISHING)) {
+        if (name.equals(LootTables.FISHING_FISH)) {
+            LootPool pool = event.getTable().getPool("main");
             if (FinsConfig.Common.INSTANCE.finsFishingLoot.get()) {
-                addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fishing"), 10, 1));
+                addEntry(pool, getInjectEntry(new ResourceLocation(FinsAndTails.MOD_ID, "inject/fishing"), 10, 1));
             }
-        }
-        if (name.equals(LootTables.FISHERMAN_GIFT)) {
-            addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fisherman_gift"), 15, 1));
+            if (name.equals(LootTables.FISHERMAN_GIFT)) {
+                // addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fisherman_gift"), 15, 1));
+            }
         }
     }
 
@@ -165,14 +162,12 @@ public class CommonEvents {
         return TableLootEntry.lootTableReference(location).setWeight(weight).setQuality(quality).build();
     }
 
-    private static void addEntry(LootPool pool, LootEntry entry) {
-        List<LootEntry> lootEntries = ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "entries");
-        if (lootEntries != null) {
-            if (lootEntries.stream().anyMatch(e -> e == entry)) {
-                throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);
-            }
-            lootEntries.add(entry);
+    private static void addEntry(LootPool pool, LootEntry entry) throws IllegalAccessException {
+        List<LootEntry> lootEntries = (List<LootEntry>) ObfuscationReflectionHelper.findField(LootPool.class, "field_186453_a").get(pool);
+        if (lootEntries.stream().anyMatch(e -> e == entry)) {
+            throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);
         }
+        lootEntries.add(entry);
     }
 
     // Thanks to WolfShotz for helping with the trade code

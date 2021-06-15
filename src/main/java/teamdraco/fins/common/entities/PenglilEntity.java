@@ -266,10 +266,6 @@ public class PenglilEntity extends TameableEntity {
         return FinsSounds.PENGLIL_HURT.get();
     }
 
-    protected SoundEvent getFlopSound() {
-        return null;
-    }
-
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.PENGLIL_SPAWN_EGG.get());
@@ -455,5 +451,4 @@ public class PenglilEntity extends TameableEntity {
             return !this.mob.isInWater() && super.canUse();
         }
     }
-
 }

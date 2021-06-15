@@ -14,6 +14,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import teamdraco.fins.common.entities.util.goals.PapaWeeAttractionGoal;
 import teamdraco.fins.init.FinsItems;
 
 public class PapaWeeEntity extends AbstractFishEntity {
@@ -25,6 +26,7 @@ public class PapaWeeEntity extends AbstractFishEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
+        this.goalSelector.addGoal(0, new PapaWeeAttractionGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 3.0D, true));
         this.goalSelector.addGoal(2, new PapaWeeEntity.SwimGoal(this));
     }

@@ -89,6 +89,7 @@ public class FinsItems {
     public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = REGISTER.register("music_disc_crashing_tides", () -> new MusicDiscItem(1, FinsSounds.CRASHING_TIDES::get, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
 
     //Buckets
+    //TODO: update to WCBucketItem & add callbacks for needed buckets
     public static final RegistryObject<Item> BLU_WEE_BUCKET = REGISTER.register("blu_wee_bucket", () -> new FishBucketItem(FinsEntities.BLU_WEE, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> PEA_WEE_BUCKET = REGISTER.register("pea_wee_bucket", () -> new FishBucketItem(FinsEntities.PEA_WEE, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> BANDED_REDBACK_SHRIMP_BUCKET = REGISTER.register("banded_redback_shrimp_bucket", () -> new FishBucketItem(FinsEntities.BANDED_REDBACK_SHRIMP, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));

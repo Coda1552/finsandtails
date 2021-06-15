@@ -1,4 +1,4 @@
-package teamdraco.fins.common.entities.util.ai;
+package teamdraco.fins.common.entities.util.goals;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
