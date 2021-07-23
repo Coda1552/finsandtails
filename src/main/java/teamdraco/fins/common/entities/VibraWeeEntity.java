@@ -1,6 +1,8 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.common.entities.util.goals.PapaWeeAttractionGoal;
+import coda.weecore.common.entities.AbstractBreedableFishEntity;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
+import net.minecraft.world.server.ServerWorld;
 import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
@@ -8,10 +10,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.FollowSchoolLeaderGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class VibraWeeEntity extends AbstractGroupFishEntity {
+public class VibraWeeEntity extends AbstractFishEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(VibraWeeEntity.class, DataSerializers.INT);
 
     public VibraWeeEntity(EntityType<? extends VibraWeeEntity> type, World world) {
@@ -45,14 +45,16 @@ public class VibraWeeEntity extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(3, new WeeHurtByEntityGoal(this));
         this.goalSelector.addGoal(4, new VibraWeeEntity.SwimGoal(this));
-        this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
+        // TODO
+        // this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
     }
 
-    @Override
+    // TODO
+    /*@Override
     public int getMaxSchoolSize() {
         return 9;
-    }
-    
+    }*/
+
     @Nullable
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
@@ -144,6 +146,12 @@ public class VibraWeeEntity extends AbstractGroupFishEntity {
             return false;
         }
     }
+
+/*    @Nullable
+    @Override
+    public AbstractBreedableFishEntity getBreedOffspring(ServerWorld serverWorld, AbstractBreedableFishEntity abstractBreedableFishEntity) {
+        return FinsEntities.VIBRA_WEE.get().create(serverWorld);
+    }*/
 
     static class SwimGoal extends RandomSwimmingGoal {
         private final VibraWeeEntity fish;

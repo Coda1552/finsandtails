@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smoking",
   "ingredient": {
-    "item": "fins:wherble_fin"
+    "item": "fins:banded_redback_shrimp"
   },
-  "result": "fins:cooked_wherble_fin",
+  "result": "fins:cooked_banded_redback_shrimp",
   "experience": 0.35,
   "cookingtime": 100
 }

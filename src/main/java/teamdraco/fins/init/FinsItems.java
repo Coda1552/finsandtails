@@ -39,8 +39,8 @@ public class FinsItems {
     //Drops
     public static final RegistryObject<Item> MUDHORSE_LEATHER = REGISTER.register("mudhorse_leather", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> FWIN = REGISTER.register("fwin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> SPINDLY_GEM_CRAB_GEM = REGISTER.register("spindly_gem_crab_gem", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RED_BULL_CRAB_CLAW = REGISTER.register("red_bull_crab_claw", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> WHITE_BULL_CRAB_CLAW = REGISTER.register("white_bull_crab_claw", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GOPJET_JET = REGISTER.register("gopjet_jet", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SHELL = REGISTER.register("flatback_leaf_snail_shell", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> RIVER_PEBBLE_SNAIL_SHELL = REGISTER.register("river_pebble_snail_shell", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
@@ -51,6 +51,7 @@ public class FinsItems {
     public static final RegistryObject<Item> SPINDLY_EMERALD = REGISTER.register("spindly_emerald", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SPINDLY_AMBER = REGISTER.register("spindly_amber", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SPINDLY_SAPPHIRE = REGISTER.register("spindly_sapphire", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> SPINDLY_GEM_CRAB_GEM = REGISTER.register("spindly_gem_crab_gem", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
 
     //Food
     public static final RegistryObject<Item> COOKED_BANDED_REDBACK_SHRIMP = REGISTER.register("cooked_banded_redback_shrimp", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(6).saturationMod(0.5F).build())));
@@ -58,7 +59,6 @@ public class FinsItems {
     public static final RegistryObject<Item> COOKED_BUGMEAT = REGISTER.register("cooked_bugmeat", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(8).saturationMod(0.6F).build())));
     public static final RegistryObject<Item> RAW_GOLDEN_RIVER_RAY_WING = REGISTER.register("raw_golden_river_ray_wing", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(3).saturationMod(0.3F).build())));
     public static final RegistryObject<Item> GOLDEN_RIVER_RAY_WING_FILLET = REGISTER.register("golden_river_ray_wing_fillet", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(8).saturationMod(0.8F).build())));
-    public static final RegistryObject<Item> WHITE_BULL_CRAB_CLAW = REGISTER.register("white_bull_crab_claw", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> COOKED_BULL_CRAB_CLAW = REGISTER.register("cooked_bull_crab_claw", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(6).saturationMod(0.6f).build())));
     public static final RegistryObject<Item> SEAFOOD_SOUP = REGISTER.register("seafood_soup", () -> new SoupItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(18).saturationMod(0.8f).build()).stacksTo(1)));
     public static final RegistryObject<Item> CRAB_SANDWICH = REGISTER.register("crab_sandwich", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(17).saturationMod(0.55f).effect(() -> new EffectInstance(Effects.DAMAGE_BOOST, 160), 1.0F).build())));
@@ -140,6 +140,8 @@ public class FinsItems {
     public static final RegistryObject<Item> GOPJET_SPAWN_EGG = REGISTER.register("gopjet_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOPJET, 0xcfe0ff, 0x403c70, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> PAPA_WEE_SPAWN_EGG = REGISTER.register("papa_wee_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.PAPA_WEE, 0x8b5a3d, 0xebc454, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WHERBLE_SPAWN_EGG = REGISTER.register("wherble_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WHERBLE, 0xd5e2e9, 0x2684b4, new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> WANDERING_SAILOR_SPAWN_EGG = REGISTER.register("wandering_sailor_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WANDERING_SAILOR, 0x31a7cf, 0xd3904c, new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = REGISTER.register("goliath_garden_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties().tab(FinsAndTails.GROUP)));
 
     //Misc.
     public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = REGISTER.register("banner_pattern_mandibles", () -> new BannerPatternItem(registerPattern("mandibles"), new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));

@@ -58,6 +58,9 @@ public class ClientEvents {
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.PAPA_WEE.get(), PapaWeeRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.WHERBLE.get(), WherbleRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FinsEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FinsEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FinsEntities.GLASS_SKIPPER.get(), GlassSkipperRenderer::new);
 
         RenderTypeLookup.setRenderLayer(FinsBlocks.CHAINED_TENTACLE.get(), RenderType.cutout());
         ScreenManager.register(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);

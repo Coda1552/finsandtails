@@ -128,7 +128,7 @@ public class FinsConfig {
             builder.pop();
 
             builder.push("Lukewarm Ocean Creature Spawn Weight");
-            whiteBullCrabSpawnWeight = builder.comment("Spawn weight of White Bull Crabs").defineInRange("white_bull_crabs_spawn_weight", 4, 1, 1000);
+            whiteBullCrabSpawnWeight = builder.comment("Spawn weight of White Bull Crabs").defineInRange("white_bull_crabs_spawn_weight", 2, 1, 1000);
             redBullCrabSpawnWeight = builder.comment("Spawn weight of Red Bull Crabs").defineInRange("red_bull_crabs_spawn_weight", 2, 1, 1000);
             builder.pop();
 

@@ -29,4 +29,10 @@ public class FinsSounds {
     public static final RegistryObject<SoundEvent> WHERBLE_DEATH = REGISTER.register("wherble.death", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wherble.death")));
     public static final RegistryObject<SoundEvent> WHERBLE_HURT = REGISTER.register("wherble.hurt", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wherble.hurt")));
     public static final RegistryObject<SoundEvent> WHERBLE_AMBIENT = REGISTER.register("wherble.ambient", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wherble.ambient")));
+    public static final RegistryObject<SoundEvent> WANDERING_SAILOR_AMBIENT = REGISTER.register("wandering_sailor.ambient", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wandering_sailor.ambient")));
+    public static final RegistryObject<SoundEvent> WANDERING_SAILOR_HURT = REGISTER.register("wandering_sailor.hurt", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wandering_sailor.hurt")));
+    public static final RegistryObject<SoundEvent> WANDERING_SAILOR_DEATH = REGISTER.register("wandering_sailor.death", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wandering_sailor.death")));
+    public static final RegistryObject<SoundEvent> WANDERING_SAILOR_TRADE = REGISTER.register("wandering_sailor.trade", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wandering_sailor.trade")));
+    public static final RegistryObject<SoundEvent> WANDERING_SAILOR_YES = REGISTER.register("wandering_sailor.yes", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wandering_sailor.yes")));
+    public static final RegistryObject<SoundEvent> WANDERING_SAILOR_NO = REGISTER.register("wandering_sailor.no", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wandering_sailor.no")));
 }

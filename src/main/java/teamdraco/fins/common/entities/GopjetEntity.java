@@ -125,7 +125,6 @@ public class GopjetEntity extends AbstractFishEntity {
         } else {
             super.handleEntityEvent(id);
         }
-
     }
 
     @OnlyIn(Dist.CLIENT)

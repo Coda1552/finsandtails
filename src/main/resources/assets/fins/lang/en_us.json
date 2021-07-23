@@ -144,6 +144,7 @@
   "entity.fins.night_light_squid": "Night Light Squid",
   "entity.fins.papa_wee": "Papa Wee",
   "entity.fins.wherble": "Wherble",
+  "entity.fins.wandering_sailor": "Wandering Sailor",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Block of Spindly Gem",
@@ -197,6 +198,11 @@
   "fins.didgeridoo.play": "Didgeridoo plays",
   "fins.jetpack.use": "Bubbles pop",
   "fins.click": "Flatback Sucker clicks",
+  "fins.wandering_sailor.ambient": "Wandering Sailor squishes",
+  "fins.wandering_sailor.hurt": "Wandering Sailor hurt",
+  "fins.wandering_sailor.death": "Wandering Sailor death",
+  "fins.wandering_sailor.yes": "Wandering Sailor agrees",
+  "fins.wandering_sailor.no": "Wandering Sailor disagrees",
 
   "entity.fins.penglil.0": "Striped Cream",
   "entity.fins.penglil.1": "Viridus",

@@ -9,6 +9,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.fins.common.entities.*;
+import teamdraco.fins.common.entities.GoliathGardenCrabEntity;
 
 public class FinsEntities {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITIES, FinsAndTails.MOD_ID);
@@ -39,6 +40,9 @@ public class FinsEntities {
     public static final RegistryObject<EntityType<GopjetEntity>> GOPJET = create("gopjet", EntityType.Builder.of(GopjetEntity::new, EntityClassification.WATER_CREATURE).sized(0.7f, 0.5f));
     public static final RegistryObject<EntityType<PapaWeeEntity>> PAPA_WEE = create("papa_wee", EntityType.Builder.of(PapaWeeEntity::new, EntityClassification.WATER_CREATURE).sized(0.5f, 0.5f));
     public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, EntityClassification.CREATURE).sized(0.6f, 0.4f));
+    public static final RegistryObject<EntityType<WanderingSailorEntity>> WANDERING_SAILOR = create("wandering_sailor", EntityType.Builder.of(WanderingSailorEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.65f));
+    public static final RegistryObject<EntityType<GoliathGardenCrabEntity>> GOLIATH_GARDEN_CRAB = create("goliath_garden_crab", EntityType.Builder.of(GoliathGardenCrabEntity::new, EntityClassification.WATER_AMBIENT).sized(3.5f, 2.5f));
+    public static final RegistryObject<EntityType<GlassSkipperEntity>> GLASS_SKIPPER = create("glass_skipper", EntityType.Builder.of(GlassSkipperEntity::new, EntityClassification.CREATURE).sized(0.5f, 0.85f));
 
     private static <T extends Entity> RegistryObject<EntityType<T>> create(String name, EntityType.Builder<T> builder) {
         return REGISTER.register(name, () -> builder.build(FinsAndTails.MOD_ID + "." + name));

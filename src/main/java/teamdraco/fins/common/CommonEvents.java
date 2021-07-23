@@ -5,7 +5,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.passive.WolfEntity;
@@ -23,6 +25,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.placement.ChanceConfig;
+import net.minecraft.world.gen.placement.NoPlacementConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -35,7 +42,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.FinsConfig;
+import teamdraco.fins.common.entities.WanderingSailorEntity;
 import teamdraco.fins.common.entities.WherbleEntity;
+import teamdraco.fins.init.FinsConfiguredStructures;
 import teamdraco.fins.init.FinsEnchantments;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
@@ -61,6 +70,9 @@ public class CommonEvents {
         if (event.getEntity() instanceof WolfEntity || event.getEntity() instanceof FoxEntity) {
             ((MobEntity) event.getEntity()).targetSelector.addGoal(0, new NearestAttackableTargetGoal<>((MobEntity) event.getEntity(), WherbleEntity.class, true));
         }
+        if (event.getEntity() instanceof VillagerEntity) {
+            ((MobEntity) event.getEntity()).goalSelector.addGoal(0, new LookAtGoal((MobEntity) event.getEntity(), WanderingSailorEntity.class, 6.0F));
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -69,6 +81,7 @@ public class CommonEvents {
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SWAMP_MUCKER.get(), FinsConfig.Common.INSTANCE.swampMuckerSpawnWeight.get(), 2, 4));
             event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.FLATBACK_SUCKER.get(), FinsConfig.Common.INSTANCE.flatbackSuckerSpawnWeight.get(), 1, 1));
             event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.MUDHORSE.get(), FinsConfig.Common.INSTANCE.mudhorseSpawnWeight.get(), 2, 3));
+            event.getGeneration().getStructures().add(() -> FinsConfiguredStructures.CONFIGURED_SAILORS_SHIP);
         }
 
         if (event.getCategory() == Biome.Category.JUNGLE) {
@@ -111,6 +124,7 @@ public class CommonEvents {
             if (name.equals("ocean") || name.equals("deep_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGH_FINNED_BLUE.get(), FinsConfig.Common.INSTANCE.highFinnedBlueSpawnWeight.get(), 6, 12));
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.GOPJET.get(), FinsConfig.Common.INSTANCE.gopjetSpawnWeight.get(), 2, 3));
+                event.getGeneration().getStructures().add(() -> FinsConfiguredStructures.CONFIGURED_SAILORS_SHIP);
             }
 
             if (name.equals("lukewarm_ocean") || name.equals("deep_lukewarm_ocean")) {
@@ -153,7 +167,7 @@ public class CommonEvents {
                 addEntry(pool, getInjectEntry(new ResourceLocation(FinsAndTails.MOD_ID, "inject/fishing"), 10, 1));
             }
             if (name.equals(LootTables.FISHERMAN_GIFT)) {
-                // addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fisherman_gift"), 15, 1));
+                 addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fisherman_gift"), 15, 1));
             }
         }
     }

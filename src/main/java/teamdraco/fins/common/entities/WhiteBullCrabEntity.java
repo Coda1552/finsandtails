@@ -87,6 +87,11 @@ public class WhiteBullCrabEntity extends WaterMobEntity {
         }
     }
 
+    @Override
+    protected boolean shouldDespawnInPeaceful() {
+        return !isFromBucket();
+    }
+
     protected ItemStack getFishBucket() {
         return new ItemStack(FinsItems.WHITE_BULL_CRAB_BUCKET.get());
     }

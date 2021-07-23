@@ -184,5 +184,71 @@
         "stream": true
       }
     ]
+  },
+  "wandering_sailor.ambient": {
+    "subtitle": "fins.wandering_sailor.ambient",
+    "sounds": [
+      {
+        "name": "fins:wandering_sailor/ambient_1",
+        "stream": true
+      },
+      {
+        "name": "fins:wandering_sailor/ambient_2",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.death": {
+    "subtitle": "fins.wandering_sailor.death",
+    "sounds": [
+      {
+        "name": "fins:wandering_sailor/death",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.hurt": {
+    "subtitle": "fins.wandering_sailor.hurt",
+    "sounds": [
+      {
+        "name": "fins:wandering_sailor/hurt",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.trade": {
+    "subtitle": "fins.wandering_sailor.trade",
+    "sounds": [
+      {
+        "name": "fins:wandering_sailor/trade",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.yes": {
+    "subtitle": "fins.wandering_sailor.yes",
+    "sounds": [
+      {
+        "name": "fins:wandering_sailor/yes_1",
+        "stream": true
+      },
+      {
+        "name": "fins:wandering_sailor/yes_2",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.no": {
+    "subtitle": "fins.wandering_sailor.no",
+    "sounds": [
+      {
+        "name": "fins:wandering_sailor/no_1",
+        "stream": true
+      },
+      {
+        "name": "fins:wandering_sailor/no_2",
+        "stream": true
+      }
+    ]
   }
 }

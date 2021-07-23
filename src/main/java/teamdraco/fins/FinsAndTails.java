@@ -1,6 +1,9 @@
 package teamdraco.fins;
 
+import com.google.common.collect.ImmutableMap;
+import com.mojang.serialization.Codec;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
@@ -14,15 +17,31 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -39,9 +58,8 @@ import teamdraco.fins.init.*;
 import teamdraco.fins.network.INetworkPacket;
 import teamdraco.fins.network.TriggerFlyingPacket;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.function.Function;
 
 @Mod(FinsAndTails.MOD_ID)
@@ -54,9 +72,14 @@ public class FinsAndTails {
 
     public FinsAndTails() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+
         bus.addListener(this::registerClient);
         bus.addListener(this::registerCommon);
         bus.addListener(this::registerEntityAttributes);
+        bus.addListener(this::setup);
+
+        forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
 
         FinsEnchantments.REGISTER.register(bus);
         FinsItems.REGISTER.register(bus);
@@ -65,6 +88,7 @@ public class FinsAndTails {
         FinsEntities.REGISTER.register(bus);
         FinsSounds.REGISTER.register(bus);
         FinsRecipes.SERIALIZERS.register(bus);
+        FinsStructures.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
@@ -95,6 +119,7 @@ public class FinsAndTails {
         EntitySpawnPlacementRegistry.register(FinsEntities.GOPJET.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
         EntitySpawnPlacementRegistry.register(FinsEntities.PAPA_WEE.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
         EntitySpawnPlacementRegistry.register(FinsEntities.WHERBLE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WherbleEntity::checkWherbleSpawnRules);
+        EntitySpawnPlacementRegistry.register(FinsEntities.GLASS_SKIPPER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
 
         BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FinsItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
     }
@@ -125,6 +150,9 @@ public class FinsAndTails {
         event.put(FinsEntities.NIGHT_LIGHT_SQUID.get(), NightLightSquidEntity.createAttributes().build());
         event.put(FinsEntities.PAPA_WEE.get(), PapaWeeEntity.createAttributes().build());
         event.put(FinsEntities.WHERBLE.get(), WherbleEntity.createAttributes().build());
+        event.put(FinsEntities.WANDERING_SAILOR.get(), WanderingSailorEntity.createAttributes().build());
+        event.put(FinsEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
+        event.put(FinsEntities.GLASS_SKIPPER.get(), GlassSkipperEntity.createAttributes().build());
     }
 
     private void registerClient(FMLClientSetupEvent event) {
@@ -148,6 +176,52 @@ public class FinsAndTails {
     @OnlyIn(Dist.CLIENT)
     private static PlayerEntity getClientPlayer() {
         return Minecraft.getInstance().player;
+    }
+
+    public void setup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            FinsStructures.setupStructures();
+            FinsConfiguredStructures.registerConfiguredStructures();
+
+            WorldGenRegistries.NOISE_GENERATOR_SETTINGS.entrySet().forEach(settings -> {
+                Map<Structure<?>, StructureSeparationSettings> structureMap = settings.getValue().structureSettings().structureConfig();
+
+                if (structureMap instanceof ImmutableMap) {
+                    Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(structureMap);
+                    tempMap.put(FinsStructures.SAILORS_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(FinsStructures.SAILORS_SHIP.get()));
+                    settings.getValue().structureSettings().structureConfig = tempMap;
+                }
+                else {
+                    structureMap.put(FinsStructures.SAILORS_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(FinsStructures.SAILORS_SHIP.get()));
+                }
+            });
+        });
+    }
+
+    private static Method GETCODEC_METHOD;
+    public void addDimensionalSpacing(final WorldEvent.Load event) {
+        if(event.getWorld() instanceof ServerWorld){
+            ServerWorld serverWorld = (ServerWorld)event.getWorld();
+
+            try {
+                if(GETCODEC_METHOD == null) GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "getCodec");
+                ResourceLocation cgRL = Registry.CHUNK_GENERATOR.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
+                if(cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
+            }
+            catch(Exception e){
+                FinsAndTails.LOGGER.error("Was unable to check if " + serverWorld.dimension().location() + " is using Terraforged's ChunkGenerator.");
+            }
+
+            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
+                    serverWorld.dimension().equals(World.OVERWORLD)){
+                return;
+            }
+
+
+            Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
+            tempMap.putIfAbsent(FinsStructures.SAILORS_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(FinsStructures.SAILORS_SHIP.get()));
+            serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
+        }
     }
 
     public final static ItemGroup GROUP = new ItemGroup(MOD_ID) {
