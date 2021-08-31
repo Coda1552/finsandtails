@@ -20,6 +20,7 @@ public class NightLightSquidRenderer extends MobRenderer<NightLightSquidEntity, 
         hashMap.put(2, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/night_light_squid/night_light_squid_3.png"));
         hashMap.put(3, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/night_light_squid/night_light_squid_4.png"));
     });
+
     public NightLightSquidRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new NightLightSquidModel<>(), 0.2F);
         this.addLayer(new NightLightSquidGlowLayer<>(this));

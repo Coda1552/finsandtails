@@ -118,6 +118,9 @@
   "item.fins.night_light_squid_spawn_egg": "Night Light Squid Spawn Egg",
   "item.fins.papa_wee_spawn_egg": "Papa Wee Spawn Egg",
   "item.fins.wherble_spawn_egg": "Wherble Spawn Egg",
+  "item.fins.goliath_garden_crab_spawn_egg": "Goliath Garden Crab Spawn Egg",
+  "item.fins.glass_skipper_spawn_egg": "Glass Skipper Spawn Egg",
+  "item.fins.wandering_sailor_spawn_egg": "Wandering Sailor Spawn Egg",
 
   "entity.fins.blu_wee": "Blu Wee",
   "entity.fins.pea_wee": "Pea Wee",
@@ -145,6 +148,8 @@
   "entity.fins.papa_wee": "Papa Wee",
   "entity.fins.wherble": "Wherble",
   "entity.fins.wandering_sailor": "Wandering Sailor",
+  "entity.fins.goliath_garden_crab": "Goliath Garden Crab",
+  "entity.fins.glass_skipper": "Glass Skipper",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Block of Spindly Gem",
@@ -244,6 +249,13 @@
   "entity.fins.vibra_wee.12": "Metal Dust",
   "entity.fins.vibra_wee.13": "King Yellowfin",
   "entity.fins.vibra_wee.14": "Tiled Redhead",
+
+  "fins.spindly_charm.desc": "Grants magical powers when the wearer is close to dying.",
+  "fins.spindly_gem_charm.desc": "Grants many magical powers when the wearer is close to dying.\nCan be repaired with spindly gems.",
+  "fins.swamp_didgeridoo.desc": "This instrument's low frequencies are said to entrance mudhorses.",
+  "fins.gopjet_jetpack.desc": "Propels the player upwards at the cost of water.",
+  "fins.teal_arrowfish.desc": "Can be used as ammo.",
+  "fins.high_finned_blue.desc": "Especially loved by penglils.",
 
   "block.minecraft.banner.mandibles.black": "Black Mandibles",
   "block.minecraft.banner.mandibles.red": "Red Mandibles",

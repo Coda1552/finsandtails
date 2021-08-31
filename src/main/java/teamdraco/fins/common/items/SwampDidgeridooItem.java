@@ -1,5 +1,10 @@
 package teamdraco.fins.common.items;
 
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import org.jetbrains.annotations.Nullable;
 import teamdraco.fins.common.entities.MudhorseEntity;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsSounds;
@@ -18,6 +23,7 @@ import java.util.List;
 import net.minecraft.item.Item.Properties;
 
 public class SwampDidgeridooItem extends Item {
+
     public SwampDidgeridooItem(Properties properties) {
         super(properties);
     }
@@ -40,6 +46,12 @@ public class SwampDidgeridooItem extends Item {
         player.getCooldowns().addCooldown(this, 600);
         stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(hand));
         return ActionResult.success(stack);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack p_77624_1_, @Nullable World p_77624_2_, List<ITextComponent> p_77624_3_, ITooltipFlag p_77624_4_) {
+        super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
+        p_77624_3_.add(new TranslationTextComponent("fins.swamp_didgeridoo.desc").withStyle(TextFormatting.GRAY).withStyle(TextFormatting.ITALIC));
     }
 
     private void addParticleEffect(IParticleData particleData, World world, double x, double y, double z) {

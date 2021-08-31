@@ -1,8 +1,6 @@
 package teamdraco.fins.common.entities;
 
-import coda.weecore.common.entities.AbstractBreedableFishEntity;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
-import net.minecraft.world.server.ServerWorld;
 import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;

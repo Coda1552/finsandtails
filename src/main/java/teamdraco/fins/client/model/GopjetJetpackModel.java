@@ -50,11 +50,7 @@ public class GopjetJetpackModel extends BipedModel<LivingEntity> {
 		bb_main.texOffs(0, 103).addBox(-4.0F, -23.5F, 2.0F, 8.0F, 10.0F, 2.0F, 0.0F, false);
 		bb_main.texOffs(0, 115).addBox(2.0F, -22.0F, 2.0F, 4.0F, 9.0F, 4.0F, 0.0F, false);
 		bb_main.texOffs(0, 115).addBox(-6.0F, -22.0F, 2.0F, 4.0F, 9.0F, 4.0F, 0.0F, true);
-	}
 
-	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-	    super.renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		bb_main.render(matrixStack, buffer, packedLight, packedOverlay);
+		body.addChild(bb_main);
 	}
 }

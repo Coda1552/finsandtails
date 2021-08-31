@@ -42,7 +42,7 @@ public class FinsEntities {
     public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, EntityClassification.CREATURE).sized(0.6f, 0.4f));
     public static final RegistryObject<EntityType<WanderingSailorEntity>> WANDERING_SAILOR = create("wandering_sailor", EntityType.Builder.of(WanderingSailorEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.65f));
     public static final RegistryObject<EntityType<GoliathGardenCrabEntity>> GOLIATH_GARDEN_CRAB = create("goliath_garden_crab", EntityType.Builder.of(GoliathGardenCrabEntity::new, EntityClassification.WATER_AMBIENT).sized(3.5f, 2.5f));
-    public static final RegistryObject<EntityType<GlassSkipperEntity>> GLASS_SKIPPER = create("glass_skipper", EntityType.Builder.of(GlassSkipperEntity::new, EntityClassification.CREATURE).sized(0.5f, 0.85f));
+    public static final RegistryObject<EntityType<GlassSkipperEntity>> GLASS_SKIPPER = create("glass_skipper", EntityType.Builder.of(GlassSkipperEntity::new, EntityClassification.CREATURE).sized(0.85f, 0.5f));
 
     private static <T extends Entity> RegistryObject<EntityType<T>> create(String name, EntityType.Builder<T> builder) {
         return REGISTER.register(name, () -> builder.build(FinsAndTails.MOD_ID + "." + name));

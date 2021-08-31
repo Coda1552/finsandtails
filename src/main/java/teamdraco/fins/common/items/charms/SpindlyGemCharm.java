@@ -1,5 +1,10 @@
 package teamdraco.fins.common.items.charms;
 
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import org.jetbrains.annotations.Nullable;
 import teamdraco.fins.FinsAndTails;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -10,11 +15,19 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import teamdraco.fins.common.items.FinsArmorMaterial;
 
+import java.util.List;
+
 public class SpindlyGemCharm extends ArmorItem implements ISpindlyCharmItem {
     public static final IArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gem_crab_amulet", 1, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
 
     public SpindlyGemCharm() {
         super(MATERIAL, EquipmentSlotType.CHEST, new Item.Properties().tab(FinsAndTails.GROUP).durability(2).rarity(Rarity.RARE));
+    }
+
+    @Override
+    public void appendHoverText(ItemStack p_77624_1_, @Nullable World p_77624_2_, List<ITextComponent> p_77624_3_, ITooltipFlag p_77624_4_) {
+        super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
+        p_77624_3_.add(new TranslationTextComponent("fins.spindly_gem_charm.desc").withStyle(TextFormatting.GRAY).withStyle(TextFormatting.ITALIC));
     }
 
     @Override

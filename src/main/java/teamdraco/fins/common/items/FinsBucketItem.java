@@ -96,7 +96,7 @@ public class FinsBucketItem extends BucketItem {
     }
 
     private void placeEntity(ServerWorld worldIn, ItemStack stack, BlockPos pos) {
-        Entity entity = this.entityTypeSupplier.get().spawn(worldIn, stack, (PlayerEntity)null, pos, SpawnReason.BUCKET, true, false);
+        Entity entity = this.entityTypeSupplier.get().spawn(worldIn, stack, null, pos, SpawnReason.BUCKET, true, false);
         if (entity != null) {
             if (entity instanceof AbstractFishEntity) {
                 ((AbstractFishEntity)entity).setFromBucket(true);

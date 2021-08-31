@@ -31,6 +31,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -40,33 +41,27 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFlyingAnimal {
+public class GlassSkipperEntity extends AnimalEntity implements IFlyingAnimal {
     private static final DataParameter<Byte> DATA_FLAGS_ID = EntityDataManager.defineId(GlassSkipperEntity.class, DataSerializers.BYTE);
     private static final DataParameter<Integer> DATA_REMAINING_ANGER_TIME = EntityDataManager.defineId(GlassSkipperEntity.class, DataSerializers.INT);
-    private static final RangedInteger PERSISTENT_ANGER_TIME = TickRangeConverter.rangeOfSeconds(20, 39);
     private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(GlassSkipperEntity.class, DataSerializers.INT);
-    private UUID persistentAngerTarget;
-    private float rollAmount;
-    private float rollAmountO;
-    private int timeSinceSting;
     private int numCropsGrownSincePollination;
     private int remainingCooldownBeforeLocatingNewFlower = 0;
     @Nullable
     private BlockPos savedFlowerPos = null;
     @Nullable
-    private GlassSkipperEntity.PollinateGoal beePollinateGoal;
-    private GlassSkipperEntity.FindFlowerGoal goToKnownFlowerGoal;
+    private GlassSkipperEntity.PollinateGoal pollinateGoal;
     private int underWaterTicks;
 
     public GlassSkipperEntity(EntityType<? extends GlassSkipperEntity> p_i225714_1_, World p_i225714_2_) {
         super(p_i225714_1_, p_i225714_2_);
         this.moveControl = new FlyingMovementController(this, 20, true);
-        this.lookControl = new GlassSkipperEntity.BeeLookController(this);
         this.setPathfindingMalus(PathNodeType.DANGER_FIRE, -1.0F);
         this.setPathfindingMalus(PathNodeType.WATER, -1.0F);
         this.setPathfindingMalus(PathNodeType.WATER_BORDER, 16.0F);
@@ -88,15 +83,13 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(ItemTags.FLOWERS), false));
-        this.beePollinateGoal = new GlassSkipperEntity.PollinateGoal();
-        this.goalSelector.addGoal(4, this.beePollinateGoal);
+        this.pollinateGoal = new GlassSkipperEntity.PollinateGoal();
+        this.goalSelector.addGoal(4, this.pollinateGoal);
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.25D));
-        this.goToKnownFlowerGoal = new GlassSkipperEntity.FindFlowerGoal();
-        this.goalSelector.addGoal(6, this.goToKnownFlowerGoal);
+        this.goalSelector.addGoal(6, new FindFlowerGoal());
         this.goalSelector.addGoal(7, new GlassSkipperEntity.FindPollinationTargetGoal());
         this.goalSelector.addGoal(8, new GlassSkipperEntity.WanderGoal());
         this.goalSelector.addGoal(9, new SwimGoal(this));
-        this.targetSelector.addGoal(3, new ResetAngerGoal<>(this, true));
     }
 
     public void addAdditionalSaveData(CompoundNBT p_213281_1_) {
@@ -110,7 +103,6 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
         p_213281_1_.putBoolean("HasStung", this.hasStung());
         p_213281_1_.putInt("CropsGrownSincePollination", this.numCropsGrownSincePollination);
         p_213281_1_.putInt("Variant", getVariant());
-        this.addPersistentAngerSaveData(p_213281_1_);
     }
 
     public void readAdditionalSaveData(CompoundNBT p_70037_1_) {
@@ -123,26 +115,29 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
         super.readAdditionalSaveData(p_70037_1_);
         this.setHasNectar(p_70037_1_.getBoolean("HasNectar"));
         this.numCropsGrownSincePollination = p_70037_1_.getInt("CropsGrownSincePollination");
-        if (!level.isClientSide) //FORGE: allow this entity to be read from nbt on client. (Fixes MC-189565)
-            this.readPersistentAngerSaveData((ServerWorld) this.level, p_70037_1_);
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(FinsItems.GLASS_SKIPPER_SPAWN_EGG.get());
     }
 
     @Nullable
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @javax.annotation.Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-/*        if (dataTag == null) {
+        if (spawnDataIn == null) {
             if (random.nextInt(500) == 0) {
                 this.setVariant(4);
             }
             else {
                 setVariant(random.nextInt(4));
             }
+        } else {
+            if (dataTag.contains("Variant", 3)){
+                this.setVariant(dataTag.getInt("Variant"));
+            }
         }
-        if (dataTag.contains("Variant", 3)) {
-            this.setVariant(dataTag.getInt("Variant"));
-        }*/
-        return spawnDataIn;
+        return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     public int getVariant() {
@@ -160,8 +155,6 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
                 this.spawnFluidParticle(this.level, this.getX() - (double) 0.3F, this.getX() + (double) 0.3F, this.getZ() - (double) 0.3F, this.getZ() + (double) 0.3F, this.getY(0.5D), ParticleTypes.FALLING_NECTAR);
             }
         }
-
-        this.updateRollAmount();
     }
 
     private void spawnFluidParticle(World p_226397_1_, double p_226397_2_, double p_226397_4_, double p_226397_6_, double p_226397_8_, double p_226397_10_, IParticleData p_226397_12_) {
@@ -203,27 +196,7 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
         return this.savedFlowerPos != null;
     }
 
-    public void setSavedFlowerPos(BlockPos p_226431_1_) {
-        this.savedFlowerPos = p_226431_1_;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public float getRollAmount(float p_226455_1_) {
-        return MathHelper.lerp(p_226455_1_, this.rollAmountO, this.rollAmount);
-    }
-
-    private void updateRollAmount() {
-        this.rollAmountO = this.rollAmount;
-        if (this.isRolling()) {
-            this.rollAmount = Math.min(1.0F, this.rollAmount + 0.2F);
-        } else {
-            this.rollAmount = Math.max(0.0F, this.rollAmount - 0.24F);
-        }
-
-    }
-
     protected void customServerAiStep() {
-        boolean flag = this.hasStung();
         if (this.isInWaterOrBubble()) {
             ++this.underWaterTicks;
         } else {
@@ -234,45 +207,10 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
             this.hurt(DamageSource.DROWN, 1.0F);
         }
 
-        if (flag) {
-            ++this.timeSinceSting;
-            if (this.timeSinceSting % 5 == 0 && this.random.nextInt(MathHelper.clamp(1200 - this.timeSinceSting, 1, 1200)) == 0) {
-                this.hurt(DamageSource.GENERIC, this.getHealth());
-            }
-        }
-
-        if (!this.level.isClientSide) {
-            this.updatePersistentAnger((ServerWorld) this.level, false);
-        }
-
-    }
-
-    public int getRemainingPersistentAngerTime() {
-        return this.entityData.get(DATA_REMAINING_ANGER_TIME);
-    }
-
-    public void setRemainingPersistentAngerTime(int p_230260_1_) {
-        this.entityData.set(DATA_REMAINING_ANGER_TIME, p_230260_1_);
-    }
-
-    public UUID getPersistentAngerTarget() {
-        return this.persistentAngerTarget;
-    }
-
-    public void setPersistentAngerTarget(@Nullable UUID p_230259_1_) {
-        this.persistentAngerTarget = p_230259_1_;
-    }
-
-    public void startPersistentAngerTimer() {
-        this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.randomValue(this.random));
     }
 
     private int getCropsGrownSincePollination() {
         return this.numCropsGrownSincePollination;
-    }
-
-    private void resetNumCropsGrownSincePollination() {
-        this.numCropsGrownSincePollination = 0;
     }
 
     private void incrementNumCropsGrownSincePollination() {
@@ -286,11 +224,7 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
             if (this.remainingCooldownBeforeLocatingNewFlower > 0) {
                 --this.remainingCooldownBeforeLocatingNewFlower;
             }
-
-            boolean flag = this.isAngry() && !this.hasStung() && this.getTarget() != null && this.getTarget().distanceToSqr(this) < 4.0D;
-            this.setRolling(flag);
         }
-
     }
 
     public boolean hasNectar() {
@@ -303,18 +237,6 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
 
     public boolean hasStung() {
         return this.getFlag(4);
-    }
-
-    private void setHasStung(boolean p_226449_1_) {
-        this.setFlag(4, p_226449_1_);
-    }
-
-    private boolean isRolling() {
-        return this.getFlag(2);
-    }
-
-    private void setRolling(boolean p_226452_1_) {
-        this.setFlag(2, p_226452_1_);
     }
 
     private boolean isTooFarAway(BlockPos p_226437_1_) {
@@ -335,7 +257,7 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.FLYING_SPEED, 0.75F).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FOLLOW_RANGE, 48.0D);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.FLYING_SPEED, 0.95F).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
     protected PathNavigator createNavigation(World p_175447_1_) {
@@ -345,7 +267,7 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
             }
 
             public void tick() {
-                if (!GlassSkipperEntity.this.beePollinateGoal.isPollinating()) {
+                if (!GlassSkipperEntity.this.pollinateGoal.isPollinating()) {
                     super.tick();
                 }
             }
@@ -384,7 +306,9 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
     }
 
     public GlassSkipperEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-        return FinsEntities.GLASS_SKIPPER.get().create(p_241840_1_);
+        GlassSkipperEntity entity = FinsEntities.GLASS_SKIPPER.get().create(p_241840_1_);
+        entity.setVariant(random.nextInt(5));
+        return entity;
     }
 
     protected float getStandingEyeHeight(Pose p_213348_1_, EntitySize p_213348_2_) {
@@ -402,18 +326,13 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
         return true;
     }
 
-    public void dropOffNectar() {
-        this.setHasNectar(false);
-        this.resetNumCropsGrownSincePollination();
-    }
-
     public boolean hurt(DamageSource p_70097_1_, float p_70097_2_) {
         if (this.isInvulnerableTo(p_70097_1_)) {
             return false;
         } else {
             Entity entity = p_70097_1_.getEntity();
             if (!this.level.isClientSide) {
-                this.beePollinateGoal.stopPollinating();
+                this.pollinateGoal.stopPollinating();
             }
 
             return super.hurt(p_70097_1_, p_70097_2_);
@@ -430,25 +349,11 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
 
     @OnlyIn(Dist.CLIENT)
     public Vector3d getLeashOffset() {
-        return new Vector3d(0.0D, (double) (0.5F * this.getEyeHeight()), (double) (this.getBbWidth() * 0.2F));
+        return new Vector3d(0.0D, (0.5F * this.getEyeHeight()), (this.getBbWidth() * 0.2F));
     }
 
     private boolean closerThan(BlockPos p_226401_1_, int p_226401_2_) {
-        return p_226401_1_.closerThan(this.blockPosition(), (double) p_226401_2_);
-    }
-
-    class BeeLookController extends LookController {
-        BeeLookController(MobEntity p_i225729_2_) {
-            super(p_i225729_2_);
-        }
-
-        public void tick() {
-            super.tick();
-        }
-    }
-
-    protected boolean resetXRotOnTick() {
-        return !GlassSkipperEntity.this.beePollinateGoal.isPollinating();
+        return p_226401_1_.closerThan(this.blockPosition(), p_226401_2_);
     }
 
     public class FindFlowerGoal extends Goal {
@@ -460,10 +365,6 @@ public class GlassSkipperEntity extends AnimalEntity implements IAngerable, IFly
 
         public boolean canUse() {
             return GlassSkipperEntity.this.savedFlowerPos != null && !GlassSkipperEntity.this.hasRestriction() && this.wantsToGoToKnownFlower() && GlassSkipperEntity.this.isFlowerValid(GlassSkipperEntity.this.savedFlowerPos) && !GlassSkipperEntity.this.closerThan(GlassSkipperEntity.this.savedFlowerPos, 2);
-        }
-
-        public boolean canBeeContinueToUse() {
-            return this.canUse();
         }
 
         public void start() {

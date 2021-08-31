@@ -83,6 +83,6 @@ public class BabyWherblePotItem extends FinsBucketItem {
 
     @Override
     protected ItemStack getEmptySuccessItem(ItemStack stack, PlayerEntity player) {
-        return !player.abilities.instabuild ? new ItemStack(Items.BUCKET) : stack;
+        return !player.abilities.instabuild ? new ItemStack(Items.FLOWER_POT) : stack;
     }
 }

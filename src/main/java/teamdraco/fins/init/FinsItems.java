@@ -1,5 +1,11 @@
 package teamdraco.fins.init;
 
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import teamdraco.fins.FinsAndTails;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
@@ -13,6 +19,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.fins.common.items.*;
 import teamdraco.fins.common.items.charms.*;
 
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FinsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, FinsAndTails.MOD_ID);
@@ -24,7 +32,13 @@ public class FinsItems {
     public static final RegistryObject<Item> TEAL_ARROWFISH = REGISTER.register("teal_arrowfish", () -> new TealArrowfishItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> SWAMP_MUCKER = REGISTER.register("swamp_mucker", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> FLATBACK_SUCKER = REGISTER.register("flatback_sucker", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
-    public static final RegistryObject<Item> HIGH_FINNED_BLUE = REGISTER.register("high_finned_blue", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
+    public static final RegistryObject<Item> HIGH_FINNED_BLUE = REGISTER.register("high_finned_blue", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())) {
+        @Override
+        public void appendHoverText(ItemStack p_77624_1_, @Nullable World p_77624_2_, List<ITextComponent> p_77624_3_, ITooltipFlag p_77624_4_) {
+            super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
+            p_77624_3_.add(new TranslationTextComponent("fins.high_finned_blue.desc").withStyle(TextFormatting.GRAY).withStyle(TextFormatting.ITALIC));
+        }
+    });
     public static final RegistryObject<Item> ORNATE_BUGFISH = REGISTER.register("ornate_bugfish", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> WEE_WEE = REGISTER.register("wee_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(1).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> VIBRA_WEE = REGISTER.register("vibra_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.2F).build())));
@@ -142,6 +156,7 @@ public class FinsItems {
     public static final RegistryObject<Item> WHERBLE_SPAWN_EGG = REGISTER.register("wherble_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WHERBLE, 0xd5e2e9, 0x2684b4, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WANDERING_SAILOR_SPAWN_EGG = REGISTER.register("wandering_sailor_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WANDERING_SAILOR, 0x31a7cf, 0xd3904c, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = REGISTER.register("goliath_garden_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> GLASS_SKIPPER_SPAWN_EGG = REGISTER.register("glass_skipper_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GLASS_SKIPPER, 0x4d4d4d, 0x32ade9, new Item.Properties().tab(FinsAndTails.GROUP)));
 
     //Misc.
     public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = REGISTER.register("banner_pattern_mandibles", () -> new BannerPatternItem(registerPattern("mandibles"), new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));

@@ -33,6 +33,7 @@ public class FinsConfig {
     public static int rubberBellyGliderSpawnWeight;
     public static int gopjetSpawnWeight;
     public static int wherbleSpawnWeight;
+    public static int glassSkipperSpawnWeight;
 
     @SubscribeEvent
     public static void configLoad(ModConfig.ModConfigEvent event) {
@@ -80,6 +81,7 @@ public class FinsConfig {
         public final ForgeConfigSpec.IntValue rubberBellyGliderSpawnWeight;
         public final ForgeConfigSpec.IntValue gopjetSpawnWeight;
         public final ForgeConfigSpec.IntValue wherbleSpawnWeight;
+        public final ForgeConfigSpec.IntValue glassSkipperSpawnWeight;
 
         Common(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -107,6 +109,7 @@ public class FinsConfig {
 
             builder.push("Forest Creature Spawn Weight");
             flatbackLeafSnailSpawnWeight = builder.comment("Spawn weight of Flatback Leaf Snails").defineInRange("flatback_leaf_snail_spawn_weight", 6, 1, 1000);
+            glassSkipperSpawnWeight = builder.comment("Spawn weight of Glass Skippers").defineInRange("glass_skipper_spawn_weight", 3, 1, 1000);
             builder.pop();
 
             builder.push("Cold Ocean Creature Spawn Weight");
@@ -173,6 +176,7 @@ public class FinsConfig {
             FinsConfig.rubberBellyGliderSpawnWeight = INSTANCE.rubberBellyGliderSpawnWeight.get();
             FinsConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
             FinsConfig.wherbleSpawnWeight = INSTANCE.wherbleSpawnWeight.get();
+            FinsConfig.glassSkipperSpawnWeight = INSTANCE.glassSkipperSpawnWeight.get();
         }
     }
 }
