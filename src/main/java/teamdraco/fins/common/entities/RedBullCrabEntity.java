@@ -50,7 +50,7 @@ public class RedBullCrabEntity extends WaterMobEntity {
         this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(3, new LookRandomlyGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, RedBullCrabEntity.class, false));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, RedBullCrabEntity.class, false));
     }
 
     @Override
@@ -60,20 +60,6 @@ public class RedBullCrabEntity extends WaterMobEntity {
 
     protected PathNavigator createNavigation(World world) {
         return new GroundPathNavigator(this, world);
-    }
-
-    public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getEntity();
-
-            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
-                amount = (amount + 1.0F) / 2.0F;
-            }
-
-            return super.hurt(source, amount);
-        }
     }
 
     public boolean doHurtTarget(Entity entityIn) {
@@ -150,6 +136,11 @@ public class RedBullCrabEntity extends WaterMobEntity {
 
     public static boolean canCrabSpawn(EntityType<? extends WaterMobEntity> type, IWorld worldIn, SpawnReason reason, BlockPos p_223363_3_, Random randomIn) {
         return worldIn.getBlockState(p_223363_3_).is(Blocks.WATER) && worldIn.getBlockState(p_223363_3_.above()).is(Blocks.WATER);
+    }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 8;
     }
 
     protected ActionResultType mobInteract(PlayerEntity p_230254_1_, Hand p_230254_2_) {

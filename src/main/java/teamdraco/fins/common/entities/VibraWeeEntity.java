@@ -1,6 +1,8 @@
 package teamdraco.fins.common.entities;
 
+import net.minecraft.entity.ai.goal.FollowSchoolLeaderGoal;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
+import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
@@ -28,7 +30,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class VibraWeeEntity extends AbstractFishEntity {
+public class VibraWeeEntity extends AbstractGroupFishEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(VibraWeeEntity.class, DataSerializers.INT);
 
     public VibraWeeEntity(EntityType<? extends VibraWeeEntity> type, World world) {
@@ -42,16 +44,14 @@ public class VibraWeeEntity extends AbstractFishEntity {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(3, new WeeHurtByEntityGoal(this));
-        this.goalSelector.addGoal(4, new VibraWeeEntity.SwimGoal(this));
-        // TODO
-        // this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 40));
+        this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
     }
 
-    // TODO
-    /*@Override
+    @Override
     public int getMaxSchoolSize() {
         return 9;
-    }*/
+    }
 
     @Nullable
     @Override
@@ -142,25 +142,6 @@ public class VibraWeeEntity extends AbstractFishEntity {
         }
         else {
             return false;
-        }
-    }
-
-/*    @Nullable
-    @Override
-    public AbstractBreedableFishEntity getBreedOffspring(ServerWorld serverWorld, AbstractBreedableFishEntity abstractBreedableFishEntity) {
-        return FinsEntities.VIBRA_WEE.get().create(serverWorld);
-    }*/
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final VibraWeeEntity fish;
-
-        public SwimGoal(VibraWeeEntity fish) {
-            super(fish, 1.0D, 40);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return super.canUse();
         }
     }
 }

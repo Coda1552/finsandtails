@@ -23,6 +23,7 @@ import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 
 public class FlatbackLeafSnailEntity extends AnimalEntity {
+
     public FlatbackLeafSnailEntity(EntityType<? extends FlatbackLeafSnailEntity> type, World worldIn) {
         super(type, worldIn);
     }
@@ -68,6 +69,7 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
             heldItem.shrink(1);
             ItemStack itemstack1 = new ItemStack(FinsItems.FLATBACK_LEAF_SNAIL_POT.get());
             this.setBucketData(itemstack1);
+
             if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
             }
@@ -77,8 +79,10 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
                 player.drop(itemstack1, false);
             }
             this.remove();
+
             return ActionResultType.SUCCESS;
         }
+
         return super.mobInteract(player, hand);
     }
 

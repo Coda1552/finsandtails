@@ -29,9 +29,17 @@ import teamdraco.fins.init.FinsSounds;
 import java.util.List;
 
 public class FlatbackSuckerEntity extends AbstractFishEntity {
+
     public FlatbackSuckerEntity(EntityType<? extends FlatbackSuckerEntity> type, World world) {
         super(type, world);
         this.moveControl = new FlatbackSuckerEntity.MoveHelperController(this);
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 40));
     }
 
     protected PathNavigator createNavigation(World world) {
@@ -39,7 +47,7 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 4);
     }
 
     @Override
@@ -49,13 +57,6 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
         if (this.isAlive() && list.size() >= 3 && random.nextFloat() > 0.99F) {
             this.playSound(FinsSounds.FLATBACK_SUCKER_CLICK.get(), 0.4F, 1.0F);
         }
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(4, new FlatbackSuckerEntity.SwimGoal(this));
     }
 
     @Override
@@ -112,19 +113,6 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
             } else {
                 this.fish.setSpeed(0.0F);
             }
-        }
-    }
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final FlatbackSuckerEntity fish;
-
-        public SwimGoal(FlatbackSuckerEntity fish) {
-            super(fish, 1.0D, 40);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return super.canUse();
         }
     }
 }

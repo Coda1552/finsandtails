@@ -29,13 +29,14 @@ import net.minecraft.world.World;
 
 import net.minecraft.entity.ai.controller.MovementController.Action;
 
+import javax.annotation.Nullable;
+
 public class WhiteBullCrabEntity extends WaterMobEntity {
     private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.defineId(WhiteBullCrabEntity.class, DataSerializers.BOOLEAN);
 
     public WhiteBullCrabEntity(EntityType<? extends WhiteBullCrabEntity> type, World world) {
         super(type, world);
         this.moveControl = new WhiteBullCrabEntity.MoveHelperController(this);
-        this.maxUpStep = 0.7f;
     }
 
     @Override
@@ -56,37 +57,6 @@ public class WhiteBullCrabEntity extends WaterMobEntity {
         return 0.9f;
     }
 
-    static class MoveHelperController extends MovementController {
-        private final WhiteBullCrabEntity crab;
-
-        MoveHelperController(WhiteBullCrabEntity crab) {
-            super(crab);
-            this.crab = crab;
-        }
-
-        public void tick() {
-            if (this.crab.isEyeInFluid(FluidTags.WATER)) {
-                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
-            }
-
-            if (this.operation == Action.MOVE_TO && !this.crab.getNavigation().isDone()) {
-                double d0 = this.wantedX - this.crab.getX();
-                double d1 = this.wantedY - this.crab.getY();
-                double d2 = this.wantedZ - this.crab.getZ();
-                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-                d1 = d1 / d3;
-                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
-                this.crab.yBodyRot = this.crab.yRot;
-                float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.crab.setSpeed(MathHelper.lerp(0.125F, this.crab.getSpeed(), f1));
-                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));
-            } else {
-                this.crab.setSpeed(0.0F);
-            }
-        }
-    }
-
     @Override
     protected boolean shouldDespawnInPeaceful() {
         return !isFromBucket();
@@ -100,7 +70,7 @@ public class WhiteBullCrabEntity extends WaterMobEntity {
         return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 4).add(Attributes.MOVEMENT_SPEED, 0.15D);
     }
 
-    @org.jetbrains.annotations.Nullable
+    @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.TROPICAL_FISH_HURT;
@@ -184,5 +154,36 @@ public class WhiteBullCrabEntity extends WaterMobEntity {
             bucket.setHoverName(this.getCustomName());
         }
 
+    }
+
+    static class MoveHelperController extends MovementController {
+        private final WhiteBullCrabEntity crab;
+
+        MoveHelperController(WhiteBullCrabEntity crab) {
+            super(crab);
+            this.crab = crab;
+        }
+
+        public void tick() {
+            if (this.crab.isEyeInFluid(FluidTags.WATER)) {
+                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
+            }
+
+            if (this.operation == Action.MOVE_TO && !this.crab.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.crab.getX();
+                double d1 = this.wantedY - this.crab.getY();
+                double d2 = this.wantedZ - this.crab.getZ();
+                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                d1 = d1 / d3;
+                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
+                this.crab.yBodyRot = this.crab.yRot;
+                float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.crab.setSpeed(MathHelper.lerp(0.125F, this.crab.getSpeed(), f1));
+                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));
+            } else {
+                this.crab.setSpeed(0.0F);
+            }
+        }
     }
 }

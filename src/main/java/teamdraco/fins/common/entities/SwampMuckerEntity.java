@@ -17,6 +17,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class SwampMuckerEntity  extends AbstractGroupFishEntity {
+
     public SwampMuckerEntity(EntityType<? extends SwampMuckerEntity> type, World world) {
         super(type, world);
     }
@@ -70,7 +71,6 @@ public class SwampMuckerEntity  extends AbstractGroupFishEntity {
             return this.fish.canRandomSwim() && super.canUse();
         }
     }
-
 
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {

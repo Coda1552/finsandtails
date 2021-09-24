@@ -36,11 +36,11 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, PlayerEntity.class, 6, 1.0D, 1.85D));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.85D));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 6, 1.0D, 1.85D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(4, new GoldenRiverRayEntity.SwimGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, RiverPebbleSnailEntity.class, false));
+        this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 1));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, RiverPebbleSnailEntity.class, false));
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -129,20 +129,6 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
         return new ItemStack(FinsItems.GOLDEN_RIVER_RAY_SPAWN_EGG.get());
     }
 
-    public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getEntity();
-
-            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
-                amount = (amount + 1.0F) / 2.0F;
-            }
-
-            return super.hurt(source, amount);
-        }
-    }
-
     public boolean doHurtTarget(Entity entityIn) {
         boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
@@ -150,19 +136,5 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
         }
 
         return flag;
-    }
-
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final GoldenRiverRayEntity fish;
-
-        public SwimGoal(GoldenRiverRayEntity fish) {
-            super(fish, 1.0D, 1);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return super.canUse();
-        }
     }
 }

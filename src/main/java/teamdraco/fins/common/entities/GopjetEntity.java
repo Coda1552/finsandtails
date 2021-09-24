@@ -1,18 +1,12 @@
 package teamdraco.fins.common.entities;
 
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.controller.DolphinLookController;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import teamdraco.fins.init.FinsItems;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
@@ -21,22 +15,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import teamdraco.fins.init.FinsItems;
 
-import java.util.EnumSet;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static net.minecraft.util.EntityPredicates.NO_CREATIVE_OR_SPECTATOR;
 import static net.minecraft.util.EntityPredicates.NO_SPECTATORS;
 
 public class GopjetEntity extends AbstractFishEntity {
-    private static final EntityPredicate SWIM_WITH_PLAYER_TARGETING = (new EntityPredicate()).range(10.0D).allowSameTeam().allowInvulnerable().allowUnseeable();
     private static final DataParameter<Boolean> IS_BOOSTING = EntityDataManager.defineId(GopjetEntity.class, DataSerializers.BOOLEAN);
     private static final int BOOST_TIMER = 400;
     private int boostTimer = BOOST_TIMER;
@@ -52,8 +48,7 @@ public class GopjetEntity extends AbstractFishEntity {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, NO_SPECTATORS::test));
-        this.goalSelector.addGoal(2, new GopjetEntity.SwimGoal(this));
-        this.goalSelector.addGoal(2, new GopjetEntity.SwimWithPlayerGoal(this, 4.0D));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.5D, 40));
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -118,26 +113,18 @@ public class GopjetEntity extends AbstractFishEntity {
     @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 38) {
-            this.swimmingParticles(ParticleTypes.BUBBLE);
+            this.createParticles(ParticleTypes.BUBBLE, 1);
         }
         if (id == 39) {
-            this.boostingParticles(ParticleTypes.BUBBLE);
+            this.createParticles(ParticleTypes.BUBBLE, 4);
         } else {
             super.handleEntityEvent(id);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void swimmingParticles(IParticleData p_208401_1_) {
-        double d0 = this.random.nextGaussian() * 0.056D;
-        double d1 = this.random.nextGaussian() * 0.034D;
-        double d2 = this.random.nextGaussian() * 0.025D;
-        this.level.addParticle(p_208401_1_, this.getX(), this.getRandomY(), this.getZ(), d0, d1, d2);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void boostingParticles(IParticleData p_208401_1_) {
-        for (int i = 0; i < 4; i++) {
+    private void createParticles(IParticleData p_208401_1_, int amount) {
+        for (int i = 0; i < amount; i++) {
             double d0 = this.random.nextGaussian() * 0.056D;
             double d1 = this.random.nextGaussian() * 0.034D;
             double d2 = this.random.nextGaussian() * 0.025D;
@@ -148,19 +135,6 @@ public class GopjetEntity extends AbstractFishEntity {
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.GOPJET_SPAWN_EGG.get());
-    }
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final GopjetEntity fish;
-
-        public SwimGoal(GopjetEntity fish) {
-            super(fish, 1.5D, 40);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return super.canUse();
-        }
     }
 
     static class MoveHelperController extends MovementController {
@@ -208,45 +182,6 @@ public class GopjetEntity extends AbstractFishEntity {
                 this.gopjet.setXxa(0.0F);
                 this.gopjet.setYya(0.0F);
                 this.gopjet.setZza(0.0F);
-            }
-        }
-    }
-
-    static class SwimWithPlayerGoal extends Goal {
-        private final GopjetEntity gopjet;
-        private final double speed;
-        private PlayerEntity targetPlayer;
-
-        SwimWithPlayerGoal(GopjetEntity gopjetIn, double speedIn) {
-            this.gopjet = gopjetIn;
-            this.speed = speedIn;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
-        }
-
-        public boolean canUse() {
-            this.targetPlayer = this.gopjet.level.getNearestPlayer(GopjetEntity.SWIM_WITH_PLAYER_TARGETING, this.gopjet);
-            if (this.targetPlayer == null) {
-                return false;
-            } else {
-                return this.targetPlayer.isSwimming() && this.gopjet.getTarget() != this.targetPlayer;
-            }
-        }
-
-        public boolean canContinueToUse() {
-            return this.targetPlayer != null && this.targetPlayer.isSwimming() && this.gopjet.distanceToSqr(this.targetPlayer) < 256.0D;
-        }
-
-        public void stop() {
-            this.targetPlayer = null;
-            this.gopjet.getNavigation().stop();
-        }
-
-        public void tick() {
-            this.gopjet.getLookControl().setLookAt(this.targetPlayer, (float)(this.gopjet.getMaxHeadYRot() + 20), (float)this.gopjet.getMaxHeadXRot());
-            if (this.gopjet.distanceToSqr(this.targetPlayer) < 6.25D) {
-                this.gopjet.getNavigation().stop();
-            } else {
-                this.gopjet.getNavigation().moveTo(this.targetPlayer, this.speed);
             }
         }
     }

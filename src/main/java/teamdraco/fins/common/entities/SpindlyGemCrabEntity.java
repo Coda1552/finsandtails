@@ -46,7 +46,6 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     public SpindlyGemCrabEntity(EntityType<? extends SpindlyGemCrabEntity> type, World world) {
         super(type, world);
         this.moveControl = new SpindlyGemCrabEntity.MoveHelperController(this);
-        this.maxUpStep = 0.7f;
     }
 
     @Override

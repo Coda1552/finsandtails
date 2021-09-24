@@ -23,6 +23,7 @@ import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 
 public class SiderolWhiskeredSnailEntity extends AnimalEntity {
+
     public SiderolWhiskeredSnailEntity(EntityType<? extends SiderolWhiskeredSnailEntity> type, World worldIn) {
         super(type, worldIn);
     }
@@ -30,10 +31,14 @@ public class SiderolWhiskeredSnailEntity extends AnimalEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0f));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(Items.BROWN_MUSHROOM), false));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(Items.BROWN_MUSHROOM), false));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
+    }
+
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8).add(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
     protected void ageBoundaryReached() {
@@ -41,10 +46,6 @@ public class SiderolWhiskeredSnailEntity extends AnimalEntity {
         if (!this.isBaby() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
             this.spawnAtLocation(FinsItems.SIDEROL_WHISKERED_SNAIL_SHELL.get(), 1);
         }
-    }
-
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8).add(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {

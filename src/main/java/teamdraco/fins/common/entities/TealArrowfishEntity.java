@@ -19,6 +19,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class TealArrowfishEntity extends AbstractGroupFishEntity {
+
     public TealArrowfishEntity(EntityType<? extends TealArrowfishEntity> type, World world) {
         super(type, world);
     }
@@ -28,8 +29,8 @@ public class TealArrowfishEntity extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 3.0D, true));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(3, new TealArrowfishEntity.SwimGoal(this));
-        this.goalSelector.addGoal(5, new FollowSchoolLeaderGoal(this));
+        this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 40));
+        this.goalSelector.addGoal(4, new FollowSchoolLeaderGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, false));
@@ -39,33 +40,6 @@ public class TealArrowfishEntity extends AbstractGroupFishEntity {
     @Override
     public int getMaxSchoolSize() {
         return 3;
-    }
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final TealArrowfishEntity fish;
-
-        public SwimGoal(TealArrowfishEntity fish) {
-            super(fish, 1.0D, 40);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return super.canUse();
-        }
-    }
-
-    public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getEntity();
-
-            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
-                amount = (amount + 1.0F) / 2.0F;
-            }
-
-            return super.hurt(source, amount);
-        }
     }
 
     public boolean doHurtTarget(Entity entityIn) {

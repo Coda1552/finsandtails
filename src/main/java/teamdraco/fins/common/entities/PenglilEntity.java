@@ -79,7 +79,12 @@ public class PenglilEntity extends TameableEntity {
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PapaWeeEntity.class, 8.0F, 1.6D, 1.4D));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(2, new PenglilEntity.WanderGoal(this, 1.0D, 10));
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 1.0D, 10) {
+            @Override
+            public boolean canUse() {
+                return !this.mob.isInWater() && super.canUse();
+            }
+        });
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 1) {
             @Override
@@ -438,17 +443,6 @@ public class PenglilEntity extends TameableEntity {
             } else {
                 this.penglil.setSpeed(0.0F);
             }
-        }
-    }
-
-    static class WanderGoal extends RandomWalkingGoal {
-
-        private WanderGoal(PenglilEntity penglil, double speedIn, int chance) {
-            super(penglil, speedIn, chance);
-        }
-
-        public boolean canUse() {
-            return !this.mob.isInWater() && super.canUse();
         }
     }
 }

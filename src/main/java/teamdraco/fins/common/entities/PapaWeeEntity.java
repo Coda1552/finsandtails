@@ -25,30 +25,14 @@ public class PapaWeeEntity extends AbstractFishEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(0, new PapaWeeAttractionGoal(this));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 3.0D, true));
-        this.goalSelector.addGoal(2, new PapaWeeEntity.SwimGoal(this));
-    }
-
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getEntity();
-
-            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
-                amount = (amount + 1.0F) / 2.0F;
-            }
-
-            return super.hurt(source, amount);
-        }
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 2.0D, true));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 90));
     }
 
     @Override
     public boolean doHurtTarget(Entity entityIn) {
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
             this.doEnchantDamageEffects(this, entityIn);
         }
@@ -101,19 +85,6 @@ public class PapaWeeEntity extends AbstractFishEntity {
             }
         } else {
             super.travel(p_213352_1_);
-        }
-    }
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final PapaWeeEntity fish;
-
-        public SwimGoal(PapaWeeEntity fish) {
-            super(fish, 1.0D, 90);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return super.canUse();
         }
     }
 }

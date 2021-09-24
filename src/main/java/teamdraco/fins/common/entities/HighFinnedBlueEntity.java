@@ -11,6 +11,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class HighFinnedBlueEntity extends AbstractGroupFishEntity {
+
     public HighFinnedBlueEntity(EntityType<? extends HighFinnedBlueEntity> type, World world) {
         super(type, world);
     }

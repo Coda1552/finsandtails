@@ -42,13 +42,9 @@ public class RubberBellyGliderEntity extends AnimalEntity {
     private static final EntitySize PUFFED_SIZE = EntitySize.scalable(0.7f, 0.5f);
     private int puffTimer;
     private static final Predicate<Entity> ENEMY_MATCHER = (entity) -> {
-        if (!(entity instanceof LivingEntity)) {
-            return false;
+        if (entity instanceof PlayerEntity) {
+            return !((PlayerEntity) entity).isCreative() && !entity.isSpectator();
         } else {
-            if (entity instanceof PlayerEntity) {
-                return !((PlayerEntity) entity).isCreative() && !entity.isSpectator();
-            }
-
             return entity instanceof OrnateBugfishEntity || isEntityPrey(entity);
         }
     };
@@ -58,6 +54,36 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
         this.moveControl = new RubberBellyGliderEntity.MoveHelperController(this);
         this.maxUpStep = 1.0f;
+    }
+
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new RubberBellyGliderEntity.PuffGoal(this));
+        this.goalSelector.addGoal(0, new FindWaterGoal(this));
+        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(1, new BreedGoal(this, 2.0D));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 1) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && isInWater();
+            }
+        });
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 1.0D, 15) {
+            @Override
+            public boolean canUse() {
+                return !this.mob.isInWater() && super.canUse();
+            }
+        });
+        this.goalSelector.addGoal(3, new GliderJumpGoal(this));
+        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, SpindlyGemCrabEntity.class, 90, true, false, null));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MobEntity.class, 10, true, false, RubberBellyGliderEntity::isEntityPrey));
+    }
+
+    public static AttributeModifierMap.MutableAttribute registerRBGAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MAX_HEALTH, 25).add(Attributes.MOVEMENT_SPEED, 0.12);
     }
 
     private static boolean isEntityPrey(Entity entity) {
@@ -117,31 +143,6 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         super.onSyncedDataUpdated(key);
     }
 
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RubberBellyGliderEntity.PuffGoal(this));
-        this.goalSelector.addGoal(0, new FindWaterGoal(this));
-        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(1, new BreedGoal(this, 2.0D));
-        this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 1) {
-            @Override
-            public boolean canUse() {
-                return super.canUse() && isInWater();
-            }
-        });
-        this.goalSelector.addGoal(2, new RubberBellyGliderEntity.WanderGoal(this, 1.0D, 1));
-        this.goalSelector.addGoal(3, new GliderJumpGoal(this));
-        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, SpindlyGemCrabEntity.class, 90, true, false, null));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MobEntity.class, 10, true, false, RubberBellyGliderEntity::isEntityPrey));
-    }
-
-    public static AttributeModifierMap.MutableAttribute registerRBGAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MAX_HEALTH, 25).add(Attributes.MOVEMENT_SPEED, 0.12);
-    }
-
     @Override
     protected PathNavigator createNavigation(World worldIn) {
         return new GroundAndSwimmerNavigator(this, level);
@@ -176,10 +177,6 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         }
     }
 
-    public static boolean canGliderSpawn(EntityType<? extends RubberBellyGliderEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
-        return worldIn.getFluidState(pos).is(FluidTags.WATER) && pos.getY() >= 40;
-    }
-
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.RUBBER_BELLY_GLIDER_SPAWN_EGG.get());
@@ -194,19 +191,6 @@ public class RubberBellyGliderEntity extends AnimalEntity {
         if (entityIn instanceof ServerPlayerEntity && isPuffed()) {
             entityIn.hurt(DamageSource.mobAttack(this), 2);
             entityIn.addEffect(new EffectInstance(Effects.POISON, 200, 0));
-        }
-    }
-
-    public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getEntity();
-            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
-                amount = (amount + 1.0F) / 2.0F;
-            }
-
-            return super.hurt(source, amount);
         }
     }
 
@@ -234,6 +218,11 @@ public class RubberBellyGliderEntity extends AnimalEntity {
     @Override
     public EntitySize getDimensions(Pose poseIn) {
         return isPuffed() ? PUFFED_SIZE : super.getDimensions(poseIn);
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return stack.getItem() == FinsItems.AMBER_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.RUBY_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.EMERALD_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.SAPPHIRE_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.PEARL_SPINDLY_GEM_CRAB.get();
     }
 
     static class PuffGoal extends Goal {
@@ -369,22 +358,6 @@ public class RubberBellyGliderEntity extends AnimalEntity {
             } else {
                 this.glider.setSpeed(0.0F);
             }
-        }
-    }
-
-    @Override
-    public boolean isFood(ItemStack stack) {
-        return stack.getItem() == FinsItems.AMBER_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.RUBY_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.EMERALD_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.SAPPHIRE_SPINDLY_GEM_CRAB.get() || stack.getItem() == FinsItems.PEARL_SPINDLY_GEM_CRAB.get();
-    }
-
-    static class WanderGoal extends RandomWalkingGoal {
-
-        private WanderGoal(RubberBellyGliderEntity glider, double speedIn, int chance) {
-            super(glider, speedIn, chance);
-        }
-
-        public boolean canUse() {
-            return !this.mob.isInWater() && super.canUse();
         }
     }
 }

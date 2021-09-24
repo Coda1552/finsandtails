@@ -1,9 +1,5 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.common.entities.util.goals.PapaWeeAttractionGoal;
-import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
@@ -17,10 +13,14 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
 
 import java.util.List;
 
 public class BluWeeEntity extends AbstractGroupFishEntity {
+
     public BluWeeEntity(EntityType<? extends BluWeeEntity> type, World world) {
         super(type, world);
     }
@@ -31,7 +31,7 @@ public class BluWeeEntity extends AbstractGroupFishEntity {
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(2, new WeeHurtByEntityGoal(this));
-        this.goalSelector.addGoal(3, new BluWeeEntity.SwimGoal(this));
+        this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 40));
     }
 
     @Override
@@ -79,19 +79,6 @@ public class BluWeeEntity extends AbstractGroupFishEntity {
         }
         else {
             return false;
-        }
-    }
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final BluWeeEntity fish;
-
-        public SwimGoal(BluWeeEntity fish) {
-            super(fish, 1.0D, 40);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return super.canUse();
         }
     }
 }

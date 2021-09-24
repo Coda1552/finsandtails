@@ -41,7 +41,6 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     public RiverPebbleSnailEntity(EntityType<? extends RiverPebbleSnailEntity> type, World worldIn) {
         super(type, worldIn);
         this.moveControl = new RiverPebbleSnailEntity.MoveHelperController(this);
-        this.maxUpStep = 1f;
     }
 
     @Override
@@ -51,10 +50,10 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(Items.BROWN_MUSHROOM), false));
         this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(Items.BROWN_MUSHROOM), false));
+        this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
     }
 
     protected void ageBoundaryReached() {
