@@ -79,7 +79,7 @@ public class FinsAndTails {
         bus.addListener(this::registerEntityAttributes);
         bus.addListener(this::setup);
 
-        forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
+        //forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
 
         FinsEnchantments.REGISTER.register(bus);
         FinsItems.REGISTER.register(bus);

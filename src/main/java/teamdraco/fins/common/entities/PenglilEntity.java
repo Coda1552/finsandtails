@@ -50,7 +50,6 @@ public class PenglilEntity extends TameableEntity {
     public PenglilEntity(EntityType<? extends PenglilEntity> type, World world) {
         super(type, world);
         this.moveControl = new PenglilEntity.MoveHelperController(this);
-        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
         this.maxUpStep = 1;
     }
 

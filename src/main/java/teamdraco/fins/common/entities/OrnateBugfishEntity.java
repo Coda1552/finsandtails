@@ -1,12 +1,11 @@
 package teamdraco.fins.common.entities;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import teamdraco.fins.init.FinsItems;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
@@ -41,22 +40,37 @@ public class OrnateBugfishEntity extends AbstractGroupFishEntity {
     public OrnateBugfishEntity(EntityType<? extends OrnateBugfishEntity> type, World world) {
         super(type, world);
         this.moveControl = new MoveHelperController(this);
+        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FollowSchoolLeaderGoal(this));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 3.0D, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PapaWeeEntity.class, 8.0F, 1.6D, 1.4D));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 40));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, AbstractFishEntity.class, 10, true, false, IS_PREY));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, AbstractFishEntity.class, 10, true, false, IS_PREY));
     }
 
     @Override
     public int getMaxSchoolSize() {
         return 6;
+    }
+
+    public void travel(Vector3d p_213352_1_) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), p_213352_1_);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            }
+        } else {
+            super.travel(p_213352_1_);
+        }
+
     }
 
     public boolean doHurtTarget(Entity entityIn) {

@@ -1,5 +1,6 @@
 package teamdraco.fins.common.entities;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.fish.PufferfishEntity;
 import teamdraco.fins.init.FinsItems;
@@ -96,6 +97,10 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
         public void tick() {
             if (this.fish.isEyeInFluid(FluidTags.WATER)) {
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
+            }
+
+            if (this.fish.horizontalCollision && this.fish.level.getBlockState(this.fish.blockPosition().above()).getBlock() == Blocks.WATER) {
+                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
             }
 
             if (this.operation == MovementController.Action.MOVE_TO && !this.fish.getNavigation().isDone()) {
