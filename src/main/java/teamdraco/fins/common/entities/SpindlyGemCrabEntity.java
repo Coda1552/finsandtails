@@ -1,5 +1,6 @@
 package teamdraco.fins.common.entities;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraftforge.api.distmarker.Dist;
@@ -168,6 +169,10 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
         public void tick() {
             if (this.crab.isEyeInFluid(FluidTags.WATER)) {
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
+            }
+
+            if (this.crab.horizontalCollision && this.crab.level.getBlockState(this.crab.blockPosition().above()).getBlock() == Blocks.WATER) {
+                this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
             }
 
             if (this.operation == MovementController.Action.MOVE_TO && !this.crab.getNavigation().isDone()) {

@@ -1,48 +1,53 @@
 package teamdraco.fins.common;
 
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.*;
 import net.minecraft.loot.LootEntry;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.TableLootEntry;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.play.server.SEntityVelocityPacket;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.Effects;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.*;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import org.w3c.dom.Attr;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.FinsConfig;
 import teamdraco.fins.common.entities.WanderingSailorEntity;
 import teamdraco.fins.common.entities.WherbleEntity;
-import teamdraco.fins.init.FinsConfiguredStructures;
-import teamdraco.fins.init.FinsEnchantments;
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
+import teamdraco.fins.common.items.CrabGauntletItem;
+import teamdraco.fins.init.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -56,6 +61,186 @@ public class CommonEvents {
         if (event.getEntityLiving().getItemBySlot(EquipmentSlotType.CHEST).getItem() == FinsItems.GOPJET_JETPACK.get()) {
             if (event.getSource() == DamageSource.FALL) {
                 event.setAmount(event.getAmount() / 2f);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
+        Hand hand = event.getHand();
+        Entity target = event.getTarget();
+        PlayerEntity player = event.getPlayer();
+        ItemStack offhandItem = player.getItemBySlot(EquipmentSlotType.OFFHAND);
+
+        if (offhandItem.getItem().is(FinsTags.CLAW_GAUNTLETS)) {
+            player.swing(hand);
+            attack(player, target);
+            target.hurt(DamageSource.playerAttack(player), 3 + new Random().nextInt(2));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRightClickAir(PlayerInteractEvent event) {
+        Hand hand = event.getHand();
+        PlayerEntity player = event.getPlayer();
+        ItemStack offhandItem = player.getItemBySlot(EquipmentSlotType.OFFHAND);
+
+        if (offhandItem.getItem().is(FinsTags.CLAW_GAUNTLETS)) {
+            player.swing(hand);
+        }
+    }
+
+    // This is literally all from PlayerEntity...
+    public static void attack(PlayerEntity player, Entity p_71059_1_) {
+        if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, p_71059_1_)) return;
+        if (p_71059_1_.isAttackable()) {
+            if (!p_71059_1_.skipAttackInteraction(player)) {
+                float f = (float)player.getAttributeValue(Attributes.ATTACK_DAMAGE);
+                float f1;
+                if (p_71059_1_ instanceof LivingEntity) {
+                    f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), ((LivingEntity)p_71059_1_).getMobType());
+                } else {
+                    f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), CreatureAttribute.UNDEFINED);
+                }
+
+                float f2 = player.getAttackStrengthScale(0.5F);
+                f = f * (0.2F + f2 * f2 * 0.8F);
+                f1 = f1 * f2;
+                player.resetAttackStrengthTicker();
+                if (f > 0.0F || f1 > 0.0F) {
+                    boolean flag = f2 > 0.9F;
+                    boolean flag1 = false;
+                    int i = 0;
+                    i = i + EnchantmentHelper.getKnockbackBonus(player);
+                    if (player.isSprinting() && flag) {
+                        player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
+                        ++i;
+                        flag1 = true;
+                    }
+
+                    boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(Effects.BLINDNESS) && !player.isPassenger() && p_71059_1_ instanceof LivingEntity;
+                    flag2 = flag2 && !player.isSprinting();
+                    net.minecraftforge.event.entity.player.CriticalHitEvent hitResult = net.minecraftforge.common.ForgeHooks.getCriticalHit(player, p_71059_1_, flag2, flag2 ? 1.5F : 1.0F);
+                    flag2 = hitResult != null;
+                    if (flag2) {
+                        f *= hitResult.getDamageModifier();
+                    }
+
+                    f = f + f1;
+                    boolean flag3 = false;
+                    double d0 = player.walkDist - player.walkDistO;
+                    if (flag && !flag2 && !flag1 && player.isOnGround() && d0 < (double)player.getSpeed()) {
+                        ItemStack itemstack = player.getItemInHand(Hand.OFF_HAND);
+                        if (itemstack.getItem() instanceof SwordItem) {
+                            flag3 = true;
+                        }
+                    }
+
+                    float f4 = 0.0F;
+                    boolean flag4 = false;
+                    int j = EnchantmentHelper.getFireAspect(player);
+                    if (p_71059_1_ instanceof LivingEntity) {
+                        f4 = ((LivingEntity)p_71059_1_).getHealth();
+                        if (j > 0 && !p_71059_1_.isOnFire()) {
+                            flag4 = true;
+                            p_71059_1_.setSecondsOnFire(1);
+                        }
+                    }
+
+                    Vector3d vector3d = p_71059_1_.getDeltaMovement();
+                    boolean flag5 = p_71059_1_.hurt(DamageSource.playerAttack(player), f);
+                    if (flag5) {
+                        if (i > 0) {
+                            if (p_71059_1_ instanceof LivingEntity) {
+                                ((LivingEntity)p_71059_1_).knockback((float)i * 0.5F, MathHelper.sin(player.yRot * ((float)Math.PI / 180F)), -MathHelper.cos(player.yRot * ((float)Math.PI / 180F)));
+                            } else {
+                                p_71059_1_.push(-MathHelper.sin(player.yRot * ((float)Math.PI / 180F)) * (float)i * 0.5F, 0.1D, MathHelper.cos(player.yRot * ((float)Math.PI / 180F)) * (float)i * 0.5F);
+                            }
+
+                            player.setDeltaMovement(player.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
+                            player.setSprinting(false);
+                        }
+
+                        if (flag3) {
+                            float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * f;
+
+                            for(LivingEntity livingentity : player.level.getEntitiesOfClass(LivingEntity.class, p_71059_1_.getBoundingBox().inflate(1.0D, 0.25D, 1.0D))) {
+                                if (livingentity != player && livingentity != p_71059_1_ && !player.isAlliedTo(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).isMarker()) && player.distanceToSqr(livingentity) < 9.0D) {
+                                    livingentity.knockback(0.4F, MathHelper.sin(player.yRot * ((float)Math.PI / 180F)), -MathHelper.cos(player.yRot * ((float)Math.PI / 180F)));
+                                    livingentity.hurt(DamageSource.playerAttack(player), f3);
+                                }
+                            }
+
+                            player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+                            player.sweepAttack();
+                        }
+
+                        if (p_71059_1_ instanceof ServerPlayerEntity && p_71059_1_.hurtMarked) {
+                            ((ServerPlayerEntity)p_71059_1_).connection.send(new SEntityVelocityPacket(p_71059_1_));
+                            p_71059_1_.hurtMarked = false;
+                            p_71059_1_.setDeltaMovement(vector3d);
+                        }
+
+                        if (flag2) {
+                            player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
+                            player.crit(p_71059_1_);
+                        }
+
+                        if (!flag2 && !flag3) {
+                            if (flag) {
+                                player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
+                            } else {
+                                player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
+                            }
+                        }
+
+                        if (f1 > 0.0F) {
+                            player.magicCrit(p_71059_1_);
+                        }
+
+                        player.setLastHurtMob(p_71059_1_);
+                        if (p_71059_1_ instanceof LivingEntity) {
+                            EnchantmentHelper.doPostHurtEffects((LivingEntity)p_71059_1_, player);
+                        }
+
+                        EnchantmentHelper.doPostDamageEffects(player, p_71059_1_);
+                        ItemStack itemstack1 = player.getOffhandItem();
+                        Entity entity = p_71059_1_;
+                        if (p_71059_1_ instanceof net.minecraftforge.entity.PartEntity) {
+                            entity = ((net.minecraftforge.entity.PartEntity<?>) p_71059_1_).getParent();
+                        }
+
+                        if (!player.level.isClientSide && !itemstack1.isEmpty() && entity instanceof LivingEntity) {
+                            ItemStack copy = itemstack1.copy();
+                            itemstack1.hurtEnemy((LivingEntity)entity, player);
+                            if (itemstack1.isEmpty()) {
+                                net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copy, Hand.OFF_HAND);
+                                player.setItemInHand(Hand.OFF_HAND, ItemStack.EMPTY);
+                            }
+                        }
+
+                        if (p_71059_1_ instanceof LivingEntity) {
+                            float f5 = f4 - ((LivingEntity)p_71059_1_).getHealth();
+                            player.awardStat(Stats.DAMAGE_DEALT, Math.round(f5 * 10.0F));
+                            if (j > 0) {
+                                p_71059_1_.setSecondsOnFire(j * 4);
+                            }
+
+                            if (player.level instanceof ServerWorld && f5 > 2.0F) {
+                                int k = (int)((double)f5 * 0.5D);
+                                ((ServerWorld)player.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, p_71059_1_.getX(), p_71059_1_.getY(0.5D), p_71059_1_.getZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
+                            }
+                        }
+
+                        player.causeFoodExhaustion(0.1F);
+                    } else {
+                        player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
+                        if (flag4) {
+                            p_71059_1_.clearFire();
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -151,7 +336,8 @@ public class CommonEvents {
         if (attacker != null) {
             LivingEntity livingEntity = (LivingEntity) attacker;
             ItemStack heldItem = livingEntity.getMainHandItem();
-            if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.CRABS_FAVOR.get())) {
+            ItemStack heldItemOffhand = livingEntity.getOffhandItem();
+            if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FinsEnchantments.CRABS_FAVOR.get()) && EnchantmentHelper.getEnchantments(heldItemOffhand).containsKey(FinsEnchantments.CRABS_FAVOR.get())) {
                 int i = EnchantmentHelper.getItemEnchantmentLevel(FinsEnchantments.CRABS_FAVOR.get(), event.getAttackingPlayer().getItemInHand(Hand.MAIN_HAND));
                 event.setDroppedExperience(event.getOriginalExperience() * i + attacker.getCommandSenderWorld().random.nextInt(3));
             }

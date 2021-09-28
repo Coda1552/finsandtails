@@ -47,7 +47,7 @@ public class OrnateBugfishEntity extends AbstractGroupFishEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FollowSchoolLeaderGoal(this));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 3.0D, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PapaWeeEntity.class, 8.0F, 1.6D, 1.4D));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 40));
