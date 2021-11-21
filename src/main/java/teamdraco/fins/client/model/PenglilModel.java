@@ -74,12 +74,12 @@ public class PenglilModel<T extends Entity> extends EntityModel<PenglilEntity> {
 			this.leftfoot.yRot = 0;
 			this.body.xRot = f1 + 1.375F;
 			this.tail.xRot = MathHelper.cos(0.25F + f * speed * 0.5F) * degree * 0.4F * f1 - 1.575F;
-			this.leftwing.yRot = MathHelper.cos(f * speed * 0.5F) * degree * 1.5F * f1 - 1.575F;
+			this.leftwing.yRot = MathHelper.cos(ageInTicks * speed * 0.25F) * degree * 0.8F - 1.575F;
 			this.leftwing.xRot = f1 - 1.575F;
 			this.rightwing.xRot = f1 - 1.575F;
-			this.rightwing.yRot = MathHelper.cos(f * speed * 0.5F) * degree * -1.5F * f1 + 1.575F;
-			this.leftfoot.xRot = MathHelper.cos(f * speed * 0.5F) * degree * 0.8F * f1 + 1.2F;
-			this.rightfoot.xRot = MathHelper.cos(f * speed * 0.5F) * degree * -0.8F * f1 + 1.2F;
+			this.rightwing.yRot = MathHelper.cos(ageInTicks * speed * 0.25F) * degree * -0.8F + 1.575F;
+			this.leftfoot.xRot = MathHelper.cos(ageInTicks * speed * 0.25F) * degree * 0.4F + 1.2F;
+			this.rightfoot.xRot = MathHelper.cos(ageInTicks * speed * 0.25F) * degree * -0.4F + 1.2F;
 		}
 		else if(entityIn.isInSittingPose()) {
 			this.rightwing.setPos(-2.0F, 0.5F, 1.0F);

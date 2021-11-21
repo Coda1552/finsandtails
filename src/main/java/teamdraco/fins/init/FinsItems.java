@@ -22,6 +22,7 @@ import teamdraco.fins.common.items.charms.*;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@SuppressWarnings("unused")
 public class FinsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, FinsAndTails.MOD_ID);
 
@@ -100,7 +101,8 @@ public class FinsItems {
     public static final RegistryObject<Item> SPINDLY_AMBER_CHARM = REGISTER.register("spindly_amber_charm", SpindlyAmberCharm::new);
     public static final RegistryObject<Item> SPINDLY_SAPPHIRE_CHARM = REGISTER.register("spindly_sapphire_charm", SpindlySapphireCharm::new);
     public static final RegistryObject<Item> SPINDLY_EMERALD_CHARM = REGISTER.register("spindly_emerald_charm", SpindlyEmeraldCharm::new);
-    public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = REGISTER.register("music_disc_crashing_tides", () -> new MusicDiscItem(1, FinsSounds.CRASHING_TIDES::get, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = REGISTER.register("music_disc_crashing_tides", () -> new MusicDiscItem(1, FinsSounds.CRASHING_TIDES, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_WHISTLING_WYVERNS = REGISTER.register("music_disc_whistling_wyverns", () -> new MusicDiscItem(1, FinsSounds.WHISTLING_WYVERNS, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
 
     //Buckets
     //TODO: update to WCBucketItem & add callbacks for needed buckets

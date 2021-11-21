@@ -75,8 +75,8 @@ public class VibraWeeModel<T extends Entity> extends EntityModel<T> {
         this.leftPectoralFin.yRot = MathHelper.cos(ageInTicks * speed * 0.6F) * degree * 1.2F * 0.1F + 0.4F;
         this.rightPectoralFin.yRot = MathHelper.cos(ageInTicks * speed * 0.6F) * degree * -1.2F * 0.1F - 0.4F;
         this.body.zRot = MathHelper.cos(ageInTicks * speed * 0.1F) * degree * 0.4F * 0.1F;
-        this.leftPelvicFin.zRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.8F * limbSwingAmount + 0.8F;
-        this.rightPelvicFin.zRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * -0.8F * limbSwingAmount - 0.8F;
+        this.leftPelvicFin.zRot = MathHelper.cos(ageInTicks * speed * 0.4F) * degree * 0.8F * 0.1F + 0.8F;
+        this.rightPelvicFin.zRot = MathHelper.cos(ageInTicks * speed * 0.4F) * degree * -0.8F * 0.1F - 0.8F;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

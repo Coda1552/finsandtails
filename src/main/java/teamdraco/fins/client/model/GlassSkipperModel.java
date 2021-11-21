@@ -76,8 +76,8 @@ public class GlassSkipperModel<T extends Entity> extends AgeableModel<GlassSkipp
         float speed = 1.0f;
         float degree = 1.0f;
         this.body.xRot = MathHelper.cos(ageInTicks * speed * 0.3F) * degree * 0.4F * 0.35f;
-        this.leftWing.zRot = MathHelper.cos(ageInTicks * speed * 0.9F) * degree * 4.4F * 0.35f + 0.5F;
-        this.rightWing.zRot = MathHelper.cos(3.0F + ageInTicks * speed * 0.9F) * degree * 4.4F * 0.35f - 0.5F;
+        this.leftWing.zRot = MathHelper.cos(ageInTicks * speed * 0.9F) * degree * 2.4F * 0.35f - 0.5F;
+        this.rightWing.zRot = MathHelper.cos(3.0F + ageInTicks * speed * 0.9F) * degree * 2.4F * 0.35f + 0.5F;
         this.legsFront.xRot = MathHelper.cos(ageInTicks * speed * 0.3F) * degree * 0.8F * 0.35f + 0.4F;
         this.legsMid.xRot = MathHelper.cos(3.0F + ageInTicks * speed * 0.3F) * degree * 0.8F * 0.35f + 0.4F;
         this.legsBack.xRot = MathHelper.cos(1.5F + ageInTicks * speed * 0.3F) * degree * 0.8F * 0.35f + 0.4F;

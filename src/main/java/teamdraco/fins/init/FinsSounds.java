@@ -24,6 +24,7 @@ public class FinsSounds {
     public static final RegistryObject<SoundEvent> CRAB_CRUNCH = REGISTER.register("crab.crunch", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "crab.crunch")));
     public static final RegistryObject<SoundEvent> DIDGERIDOO_PLAY = REGISTER.register("didgeridoo.play", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "didgeridoo.play")));
     public static final RegistryObject<SoundEvent> CRASHING_TIDES = REGISTER.register("music_disc.crashing_tides", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "music_disc.crashing_tides")));
+    public static final RegistryObject<SoundEvent> WHISTLING_WYVERNS = REGISTER.register("music_disc.whistling_wyverns", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "music_disc.whistling_wyverns")));
     public static final RegistryObject<SoundEvent> JETPACK_USE = REGISTER.register("jetpack.use", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "jetpack.use")));
     public static final RegistryObject<SoundEvent> FLATBACK_SUCKER_CLICK = REGISTER.register("click", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "click")));
     public static final RegistryObject<SoundEvent> WHERBLE_DEATH = REGISTER.register("wherble.death", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "wherble.death")));

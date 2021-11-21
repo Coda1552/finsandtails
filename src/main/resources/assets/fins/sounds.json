@@ -128,6 +128,15 @@
       }
     ]
   },
+  "music_disc.whistling_wyverns": {
+    "category": "disc",
+    "sounds": [
+      {
+        "name": "fins:music_disc/whistling_wyverns",
+        "stream": true
+      }
+    ]
+  },
   "jetpack.use": {
     "subtitle": "fins.jetpack.use",
     "sounds": [
