@@ -3,6 +3,7 @@ package teamdraco.fins.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -19,6 +20,7 @@ public class WeeWeeModel<T extends Entity> extends EntityModel<T> {
     public ModelRenderer rightPectoralFin;
 
     public WeeWeeModel() {
+        super(RenderType::entityTranslucent);
         this.texWidth = 16;
         this.texHeight = 16;
         this.dorsalFin = new ModelRenderer(this, 0, 1);
@@ -54,7 +56,8 @@ public class WeeWeeModel<T extends Entity> extends EntityModel<T> {
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.6f;
         float degree = 2.0f;
-        this.body.y = MathHelper.cos(limbSwing * speed * 0.3F) * degree * 3.5F * limbSwingAmount + 22.5F;
+        limbSwingAmount = MathHelper.clamp(limbSwingAmount, -0.2F, 0.2F);
+        this.body.y = MathHelper.cos(limbSwing * speed * 0.3F) * degree * 3.0F * limbSwingAmount + 22.5F;
         this.body.yRot = MathHelper.cos(-1.0F + ageInTicks * speed * 0.2F) * degree * 0.4F * 0.1F;
         this.tailFin.yRot = MathHelper.cos(-2.0F + limbSwing * speed * 0.8F) * degree * 1.3F * limbSwingAmount;
         this.leftPectoralFin.yRot = MathHelper.cos(ageInTicks * speed * 0.6F) * degree * 1.2F * 0.1F + 0.4F;

@@ -74,6 +74,7 @@ public class PapaWeeModel<T extends Entity> extends EntityModel<T> {
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.5f;
         float degree = 2.0f;
+        limbSwingAmount = MathHelper.clamp(limbSwingAmount, -0.45F, 0.45F);
         this.body.y = MathHelper.cos(limbSwing * speed * 0.1F) * degree * 0.1F * limbSwingAmount + 20.5F;
         this.tail.yRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.2F) * degree * 0.6F * limbSwingAmount;
         this.caudal_fin.yRot = MathHelper.cos(-2.0F + limbSwing * speed * 0.2F) * degree * 1.2F * limbSwingAmount;
