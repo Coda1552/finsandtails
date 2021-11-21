@@ -1,17 +1,13 @@
 package teamdraco.fins.common.entities;
 
-import net.minecraft.entity.ai.goal.FollowSchoolLeaderGoal;
-import net.minecraft.entity.passive.fish.AbstractFishEntity;
-import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
-import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.FollowSchoolLeaderGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -26,6 +22,9 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
 
 import javax.annotation.Nullable;
 import java.util.List;

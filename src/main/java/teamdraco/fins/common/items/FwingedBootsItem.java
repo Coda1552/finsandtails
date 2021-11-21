@@ -2,9 +2,6 @@ package teamdraco.fins.common.items;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.FwingedBootsModel;
-import teamdraco.fins.init.FinsEnchantments;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.enchantment.Enchantment;
@@ -28,6 +25,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.FwingedBootsModel;
+import teamdraco.fins.init.FinsEnchantments;
 
 import javax.annotation.Nullable;
 

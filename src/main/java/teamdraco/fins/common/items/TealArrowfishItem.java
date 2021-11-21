@@ -1,18 +1,16 @@
 package teamdraco.fins.common.items;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import org.jetbrains.annotations.Nullable;
-import teamdraco.fins.common.entities.item.TealArrowfishArrowEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-
-import net.minecraft.item.Item.Properties;
+import org.jetbrains.annotations.Nullable;
+import teamdraco.fins.common.entities.item.TealArrowfishArrowEntity;
 
 import java.util.List;
 

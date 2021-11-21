@@ -2,13 +2,13 @@ package teamdraco.fins.client.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import teamdraco.fins.common.container.MudhorsePouchContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import teamdraco.fins.common.container.MudhorsePouchContainer;
 
 @OnlyIn(Dist.CLIENT)
 public class MudhorsePouchScreen extends ContainerScreen<MudhorsePouchContainer> {

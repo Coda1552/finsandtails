@@ -2,15 +2,14 @@ package teamdraco.fins.client.render;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.VibraWeeModel;
-import teamdraco.fins.common.entities.VibraWeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.VibraWeeModel;
+import teamdraco.fins.common.entities.VibraWeeEntity;
 
 import java.util.Map;
 
@@ -41,10 +40,9 @@ public class VibraWeeRenderer extends MobRenderer<VibraWeeEntity, VibraWeeModel<
         return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
     }
 
+    @Override
     protected void setupRotations(VibraWeeEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-        float f = 4.3F * MathHelper.sin(0.6F * ageInTicks);
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f));
         if (!entityLiving.isInWater()) {
             matrixStackIn.translate((double)0.1F, (double)0.1F, (double)-0.1F);
             matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90.0F));

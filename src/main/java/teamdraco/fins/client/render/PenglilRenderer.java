@@ -1,13 +1,13 @@
 package teamdraco.fins.client.render;
 
 import com.google.common.collect.Maps;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.PenglilModel;
-import teamdraco.fins.common.entities.PenglilEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.PenglilModel;
+import teamdraco.fins.common.entities.PenglilEntity;
 
 import java.util.Map;
 

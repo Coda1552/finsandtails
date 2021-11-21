@@ -1,13 +1,13 @@
 package teamdraco.fins.client.model;
 
 import com.google.common.collect.ImmutableList;
-import teamdraco.fins.common.entities.FlatbackLeafSnailEntity;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import teamdraco.fins.common.entities.FlatbackLeafSnailEntity;
 
 import java.util.Collections;
 

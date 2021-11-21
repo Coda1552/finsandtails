@@ -1,13 +1,13 @@
 package teamdraco.fins.client.render;
 
 import com.google.common.collect.Maps;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.SpindlyGemCrabModel;
-import teamdraco.fins.common.entities.SpindlyGemCrabEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.SpindlyGemCrabModel;
+import teamdraco.fins.common.entities.SpindlyGemCrabEntity;
 
 import java.util.Map;
 

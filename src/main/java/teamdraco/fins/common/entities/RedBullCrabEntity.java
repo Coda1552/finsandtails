@@ -1,19 +1,18 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.init.FinsItems;
-import teamdraco.fins.init.FinsSounds;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -29,11 +28,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import teamdraco.fins.init.FinsItems;
+import teamdraco.fins.init.FinsSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;
-
-import net.minecraft.entity.ai.controller.MovementController.Action;
 
 public class RedBullCrabEntity extends WaterMobEntity {
     private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.defineId(RedBullCrabEntity.class, DataSerializers.BOOLEAN);

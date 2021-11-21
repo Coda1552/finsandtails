@@ -34,9 +34,6 @@ import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.item.Item.Properties;
-
 import java.util.List;
 
 public class GopjetJetpackItem extends ArmorItem {

@@ -1,14 +1,12 @@
 package teamdraco.fins.common.enchantments;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-
-import net.minecraft.enchantment.Enchantment.Rarity;
+import teamdraco.fins.init.FinsItems;
 
 public class UppercuttingEnchantment extends Enchantment {
     public UppercuttingEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {

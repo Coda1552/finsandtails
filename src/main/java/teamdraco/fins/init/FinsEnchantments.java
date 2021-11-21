@@ -1,15 +1,15 @@
 package teamdraco.fins.init;
 
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.common.enchantments.CrabsFavorEnchantment;
-import teamdraco.fins.common.enchantments.FlukedEdgeEnchantment;
-import teamdraco.fins.common.enchantments.UppercuttingEnchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.common.enchantments.CrabsFavorEnchantment;
+import teamdraco.fins.common.enchantments.FlukedEdgeEnchantment;
+import teamdraco.fins.common.enchantments.UppercuttingEnchantment;
 
 public class FinsEnchantments {
     public static final DeferredRegister<Enchantment> REGISTER = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, FinsAndTails.MOD_ID);

@@ -1,7 +1,5 @@
 package teamdraco.fins.common.items;
 
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.init.FinsEntities;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ILiquidContainer;
@@ -18,7 +16,10 @@ import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -33,11 +34,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.init.FinsEntities;
 
 import java.util.List;
 import java.util.function.Supplier;
-
-import net.minecraft.item.Item.Properties;
 
 public class FinsBucketItem extends BucketItem {
     private final boolean hasTooltip;

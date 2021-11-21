@@ -1,16 +1,16 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.init.FinsItems;
-import teamdraco.fins.init.FinsSounds;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -26,8 +26,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-
-import net.minecraft.entity.ai.controller.MovementController.Action;
+import teamdraco.fins.init.FinsItems;
+import teamdraco.fins.init.FinsSounds;
 
 import javax.annotation.Nullable;
 

@@ -1,12 +1,12 @@
 package teamdraco.fins.init;
 
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.common.blocks.ChainedTentacleBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.common.blocks.ChainedTentacleBlock;
 import teamdraco.fins.common.blocks.CrabCruncherBlock;
 
 public class FinsBlocks {

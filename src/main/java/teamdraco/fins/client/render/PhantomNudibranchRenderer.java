@@ -1,11 +1,11 @@
 package teamdraco.fins.client.render;
 
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.PhantomNudibranchModel;
-import teamdraco.fins.common.entities.PhantomNudibranchEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.PhantomNudibranchModel;
+import teamdraco.fins.common.entities.PhantomNudibranchEntity;
 
 public class PhantomNudibranchRenderer extends MobRenderer<PhantomNudibranchEntity, PhantomNudibranchModel<PhantomNudibranchEntity>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/phantom_nudibranch.png");

@@ -1,11 +1,11 @@
 package teamdraco.fins.client.render;
 
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.GopjetModel;
-import teamdraco.fins.common.entities.GopjetEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.GopjetModel;
+import teamdraco.fins.common.entities.GopjetEntity;
 
 public class GopjetRenderer extends MobRenderer<GopjetEntity, GopjetModel<GopjetEntity>> {
     private static final ResourceLocation STANDARD = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/gopjet/standard.png");

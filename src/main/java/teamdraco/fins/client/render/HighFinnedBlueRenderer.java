@@ -1,14 +1,14 @@
 package teamdraco.fins.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.HighFinnedBlueModel;
-import teamdraco.fins.common.entities.HighFinnedBlueEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.HighFinnedBlueModel;
+import teamdraco.fins.common.entities.HighFinnedBlueEntity;
 
 public class HighFinnedBlueRenderer extends MobRenderer<HighFinnedBlueEntity, HighFinnedBlueModel<HighFinnedBlueEntity>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/high_finned_blue.png");

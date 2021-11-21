@@ -1,11 +1,11 @@
 package teamdraco.fins.init;
 
-import teamdraco.fins.FinsAndTails;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import teamdraco.fins.FinsAndTails;
 
 public class FinsSounds {
 

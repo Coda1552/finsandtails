@@ -1,17 +1,12 @@
 package teamdraco.fins.client.render;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
 import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.BluWeeModel;
 import teamdraco.fins.client.model.WherbleModel;
-import teamdraco.fins.common.entities.BluWeeEntity;
 import teamdraco.fins.common.entities.WherbleEntity;
 
 import java.util.Map;

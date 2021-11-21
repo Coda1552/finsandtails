@@ -4,9 +4,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.FlatbackLeafSnailModel;
 import teamdraco.fins.client.model.WanderingSailorModel;
-import teamdraco.fins.common.entities.FlatbackLeafSnailEntity;
 import teamdraco.fins.common.entities.WanderingSailorEntity;
 
 public class WanderingSailorRenderer extends MobRenderer<WanderingSailorEntity, WanderingSailorModel<WanderingSailorEntity>> {

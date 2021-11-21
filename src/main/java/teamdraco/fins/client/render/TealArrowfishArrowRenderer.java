@@ -2,9 +2,6 @@ package teamdraco.fins.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.TealArrowfishArrowModel;
-import teamdraco.fins.common.entities.item.TealArrowfishArrowEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -12,6 +9,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.TealArrowfishArrowModel;
+import teamdraco.fins.common.entities.item.TealArrowfishArrowEntity;
 
 public class TealArrowfishArrowRenderer extends EntityRenderer<TealArrowfishArrowEntity> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/teal_arrowfish.png");

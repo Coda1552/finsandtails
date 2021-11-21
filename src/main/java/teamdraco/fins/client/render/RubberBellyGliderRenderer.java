@@ -1,12 +1,12 @@
 package teamdraco.fins.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.RubberBellyGliderModel;
-import teamdraco.fins.common.entities.RubberBellyGliderEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.RubberBellyGliderModel;
+import teamdraco.fins.common.entities.RubberBellyGliderEntity;
 
 public class RubberBellyGliderRenderer extends MobRenderer<RubberBellyGliderEntity, RubberBellyGliderModel<RubberBellyGliderEntity>> {
     private static final ResourceLocation TEXTURE_NORMAL = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/rubber_belly_glider/normal.png");

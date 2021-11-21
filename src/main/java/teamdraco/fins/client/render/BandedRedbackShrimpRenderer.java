@@ -1,14 +1,14 @@
 package teamdraco.fins.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.BandedRedbackShrimpModel;
-import teamdraco.fins.common.entities.BandedRedbackShrimpEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.BandedRedbackShrimpModel;
+import teamdraco.fins.common.entities.BandedRedbackShrimpEntity;
 
 public class BandedRedbackShrimpRenderer extends MobRenderer<BandedRedbackShrimpEntity, BandedRedbackShrimpModel<BandedRedbackShrimpEntity>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/banded_redback_shrimp.png");

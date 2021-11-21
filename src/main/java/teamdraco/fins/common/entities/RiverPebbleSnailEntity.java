@@ -1,7 +1,5 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -32,8 +30,8 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
-
-import net.minecraft.entity.ai.controller.MovementController.Action;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
 
 public class RiverPebbleSnailEntity extends AnimalEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(RiverPebbleSnailEntity.class, DataSerializers.INT);

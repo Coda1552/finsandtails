@@ -1,11 +1,11 @@
 package teamdraco.fins.client.render;
 
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.client.model.SiderolWhiskeredSnailModel;
-import teamdraco.fins.common.entities.SiderolWhiskeredSnailEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
+import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.client.model.SiderolWhiskeredSnailModel;
+import teamdraco.fins.common.entities.SiderolWhiskeredSnailEntity;
 
 public class SiderolWhiskeredSnailRenderer extends MobRenderer<SiderolWhiskeredSnailEntity, SiderolWhiskeredSnailModel<SiderolWhiskeredSnailEntity>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/siderol_whiskered_snail.png");

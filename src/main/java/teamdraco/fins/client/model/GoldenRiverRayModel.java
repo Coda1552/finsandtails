@@ -3,13 +3,13 @@ package teamdraco.fins.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import teamdraco.fins.common.entities.GoldenRiverRayEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import teamdraco.fins.common.entities.GoldenRiverRayEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class GoldenRiverRayModel<T extends Entity> extends EntityModel<GoldenRiverRayEntity> {

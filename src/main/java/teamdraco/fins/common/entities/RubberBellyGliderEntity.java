@@ -1,13 +1,5 @@
 package teamdraco.fins.common.entities;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IWorld;
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
-import teamdraco.fins.init.FinsSounds;
-import teamdraco.fins.common.entities.util.GroundAndSwimmerNavigator;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -16,6 +8,7 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -30,11 +23,15 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import teamdraco.fins.common.entities.util.GroundAndSwimmerNavigator;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
+import teamdraco.fins.init.FinsSounds;
 
-import java.util.Random;
 import java.util.function.Predicate;
 
 public class RubberBellyGliderEntity extends AnimalEntity {

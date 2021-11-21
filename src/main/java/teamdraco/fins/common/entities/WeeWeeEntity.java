@@ -1,8 +1,5 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
@@ -18,6 +15,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import teamdraco.fins.common.entities.util.goals.WeeHurtByEntityGoal;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
 
 import java.util.List;
 

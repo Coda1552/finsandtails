@@ -1,10 +1,5 @@
 package teamdraco.fins.common.entities;
 
-import net.minecraft.util.math.MathHelper;
-import teamdraco.fins.common.entities.util.goals.MudhorseForageGoal;
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
-import teamdraco.fins.init.FinsSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -24,12 +19,17 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+import teamdraco.fins.common.entities.util.goals.MudhorseForageGoal;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
+import teamdraco.fins.init.FinsSounds;
 
 import java.util.EnumSet;
 

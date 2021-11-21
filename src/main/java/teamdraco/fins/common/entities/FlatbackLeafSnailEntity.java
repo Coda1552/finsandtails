@@ -1,7 +1,5 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.init.FinsEntities;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -21,6 +19,8 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
+import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsItems;
 
 public class FlatbackLeafSnailEntity extends AnimalEntity {
 

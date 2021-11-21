@@ -1,11 +1,11 @@
 package teamdraco.fins.client.model;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.util.math.MathHelper;
-import teamdraco.fins.common.entities.RubberBellyGliderEntity;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
+import teamdraco.fins.common.entities.RubberBellyGliderEntity;
 
 import java.util.Collections;
 

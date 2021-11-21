@@ -18,8 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.items.FinsArmorMaterial;
 
-import net.minecraft.item.Item.Properties;
-
 import java.util.List;
 
 public class SpindlyRubyCharm extends ArmorItem implements ISpindlyCharmItem {

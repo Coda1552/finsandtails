@@ -1,8 +1,5 @@
 package teamdraco.fins.common.entities;
 
-import teamdraco.fins.init.FinsItems;
-import teamdraco.fins.init.FinsSounds;
-import teamdraco.fins.common.entities.util.GroundAndSwimmerNavigator;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
@@ -25,7 +22,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.*;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -38,6 +35,9 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import teamdraco.fins.common.entities.util.GroundAndSwimmerNavigator;
+import teamdraco.fins.init.FinsItems;
+import teamdraco.fins.init.FinsSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;

@@ -6,7 +6,6 @@ import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
-import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.IFlyingAnimal;
@@ -28,7 +27,9 @@ import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -44,7 +45,8 @@ import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class GlassSkipperEntity extends AnimalEntity implements IFlyingAnimal {

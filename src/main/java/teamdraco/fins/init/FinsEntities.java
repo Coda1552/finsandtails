@@ -1,15 +1,14 @@
 package teamdraco.fins.init;
 
-import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.common.entities.item.TealArrowfishArrowEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.entities.*;
-import teamdraco.fins.common.entities.GoliathGardenCrabEntity;
+import teamdraco.fins.common.entities.item.TealArrowfishArrowEntity;
 
 public class FinsEntities {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITIES, FinsAndTails.MOD_ID);

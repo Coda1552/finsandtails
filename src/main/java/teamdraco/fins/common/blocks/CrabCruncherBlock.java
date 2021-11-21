@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -21,8 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.container.CrabCruncherContainer;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class CrabCruncherBlock extends Block {
     private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container." + FinsAndTails.MOD_ID + "crab_cruncher");

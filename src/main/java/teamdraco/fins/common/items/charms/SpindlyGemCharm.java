@@ -1,18 +1,18 @@
 package teamdraco.fins.common.items.charms;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import org.jetbrains.annotations.Nullable;
-import teamdraco.fins.FinsAndTails;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.items.FinsArmorMaterial;
 
 import java.util.List;

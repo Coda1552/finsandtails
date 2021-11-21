@@ -72,18 +72,15 @@ public class PapaWeeModel<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        float speed = 1.8f;
-        float degree = 1.0f;
-        limbSwingAmount = MathHelper.clamp(limbSwingAmount, -0.5F, 0.5F);
-        this.body.yRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.6F * limbSwingAmount;
-        this.tail.yRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 1.0F * limbSwingAmount;
-        this.caudal_fin.yRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 1.0F * limbSwingAmount;
+        float speed = 1.5f;
+        float degree = 2.0f;
         this.body.y = MathHelper.cos(limbSwing * speed * 0.1F) * degree * 0.1F * limbSwingAmount + 20.5F;
-        this.dorsal_fin.zRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.6F * limbSwingAmount;
-        this.anal_fin.yRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 1.0F * limbSwingAmount;
-        this.right_pectoral_fin.zRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.6F * limbSwingAmount;
-        this.left_pectoral_fin.zRot = MathHelper.cos(3.0F + limbSwing * speed * 0.4F) * degree * 0.6F * limbSwingAmount;
-        this.body.xRot = MathHelper.cos(limbSwing * speed * 0.05F) * degree * 0.1F * limbSwingAmount;
+        this.tail.yRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.2F) * degree * 0.6F * limbSwingAmount;
+        this.caudal_fin.yRot = MathHelper.cos(-2.0F + limbSwing * speed * 0.2F) * degree * 1.2F * limbSwingAmount;
+        this.body.xRot = MathHelper.cos(ageInTicks * speed * 0.1F) * degree * 0.2F * 0.1F;
+        this.body.yRot = MathHelper.cos(ageInTicks * speed * 0.2F) * degree * 0.4F * 0.1F;
+        this.right_pectoral_fin.zRot = MathHelper.cos(ageInTicks * speed * 0.8F) * degree * 2.4F * 0.1F + 0.6F;
+        this.left_pectoral_fin.zRot = MathHelper.cos(ageInTicks * speed * 0.8F) * degree * -2.4F * 0.1F - 0.6F;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

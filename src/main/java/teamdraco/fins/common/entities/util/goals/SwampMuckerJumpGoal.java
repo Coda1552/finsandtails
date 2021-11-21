@@ -1,6 +1,5 @@
 package teamdraco.fins.common.entities.util.goals;
 
-import teamdraco.fins.common.entities.SwampMuckerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.JumpGoal;
 import net.minecraft.fluid.FluidState;
@@ -10,6 +9,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import teamdraco.fins.common.entities.SwampMuckerEntity;
 
 public class SwampMuckerJumpGoal extends JumpGoal {
     private static final int[] JUMP_DISTANCES = new int[]{0, 1, 4, 5, 6, 7};

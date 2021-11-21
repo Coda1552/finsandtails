@@ -3,15 +3,10 @@ package teamdraco.fins.common.enchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import teamdraco.fins.init.FinsItems;
-
-import net.minecraft.enchantment.Enchantment.Rarity;
 
 public class CrabsFavorEnchantment extends Enchantment {
     public CrabsFavorEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {

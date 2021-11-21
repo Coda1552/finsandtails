@@ -1,10 +1,8 @@
 package teamdraco.fins.common.entities;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.fish.PufferfishEntity;
-import teamdraco.fins.init.FinsItems;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -25,6 +23,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
 
 import java.util.List;
