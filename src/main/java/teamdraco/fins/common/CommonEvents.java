@@ -66,7 +66,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
-        Hand hand = event.getHand();
+        Hand hand = Hand.OFF_HAND;
         Entity target = event.getTarget();
         PlayerEntity player = event.getPlayer();
         ItemStack offhandItem = player.getItemBySlot(EquipmentSlotType.OFFHAND);
@@ -74,7 +74,7 @@ public class CommonEvents {
         if (offhandItem.getItem().is(FinsTags.CLAW_GAUNTLETS)) {
             player.swing(hand);
             attack(player, target);
-            target.hurt(DamageSource.playerAttack(player), 3 + new Random().nextInt(2));
+            target.hurt(DamageSource.playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
         }
     }
 
