@@ -160,7 +160,7 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
         }
 
         public void tick() {
-            if (this.fish.isInWater()) {
+            if (this.fish.isInWater() && fish.getTarget() == null) {
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
             }
 

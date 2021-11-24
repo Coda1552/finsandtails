@@ -71,14 +71,20 @@ public class GoldenRiverRayModel<T extends Entity> extends EntityModel<GoldenRiv
     public void setupAnim(GoldenRiverRayEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.0f;
         float degree = 1.0f;
+
+        if (entityIn.isInWater()) {
+            this.body.xRot = headPitch * ((float)Math.PI / 180F);
+            this.body.yRot = netHeadYaw * ((float)Math.PI / 180F);
+        }
         this.wingright.zRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 1.0F * limbSwingAmount;
         this.wingleft.zRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * -1.0F * limbSwingAmount;
-        this.body.yRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount;
+        this.body.yRot += MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount;
         this.tail.yRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.4F * limbSwingAmount;
         this.tailfin.yRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.3F * limbSwingAmount;
         this.analfinright.zRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * -1.0F * limbSwingAmount;
         this.analfinleft.zRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 1.0F * limbSwingAmount;
-    }
+
+   }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
