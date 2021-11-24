@@ -176,32 +176,28 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
 
                 int whichFish = rand.nextInt(5);
 
-                switch (whichFish) {
-                    case 0 : worldIn.addFreshEntity(map.get(0));
-                    break;
-                    case 1 : worldIn.addFreshEntity(map.get(1));
-                    break;
-                    case 2 : worldIn.addFreshEntity(map.get(2));
-                    break;
-                    case 3 : worldIn.addFreshEntity(map.get(3));
-                    break;
-                    case 4 : worldIn.addFreshEntity(map.get(4));
-                    break;
-                }
-
                 MobEntity entity = map.get(whichFish);
                 if (map.getOrDefault(whichFish, map.get(2)) != null) {
                     entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                     entity.finalizeSpawn(worldIn, worldIn.getCurrentDifficultyAt(pos), SpawnReason.STRUCTURE, null, null);
-                    worldIn.addFreshEntity(entity);
 
                     if (whichFish == 0) {
                         ((NightLightSquidEntity) entity).setVariant(rand.nextInt(4));
-
                     }
                     if (whichFish == 2) {
                         ((SpindlyGemCrabEntity) entity).setVariant(rand.nextInt(5));
-
+                    }
+                    switch (whichFish) {
+                        case 0 : worldIn.addFreshEntity(map.get(0));
+                            break;
+                        case 1 : worldIn.addFreshEntity(map.get(1));
+                            break;
+                        case 2 : worldIn.addFreshEntity(map.get(2));
+                            break;
+                        case 3 : worldIn.addFreshEntity(map.get(3));
+                            break;
+                        case 4 : worldIn.addFreshEntity(map.get(4));
+                            break;
                     }
                 }
             }
