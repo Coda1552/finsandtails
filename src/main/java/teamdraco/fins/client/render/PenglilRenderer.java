@@ -23,6 +23,7 @@ public class PenglilRenderer extends MobRenderer<PenglilEntity, PenglilModel<Pen
         hashMap.put(7, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_8.png"));
         hashMap.put(8, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/lord_penglil.png"));
         hashMap.put(9, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/pomegranits.png"));
+        hashMap.put(10, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/sus_penglil.png"));
     });
 
     public PenglilRenderer(EntityRendererManager renderManagerIn) {
@@ -33,14 +34,20 @@ public class PenglilRenderer extends MobRenderer<PenglilEntity, PenglilModel<Pen
     public ResourceLocation getTextureLocation(PenglilEntity entity) {
         String s = entity.getName().getString();
 
-        if (s.equals("Lord") || s.equals("Lord Penglil") || s.equals("Lord_Penglil")) {
-            return TEXTURES.get(8);
-        }
-        else if (s.equals("Pomegranits")) {
-            return TEXTURES.get(9);
-        }
-        else {
-            return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
+        switch (s) {
+            case "Lord":
+            case "Lord Penglil":
+            case "Lord_Penglil":
+                return TEXTURES.get(8);
+            case "Pomegranits":
+                return TEXTURES.get(9);
+            case "Sus":
+            case "Amogus":
+            case "Impostor":
+            case "Among Us":
+                return TEXTURES.get(10);
+            default:
+                return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
         }
     }
 }
