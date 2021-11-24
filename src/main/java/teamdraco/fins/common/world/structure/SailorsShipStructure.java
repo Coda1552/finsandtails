@@ -151,7 +151,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
                 worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                 TileEntity tileentity = worldIn.getBlockEntity(pos.below());
                 if (tileentity instanceof BarrelTileEntity) {
-                    ((BarrelTileEntity) tileentity).setLootTable(LootTables.FISHING, rand.nextLong());
+                    ((BarrelTileEntity) tileentity).setLootTable(LootTables.VILLAGE_FISHER, rand.nextLong());
                 }
             }
             if ("sailor".equals(function)) {
