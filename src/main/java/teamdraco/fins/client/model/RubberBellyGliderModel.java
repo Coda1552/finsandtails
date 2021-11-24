@@ -78,6 +78,7 @@ public class RubberBellyGliderModel<T extends Entity> extends AgeableModel<Rubbe
 			float speed = 4.5f;
 			float degree = 1.5f;
 			limbSwingAmount = MathHelper.clamp(limbSwingAmount, -0.3f, 0.3f);
+			this.body.xRot = 0.0F;
 			this.body.yRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount;
 			this.body.zRot = 0;
 			this.tail.yRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.4F) * degree * 0.8F * limbSwingAmount;
@@ -99,8 +100,12 @@ public class RubberBellyGliderModel<T extends Entity> extends AgeableModel<Rubbe
 		else {
 			float speed = 1.0f;
 			float degree = 1.0f;
+
+			this.body.xRot = headPitch * ((float)Math.PI / 180F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 180F);
+
 			this.body.zRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 0.1F * limbSwingAmount;
-			this.body.xRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount - 0.05F;
+			//this.body.xRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.2F * limbSwingAmount - 0.05F;
 			this.rightWingFront.zRot = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 1.2F * limbSwingAmount;
 			this.rightWingFront.yRot = MathHelper.cos(1.0F + limbSwing * speed * 0.4F) * degree * 0.6F * limbSwingAmount - 0.2F;
 			this.rightWingFront.xRot = 0;
@@ -117,7 +122,5 @@ public class RubberBellyGliderModel<T extends Entity> extends AgeableModel<Rubbe
 			this.tail.xRot = MathHelper.cos(limbSwing * speed * 0.4F) * degree * 0.4F * limbSwingAmount;
 			this.tail.yRot = 0;
 		}
-		this.body.xRot += headPitch * ((float)Math.PI / 180F);
-		this.body.yRot += netHeadYaw * ((float)Math.PI / 180F);
 	}
 }
