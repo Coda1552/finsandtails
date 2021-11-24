@@ -3,6 +3,7 @@ package teamdraco.fins.common.entities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,6 +20,7 @@ import net.minecraft.potion.Potions;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -32,6 +34,7 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, World world) {
         super(type, world);
+        this.moveControl = new MoveHelperController(this);
     }
 
     @Override
@@ -146,5 +149,54 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
         }
 
         return flag;
+    }
+
+    static class MoveHelperController extends MovementController {
+        private final GoldenRiverRayEntity fish;
+
+        public MoveHelperController(GoldenRiverRayEntity p_i48945_1_) {
+            super(p_i48945_1_);
+            this.fish = p_i48945_1_;
+        }
+
+        public void tick() {
+            if (this.fish.isInWater()) {
+                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
+            }
+
+            if (this.operation == MovementController.Action.MOVE_TO && !this.fish.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.fish.getX();
+                double d1 = this.wantedY - this.fish.getY();
+                double d2 = this.wantedZ - this.fish.getZ();
+                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+                if (d3 < (double)2.5000003E-7F) {
+                    this.mob.setZza(0.0F);
+                } else {
+                    float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                    this.fish.yRot = this.rotlerp(this.fish.yRot, f, 10.0F);
+                    this.fish.yBodyRot = this.fish.yRot;
+                    this.fish.yHeadRot = this.fish.yRot;
+                    float f1 = (float)(this.speedModifier * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                    if (this.fish.isInWater()) {
+                        this.fish.setSpeed(f1 * 0.02F);
+                        float f2 = -((float)(MathHelper.atan2(d1, (double)MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
+                        f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
+                        this.fish.xRot = this.rotlerp(this.fish.xRot, f2, 5.0F);
+                        float f3 = MathHelper.cos(this.fish.xRot * ((float)Math.PI / 180F));
+                        float f4 = MathHelper.sin(this.fish.xRot * ((float)Math.PI / 180F));
+                        this.fish.zza = f3 * f1;
+                        this.fish.yya = -f4 * f1;
+                    } else {
+                        this.fish.setSpeed(f1 * 0.1F);
+                    }
+
+                }
+            } else {
+                this.fish.setSpeed(0.0F);
+                this.fish.setXxa(0.0F);
+                this.fish.setYya(0.0F);
+                this.fish.setZza(0.0F);
+            }
+        }
     }
 }
