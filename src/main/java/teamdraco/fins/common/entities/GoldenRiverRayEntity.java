@@ -3,6 +3,7 @@ package teamdraco.fins.common.entities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
@@ -14,6 +15,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
@@ -34,6 +36,8 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, World world) {
         super(type, world);
         this.moveControl = new MoveHelperController(this);
+        this.lookControl = new DolphinLookController(this, 50);
+        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
     }
 
     @Override

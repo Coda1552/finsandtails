@@ -3,6 +3,7 @@ package teamdraco.fins.common.entities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -48,8 +49,9 @@ public class RubberBellyGliderEntity extends AnimalEntity {
 
     public RubberBellyGliderEntity(EntityType<? extends RubberBellyGliderEntity> type, World world) {
         super(type, world);
-        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
         this.moveControl = new RubberBellyGliderEntity.MoveHelperController(this);
+        this.lookControl = new DolphinLookController(this, 50);
+        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
         this.maxUpStep = 1.0f;
     }
 
@@ -344,7 +346,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
                 double d0 = this.wantedX - this.glider.getX();
                 double d1 = this.wantedY - this.glider.getY();
                 double d2 = this.wantedZ - this.glider.getZ();
-                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
                 this.glider.yRot = this.rotlerp(this.glider.yRot, f, 90.0F);
@@ -352,6 +354,16 @@ public class RubberBellyGliderEntity extends AnimalEntity {
                 float f1 = (float)(this.speedModifier * this.glider.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 this.glider.setSpeed(MathHelper.lerp(0.125F, this.glider.getSpeed(), f1));
                 this.glider.setDeltaMovement(this.glider.getDeltaMovement().add(0.0D, (double)this.glider.getSpeed() * d1 * 0.1D, 0.0D));
+                if (this.glider.isInWater()) {
+                    this.glider.setSpeed(f1 * 0.02F);
+                    float f2 = -((float)(MathHelper.atan2(d1, MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
+                    f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
+                    this.glider.xRot = this.rotlerp(this.glider.xRot, f2, 5.0F);
+                    float f3 = MathHelper.cos(this.glider.xRot * ((float)Math.PI / 180F));
+                    float f4 = MathHelper.sin(this.glider.xRot * ((float)Math.PI / 180F));
+                    this.glider.zza = f3 * f1;
+                    this.glider.yya = -f4 * f1;
+                }
             } else {
                 this.glider.setSpeed(0.0F);
             }
