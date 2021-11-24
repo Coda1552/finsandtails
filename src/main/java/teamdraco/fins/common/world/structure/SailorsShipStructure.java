@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class SailorsShipStructure extends Structure<NoFeatureConfig> {
+    private static final ResourceLocation SAILOR_LOOT = new ResourceLocation(FinsAndTails.MOD_ID, "gameplay/wandering_sailor_ship");
 
     public SailorsShipStructure(Codec<NoFeatureConfig> p_i231977_1_) {
         super(p_i231977_1_);
@@ -151,7 +152,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
                 worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                 TileEntity tileentity = worldIn.getBlockEntity(pos.below());
                 if (tileentity instanceof BarrelTileEntity) {
-                    ((BarrelTileEntity) tileentity).setLootTable(LootTables.VILLAGE_FISHER, rand.nextLong());
+                    ((BarrelTileEntity) tileentity).setLootTable(SAILOR_LOOT, rand.nextLong());
                 }
             }
             if ("sailor".equals(function)) {
