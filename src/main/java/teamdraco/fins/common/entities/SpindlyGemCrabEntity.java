@@ -93,7 +93,7 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
         return this.entityData.get(VARIANT);
     }
 
-    private void setVariant(int variant) {
+    public void setVariant(int variant) {
         this.entityData.set(VARIANT, variant);
     }
 

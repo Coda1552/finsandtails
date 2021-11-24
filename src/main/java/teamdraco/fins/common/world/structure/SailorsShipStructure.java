@@ -1,16 +1,18 @@
 package teamdraco.fins.common.world.structure;
 
+import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.BarrelTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SharedSeedRandom;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -29,11 +31,13 @@ import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.common.entities.WanderingSailorEntity;
+import teamdraco.fins.common.entities.*;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsStructures;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class SailorsShipStructure extends Structure<NoFeatureConfig> {
@@ -157,6 +161,48 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
                     entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                     entity.finalizeSpawn(worldIn, worldIn.getCurrentDifficultyAt(pos), SpawnReason.STRUCTURE, null, null);
                     worldIn.addFreshEntity(entity);
+                }
+            }
+            if ("fish".equals(function)) {
+                Map<Integer, MobEntity> map = Util.make(Maps.newHashMap(), (hashMap) -> {
+                    hashMap.put(0, FinsEntities.NIGHT_LIGHT_SQUID.get().create(worldIn.getLevel()));
+                    hashMap.put(1, FinsEntities.GOPJET.get().create(worldIn.getLevel()));
+                    hashMap.put(2, FinsEntities.SPINDLY_GEM_CRAB.get().create(worldIn.getLevel()));
+                    hashMap.put(3, FinsEntities.PHANTOM_NUDIBRANCH.get().create(worldIn.getLevel()));
+                    hashMap.put(4, FinsEntities.ORNATE_BUGFISH.get().create(worldIn.getLevel()));
+                });
+
+                worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+
+                int whichFish = rand.nextInt(5);
+
+                switch (whichFish) {
+                    case 0 : worldIn.addFreshEntity(map.get(0));
+                    break;
+                    case 1 : worldIn.addFreshEntity(map.get(1));
+                    break;
+                    case 2 : worldIn.addFreshEntity(map.get(2));
+                    break;
+                    case 3 : worldIn.addFreshEntity(map.get(3));
+                    break;
+                    case 4 : worldIn.addFreshEntity(map.get(4));
+                    break;
+                }
+
+                MobEntity entity = map.get(whichFish);
+                if (map.getOrDefault(whichFish, map.get(2)) != null) {
+                    entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+                    entity.finalizeSpawn(worldIn, worldIn.getCurrentDifficultyAt(pos), SpawnReason.STRUCTURE, null, null);
+                    worldIn.addFreshEntity(entity);
+
+                    if (whichFish == 0) {
+                        ((NightLightSquidEntity) entity).setVariant(rand.nextInt(4));
+
+                    }
+                    if (whichFish == 2) {
+                        ((SpindlyGemCrabEntity) entity).setVariant(rand.nextInt(5));
+
+                    }
                 }
             }
         }
