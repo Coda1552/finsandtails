@@ -15,6 +15,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.potion.Potions;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -51,6 +52,16 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
             ((ServerPlayerEntity)entityIn).connection.send(new SChangeGameStatePacket(SChangeGameStatePacket.PUFFER_FISH_STING, 0.0F));
             entityIn.addEffect(new EffectInstance(Effects.POISON, 120, 0));
         }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        Entity attacker = source.getDirectEntity();
+        if (attacker instanceof LivingEntity) {
+            ((LivingEntity) attacker).addEffect(new EffectInstance(Effects.POISON, 200, 0));
+            attacker.hurt(DamageSource.mobAttack(this), 1);
+        }
+        return super.hurt(source, amount);
     }
 
     @Override
