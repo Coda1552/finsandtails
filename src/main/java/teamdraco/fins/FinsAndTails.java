@@ -32,6 +32,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -74,7 +75,7 @@ public class FinsAndTails {
         bus.addListener(this::registerEntityAttributes);
         bus.addListener(this::setup);
 
-        //forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
+        forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
 
         FinsEnchantments.REGISTER.register(bus);
         FinsItems.REGISTER.register(bus);
