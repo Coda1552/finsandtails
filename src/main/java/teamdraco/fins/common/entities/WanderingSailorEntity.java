@@ -40,14 +40,26 @@ public class WanderingSailorEntity extends AbstractVillagerEntity implements IMe
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new TradeWithPlayerGoal(this));
-        this.goalSelector.addGoal(1, new LookAtCustomerGoal(this));
-        this.goalSelector.addGoal(9, new LookAtWithoutMovingGoal(this, PlayerEntity.class, 3.0F, 1.0F));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, MobEntity.class, 8.0F));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.75F));
+        this.goalSelector.addGoal(2, new TradeWithPlayerGoal(this));
+        this.goalSelector.addGoal(2, new LookAtCustomerGoal(this));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new LookAtWithoutMovingGoal(this, PlayerEntity.class, 3.0F, 1.0F));
+        this.goalSelector.addGoal(5, new LookAtGoal(this, MobEntity.class, 8.0F));
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
         return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.MOVEMENT_SPEED, 0.2F);
+    }
+
+    @Override
+    public boolean canBreatheUnderwater() {
+        return true;
+    }
+
+    @Override
+    public CreatureAttribute getMobType() {
+        return CreatureAttribute.WATER;
     }
 
     @Override
