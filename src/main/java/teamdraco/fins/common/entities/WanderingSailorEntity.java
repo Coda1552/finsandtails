@@ -53,6 +53,11 @@ public class WanderingSailorEntity extends AbstractVillagerEntity implements IMe
     }
 
     @Override
+    public int getAmbientSoundInterval() {
+        return 480;
+    }
+
+    @Override
     public boolean canBreatheUnderwater() {
         return true;
     }
