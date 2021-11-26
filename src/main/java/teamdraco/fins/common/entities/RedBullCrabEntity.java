@@ -61,15 +61,6 @@ public class RedBullCrabEntity extends WaterMobEntity {
         return new GroundPathNavigator(this, world);
     }
 
-    public boolean doHurtTarget(Entity entityIn) {
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-        if (flag) {
-            this.doEnchantDamageEffects(this, entityIn);
-        }
-
-        return flag;
-    }
-
     protected ItemStack getFishBucket() {
         return new ItemStack(FinsItems.RED_BULL_CRAB_BUCKET.get());
     }
