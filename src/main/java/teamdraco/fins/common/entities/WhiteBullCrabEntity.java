@@ -107,6 +107,11 @@ public class WhiteBullCrabEntity extends WaterMobEntity {
         this.entityData.define(FROM_BUCKET, false);
     }
 
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 4;
+    }
+
     private boolean isFromBucket() {
         return this.entityData.get(FROM_BUCKET);
     }
