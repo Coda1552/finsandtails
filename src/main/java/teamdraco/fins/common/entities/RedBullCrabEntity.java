@@ -27,6 +27,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import teamdraco.fins.common.items.FinsBucketItem;
 import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
 
@@ -92,22 +93,22 @@ public class RedBullCrabEntity extends WaterMobEntity {
     public void addAdditionalSaveData(CompoundNBT compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("FromBucket", this.isFromBucket());
+        compound.put("Attributes", this.getAttributes().save());
+        compound.putFloat("Health", this.getHealth());
     }
 
     public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         this.setFromBucket(compound.getBoolean("FromBucket"));
+        if (compound.contains("Attributes", 9) && this.level != null && !this.level.isClientSide) {
+            this.getAttributes().load(compound.getList("Attributes", 10));
+        }
     }
 
     @Nullable
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT dataTag) {
-        if (dataTag == null) {
-            this.randomizeAttributes();
-        }
-        else if (dataTag.contains("Health", 3)) {
-            dataTag.putFloat("Health", (int) this.getHealth());
-        }
+        this.randomizeAttributes();
 
         return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, dataTag);
     }
@@ -154,7 +155,7 @@ public class RedBullCrabEntity extends WaterMobEntity {
             this.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0F, 1.0F);
             itemstack.shrink(1);
             ItemStack itemstack1 = this.getFishBucket();
-            this.setBucketData(itemstack1);
+            this.setBucketData(itemstack1, this);
             if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity)p_230254_1_, itemstack1);
             }
@@ -172,11 +173,10 @@ public class RedBullCrabEntity extends WaterMobEntity {
         }
     }
 
-    protected void setBucketData(ItemStack bucket) {
+    protected void setBucketData(ItemStack stack, LivingEntity target) {
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            stack.setHoverName(this.getCustomName());
         }
-
     }
 
     static class MoveHelperController extends MovementController {
