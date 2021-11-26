@@ -82,7 +82,7 @@ public class PapaWeeEntity extends AbstractFishEntity {
             this.moveRelative(0.015F, p_213352_1_);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-            if (this.getTarget() == null) {
+            if (this.getTarget() == null || !this.getTarget().isAlive()) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.01D, 0.0D));
             }
         } else {
