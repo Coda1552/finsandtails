@@ -6,7 +6,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -32,7 +32,7 @@ import teamdraco.fins.init.FinsItems;
 
 import javax.annotation.Nullable;
 
-public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
+public class GoldenRiverRayEntity extends AbstractFishEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(GoldenRiverRayEntity.class, DataSerializers.INT);
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, World world) {
@@ -53,6 +53,15 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
         return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (getTarget() != null && getDeltaMovement().x < 0.0005 && getDeltaMovement().z < 0.0005) {
+            setTarget(null);
+        }
     }
 
     public void playerTouch(PlayerEntity entityIn) {
@@ -145,15 +154,6 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         return new ItemStack(FinsItems.GOLDEN_RIVER_RAY_SPAWN_EGG.get());
-    }
-
-    public boolean doHurtTarget(Entity entityIn) {
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-        if (flag) {
-            this.doEnchantDamageEffects(this, entityIn);
-        }
-
-        return flag;
     }
 
     static class MoveHelperController extends MovementController {
