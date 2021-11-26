@@ -1,6 +1,7 @@
 package teamdraco.fins.common.entities;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -32,11 +33,7 @@ public class WeeWeeEntity extends AbstractFishEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, SquidEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, DolphinEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, PenglilEntity.class, 6, 1.0D, 1.5D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(2, new WeeHurtByEntityGoal(this));
