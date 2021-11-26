@@ -386,7 +386,7 @@ public class PenglilEntity extends TameableEntity {
         public void tick() {
             if (this.owner != null && this.bedPos != null) {
                 this.penglil.setInSittingPose(false);
-                this.penglil.getNavigation().moveTo((double)this.bedPos.getX(), (double)this.bedPos.getY(), (double)this.bedPos.getZ(), (double)1.1F);
+                this.penglil.getNavigation().moveTo(this.bedPos.getX(), this.bedPos.getY(), this.bedPos.getZ(), 1.1F);
                 if (this.penglil.distanceToSqr(this.owner) < 2.5D) {
                     ++this.tickCounter;
                     if (this.tickCounter > 16) {
