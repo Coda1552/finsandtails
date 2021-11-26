@@ -92,19 +92,27 @@ public class BandedRedbackShrimpModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void setupAnim(T entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch) {
-        float speed = 4.0f;
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        float speed = 1.0f;
         float degree = 1.0f;
-        this.tail.xRot = MathHelper.cos(f * speed * 0.2F) * degree * 0.3F * f1 - 0.1F;
-        this.tailfan.xRot = MathHelper.cos(f * speed * 0.2F) * degree * 0.9F * f1;
-        this.finRight.zRot = MathHelper.cos(f * speed * 0.4F) * degree * 0.7F * f1;
-        this.finLeft.zRot = MathHelper.cos(f * speed * 0.4F) * degree * -0.7F * f1;
-        this.legs1.xRot = MathHelper.cos(1.0F + f * speed * 0.5F) * degree * 0.8F * f1;
-        this.legs2.xRot = MathHelper.cos(0.5F + f * speed * 0.5F) * degree * 0.8F * f1;
-        this.legs3.xRot = MathHelper.cos(f * speed * 0.5F) * degree * 0.4F * f1;
-        this.legs4.xRot = MathHelper.cos(0.5F + f * speed * 0.5F) * degree * 0.8F * f1;
-        this.antennaleft.xRot = MathHelper.cos(f * speed * 0.2F) * degree * 0.6F * f1 - 0.1F;
-        this.antennaright.xRot = MathHelper.cos(f * speed * 0.2F) * degree * 0.6F * f1 - 0.1F;
+        limbSwing = ageInTicks;
+        limbSwingAmount = 0.25F;
+        if (entityIn.isInWater()) {
+            this.body.xRot = headPitch * (((float)Math.PI / 180F) / 2);
+            this.body.yRot = netHeadYaw * (((float)Math.PI / 180F) / 2);
+            this.body.xRot += MathHelper.cos(limbSwing * speed * 0.25F) * degree * 0.25F * limbSwingAmount;
+        }
+        else {
+            this.body.xRot = MathHelper.cos(limbSwing * speed * 0.25F) * degree * 0.25F * limbSwingAmount;
+        }
+        this.legs4.xRot = MathHelper.cos(limbSwing * speed * 1.0F) * degree * 2.0F * limbSwingAmount;
+        this.legs3.xRot = MathHelper.cos(1.5F + limbSwing * speed * 1.0F) * degree * 2.0F * limbSwingAmount;
+        this.legs2.xRot = MathHelper.cos(3.0F + limbSwing * speed * 1.0F) * degree * 2.0F * limbSwingAmount;
+        this.legs1.xRot = MathHelper.cos(limbSwing * speed * 0.5F) * degree * 2.0F * limbSwingAmount;
+        this.tail.xRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.25F) * degree * 0.5F * limbSwingAmount + 1.5F;
+        this.tailfan.xRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.25F) * degree * 0.75F * limbSwingAmount;
+        this.antennaleft.xRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 1.0F * limbSwingAmount;
+        this.antennaright.xRot = MathHelper.cos(1.0F + limbSwing * speed * 0.2F) * degree * 1.0F * limbSwingAmount;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
