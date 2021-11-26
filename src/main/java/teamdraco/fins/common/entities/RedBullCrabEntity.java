@@ -65,7 +65,7 @@ public class RedBullCrabEntity extends WaterMobEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.25D);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 15).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
     protected void randomizeAttributes() {

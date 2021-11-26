@@ -29,6 +29,7 @@ public class BandedRedbackShrimpEntity extends AbstractGroupFishEntity {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6.0F, 1.5D, 2.0D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, RubberBellyGliderEntity.class, 6.0F, 1.5D, 2.0D));
     }
 
     @Override
