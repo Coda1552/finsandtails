@@ -158,7 +158,7 @@ public class PenglilEntity extends TameableEntity {
                 this.tame(player);
                 this.navigation.stop();
                 this.setOrderedToSit(true);
-                this.setTarget((LivingEntity) null);
+                this.setTarget(null);
                 this.level.broadcastEntityEvent(this, (byte) 7);
             }
             else {
@@ -351,7 +351,7 @@ public class PenglilEntity extends TameableEntity {
         public void start() {
             if (this.bedPos != null) {
                 this.penglil.setInSittingPose(false);
-                this.penglil.getNavigation().moveTo((double)this.bedPos.getX(), (double)this.bedPos.getY(), (double)this.bedPos.getZ(), (double)1.1F);
+                this.penglil.getNavigation().moveTo(this.bedPos.getX(), this.bedPos.getY(), this.bedPos.getZ(), 1.1F);
             }
 
         }
