@@ -27,8 +27,8 @@ public class FinsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, FinsAndTails.MOD_ID);
 
     //Fish
-    public static final RegistryObject<Item> BLU_WEE = REGISTER.register("blu_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
-    public static final RegistryObject<Item> PEA_WEE = REGISTER.register("pea_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
+    public static final RegistryObject<Item> BLU_WEE = REGISTER.register("blu_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).fast().build())));
+    public static final RegistryObject<Item> PEA_WEE = REGISTER.register("pea_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).fast().build())));
     public static final RegistryObject<Item> BANDED_REDBACK_SRHIMP = REGISTER.register("banded_redback_shrimp", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> TEAL_ARROWFISH = REGISTER.register("teal_arrowfish", () -> new TealArrowfishItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> SWAMP_MUCKER = REGISTER.register("swamp_mucker", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
@@ -41,8 +41,8 @@ public class FinsItems {
         }
     });
     public static final RegistryObject<Item> ORNATE_BUGFISH = REGISTER.register("ornate_bugfish", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).build())));
-    public static final RegistryObject<Item> WEE_WEE = REGISTER.register("wee_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(1).saturationMod(0.1F).build())));
-    public static final RegistryObject<Item> VIBRA_WEE = REGISTER.register("vibra_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.2F).build())));
+    public static final RegistryObject<Item> WEE_WEE = REGISTER.register("wee_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(1).saturationMod(0.1F).fast().build())));
+    public static final RegistryObject<Item> VIBRA_WEE = REGISTER.register("vibra_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.2F).fast().build())));
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID = REGISTER.register("night_light_squid", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(1).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> EMERALD_SPINDLY_GEM_CRAB = REGISTER.register("emerald_spindly_gem_crab", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> AMBER_SPINDLY_GEM_CRAB = REGISTER.register("amber_spindly_gem_crab", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
