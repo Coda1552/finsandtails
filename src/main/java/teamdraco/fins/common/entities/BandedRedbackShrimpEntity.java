@@ -2,9 +2,11 @@ package teamdraco.fins.common.entities;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -18,6 +20,8 @@ public class BandedRedbackShrimpEntity extends AbstractGroupFishEntity {
     public BandedRedbackShrimpEntity(EntityType<? extends BandedRedbackShrimpEntity> type, World world) {
         super(type, world);
         this.moveControl = new MoveHelperController(this);
+        this.lookControl = new DolphinLookController(this, 30);
+        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
     }
 
     @Override

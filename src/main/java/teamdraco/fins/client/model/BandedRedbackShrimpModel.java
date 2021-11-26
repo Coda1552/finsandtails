@@ -103,13 +103,13 @@ public class BandedRedbackShrimpModel<T extends Entity> extends EntityModel<T> {
             this.body.xRot += MathHelper.cos(limbSwing * speed * 0.25F) * degree * 0.25F * limbSwingAmount;
         }
         else {
-            this.body.xRot = MathHelper.cos(limbSwing * speed * 0.25F) * degree * 0.25F * limbSwingAmount;
+            this.body.xRot      = MathHelper.cos(limbSwing * speed * 0.25F) * degree * 0.25F * limbSwingAmount;
         }
         this.legs4.xRot = MathHelper.cos(limbSwing * speed * 1.0F) * degree * 2.0F * limbSwingAmount;
         this.legs3.xRot = MathHelper.cos(1.5F + limbSwing * speed * 1.0F) * degree * 2.0F * limbSwingAmount;
         this.legs2.xRot = MathHelper.cos(3.0F + limbSwing * speed * 1.0F) * degree * 2.0F * limbSwingAmount;
         this.legs1.xRot = MathHelper.cos(limbSwing * speed * 0.5F) * degree * 2.0F * limbSwingAmount;
-        this.tail.xRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.25F) * degree * 0.5F * limbSwingAmount + 1.5F;
+        this.tail.xRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.25F) * degree * 0.5F * limbSwingAmount;
         this.tailfan.xRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.25F) * degree * 0.75F * limbSwingAmount;
         this.antennaleft.xRot = MathHelper.cos(limbSwing * speed * 0.2F) * degree * 1.0F * limbSwingAmount;
         this.antennaright.xRot = MathHelper.cos(1.0F + limbSwing * speed * 0.2F) * degree * 1.0F * limbSwingAmount;
