@@ -1,6 +1,9 @@
 package teamdraco.fins.common.entities;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
@@ -38,6 +41,10 @@ public class WeeWeeEntity extends AbstractFishEntity {
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(2, new WeeHurtByEntityGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 40));
+    }
+
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 1.0D);
     }
 
     @Override

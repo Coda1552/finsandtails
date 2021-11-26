@@ -137,7 +137,7 @@ public class FinsAndTails {
         event.put(FinsEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderEntity.registerRBGAttributes().build());
         event.put(FinsEntities.RED_BULL_CRAB.get(), RedBullCrabEntity.createAttributes().build());
         event.put(FinsEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabEntity.createAttributes().build());
-        event.put(FinsEntities.WEE_WEE.get(), AbstractFishEntity.createAttributes().build());
+        event.put(FinsEntities.WEE_WEE.get(), WeeWeeEntity.createAttributes().build());
         event.put(FinsEntities.VIBRA_WEE.get(), AbstractFishEntity.createAttributes().build());
         event.put(FinsEntities.GOPJET.get(), GopjetEntity.createAttributes().build());
         event.put(FinsEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailEntity.createAttributes().build());
