@@ -2,10 +2,7 @@ package teamdraco.fins.common.entities;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
@@ -26,6 +23,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import teamdraco.fins.init.FinsItems;
@@ -69,13 +68,12 @@ public class RedBullCrabEntity extends WaterMobEntity {
         return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
+    protected void randomizeAttributes() {
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.generateRandomMaxHealth());
+    }
+
     public boolean requiresCustomPersistence() {
-        if (this.isFromBucket()) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return !this.isFromBucket();
     }
 
     protected void defineSynchedData() {
@@ -99,6 +97,23 @@ public class RedBullCrabEntity extends WaterMobEntity {
     public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         this.setFromBucket(compound.getBoolean("FromBucket"));
+    }
+
+    @Nullable
+    @Override
+    public ILivingEntityData finalizeSpawn(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT dataTag) {
+        if (dataTag == null) {
+            this.randomizeAttributes();
+        }
+        else if (dataTag.contains("Health", 3)) {
+            dataTag.putFloat("Health", (int) this.getHealth());
+        }
+
+        return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, dataTag);
+    }
+
+    protected float generateRandomMaxHealth() {
+        return 6.0F + (float)this.random.nextInt(9);
     }
 
     @Nullable
