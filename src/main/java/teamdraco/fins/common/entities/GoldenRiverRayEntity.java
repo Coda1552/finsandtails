@@ -15,6 +15,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -23,6 +24,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -163,6 +165,13 @@ public class GoldenRiverRayEntity extends AbstractGroupFishEntity {
         }
 
         public void tick() {
+            if (fish.getTarget() != null) {
+                // TODO - make them not ocassionally freeze when targetting something
+
+                Path path = this.fish.navigation.createPath(fish.getTarget(), 1);
+                this.fish.navigation.moveTo(path, 1.0D);
+            }
+
             if (this.fish.isInWater() && fish.getTarget() == null) {
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
             }
