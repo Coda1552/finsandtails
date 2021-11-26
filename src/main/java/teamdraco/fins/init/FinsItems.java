@@ -49,7 +49,7 @@ public class FinsItems {
     public static final RegistryObject<Item> RUBY_SPINDLY_GEM_CRAB = REGISTER.register("ruby_spindly_gem_crab", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> SAPPHIRE_SPINDLY_GEM_CRAB = REGISTER.register("sapphire_spindly_gem_crab", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> PEARL_SPINDLY_GEM_CRAB = REGISTER.register("pearl_spindly_gem_crab", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> PAPA_WEE = REGISTER.register("papa_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(1).saturationMod(0.1F).build())));
+    public static final RegistryObject<Item> PAPA_WEE = REGISTER.register("papa_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(3).saturationMod(0.2F).build())));
 
     //Drops
     public static final RegistryObject<Item> MUDHORSE_LEATHER = REGISTER.register("mudhorse_leather", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
