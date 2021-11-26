@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNodeType;
@@ -22,6 +23,12 @@ public class BandedRedbackShrimpEntity extends AbstractGroupFishEntity {
         this.moveControl = new MoveHelperController(this);
         this.lookControl = new DolphinLookController(this, 30);
         this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6.0F, 1.5D, 2.0D));
     }
 
     @Override
