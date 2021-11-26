@@ -135,7 +135,7 @@ public class GlassSkipperEntity extends AnimalEntity implements IFlyingAnimal {
                 setVariant(random.nextInt(4));
             }
         } else {
-            if (dataTag.contains("Variant", 3)){
+            if (dataTag != null && dataTag.contains("Variant", 3)){
                 this.setVariant(dataTag.getInt("Variant"));
             }
         }
