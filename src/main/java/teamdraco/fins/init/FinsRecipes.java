@@ -11,9 +11,9 @@ import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.common.crafting.CrunchingRecipe;
 
 public class FinsRecipes {
-    public static final DeferredRegister<IRecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, FinsAndTails.MOD_ID);
+    public static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, FinsAndTails.MOD_ID);
 
-    public static final RegistryObject<CrunchingRecipe.Serializer> CRUNCHING_SERIALIZER = SERIALIZERS.register("crunching", CrunchingRecipe.Serializer::new);
+    public static final RegistryObject<CrunchingRecipe.Serializer> CRUNCHING_SERIALIZER = RECIPES.register("crunching", CrunchingRecipe.Serializer::new);
     public static final IRecipeType<CrunchingRecipe> CRUNCHING_TYPE = Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(FinsAndTails.MOD_ID, "crunching"), new IRecipeType<CrunchingRecipe>() {
         @Override
         public String toString() {

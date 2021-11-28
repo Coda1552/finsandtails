@@ -83,8 +83,9 @@ public class FinsAndTails {
         FinsContainers.REGISTER.register(bus);
         FinsEntities.REGISTER.register(bus);
         FinsSounds.REGISTER.register(bus);
-        FinsRecipes.SERIALIZERS.register(bus);
+        FinsRecipes.RECIPES.register(bus);
         FinsStructures.REGISTER.register(bus);
+        FinsBiomes.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
@@ -118,7 +119,9 @@ public class FinsAndTails {
         EntitySpawnPlacementRegistry.register(FinsEntities.GLASS_SKIPPER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
 
         BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FinsItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
-    }
+
+        FinsBiomes.registerBiomes();
+   }
 
     private void registerEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(FinsEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpEntity.createAttributes().build());
