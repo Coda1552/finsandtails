@@ -123,6 +123,7 @@
   "item.fins.goliath_garden_crab_spawn_egg": "Goliath Garden Crab Spawn Egg",
   "item.fins.glass_skipper_spawn_egg": "Glass Skipper Spawn Egg",
   "item.fins.wandering_sailor_spawn_egg": "Wandering Sailor Spawn Egg",
+  "item.fins.schnauz_spawn_egg": "Schnauz Spawn Egg",
 
   "entity.fins.blu_wee": "Blu Wee",
   "entity.fins.pea_wee": "Pea Wee",
@@ -152,6 +153,7 @@
   "entity.fins.wandering_sailor": "Wandering Sailor",
   "entity.fins.goliath_garden_crab": "Goliath Garden Crab",
   "entity.fins.glass_skipper": "Glass Skipper",
+  "entity.fins.schnauz": "Schnauz",
 
   "block.fins.crab_cruncher": "Crab Cruncher",
   "block.fins.spindly_gem_crab_gem_block": "Block of Spindly Gem",

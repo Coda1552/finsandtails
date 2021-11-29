@@ -29,5 +29,6 @@ public class SchnauzBedsBiome extends FinsBiome {
         DefaultBiomeFeatures.addDefaultOres(GENERATION_SETTINGS);
 
         SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 1000, 3, 3));
+        SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_CREATURE, new MobSpawnInfo.Spawners(FinsEntities.SCHNAUZ.get(), 750, 1, 4));
     }
 }

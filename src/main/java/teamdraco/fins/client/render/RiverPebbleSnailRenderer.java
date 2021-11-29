@@ -23,6 +23,7 @@ public class RiverPebbleSnailRenderer extends MobRenderer<RiverPebbleSnailEntity
         super(renderManagerIn, new RiverPebbleSnailModel<>(), 0.2F);
     }
 
+    @Override
     public ResourceLocation getTextureLocation(RiverPebbleSnailEntity entity) {
         return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
     }

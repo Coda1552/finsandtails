@@ -159,6 +159,7 @@ public class FinsItems {
     public static final RegistryObject<Item> WANDERING_SAILOR_SPAWN_EGG = REGISTER.register("wandering_sailor_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.WANDERING_SAILOR, 0x31a7cf, 0xd3904c, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = REGISTER.register("goliath_garden_crab_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GLASS_SKIPPER_SPAWN_EGG = REGISTER.register("glass_skipper_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.GLASS_SKIPPER, 0x4d4d4d, 0x32ade9, new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> SCHNAUZ_SPAWN_EGG = REGISTER.register("schnauz_spawn_egg", () -> new FinsSpawnEggItem(FinsEntities.SCHNAUZ, 0x51453b, 0x7f6a5a, new Item.Properties().tab(FinsAndTails.GROUP)));
 
     //Misc.
     public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = REGISTER.register("banner_pattern_mandibles", () -> new BannerPatternItem(registerPattern("mandibles"), new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));
