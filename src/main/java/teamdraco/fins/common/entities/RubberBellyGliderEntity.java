@@ -376,6 +376,28 @@ public class RubberBellyGliderEntity extends AnimalEntity {
                 float f1 = (float)(this.speedModifier * this.glider.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 this.glider.setSpeed(MathHelper.lerp(0.125F, this.glider.getSpeed(), f1));
                 this.glider.setDeltaMovement(this.glider.getDeltaMovement().add(0.0D, (double)this.glider.getSpeed() * d1 * 0.1D, 0.0D));
+                if (d3 < (double)2.5000003E-7F) {
+                    this.mob.setZza(0.0F);
+                } else {
+                    float p = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                    this.glider.yRot = this.rotlerp(this.glider.yRot, p, 10.0F);
+                    this.glider.yBodyRot = this.glider.yRot;
+                    this.glider.yHeadRot = this.glider.yRot;
+                    float p1 = (float)(this.speedModifier * this.glider.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                    if (this.glider.isInWater()) {
+                        this.glider.setSpeed(p1 * 0.02F);
+                        float p2 = -((float)(MathHelper.atan2(d1, (double)MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
+                        p2 = MathHelper.clamp(MathHelper.wrapDegrees(p2), -85.0F, 85.0F);
+                        this.glider.xRot = this.rotlerp(this.glider.xRot, p2, 5.0F);
+                        float p3 = MathHelper.cos(this.glider.xRot * ((float)Math.PI / 180F));
+                        float p4 = MathHelper.sin(this.glider.xRot * ((float)Math.PI / 180F));
+                        this.glider.zza = p3 * p1;
+                        this.glider.yya = -p4 * p1;
+                    } else {
+                        this.glider.setSpeed(p1 * 0.1F);
+                    }
+
+                }
             } else {
                 this.glider.setSpeed(0.0F);
             }

@@ -57,18 +57,19 @@ public class SchnauzEntity extends AnimalEntity {
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
         this.goalSelector.addGoal(1, new BreedGoal(this, 2.0D));
         this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
+        this.goalSelector.addGoal(3, new FindWaterGoal(this));
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 1) {
-            @Override
-            public boolean canUse() {
-                return super.canUse() && isInWater();
-            }
+//            @Override
+//            public boolean canUse() {
+//                return super.canUse() && isInWater();
+//            }
         });
-        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 1.0D, 15) {
+/*        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 1.0D, 15) {
             @Override
             public boolean canUse() {
                 return !this.mob.isInWater() && super.canUse();
             }
-        });
+        });*/
         this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
     }
 
@@ -122,12 +123,6 @@ public class SchnauzEntity extends AnimalEntity {
     }
 
     @Override
-    public void baseTick() {
-        super.baseTick();
-        setAirSupply(300);
-    }
-
-    @Override
     public boolean isPushedByFluid() {
         return false;
     }
@@ -147,7 +142,7 @@ public class SchnauzEntity extends AnimalEntity {
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.6D));
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
             if (this.getTarget() == null) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
@@ -158,7 +153,7 @@ public class SchnauzEntity extends AnimalEntity {
 
     @Override
     public int getAmbientSoundInterval() {
-        return 500;
+        return 400 + random.nextInt(120);
     }
 
     @Override
@@ -170,7 +165,7 @@ public class SchnauzEntity extends AnimalEntity {
     @Override
     public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
         SchnauzEntity schnauz = FinsEntities.SCHNAUZ.get().create(p_241840_1_);
-        schnauz.setVariant(random.nextInt(3));
+        schnauz.setVariant(random.nextInt(4));
         return schnauz;
     }
 
@@ -211,17 +206,13 @@ public class SchnauzEntity extends AnimalEntity {
     static class MoveHelperController extends MovementController {
         private final SchnauzEntity schnauz;
 
-        public MoveHelperController(SchnauzEntity p_i48945_1_) {
-            super(p_i48945_1_);
-            this.schnauz = p_i48945_1_;
+        public MoveHelperController(SchnauzEntity schnauz) {
+            super(schnauz);
+            this.schnauz = schnauz;
         }
 
         public void tick() {
-            if (this.schnauz.isInWater()) {
-                this.schnauz.setDeltaMovement(this.schnauz.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
-            }
-
-            if (this.operation == Action.MOVE_TO && !this.schnauz.getNavigation().isDone()) {
+            if (this.operation == MovementController.Action.MOVE_TO && !this.schnauz.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.schnauz.getX();
                 double d1 = this.wantedY - this.schnauz.getY();
                 double d2 = this.wantedZ - this.schnauz.getZ();
@@ -236,7 +227,7 @@ public class SchnauzEntity extends AnimalEntity {
                     float f1 = (float)(this.speedModifier * this.schnauz.getAttributeValue(Attributes.MOVEMENT_SPEED));
                     if (this.schnauz.isInWater()) {
                         this.schnauz.setSpeed(f1 * 0.02F);
-                        float f2 = -((float)(MathHelper.atan2(d1, (double)MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
+                        float f2 = -((float)(MathHelper.atan2(d1, MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
                         f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
                         this.schnauz.xRot = this.rotlerp(this.schnauz.xRot, f2, 5.0F);
                         float f3 = MathHelper.cos(this.schnauz.xRot * ((float)Math.PI / 180F));
@@ -244,7 +235,7 @@ public class SchnauzEntity extends AnimalEntity {
                         this.schnauz.zza = f3 * f1;
                         this.schnauz.yya = -f4 * f1;
                     } else {
-                        this.schnauz.setSpeed(f1 * 0.1F);
+                        this.schnauz.setSpeed(f1 * 0.75F);
                     }
 
                 }
@@ -256,4 +247,5 @@ public class SchnauzEntity extends AnimalEntity {
             }
         }
     }
+
 }
