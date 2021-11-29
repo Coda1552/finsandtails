@@ -196,6 +196,9 @@ public class FinsItems {
     public static final RegistryObject<BlockItem> SPINDLY_SAPPHIRE_BLOCK = REGISTER.register("spindly_sapphire_block", () -> new BlockItem(FinsBlocks.SPINDLY_SAPPHIRE_BLOCK.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> SPINDLY_RUBY_BLOCK = REGISTER.register("spindly_ruby_block", () -> new BlockItem(FinsBlocks.SPINDLY_RUBY_BLOCK.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> SPINDLY_AMBER_BLOCK = REGISTER.register("spindly_amber_block", () -> new BlockItem(FinsBlocks.SPINDLY_AMBER_BLOCK.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> LAMINA_PADS = REGISTER.register("lamina_pads", () -> new BlockItem(FinsBlocks.LAMINA_PADS.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> LAMINA_STALK = REGISTER.register("lamina_stalk", () -> new BlockItem(FinsBlocks.LAMINA_STALK.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> STRIPPED_LAMINA_STALK = REGISTER.register("stripped_lamina_stalk", () -> new BlockItem(FinsBlocks.STRIPPED_LAMINA_STALK.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
 
     private static BannerPattern registerPattern(String name) {
         return BannerPattern.create(name.toUpperCase(), name, name, true);

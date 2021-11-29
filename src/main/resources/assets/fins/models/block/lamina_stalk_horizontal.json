@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "fins:block/lamina_stalk_top",
+    "side": "fins:block/lamina_stalk"
+  }
+}

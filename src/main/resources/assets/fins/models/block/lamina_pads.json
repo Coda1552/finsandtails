@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "fins:block/lamina_pads_bottom",
+    "top": "fins:block/lamina_pads_top",
+    "side": "fins:block/lamina_pads_double"
+  }
+}

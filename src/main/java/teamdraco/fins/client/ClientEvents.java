@@ -61,6 +61,7 @@ public class ClientEvents {
         RenderingRegistry.registerEntityRenderingHandler(FinsEntities.SCHNAUZ.get(), SchnauzRenderer::new);
 
         RenderTypeLookup.setRenderLayer(FinsBlocks.CHAINED_TENTACLE.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(FinsBlocks.LAMINA_PADS.get(), RenderType.cutout());
         ScreenManager.register(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
         ScreenManager.register(FinsContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
     }

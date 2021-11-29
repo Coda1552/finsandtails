@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "fins:block/stripped_lamina_stalk_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "fins:block/stripped_lamina_stalk"
+    },
+    "axis=z": {
+      "model": "fins:block/stripped_lamina_stalk_horizontal",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "fins:block/lamina_pads_bottom"
+    },
+    "type=double": {
+      "model": "fins:block/lamina_pads"
+    },
+    "type=top": {
+      "model": "fins:block/lamina_pads_top"
+    }
+  }
+}

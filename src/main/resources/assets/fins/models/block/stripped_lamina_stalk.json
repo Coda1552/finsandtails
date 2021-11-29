@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "fins:block/stripped_lamina_stalk_top",
+    "side": "fins:block/stripped_lamina_stalk"
+  }
+}
