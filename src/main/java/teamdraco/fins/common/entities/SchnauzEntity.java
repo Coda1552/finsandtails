@@ -55,6 +55,7 @@ public class SchnauzEntity extends AnimalEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FindWaterGoal(this));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(1, new FollowParentGoal(this, 2.0D));
         this.goalSelector.addGoal(1, new BreedGoal(this, 2.0D));
         this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
         this.goalSelector.addGoal(3, new FindWaterGoal(this));
@@ -170,7 +171,7 @@ public class SchnauzEntity extends AnimalEntity {
     }
 
     public static boolean checkSchnauzSpawnRules(EntityType<SchnauzEntity> entity, IWorld world, SpawnReason reason, BlockPos pos, Random p_223365_4_) {
-        return pos.getY() < world.getSeaLevel() && world.getBlockState(pos.above()).is(Blocks.WATER);
+        return true;
     }
 
     @Override

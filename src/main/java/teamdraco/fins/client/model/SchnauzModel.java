@@ -60,7 +60,7 @@ public class SchnauzModel<T extends SchnauzEntity> extends AgeableModel<T> {
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity.isInWater()) {
-            float speed = 1.0f;
+            float speed = 1.5f;
             float degree = 1.0f;
             this.body.xRot = headPitch * (((float)Math.PI / 180F) / 2);
             this.body.yRot = netHeadYaw * (((float)Math.PI / 180F) / 2);
