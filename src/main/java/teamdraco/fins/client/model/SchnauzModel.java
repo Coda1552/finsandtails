@@ -13,12 +13,12 @@ import teamdraco.fins.common.entities.SchnauzEntity;
 import java.util.Collections;
 
 @OnlyIn(Dist.CLIENT)
-public class SchnauzModel<T extends Entity> extends AgeableModel<SchnauzEntity> {
-    private final ModelRenderer body;
-    private final ModelRenderer nose;
-    private final ModelRenderer leftFin;
-    private final ModelRenderer rightFin;
-    private final ModelRenderer tail;
+public class SchnauzModel<T extends SchnauzEntity> extends AgeableModel<T> {
+    public ModelRenderer body;
+    public ModelRenderer nose;
+    public ModelRenderer leftFin;
+    public ModelRenderer rightFin;
+    public ModelRenderer tail;
 
     public SchnauzModel() {
         texWidth = 32;
@@ -64,7 +64,7 @@ public class SchnauzModel<T extends Entity> extends AgeableModel<SchnauzEntity> 
     }
 
     @Override
-    public void setupAnim(SchnauzEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
