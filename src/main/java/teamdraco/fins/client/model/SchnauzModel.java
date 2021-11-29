@@ -57,14 +57,9 @@ public class SchnauzModel<T extends SchnauzEntity> extends AgeableModel<T> {
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        ImmutableList.of(this.body).forEach((modelRenderer) -> {
-            modelRenderer.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        });
-    }
-
-    @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.body.xRot = headPitch * (((float)Math.PI / 180F) / 2);
+        this.body.yRot = netHeadYaw * (((float)Math.PI / 180F) / 2);
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

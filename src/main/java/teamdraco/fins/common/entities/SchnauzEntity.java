@@ -48,7 +48,7 @@ public class SchnauzEntity extends AnimalEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute registerSchnauzAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 25).add(Attributes.MOVEMENT_SPEED, 0.15);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 15).add(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class SchnauzEntity extends AnimalEntity {
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (dataTag == null) {
-            setVariant(random.nextInt(3));
+            setVariant(random.nextInt(4));
         }
         if (spawnDataIn == null) {
             spawnDataIn = new AgeableData(1);
@@ -211,41 +211,48 @@ public class SchnauzEntity extends AnimalEntity {
     static class MoveHelperController extends MovementController {
         private final SchnauzEntity schnauz;
 
-        MoveHelperController(SchnauzEntity schnauz) {
-            super(schnauz);
-            this.schnauz = schnauz;
+        public MoveHelperController(SchnauzEntity p_i48945_1_) {
+            super(p_i48945_1_);
+            this.schnauz = p_i48945_1_;
         }
 
-        private void updateSpeed() {
+        public void tick() {
             if (this.schnauz.isInWater()) {
                 this.schnauz.setDeltaMovement(this.schnauz.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
-
-                if (this.schnauz.isBaby()) {
-                    this.schnauz.setSpeed(Math.max(this.schnauz.getSpeed() / 3.0F, 0.06F));
-                }
             }
-            else if (this.schnauz.onGround) {
-                this.schnauz.setSpeed(Math.max(this.schnauz.getSpeed(), 0.06F));
-            }
-        }
 
-        @Override
-        public void tick() {
-            this.updateSpeed();
             if (this.operation == Action.MOVE_TO && !this.schnauz.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.schnauz.getX();
                 double d1 = this.wantedY - this.schnauz.getY();
                 double d2 = this.wantedZ - this.schnauz.getZ();
-                double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-                d1 = d1 / d3;
-                float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                this.schnauz.yRot = this.rotlerp(this.schnauz.yRot, f, 90.0F);
-                this.schnauz.yBodyRot = this.schnauz.yRot;
-                float f1 = (float)(this.speedModifier * this.schnauz.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.schnauz.setSpeed(MathHelper.lerp(0.125F, this.schnauz.getSpeed(), f1));
-                this.schnauz.setDeltaMovement(this.schnauz.getDeltaMovement().add(0.0D, (double)this.schnauz.getSpeed() * d1 * 0.1D, 0.0D));
+                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+                if (d3 < (double)2.5000003E-7F) {
+                    this.mob.setZza(0.0F);
+                } else {
+                    float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                    this.schnauz.yRot = this.rotlerp(this.schnauz.yRot, f, 10.0F);
+                    this.schnauz.yBodyRot = this.schnauz.yRot;
+                    this.schnauz.yHeadRot = this.schnauz.yRot;
+                    float f1 = (float)(this.speedModifier * this.schnauz.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                    if (this.schnauz.isInWater()) {
+                        this.schnauz.setSpeed(f1 * 0.02F);
+                        float f2 = -((float)(MathHelper.atan2(d1, (double)MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
+                        f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
+                        this.schnauz.xRot = this.rotlerp(this.schnauz.xRot, f2, 5.0F);
+                        float f3 = MathHelper.cos(this.schnauz.xRot * ((float)Math.PI / 180F));
+                        float f4 = MathHelper.sin(this.schnauz.xRot * ((float)Math.PI / 180F));
+                        this.schnauz.zza = f3 * f1;
+                        this.schnauz.yya = -f4 * f1;
+                    } else {
+                        this.schnauz.setSpeed(f1 * 0.1F);
+                    }
+
+                }
             } else {
                 this.schnauz.setSpeed(0.0F);
+                this.schnauz.setXxa(0.0F);
+                this.schnauz.setYya(0.0F);
+                this.schnauz.setZza(0.0F);
             }
         }
     }
