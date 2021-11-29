@@ -27,27 +27,31 @@ public class SchnauzModel<T extends SchnauzEntity> extends AgeableModel<T> {
         body = new ModelRenderer(this);
         body.setPos(0.0F, 21.5F, 0.0F);
         body.texOffs(0, 0).addBox(-2.5F, -2.5F, -4.5F, 5.0F, 5.0F, 9.0F, 0.0F, false);
+
         nose = new ModelRenderer(this);
         nose.setPos(0.0F, 0.5F, -4.5F);
         body.addChild(nose);
         nose.texOffs(19, 0).addBox(-1.5F, -1.0F, -2.0F, 3.0F, 5.0F, 2.0F, 0.0F, false);
+
         leftFin = new ModelRenderer(this);
         leftFin.setPos(2.5F, 2.5F, 0.0F);
         body.addChild(leftFin);
         setRotateAngle(leftFin, 0.0F, 0.0F, -0.3927F);
         leftFin.texOffs(0, 3).addBox(0.0F, 0.0F, -1.5F, 0.0F, 3.0F, 3.0F, 0.0F, false);
+
         rightFin = new ModelRenderer(this);
         rightFin.setPos(-2.5F, 2.5F, 0.0F);
         body.addChild(rightFin);
         setRotateAngle(rightFin, 0.0F, 0.0F, 0.3927F);
         rightFin.texOffs(0, 3).addBox(0.0F, 0.0F, -1.5F, 0.0F, 3.0F, 3.0F, 0.0F, false);
-        tail = new ModelRenderer(this);
-        tail.setPos(0.5F, 0.0F, 4.5F);
-        body.addChild(tail);
-        tail.texOffs(0, 14).addBox(-4.0F, -0.5F, 0.0F, 7.0F, 1.0F, 5.0F, 0.0F, false);
-    }
 
-    @Override
+        tail = new ModelRenderer(this);
+        tail.setPos(0.0F, 0.0F, 4.5F);
+        body.addChild(tail);
+        tail.texOffs(0, 14).addBox(-3.5F, -0.5F, 0.0F, 7.0F, 1.0F, 5.0F, 0.0F, false);
+
+    }
+        @Override
     protected Iterable<ModelRenderer> headParts() {
         return Collections.emptyList();
     }
@@ -74,6 +78,27 @@ public class SchnauzModel<T extends SchnauzEntity> extends AgeableModel<T> {
             this.nose.zRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.1F) * degree * 0.4F * limbSwingAmount;
             this.rightFin.zRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.4F) * degree * 1.0F * limbSwingAmount + 0.4F;
             this.leftFin.zRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.4F) * degree * -1.0F * limbSwingAmount - 0.4F;
+            this.leftFin.xRot = 0F;
+            this.rightFin.xRot = 0F;
+        }
+        else {
+            limbSwingAmount = MathHelper.clamp(limbSwingAmount, -0.15F, 0.15F);
+            float speed = 6.0f;
+            float degree = 2.0f;
+
+            this.body.xRot = 0F;
+            this.body.zRot = 0F;
+
+            this.rightFin.zRot = MathHelper.cos(-2.0F + limbSwing * speed * 0.5F) * degree * 0.8F * limbSwingAmount + 1.8F;
+            this.leftFin.zRot = MathHelper.cos(limbSwing * speed * 0.5F) * degree * -0.8F * limbSwingAmount - 1.8F;
+            this.tail.xRot = limbSwingAmount - 0.4F;
+            this.nose.xRot = limbSwingAmount - 1.0F;
+            this.body.yRot = MathHelper.cos(limbSwing * speed * 0.5F) * degree * 0.4F * limbSwingAmount;
+            this.tail.yRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.5F) * degree * 0.6F * limbSwingAmount;
+            this.rightFin.xRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.5F) * degree * 0.2F - 0.2F;
+            this.leftFin.xRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.5F) * degree * -0.2F - 0.2F;
+            this.nose.yRot = MathHelper.cos(-1.0F + limbSwing * speed * 0.5F) * degree * 0.5F * limbSwingAmount;
+            this.nose.zRot = MathHelper.cos(limbSwing * speed * 0.5F) * degree * 0.4F * limbSwingAmount;
         }
     }
 
