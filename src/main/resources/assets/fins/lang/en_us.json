@@ -188,6 +188,7 @@
   "block.fins.lamina_pads": "Lamina Pads",
   "block.fins.lamina_stalk": "Lamina Stalk",
   "block.fins.stripped_lamina_stalk": "Stripped Lamina Stalk",
+  "block.fins.lamina_tiles": "Lamina Tiles",
 
   "enchantment.fins.fluked_edge": "Fluked Edge",
   "enchantment.fins.fluked_edge.desc": "Allows you to jump out of the water. You must be at the right angle for this to work.",

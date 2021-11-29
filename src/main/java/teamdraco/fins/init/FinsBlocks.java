@@ -46,5 +46,6 @@ public class FinsBlocks {
     public static final RegistryObject<Block> LAMINA_PADS = REGISTER.register("lamina_pads", () -> new SlabBlock(AbstractBlock.Properties.of(Material.LEAVES).strength(0.6F).sound(SoundType.WET_GRASS)));
     public static final RegistryObject<Block> LAMINA_STALK = REGISTER.register("lamina_stalk", () -> new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> STRIPPED_LAMINA_STALK = REGISTER.register("stripped_lamina_stalk", () -> new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> LAMINA_TILES = REGISTER.register("lamina_tiles", () -> new Block(AbstractBlock.Properties.of(Material.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 
 }

@@ -199,6 +199,7 @@ public class FinsItems {
     public static final RegistryObject<BlockItem> LAMINA_PADS = REGISTER.register("lamina_pads", () -> new BlockItem(FinsBlocks.LAMINA_PADS.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> LAMINA_STALK = REGISTER.register("lamina_stalk", () -> new BlockItem(FinsBlocks.LAMINA_STALK.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<BlockItem> STRIPPED_LAMINA_STALK = REGISTER.register("stripped_lamina_stalk", () -> new BlockItem(FinsBlocks.STRIPPED_LAMINA_STALK.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<BlockItem> LAMINA_TILES = REGISTER.register("lamina_tiles", () -> new BlockItem(FinsBlocks.LAMINA_TILES.get(), new Item.Properties().tab(FinsAndTails.GROUP)));
 
     private static BannerPattern registerPattern(String name) {
         return BannerPattern.create(name.toUpperCase(), name, name, true);
