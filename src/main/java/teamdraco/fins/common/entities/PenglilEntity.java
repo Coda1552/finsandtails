@@ -109,7 +109,7 @@ public class PenglilEntity extends TameableEntity {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0D);
             this.setHealth(20.0F);
         } else {
-            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(8.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(10.0D);
         }
     }
 
