@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+
+// TODO: Fix all of the crashes
 public class SailorsShipStructure extends Structure<NoFeatureConfig> {
     private static final ResourceLocation SAILOR_LOOT = new ResourceLocation(FinsAndTails.MOD_ID, "gameplay/wandering_sailor_ship");
 
