@@ -2,6 +2,7 @@ package teamdraco.fins.common.world.biome;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.*;
@@ -11,25 +12,39 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import teamdraco.fins.init.FinsEntities;
 
-public class SchnauzBedsBiome extends FinsBiome {
+public class SchnauzBedsBiome extends Biome.Builder {
     static final ConfiguredSurfaceBuilder<?> SURFACE_BUILDER = Registry.register(WorldGenRegistries.CONFIGURED_SURFACE_BUILDER, "fins:schnauz_beds", new ConfiguredSurfaceBuilder<>(SurfaceBuilder.DEFAULT, new SurfaceBuilderConfig(Blocks.SAND.defaultBlockState(), Blocks.SAND.defaultBlockState(), Blocks.SAND.defaultBlockState())));
-    static final Biome.Climate CLIMATE = new Biome.Climate(Biome.RainType.RAIN, 0.8F, Biome.TemperatureModifier.NONE, 0.4F);
-
     static final MobSpawnInfo.Builder SPAWN_SETTINGS = new MobSpawnInfo.Builder();
-
-    static final BiomeGenerationSettings.Builder GENERATION_SETTINGS = (new BiomeGenerationSettings.Builder()).surfaceBuilder(SURFACE_BUILDER);
+    static final BiomeGenerationSettings.Builder GENERATION_SETTINGS = new BiomeGenerationSettings.Builder();
 
     public SchnauzBedsBiome() {
-        super(CLIMATE, Biome.Category.OCEAN, -1.2F, .15F, (new BiomeAmbience.Builder()).waterColor(4566523).waterFogColor(2587774).fogColor(12638463).skyColor(7842047).ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS).build(), GENERATION_SETTINGS.build(), SPAWN_SETTINGS.build());
+        this.specialEffects(new BiomeAmbience.Builder()
+                .waterColor(4445678)
+                .waterFogColor(270131)
+                .fogColor(12638463)
+                .skyColor(8103167)
+                .ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS)
+                .build());
+        this.downfall(0.4F);
+        this.generationSettings(GENERATION_SETTINGS.surfaceBuilder(SURFACE_BUILDER).build());
+        this.mobSpawnSettings(SPAWN_SETTINGS.build());
+        this.precipitation(Biome.RainType.RAIN);
+        this.temperature(0.8F);
+        this.biomeCategory(Biome.Category.OCEAN);
+        this.temperatureAdjustment(Biome.TemperatureModifier.NONE);
+        this.depth(-1.25F);
+        this.scale(0.15F);
+        this.build();
     }
 
     static {
         GENERATION_SETTINGS.addStructureStart(StructureFeatures.RUINED_PORTAL_OCEAN);
 
-        DefaultBiomeFeatures.addDefaultOres(GENERATION_SETTINGS);
-
         SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 1000, 3, 3));
         SPAWN_SETTINGS.addSpawn(EntityClassification.CREATURE, new MobSpawnInfo.Spawners(FinsEntities.SCHNAUZ.get(), 750, 1, 4));
-        SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_CREATURE, new MobSpawnInfo.Spawners(FinsEntities.GOLIATH_GARDEN_CRAB.get(), 750, 1, 1));
+        SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_CREATURE, new MobSpawnInfo.Spawners(FinsEntities.GOLIATH_GARDEN_CRAB.get(), 3, 1, 1));
+        SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(EntityType.TROPICAL_FISH, 750, 9, 8));
+
+        DefaultBiomeFeatures.addDefaultOres(GENERATION_SETTINGS);
     }
 }

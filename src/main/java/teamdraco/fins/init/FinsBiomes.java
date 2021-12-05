@@ -17,20 +17,20 @@ import teamdraco.fins.common.world.biome.SchnauzBedsBiome;
 public class FinsBiomes {
     public static final DeferredRegister<Biome> REGISTER = DeferredRegister.create(ForgeRegistries.BIOMES, FinsAndTails.MOD_ID);
 
-    public static final RegistryObject<Biome> SCHNAUZ_BEDS = REGISTER.register("schnauz_beds", () -> new SchnauzBedsBiome().getBiome());
+    public static final RegistryObject<Biome> SCHNAUZ_BEDS = REGISTER.register("schnauz_beds", () -> new SchnauzBedsBiome().build());
 
     public static void registerBiomes() {
         registerBiome(SCHNAUZ_BEDS.get(), BiomeManager.BiomeType.WARM, BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.OVERWORLD);
     }
 
     public static void registerBiome(Biome biome, BiomeManager.BiomeType type, BiomeDictionary.Type... types) {
-        BiomeDictionary.addTypes(RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("fins:schnauz_beds")), types);
+        BiomeDictionary.addTypes(RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(FinsAndTails.MOD_ID, "schnauz_beds")), types);
         if (ModList.get().isLoaded("abnormals_core")) {
-            RegistryKey<Biome> key = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("fins:schnauz_beds"));
+            RegistryKey<Biome> key = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(FinsAndTails.MOD_ID, "schnauz_beds"));
             BiomeUtil.addOceanBiome(BiomeUtil.OceanType.WARM, key, key, 500);
         }
         else {
-            BiomeManager.addBiome(type, new BiomeManager.BiomeEntry(RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("fins:schnauz_beds")), 500));
+            BiomeManager.addBiome(type, new BiomeManager.BiomeEntry(RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(FinsAndTails.MOD_ID,  "schnauz_beds")), 500));
         }
 
     }

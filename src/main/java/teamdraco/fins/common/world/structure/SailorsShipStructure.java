@@ -17,9 +17,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
@@ -42,6 +44,14 @@ import java.util.Random;
 
 public class SailorsShipStructure extends Structure<NoFeatureConfig> {
     private static final ResourceLocation SAILOR_LOOT = new ResourceLocation(FinsAndTails.MOD_ID, "gameplay/wandering_sailor_ship");
+
+    private static final ResourceLocation OCEAN = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_ocean");
+    private static final ResourceLocation COLD_OCEAN = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_cold_ocean");
+    private static final ResourceLocation FROZEN_OCEAN = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_frozen_ocean");
+    private static final ResourceLocation LUKEWARM_OCEAN = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_lukewarm_ocean");
+    private static final ResourceLocation WARM_OCEAN = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_warm_ocean");
+    private static final ResourceLocation SWAMP = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_swamp");
+    private static final ResourceLocation[] LOCATIONS = new ResourceLocation[]{OCEAN, COLD_OCEAN, FROZEN_OCEAN, LUKEWARM_OCEAN, WARM_OCEAN, SWAMP};
 
     public SailorsShipStructure(Codec<NoFeatureConfig> p_i231977_1_) {
         super(p_i231977_1_);
@@ -68,24 +78,43 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biome, NoFeatureConfig config) {
-            ResourceLocation oceanLoc = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_ocean");
-            ResourceLocation coldOceanLoc = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_cold_ocean");
-            ResourceLocation frozenOceanLoc = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_frozen_ocean");
-            ResourceLocation lukewarmOceanLoc = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_lukewarm_ocean");
-            ResourceLocation warmOceanLoc = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_warm_ocean");
-            ResourceLocation swampLoc = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_swamp");
-            Object ocean = "ocean";
-            Object deepOcean = "deep_ocean";
-            Object coldOcean = "cold_ocean";
-            Object deepColdOcean = "deep_cold_ocean";
-            Object frozenOcean = "frozen_ocean";
-            Object deepFrozenOcean = "deep_rozen_ocean";
-            Object lukewarmOcean = "lukewarm_ocean";
-            Object deepLukewarmOcean = "deep_lukewarm_ocean";
-            Object warmOcean = "warm_ocean";
-            Object deepWarmOcean = "deep_warm_ocean";
-            Object swamp = "swamp";
+        public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator generator, TemplateManager templateManager, int chunkX, int chunkZ, Biome biome, NoFeatureConfig config) {
+            //String ocean = Biomes.OCEAN.getRegistryName().getNamespace();
+            //String deepOcean = Biomes.DEEP_OCEAN.getRegistryName().getNamespace();
+            //String coldOcean = Biomes.COLD_OCEAN.getRegistryName().getNamespace();
+            //String deepColdOcean = Biomes.DEEP_COLD_OCEAN.getRegistryName().getNamespace();
+            //String frozenOcean = Biomes.FROZEN_OCEAN.getRegistryName().getNamespace();
+            //String deepFrozenOcean = Biomes.DEEP_FROZEN_OCEAN.getRegistryName().getNamespace();
+            //String lukewarmOcean = Biomes.LUKEWARM_OCEAN.getRegistryName().getNamespace();
+            //String deepLukewarmOcean = Biomes.DEEP_LUKEWARM_OCEAN.getRegistryName().getNamespace();
+            //String warmOcean = Biomes.WARM_OCEAN.getRegistryName().getNamespace();
+            //String swamp = Biomes.SWAMP.getRegistryName().getNamespace();
+
+            ResourceLocation loc;
+            String name = biome.getRegistryName().getPath();
+
+            System.out.println(name);
+            if (name.equals("ocean") || name.equals("deep_ocean")) {
+                loc = OCEAN;
+            }
+            else if (name.equals("cold_ocean") || name.equals("deep_cold_ocean")) {
+                loc = COLD_OCEAN;
+            }
+            else if (name.equals("frozen_ocean") || name.equals("deep_frozen_ocean")) {
+                loc = FROZEN_OCEAN;
+            }
+            else if (name.equals("lukewarm_ocean") || name.equals("deep_lukewarm_ocean")) {
+                loc = LUKEWARM_OCEAN;
+            }
+            else if (name.equals("warm_ocean")) {
+                loc = WARM_OCEAN;
+            }
+            else if (name.equals("swamp")) {
+                loc = SWAMP;
+            }
+            else {
+                loc = SWAMP;
+            }
 
             Rotation rotation = Rotation.values()[this.random.nextInt(Rotation.values().length)];
             int x = (chunkX << 4) + 7;
@@ -93,7 +122,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
             int surfaceY = Math.max(generator.getFirstOccupiedHeight(x + 12, z + 12, Heightmap.Type.WORLD_SURFACE_WG), generator.getSpawnHeight());
             BlockPos blockpos = new BlockPos(x, surfaceY - 5, z);
 
-            Piece.start(oceanLoc, templateManagerIn, blockpos, rotation, this.pieces, this.random);
+            Piece.start(loc, templateManager, blockpos, rotation, this.pieces, this.random);
             this.calculateBoundingBox();
         }
     }
@@ -122,7 +151,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
             int z = pos.getZ();
             BlockPos rotationOffSet = new BlockPos(0, 0, 0).rotate(rotation);
             BlockPos blockpos = rotationOffSet.offset(x, pos.getY(), z);
-            pieceList.add(new Piece(templateManager, new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_ocean"), blockpos, rotation));
+            pieceList.add(new Piece(templateManager, loc, blockpos, rotation));
         }
 
         private void setupPiece(TemplateManager templateManager) {

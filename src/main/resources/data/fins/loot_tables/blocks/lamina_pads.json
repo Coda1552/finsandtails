@@ -26,15 +26,6 @@
                 }
               ],
               "name": "fins:lamina_pads"
-            },
-            {
-              "type": "minecraft:item",
-              "conditions": [
-                {
-                  "condition": "minecraft:survives_explosion"
-                }
-              ],
-              "name": ""
             }
           ]
         }

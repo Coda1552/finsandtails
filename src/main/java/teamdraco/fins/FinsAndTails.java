@@ -214,8 +214,7 @@ public class FinsAndTails {
                 FinsAndTails.LOGGER.error("Was unable to check if " + serverWorld.dimension().location() + " is using Terraforged's ChunkGenerator.");
             }
 
-            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
-                    serverWorld.dimension().equals(World.OVERWORLD)){
+            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && serverWorld.dimension().equals(World.OVERWORLD)){
                 return;
             }
 
