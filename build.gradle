@@ -1,15 +1,13 @@
 buildscript {
+    ext.kotlin_version = '1.4.10'
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url = 'https://dist.creeper.host/Sponge/maven' }
         jcenter()
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -42,8 +40,6 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
             property "mixin.env.disableRefMap", "true"
-            property "mixin.env.remapRefMap", "true"
-            property "mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 examplemod {
@@ -57,8 +53,6 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
             property "mixin.env.disableRefMap", "true"
-            property "mixin.env.remapRefMap", "true"
-            property "mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 examplemod {
@@ -72,8 +66,6 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
             property "mixin.env.disableRefMap", "true"
-            property "mixin.env.remapRefMap", "true"
-            property "mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg"
 
             args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
 
@@ -99,9 +91,6 @@ repositories {
     maven {
         url = "https://modmaven.k-4u.nl"
     }
-    maven {
-        url = 'https://repo.spongepowered.org/repository/maven-public/'
-    }
 }
 
 dependencies {
@@ -109,16 +98,13 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
-    compile 'org.spongepowered:mixin:0.8'
-
     compile fg.deobf("com.minecraftabnormals:abnormals-core:${mc_version}-${ac_version}")
 }
-
-apply plugin: 'org.spongepowered.mixin'
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {

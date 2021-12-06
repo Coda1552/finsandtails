@@ -171,7 +171,7 @@ public class SchnauzEntity extends AnimalEntity {
     }
 
     public static boolean checkSchnauzSpawnRules(EntityType<SchnauzEntity> entity, IWorld world, SpawnReason reason, BlockPos pos, Random p_223365_4_) {
-        return true;
+        return world.getBlockState(pos.below()).is(Blocks.WATER);
     }
 
     @Override

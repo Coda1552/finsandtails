@@ -27,7 +27,7 @@ public class FinsBiomes {
         BiomeDictionary.addTypes(RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(FinsAndTails.MOD_ID, "schnauz_beds")), types);
         if (ModList.get().isLoaded("abnormals_core")) {
             RegistryKey<Biome> key = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(FinsAndTails.MOD_ID, "schnauz_beds"));
-            BiomeUtil.addOceanBiome(BiomeUtil.OceanType.WARM, key, key, 500);
+            BiomeUtil.addOceanBiome(BiomeUtil.OceanType.WARM, key, null, 500);
         }
         else {
             BiomeManager.addBiome(type, new BiomeManager.BiomeEntry(RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(FinsAndTails.MOD_ID,  "schnauz_beds")), 500));
