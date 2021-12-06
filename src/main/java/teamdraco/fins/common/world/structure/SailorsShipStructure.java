@@ -79,21 +79,9 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator generator, TemplateManager templateManager, int chunkX, int chunkZ, Biome biome, NoFeatureConfig config) {
-            //String ocean = Biomes.OCEAN.getRegistryName().getNamespace();
-            //String deepOcean = Biomes.DEEP_OCEAN.getRegistryName().getNamespace();
-            //String coldOcean = Biomes.COLD_OCEAN.getRegistryName().getNamespace();
-            //String deepColdOcean = Biomes.DEEP_COLD_OCEAN.getRegistryName().getNamespace();
-            //String frozenOcean = Biomes.FROZEN_OCEAN.getRegistryName().getNamespace();
-            //String deepFrozenOcean = Biomes.DEEP_FROZEN_OCEAN.getRegistryName().getNamespace();
-            //String lukewarmOcean = Biomes.LUKEWARM_OCEAN.getRegistryName().getNamespace();
-            //String deepLukewarmOcean = Biomes.DEEP_LUKEWARM_OCEAN.getRegistryName().getNamespace();
-            //String warmOcean = Biomes.WARM_OCEAN.getRegistryName().getNamespace();
-            //String swamp = Biomes.SWAMP.getRegistryName().getNamespace();
-
             ResourceLocation loc;
             String name = biome.getRegistryName().getPath();
 
-            System.out.println(name);
             if (name.equals("ocean") || name.equals("deep_ocean")) {
                 loc = OCEAN;
             }
