@@ -372,13 +372,13 @@ public class PenglilEntity extends TameableEntity {
             Random random = this.penglil.getRandom();
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
             blockpos$mutable.set(this.penglil.blockPosition());
-            this.penglil.randomTeleport((double)(blockpos$mutable.getX() + random.nextInt(11) - 5), (double)(blockpos$mutable.getY() + random.nextInt(5) - 2), (double)(blockpos$mutable.getZ() + random.nextInt(11) - 5), false);
+            this.penglil.randomTeleport(blockpos$mutable.getX() + random.nextInt(11) - 5, blockpos$mutable.getY() + random.nextInt(5) - 2, blockpos$mutable.getZ() + random.nextInt(11) - 5, false);
             blockpos$mutable.set(this.penglil.blockPosition());
             LootTable loottable = this.penglil.level.getServer().getLootTables().get(LootTables.FISHING);
             LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.penglil.level)).withParameter(LootParameters.ORIGIN, this.penglil.position()).withParameter(LootParameters.THIS_ENTITY, this.penglil).withRandom(random);
 
             for(ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootParameterSets.GIFT))) {
-                this.penglil.level.addFreshEntity(new ItemEntity(this.penglil.level, (double)blockpos$mutable.getX() - (double)MathHelper.sin(this.penglil.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutable.getY(), (double)blockpos$mutable.getZ() + (double)MathHelper.cos(this.penglil.yBodyRot * ((float)Math.PI / 180F)), itemstack));
+                this.penglil.level.addFreshEntity(new ItemEntity(this.penglil.level, (double)blockpos$mutable.getX() - (double)MathHelper.sin(this.penglil.yBodyRot * ((float)Math.PI / 180F)), blockpos$mutable.getY(), (double)blockpos$mutable.getZ() + (double)MathHelper.cos(this.penglil.yBodyRot * ((float)Math.PI / 180F)), itemstack));
             }
 
         }
