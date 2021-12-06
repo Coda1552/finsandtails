@@ -25,12 +25,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.Nullable;
 import teamdraco.fins.common.entities.util.goals.MudhorseForageGoal;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
 import teamdraco.fins.init.FinsSounds;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 
 public class MudhorseEntity extends AnimalEntity {

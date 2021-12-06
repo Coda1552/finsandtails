@@ -18,9 +18,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import org.jetbrains.annotations.Nullable;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
+
+import javax.annotation.Nullable;
 
 public class FlatbackLeafSnailEntity extends AnimalEntity {
 

@@ -33,7 +33,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.DistExecutor;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import teamdraco.fins.FinsAndTails;
 import teamdraco.fins.init.FinsEntities;
 

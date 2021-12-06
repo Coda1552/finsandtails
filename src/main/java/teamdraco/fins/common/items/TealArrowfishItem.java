@@ -9,7 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import teamdraco.fins.common.entities.item.TealArrowfishArrowEntity;
 
 import java.util.List;

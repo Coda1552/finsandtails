@@ -13,7 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import teamdraco.fins.common.entities.MudhorseEntity;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsSounds;

@@ -53,7 +53,6 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
     private static final ResourceLocation LUKEWARM_OCEAN = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_lukewarm_ocean");
     private static final ResourceLocation WARM_OCEAN = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_warm_ocean");
     private static final ResourceLocation SWAMP = new ResourceLocation(FinsAndTails.MOD_ID, "sailors_ship_swamp");
-    private static final ResourceLocation[] LOCATIONS = new ResourceLocation[]{OCEAN, COLD_OCEAN, FROZEN_OCEAN, LUKEWARM_OCEAN, WARM_OCEAN, SWAMP};
 
     public SailorsShipStructure(Codec<NoFeatureConfig> p_i231977_1_) {
         super(p_i231977_1_);
@@ -115,7 +114,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
                 loc = SWAMP;
             }
             else {
-                loc = SWAMP;
+                loc = OCEAN;
             }
 
             Rotation rotation = Rotation.values()[this.random.nextInt(Rotation.values().length)];

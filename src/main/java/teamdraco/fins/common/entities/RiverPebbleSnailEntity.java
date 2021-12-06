@@ -29,7 +29,7 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import teamdraco.fins.init.FinsEntities;
 import teamdraco.fins.init.FinsItems;
 

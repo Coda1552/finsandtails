@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -36,6 +37,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.config.ModConfig;
@@ -162,9 +164,7 @@ public class FinsAndTails {
         CALLBACKS.forEach(Runnable::run);
         CALLBACKS.clear();
 
-        ItemModelsProperties.register(FinsItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player) -> {
-            return SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F;
-        });
+        ItemModelsProperties.register(FinsItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player) -> SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F);
     }
 
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<PacketBuffer, T> reader, LogicalSide side) {
