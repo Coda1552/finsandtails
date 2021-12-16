@@ -2,6 +2,7 @@ package teamdraco.fins.common.world.tree;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.block.*;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
@@ -15,7 +16,7 @@ import java.util.Random;
 
 public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
     private static final BlockState STALK = FinsBlocks.LAMINA_STALK.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
-    private static final BlockState PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState();
+    private static final BlockState PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState().setValue(SlabBlock.WATERLOGGED, true);
 
     public static final Direction[] DIRECTIONS = new Direction[]{Direction.WEST, Direction.NORTH, Direction.SOUTH, Direction.EAST};
 
@@ -27,10 +28,6 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
     public static int minimumBranchHeight = 2;
     public static int branchHeightExtra = 0;
 
-    //branches on the top trunk placement
-    public static int minimumTopBranchHeight = 1;
-    public static int topBranchHeightExtra = 0;
-
     public LaminaTreeFeature(Codec<ProbabilityConfig> codec) {
         super(codec);
     }
@@ -41,50 +38,29 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
         ArrayList<Entry> leavesFiller = new ArrayList<>();
         int trunkHeight = minimumTrunkHeight + random.nextInt(trunkHeightExtra + 1);
         for (int i = 0; i < trunkHeight; i++) {
-            for (int j = 0; j < 4; j++) {
-                int xOffset = j % 2;
-                int zOffset = j / 2;
-                BlockPos trunkPos = blockPos.offset(xOffset, i, zOffset);
+            for (int j = 0; j < 1; j++) {
+                BlockPos trunkPos = blockPos.offset(j, i, j);
                 if (i == 0 && !canGrowTree(iSeedReader, trunkPos)) {
                     return false;
                 }
-                boolean success = makeSlice(filler, iSeedReader, trunkPos, 1);
+                boolean success = filler.add(new Entry(trunkPos, STALK));;
                 if (!success) {
                     return false;
                 }
-                if (i == trunkHeight - 1) {
-                    BlockPos branchPos = trunkPos.relative(DIRECTIONS[j].getOpposite(), 3);
-                    success = makeBranch(filler, leavesFiller, iSeedReader, branchPos, minimumBranchHeight + random.nextInt(branchHeightExtra + 1));
-                    if (!success) {
+
+                int leavesHeight = trunkHeight / 2;
+
+                for (Direction direction : DIRECTIONS) {
+                    BlockPos leavesPos = blockPos.offset(j, leavesHeight, j).relative(direction);
+                    boolean leavesSuccess = makeLeavesSlice(filler, iSeedReader, leavesPos, 1);
+
+                    if (!leavesSuccess) {
                         return false;
                     }
                 }
             }
         }
-        // int trunkTopHeight = minimumTrunkTopHeight + random.nextInt(trunkTopHeightExtra + 1);
-        int trunkTopHeight = 1;
 
-        for (int i = 0; i < trunkTopHeight; i++) {
-            int yOffset = trunkHeight + i;
-            for (int j = 0; j < 4; j++) {
-                int xOffset = j % 2;
-                int zOffset = j / 2;
-                BlockPos trunkTopPos = blockPos.offset(xOffset, yOffset, zOffset);
-
-                if (!canPlace(iSeedReader, trunkTopPos)) {
-                    return false;
-                }
-                filler.add(new Entry(trunkTopPos, STALK));
-                if (i == trunkTopHeight - 1) {
-                    int branchHeight = minimumTopBranchHeight + random.nextInt(topBranchHeightExtra + 1);
-
-                    boolean success = makeBranch(filler, leavesFiller, iSeedReader, trunkTopPos.relative(DIRECTIONS[j]).above(), branchHeight);
-                    if (!success) {
-                        return false;
-                    }
-                }
-            }
-        }
         fill(iSeedReader, filler, false);
         fill(iSeedReader, leavesFiller, true);
         return false;
@@ -115,11 +91,30 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
                 if (Math.abs(x) == sliceSize && Math.abs(z) == sliceSize) {
                     continue;
                 }
+
                 BlockPos slicePos = new BlockPos(pos).offset(x, 0, z);
                 if (!canPlace(reader, slicePos)) {
                     return false;
                 }
                 filler.add(new Entry(slicePos, STALK));
+            }
+        }
+        return true;
+    }
+
+    public static boolean makeLeavesSlice(ArrayList<Entry> filler, ISeedReader reader, BlockPos pos, int sliceSize) {
+        for (int x = -sliceSize; x <= sliceSize; x++) {
+            for (int z = -sliceSize; z <= sliceSize; z++) {
+                if (Math.abs(x) == sliceSize && Math.abs(z) == sliceSize) {
+                    continue;
+                }
+
+                BlockPos slicePos = new BlockPos(pos).offset(x, 0, z);
+
+                if (!canPlace(reader, slicePos)) {
+                    return false;
+                }
+                filler.add(new Entry(slicePos, PADS));
             }
         }
         return true;
@@ -135,14 +130,13 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
     }
 
     public static boolean canGrowTree(ISeedReader reader, BlockPos pos) {
-        if (!reader.getBlockState(pos.below()).getBlock().equals(Blocks.SAND)) {
+        BlockPos sandPos = pos.below();
+
+        if (!reader.getBlockState(sandPos).getBlock().equals(Blocks.SAND)) {
             return false;
         }
-        for (Direction direction : DIRECTIONS) {
-            BlockPos sandPos = pos.below().relative(direction);
-            if (!reader.getBlockState(sandPos).getBlock().equals(Blocks.SAND)) {
-                return false;
-            }
+        if (!reader.getBlockState(sandPos).getBlock().equals(Blocks.SAND)) {
+            return false;
         }
         return canPlace(reader, pos);
     }
