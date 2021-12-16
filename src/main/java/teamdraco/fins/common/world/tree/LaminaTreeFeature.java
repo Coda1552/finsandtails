@@ -22,63 +22,84 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
     public static final Direction[] DIRECTIONS = new Direction[]{Direction.WEST, Direction.NORTH, Direction.SOUTH, Direction.EAST};
 
     //trunk placement
-    public static int minimumTrunkHeight = 6;
-    public static int trunkHeightExtra = 2;
+    public static int minimumTrunkHeight = 0;
 
     public LaminaTreeFeature(Codec<ProbabilityConfig> codec) {
         super(codec);
     }
 
     @Override
-    public boolean place(ISeedReader reader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, ProbabilityConfig config) {
+    public boolean place(ISeedReader reader, ChunkGenerator chunkGenerator, Random random, BlockPos pos, ProbabilityConfig config) {
         ArrayList<Entry> filler = new ArrayList<>();
-        ArrayList<Entry> leavesFiller = new ArrayList<>();
-        int trunkHeight = minimumTrunkHeight + random.nextInt(trunkHeightExtra + 1);
-        for (int i = 0; i < trunkHeight; i++) {
+
+        int height = minimumTrunkHeight;
+
+        // HEIGHT CALCULATION :nerd:
+        for (int i = pos.getY(); i < reader.getSeaLevel(); i++) {
+            boolean surface = reader.isWaterAt(pos.offset(0, 1, 0));
+
+            if (surface) {
+                height += 1;
+            }
+        }
+
+        for (int i = 0; i < height; i += 2) {
+
+            for (int j = 0; j < 4; j++) {
+                boolean padSuccess = makeSmallPad(reader, pos.offset(0, i, 0), DIRECTIONS[j], random, i);
+                if (!padSuccess) {
+                    return false;
+                }
+            }
+        }
+
+        for (int i = 0; i < height; i++) {
             for (int j = 0; j < 4; j++) {
                 int xOffset = j % 2;
                 int zOffset = j / 2;
-                BlockPos trunkPos = blockPos.offset(xOffset, i, zOffset);
+                BlockPos trunkPos = pos.offset(xOffset, i, zOffset);
                 if (i == 0 && !canGrowTree(reader, trunkPos)) {
                     return false;
                 }
+
                 boolean success = filler.add(new Entry(trunkPos, STALK));
                 if (!success) {
-                    return false;
-                }
-
-                int leavesHeight = trunkHeight;
-
-                BlockPos leavesPos = blockPos.offset(2, leavesHeight, 2).relative(DIRECTIONS[j]);
-                boolean leavesSuccess = makeLeavesSlice(leavesFiller, reader, leavesPos, 2);
-
-                if (!leavesSuccess) {
                     return false;
                 }
             }
         }
 
         fill(reader, filler, false);
-        fill(reader, leavesFiller, true);
         return false;
     }
 
-    public static boolean makeLeavesSlice(ArrayList<Entry> filler, ISeedReader reader, BlockPos pos, int sliceSize) {
-        for (int x = -sliceSize; x <= sliceSize; x++) {
-            for (int z = -sliceSize; z <= sliceSize; z++) {
-                if (Math.abs(x) == sliceSize && Math.abs(z) == sliceSize) {
-                    continue;
-                }
-                int xOffset = x % 2;
-                int zOffset = z / 2;
+    public boolean makeSmallPad(ISeedReader reader, BlockPos pos, Direction direction, Random random, int height) {
+        BlockPos offset = pos.offset(0, 1, 0);
 
-                BlockPos slicePos = new BlockPos(pos).offset(xOffset, 0, zOffset);
+        if (!canPlace(reader, pos)) return false;
 
-                if (!canPlace(reader, slicePos)) {
-                    return false;
-                }
-                filler.add(new Entry(slicePos, PADS));
-            }
+        switch (direction) {
+
+            // very scuffed
+            case NORTH:
+                setBlock(reader, offset.north().west(), PADS);
+                setBlock(reader, offset.north(), PADS);
+                setBlock(reader, offset.west(), PADS);
+
+            case EAST:
+                setBlock(reader, pos.north().east().east(), PADS);
+                setBlock(reader, pos.north().east(), PADS);
+                setBlock(reader, pos.east().east(), PADS);
+
+            case SOUTH:
+                setBlock(reader, pos.south().south().west(), PADS);
+                setBlock(reader, pos.south().south(), PADS);
+                setBlock(reader, pos.south().west(), PADS);
+
+            case WEST:
+                setBlock(reader, offset.south().south().east().east(), PADS);
+                setBlock(reader, offset.south().south().east(), PADS);
+                setBlock(reader, offset.south().east().east(), PADS);
         }
         return true;
     }
