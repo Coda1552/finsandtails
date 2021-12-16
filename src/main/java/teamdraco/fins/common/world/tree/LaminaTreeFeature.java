@@ -1,19 +1,19 @@
 package teamdraco.fins.common.world.tree;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.block.*;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
 import teamdraco.fins.init.FinsBlocks;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class LaminaTreeFeature extends Feature<NoFeatureConfig> {
+public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
     private static final BlockState STALK = FinsBlocks.LAMINA_STALK.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
     private static final BlockState PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState();
 
@@ -31,13 +31,12 @@ public class LaminaTreeFeature extends Feature<NoFeatureConfig> {
     public static int minimumTopBranchHeight = 1;
     public static int topBranchHeightExtra = 0;
 
-    public LaminaTreeFeature()
-    {
-        super(NoFeatureConfig.CODEC);
+    public LaminaTreeFeature(Codec<ProbabilityConfig> codec) {
+        super(codec);
     }
 
     @Override
-    public boolean place(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, NoFeatureConfig noFeatureConfig) {
+    public boolean place(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, ProbabilityConfig config) {
         ArrayList<Entry> filler = new ArrayList<>();
         ArrayList<Entry> leavesFiller = new ArrayList<>();
         int trunkHeight = minimumTrunkHeight + random.nextInt(trunkHeightExtra + 1);
@@ -153,7 +152,7 @@ public class LaminaTreeFeature extends Feature<NoFeatureConfig> {
         if (pos.getY() > reader.getMaxBuildHeight() || pos.getY() < 0) {
             return false;
         }
-        return !reader.getFluidState(pos).isEmpty();
+        return reader.isWaterAt(pos) || reader.getBlockState(pos).isAir();
     }
 
     public static class Entry {

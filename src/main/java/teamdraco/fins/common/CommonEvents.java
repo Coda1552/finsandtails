@@ -31,6 +31,9 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.FeatureSpreadConfig;
+import net.minecraft.world.gen.feature.Features;
+import net.minecraft.world.gen.feature.ProbabilityConfig;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -291,8 +294,7 @@ public class CommonEvents {
             String path = event.getName().getPath();
 
             if (event.getName().equals(new ResourceLocation("fins:schanuz_beds"))) {
-                event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> FinsConfiguredFeatures.CONFIGURED_LAMINA_TREE);
-                event.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, FinsConfiguredFeatures.CONFIGURED_LAMINA_TREE);
+                event.getGeneration().addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, FinsFeatures.LAMINA_TREE.get().configured(new ProbabilityConfig(0.5F)).count(32));
             }
 
             if (path.equals("cold_ocean") || path.equals("deep_cold_ocean")) {

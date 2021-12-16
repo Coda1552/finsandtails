@@ -6,6 +6,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import teamdraco.fins.init.FinsConfiguredFeatures;
 import teamdraco.fins.init.FinsFeatures;
 
 public class TestItem extends Item {
