@@ -88,6 +88,7 @@ public class FinsAndTails {
         FinsRecipes.RECIPES.register(bus);
         FinsStructures.REGISTER.register(bus);
         FinsBiomes.REGISTER.register(bus);
+        FinsFeatures.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
@@ -123,6 +124,8 @@ public class FinsAndTails {
         EntitySpawnPlacementRegistry.register(FinsEntities.GOLIATH_GARDEN_CRAB.get(), EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GoliathGardenCrabEntity::checkCrabSpawnRules);
 
         BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FinsItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
+
+        event.enqueueWork(FinsConfiguredFeatures::registerConfiguredStructures);
 
         FinsBiomes.registerBiomes();
    }

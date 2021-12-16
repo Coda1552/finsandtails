@@ -2,15 +2,16 @@ package teamdraco.fins.common.world.biome;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.*;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.structure.StructureFeatures;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import teamdraco.fins.FinsAndTails;
+import teamdraco.fins.init.FinsConfiguredFeatures;
 import teamdraco.fins.init.FinsEntities;
 
 public class SchnauzBedsBiome extends Biome.Builder {
@@ -44,7 +45,7 @@ public class SchnauzBedsBiome extends Biome.Builder {
         SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), 1000, 3, 3));
         SPAWN_SETTINGS.addSpawn(EntityClassification.CREATURE, new MobSpawnInfo.Spawners(FinsEntities.SCHNAUZ.get(), 750, 1, 4));
         SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_CREATURE, new MobSpawnInfo.Spawners(FinsEntities.GOLIATH_GARDEN_CRAB.get(), 3, 1, 1));
-        SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(EntityType.TROPICAL_FISH, 750, 9, 8));
+        //SPAWN_SETTINGS.addSpawn(EntityClassification.WATER_AMBIENT, new MobSpawnInfo.Spawners(EntityType.TROPICAL_FISH, 750, 9, 8));
 
         DefaultBiomeFeatures.addDefaultOres(GENERATION_SETTINGS);
     }

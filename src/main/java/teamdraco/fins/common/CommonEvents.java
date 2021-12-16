@@ -30,6 +30,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -287,15 +288,21 @@ public class CommonEvents {
         }
 
         if (event.getName() != null) {
-            String name = event.getName().getPath();
-            if (name.equals("cold_ocean") || name.equals("deep_cold_ocean")) {
+            String path = event.getName().getPath();
+
+            if (event.getName().equals(new ResourceLocation("fins:schanuz_beds"))) {
+                event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> FinsConfiguredFeatures.CONFIGURED_LAMINA_TREE);
+                event.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, FinsConfiguredFeatures.CONFIGURED_LAMINA_TREE);
+            }
+
+            if (path.equals("cold_ocean") || path.equals("deep_cold_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BLU_WEE.get(), FinsConfig.Common.INSTANCE.bluWeeSpawnWeight.get(), 4, 8));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.TEAL_ARROWFISH.get(), FinsConfig.Common.INSTANCE.tealArrowfishSpawnWeight.get(), 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.PHANTOM_NUDIBRANCH.get(), FinsConfig.Common.INSTANCE.phantomNudibranchSpawnWeight.get(), 1, 1));
                 event.getGeneration().getStructures().add(() -> FinsConfiguredStructures.CONFIGURED_SAILORS_SHIP);
             }
 
-            if (name.equals("warm_ocean")) {
+            if (path.equals("warm_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.BANDED_REDBACK_SHRIMP.get(), FinsConfig.Common.INSTANCE.bandedRedbackShrimpSpawnWeight.get(), 3, 3));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.ORNATE_BUGFISH.get(), FinsConfig.Common.INSTANCE.ornateBugfishSpawnWeight.get(), 5, 5));
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.SPINDLY_GEM_CRAB.get(), FinsConfig.Common.INSTANCE.spindlyGemCrabSpawnWeight.get(), 1, 3));
@@ -303,30 +310,30 @@ public class CommonEvents {
                 event.getGeneration().getStructures().add(() -> FinsConfiguredStructures.CONFIGURED_SAILORS_SHIP);
             }
 
-            if (name.equals("ocean") || name.equals("deep_ocean")) {
+            if (path.equals("ocean") || path.equals("deep_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.HIGH_FINNED_BLUE.get(), FinsConfig.Common.INSTANCE.highFinnedBlueSpawnWeight.get(), 6, 12));
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.GOPJET.get(), FinsConfig.Common.INSTANCE.gopjetSpawnWeight.get(), 2, 3));
                 event.getGeneration().getStructures().add(() -> FinsConfiguredStructures.CONFIGURED_SAILORS_SHIP);
             }
 
-            if (name.equals("lukewarm_ocean") || name.equals("deep_lukewarm_ocean")) {
+            if (path.equals("lukewarm_ocean") || path.equals("deep_lukewarm_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.RED_BULL_CRAB.get(), FinsConfig.Common.INSTANCE.redBullCrabSpawnWeight.get(), 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.WHITE_BULL_CRAB.get(), FinsConfig.Common.INSTANCE.whiteBullCrabSpawnWeight.get(), 2, 4));
                 event.getGeneration().getStructures().add(() -> FinsConfiguredStructures.CONFIGURED_SAILORS_SHIP);
             }
 
-            if (name.equals("frozen_ocean") || name.equals("deep_frozen_ocean")) {
+            if (path.equals("frozen_ocean") || path.equals("deep_frozen_ocean")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.NIGHT_LIGHT_SQUID.get(), FinsConfig.Common.INSTANCE.nightLightSquidSpawnWeight.get(), 1, 2));
                 event.getGeneration().getStructures().add(() -> FinsConfiguredStructures.CONFIGURED_SAILORS_SHIP);
             }
 
-            if (name.equals("river")) {
+            if (path.equals("river")) {
                 event.getSpawns().getSpawner(EntityClassification.WATER_AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.WEE_WEE.get(), FinsConfig.Common.INSTANCE.weeWeeSpawnWeight.get(), 2, 6));
                 event.getSpawns().getSpawner(EntityClassification.AMBIENT).add(new MobSpawnInfo.Spawners(FinsEntities.RIVER_PEBBLE_SNAIL.get(), FinsConfig.Common.INSTANCE.riverPebbleSnailSpawnWeight.get(), 1, 1));
                 event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.GOLDEN_RIVER_RAY.get(), FinsConfig.Common.INSTANCE.goldenRiverRaySpawnWeight.get(), 1, 1));
             }
 
-            if (name.equals("flower_forest")) {
+            if (path.equals("flower_forest")) {
                 event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(FinsEntities.GLASS_SKIPPER.get(), FinsConfig.Common.INSTANCE.glassSkipperSpawnWeight.get() * 2, 2, 6));
             }
         }

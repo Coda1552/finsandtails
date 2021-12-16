@@ -26,6 +26,8 @@ import java.util.List;
 public class FinsItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, FinsAndTails.MOD_ID);
 
+    public static final RegistryObject<Item> TEST_ITEM = REGISTER.register("test_item", () -> new TestItem((new Item.Properties()).stacksTo(1).tab(FinsAndTails.GROUP)));
+
     //Fish
     public static final RegistryObject<Item> BLU_WEE = REGISTER.register("blu_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).fast().build())));
     public static final RegistryObject<Item> PEA_WEE = REGISTER.register("pea_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new Food.Builder().nutrition(2).saturationMod(0.1F).fast().build())));
