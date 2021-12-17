@@ -6,6 +6,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import teamdraco.fins.init.FinsBlocks;
@@ -13,7 +14,7 @@ import teamdraco.fins.init.FinsBlocks;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class LaminaTreeFeature extends Feature<NoFeatureConfig> {
+public class LaminaTreeFeature extends Feature<BaseTreeFeatureConfig> {
 
     public static final Direction[] DIRECTIONS = new Direction[]{Direction.WEST, Direction.NORTH, Direction.SOUTH, Direction.EAST};
 
@@ -21,11 +22,11 @@ public class LaminaTreeFeature extends Feature<NoFeatureConfig> {
     public static int minimumTrunkHeight = 0;
 
     public LaminaTreeFeature() {
-        super(NoFeatureConfig.CODEC);
+        super(BaseTreeFeatureConfig.CODEC);
     }
 
     @Override
-    public boolean place(ISeedReader reader, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config) {
+    public boolean place(ISeedReader reader, ChunkGenerator chunkGenerator, Random random, BlockPos pos, BaseTreeFeatureConfig config) {
         ArrayList<Entry> filler = new ArrayList<>();
         ArrayList<Entry> leavesFiller = new ArrayList<>();
         BlockState STALK = FinsBlocks.LAMINA_STALK.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);

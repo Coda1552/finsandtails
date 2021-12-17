@@ -296,7 +296,7 @@ public class CommonEvents {
             String path = event.getName().getPath();
 
             if (event.getName().equals(new ResourceLocation("fins:schanuz_beds"))) {
-//                event.getGeneration().addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, FinsConfiguredFeatures.CONFIGURED_LAMINA_TREE.configured(new ProbabilityConfig(0.5F)).count(32).decorated(Placement.COUNT_NOISE_BIASED.configured(new TopSolidWithNoiseConfig(80, 80.0D, 0.0D))));
+                event.getGeneration().addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, FinsFeatures.Configured.LAMINA_TREE.count(32));
             }
 
             if (path.equals("cold_ocean") || path.equals("deep_cold_ocean")) {

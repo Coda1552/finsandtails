@@ -125,7 +125,7 @@ public class FinsAndTails {
 
         BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FinsItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
 
-        event.enqueueWork(FinsConfiguredFeatures::registerConfiguredStructures);
+        event.enqueueWork(FinsFeatures.Configured::registerConfiguredFeatures);
 
         FinsBiomes.registerBiomes();
    }

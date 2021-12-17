@@ -11,8 +11,8 @@ import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import teamdraco.fins.FinsAndTails;
-import teamdraco.fins.init.FinsConfiguredFeatures;
 import teamdraco.fins.init.FinsEntities;
+import teamdraco.fins.init.FinsFeatures;
 
 public class SchnauzBedsBiome extends Biome.Builder {
     static final ConfiguredSurfaceBuilder<?> SURFACE_BUILDER = Registry.register(WorldGenRegistries.CONFIGURED_SURFACE_BUILDER, FinsAndTails.MOD_ID + "schnauz_beds", new ConfiguredSurfaceBuilder<>(SurfaceBuilder.DEFAULT, new SurfaceBuilderConfig(Blocks.SAND.defaultBlockState(), Blocks.SAND.defaultBlockState(), Blocks.SAND.defaultBlockState())));
