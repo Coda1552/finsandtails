@@ -1,6 +1,5 @@
 package teamdraco.fins.common.world.tree;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.block.*;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
@@ -8,30 +7,28 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.ProbabilityConfig;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import teamdraco.fins.init.FinsBlocks;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
-    private static final BlockState STALK = FinsBlocks.LAMINA_STALK.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
-    private static final BlockState WATERLOGGED_PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState().setValue(SlabBlock.WATERLOGGED, true);
-    private static final BlockState PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState();
+public class LaminaTreeFeature extends Feature<NoFeatureConfig> {
 
     public static final Direction[] DIRECTIONS = new Direction[]{Direction.WEST, Direction.NORTH, Direction.SOUTH, Direction.EAST};
 
     //trunk placement
     public static int minimumTrunkHeight = 0;
 
-    public LaminaTreeFeature(Codec<ProbabilityConfig> codec) {
-        super(codec);
+    public LaminaTreeFeature() {
+        super(NoFeatureConfig.CODEC);
     }
 
     @Override
-    public boolean place(ISeedReader reader, ChunkGenerator chunkGenerator, Random random, BlockPos pos, ProbabilityConfig config) {
+    public boolean place(ISeedReader reader, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config) {
         ArrayList<Entry> filler = new ArrayList<>();
         ArrayList<Entry> leavesFiller = new ArrayList<>();
+        BlockState STALK = FinsBlocks.LAMINA_STALK.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
 
         int height = minimumTrunkHeight;
 
@@ -81,7 +78,7 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
             }
 
             if (i == height - 1) {
-                makeTopPad(leavesFiller, reader, pos, height);
+                makeTopPad(reader, pos, height);
             }
         }
 
@@ -91,6 +88,7 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
     }
 
     public boolean makeSmallPad(ISeedReader reader, BlockPos pos, Direction direction) {
+        BlockState PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState();
         BlockPos offset = pos.offset(0, 1, 0);
 
         if (!canPlace(reader, pos)) return false;
@@ -122,6 +120,7 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
     }
 
     public boolean makeBigPad(ISeedReader reader, BlockPos pos, Direction direction) {
+        BlockState PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState();
         BlockPos offset = pos.offset(0, 2, 0);
 
         if (!canPlace(reader, pos)) return false;
@@ -168,7 +167,8 @@ public class LaminaTreeFeature extends Feature<ProbabilityConfig> {
         return true;
     }
 
-    public boolean makeTopPad(ArrayList<Entry> filler, ISeedReader reader, BlockPos pos, int height) {
+    public boolean makeTopPad(ISeedReader reader, BlockPos pos, int height) {
+        BlockState PADS = FinsBlocks.LAMINA_PADS.get().defaultBlockState();
         if (!canPlace(reader, pos)) return false;
 
         int topSize = 3;

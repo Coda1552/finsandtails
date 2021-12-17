@@ -6,7 +6,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import teamdraco.fins.init.FinsConfiguredFeatures;
 import teamdraco.fins.init.FinsFeatures;
 
 public class TestItem extends Item {
@@ -21,7 +20,7 @@ public class TestItem extends Item {
         if (world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) world;
             BlockPos growPos = context.getClickedPos().above();
-            FinsFeatures.LAMINA_TREE.get().place(serverWorld, serverWorld.getChunkSource().generator, world.random, growPos, null);
+            FinsFeatures.LAMINA_TREE_FEATURE.get().place(serverWorld, serverWorld.getChunkSource().generator, world.random, growPos, null);
             return ActionResultType.SUCCESS;
         }
         return super.useOn(context);

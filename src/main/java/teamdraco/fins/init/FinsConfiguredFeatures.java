@@ -17,9 +17,10 @@ public class FinsConfiguredFeatures {
 
     public static void registerConfiguredStructures() {
         CONFIGURED_LAMINA_TREE = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(FinsAndTails.MOD_ID, "configured_lamina_tree"),
-                FinsFeatures.LAMINA_TREE.get()
-                        .configured(new ProbabilityConfig(0.5F))
+                FinsFeatures.LAMINA_TREE_FEATURE.get()
+                        .configured(NoFeatureConfig.INSTANCE)
                         .count(32)
                         .decorated(Features.Placements.TOP_SOLID_HEIGHTMAP).squared());
+
     }
 }
