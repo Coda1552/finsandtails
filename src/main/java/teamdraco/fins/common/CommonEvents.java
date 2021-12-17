@@ -296,7 +296,7 @@ public class CommonEvents {
             String path = event.getName().getPath();
 
             if (event.getName().equals(new ResourceLocation("fins:schanuz_beds"))) {
-                event.getGeneration().addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, FinsFeatures.Configured.LAMINA_TREE.count(32));
+                event.getGeneration().addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, FinsFeatures.Configured.LAMINA_TREE);
             }
 
             if (path.equals("cold_ocean") || path.equals("deep_cold_ocean")) {
