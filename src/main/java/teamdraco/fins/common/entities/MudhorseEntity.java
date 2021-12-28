@@ -13,6 +13,7 @@ import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.SnowballEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
@@ -33,7 +34,7 @@ import teamdraco.fins.init.FinsSounds;
 
 import java.util.EnumSet;
 
-public class MudhorseEntity extends AnimalEntity {
+public class MudhorseEntity extends AnimalEntity implements IRangedAttackMob {
     private LivingEntity commander;
     private int commanderSetTime;
     private int attackTimer;
@@ -48,8 +49,9 @@ public class MudhorseEntity extends AnimalEntity {
     protected void registerGoals() {
         this.eatBlockGoal = new MudhorseForageGoal(this);
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(FinsItems.SWAMP_MUCKER.get()), false));
+        this.goalSelector.addGoal(2, new RangedAttackGoal(this, 1.0D, 20, 10.0F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.25D, Ingredient.of(FinsItems.SWAMP_MUCKER.get()), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(5, this.eatBlockGoal);
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -94,6 +96,18 @@ public class MudhorseEntity extends AnimalEntity {
         }
 
         return flag;
+    }
+
+    public void performRangedAttack(LivingEntity p_82196_1_, float p_82196_2_) {
+        SnowballEntity snowballentity = new SnowballEntity(this.level, this);
+        double d0 = p_82196_1_.getEyeY() - (double)1.1F;
+        double d1 = p_82196_1_.getX() - this.getX();
+        double d2 = d0 - snowballentity.getY();
+        double d3 = p_82196_1_.getZ() - this.getZ();
+        float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+        snowballentity.shoot(d1, d2 + (double)f, d3, 1.6F, 12.0F);
+        this.playSound(SoundEvents.EGG_THROW, 1.0F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level.addFreshEntity(snowballentity);
     }
 
     @OnlyIn(Dist.CLIENT)
