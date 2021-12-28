@@ -22,6 +22,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.fins.client.particle.MudhorseSpitParticle;
 
+// todo - make it compile
 public class MudhorseSpitGoal extends ProjectileEntity {
 
     public MudhorseSpitGoal(EntityType<? extends ProjectileEntity> p_i50159_1_, World p_i50159_2_) {
