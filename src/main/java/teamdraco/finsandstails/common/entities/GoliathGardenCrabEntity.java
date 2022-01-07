@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 
@@ -110,7 +110,7 @@ public class GoliathGardenCrabEntity extends WaterMobEntity {
     }
 
     protected SoundEvent getDeathSound() {
-        return FinsSounds.CRAB_DEATH.get();
+        return FtSounds.CRAB_DEATH.get();
     }
 
     protected SoundEvent getFlopSound() {

@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.common.entities.MudhorseEntity;
 import teamdraco.finsandstails.registry.FinsEntities;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.List;
 import java.util.Random;
@@ -41,7 +41,7 @@ public class SwampDidgeridooItem extends Item {
             mudhorseEntity.setCommander(player);
             addParticleEffect(ParticleTypes.HAPPY_VILLAGER, world, mudhorseEntity.getX() - 0.5, mudhorseEntity.getY() + 1.4, mudhorseEntity.getZ() - 0.5);
         }
-        player.playSound(FinsSounds.DIDGERIDOO_PLAY.get(), 0.4f, 1);
+        player.playSound(FtSounds.DIDGERIDOO_PLAY.get(), 0.4f, 1);
         player.getCooldowns().addCooldown(this, 600);
         stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(hand));
         return InteractionResultHolder.success(stack);

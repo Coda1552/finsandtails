@@ -24,7 +24,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class FlatbackSuckerEntity extends AbstractFishEntity {
         super.tick();
         List<LivingEntity> list = this.level.getEntitiesOfClass(FlatbackSuckerEntity.class, this.getBoundingBox().inflate(2.0D));
         if (this.isAlive() && list.size() >= 3 && random.nextFloat() > 0.99F) {
-            this.playSound(FinsSounds.FLATBACK_SUCKER_CLICK.get(), 0.4F, 1.0F);
+            this.playSound(FtSounds.FLATBACK_SUCKER_CLICK.get(), 0.4F, 1.0F);
         }
     }
 

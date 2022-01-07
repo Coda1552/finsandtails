@@ -1,10 +1,9 @@
 package teamdraco.finsandstails.common.items.charms;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.items.FinsArmorMaterial;
-import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
 
@@ -23,7 +21,6 @@ public class SpindlyGemCharm extends ArmorItem implements ISpindlyCharmItem {
 
     public SpindlyGemCharm() {
         super(MATERIAL, EquipmentSlot.CHEST, new Item.Properties().tab(FinsAndTails.GROUP).durability(2).rarity(Rarity.RARE));
-        ItemModelShaper.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player) -> SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F);
     }
 
     @Override

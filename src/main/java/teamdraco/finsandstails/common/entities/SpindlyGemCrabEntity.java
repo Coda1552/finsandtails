@@ -37,7 +37,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 
@@ -140,7 +140,7 @@ public class SpindlyGemCrabEntity extends AbstractFishEntity {
     }
 
     protected SoundEvent getDeathSound() {
-        return FinsSounds.CRAB_DEATH.get();
+        return FtSounds.CRAB_DEATH.get();
     }
 
     protected SoundEvent getFlopSound() {

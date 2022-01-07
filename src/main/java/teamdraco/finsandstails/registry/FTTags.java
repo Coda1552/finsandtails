@@ -5,7 +5,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import teamdraco.finsandstails.FinsAndTails;
 
-public class FinsTags {
+public class FTTags {
     public static final Tag.Named<Item> CLAW_GAUNTLETS = itemTag("claw_gauntlets");
 
     private static Tag.Named<Item> itemTag(String path) {

@@ -30,7 +30,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.GopjetJetpackModel;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -101,7 +101,7 @@ public class GopjetJetpackItem extends ArmorItem {
                     if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
                         if (random.nextInt(100) < this.bubbleSoundTime++) {
                             this.bubbleSoundTime = 0;
-                            world.playSound(player, player.blockPosition(), FinsSounds.JETPACK_USE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                            world.playSound(player, player.blockPosition(), FtSounds.JETPACK_USE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                         }
 
                         if (world.isClientSide) {

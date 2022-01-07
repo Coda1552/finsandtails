@@ -1,12 +1,9 @@
 package teamdraco.finsandstails;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.PacketDecoder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -36,7 +33,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import teamdraco.finsandstails.client.ClientEvents;
 import teamdraco.finsandstails.common.entities.*;
-import teamdraco.finsandstails.common.items.charms.SpindlyGemCharm;
 import teamdraco.finsandstails.registry.*;
 import teamdraco.finsandstails.network.INetworkPacket;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
@@ -70,7 +66,7 @@ public class FinsAndTails {
         FTBlocks.BLOCKS.register(bus);
         FinsContainers.REGISTER.register(bus);
         FinsEntities.REGISTER.register(bus);
-        FinsSounds.REGISTER.register(bus);
+        FtSounds.REGISTER.register(bus);
         FinsRecipes.SERIALIZERS.register(bus);
         FinsStructures.REGISTER.register(bus);
 

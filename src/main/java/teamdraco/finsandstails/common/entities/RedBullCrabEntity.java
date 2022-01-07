@@ -27,7 +27,7 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -122,7 +122,7 @@ public class RedBullCrabEntity extends WaterMobEntity {
     }
 
     protected SoundEvent getDeathSound() {
-        return FinsSounds.CRAB_DEATH.get();
+        return FtSounds.CRAB_DEATH.get();
     }
 
     protected SoundEvent getFlopSound() {

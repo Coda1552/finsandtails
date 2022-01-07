@@ -29,7 +29,7 @@ import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.registry.FinsEntities;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.Random;
 
@@ -134,17 +134,17 @@ public class WherbleEntity extends AnimalEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return FinsSounds.WHERBLE_AMBIENT.get();
+        return FtSounds.WHERBLE_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FinsSounds.WHERBLE_HURT.get();
+        return FtSounds.WHERBLE_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FinsSounds.WHERBLE_DEATH.get();
+        return FtSounds.WHERBLE_DEATH.get();
     }
 
     @Override

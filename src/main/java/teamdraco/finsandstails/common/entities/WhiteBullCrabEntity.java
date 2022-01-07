@@ -26,7 +26,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 
@@ -76,7 +76,7 @@ public class WhiteBullCrabEntity extends WaterMobEntity {
     }
 
     protected SoundEvent getDeathSound() {
-        return FinsSounds.CRAB_DEATH.get();
+        return FtSounds.CRAB_DEATH.get();
     }
 
     protected SoundEvent getFlopSound() {

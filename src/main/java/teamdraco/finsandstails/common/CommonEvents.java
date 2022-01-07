@@ -71,7 +71,7 @@ public class CommonEvents {
         PlayerEntity player = event.getPlayer();
         ItemStack offhandItem = player.getItemBySlot(EquipmentSlotType.OFFHAND);
 
-        if (offhandItem.getItem().is(FinsTags.CLAW_GAUNTLETS)) {
+        if (offhandItem.getItem().is(FTTags.CLAW_GAUNTLETS)) {
             player.swing(hand);
             attack(player, target);
             target.hurt(DamageSource.playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
@@ -84,7 +84,7 @@ public class CommonEvents {
         PlayerEntity player = event.getPlayer();
         ItemStack offhandItem = player.getItemBySlot(EquipmentSlotType.OFFHAND);
 
-        if (offhandItem.getItem().is(FinsTags.CLAW_GAUNTLETS)) {
+        if (offhandItem.getItem().is(FTTags.CLAW_GAUNTLETS)) {
             player.swing(hand);
         }
     }

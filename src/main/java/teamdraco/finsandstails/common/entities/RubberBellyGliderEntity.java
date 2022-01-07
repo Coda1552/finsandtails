@@ -30,7 +30,7 @@ import net.minecraft.world.server.ServerWorld;
 import teamdraco.finsandstails.common.entities.util.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.registry.FinsEntities;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.function.Predicate;
 
@@ -204,17 +204,17 @@ public class RubberBellyGliderEntity extends AnimalEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return FinsSounds.RUBBER_BELLY_GLIDER_AMBIENT.get();
+        return FtSounds.RUBBER_BELLY_GLIDER_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FinsSounds.RUBBER_BELLY_GLIDER_DEATH.get();
+        return FtSounds.RUBBER_BELLY_GLIDER_DEATH.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FinsSounds.RUBBER_BELLY_GLIDER_HURT.get();
+        return FtSounds.RUBBER_BELLY_GLIDER_HURT.get();
     }
 
     @Override

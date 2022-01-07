@@ -21,7 +21,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -126,27 +126,27 @@ public class WanderingSailorEntity extends AbstractVillagerEntity implements IMe
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isTrading() ? FinsSounds.WANDERING_SAILOR_TRADE.get() : FinsSounds.WANDERING_SAILOR_AMBIENT.get();
+        return this.isTrading() ? FtSounds.WANDERING_SAILOR_TRADE.get() : FtSounds.WANDERING_SAILOR_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FinsSounds.WANDERING_SAILOR_HURT.get();
+        return FtSounds.WANDERING_SAILOR_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FinsSounds.WANDERING_SAILOR_DEATH.get();
+        return FtSounds.WANDERING_SAILOR_DEATH.get();
     }
 
     @Override
     protected SoundEvent getTradeUpdatedSound(boolean p_213721_1_) {
-        return p_213721_1_ ? FinsSounds.WANDERING_SAILOR_YES.get() : FinsSounds.WANDERING_SAILOR_NO.get();
+        return p_213721_1_ ? FtSounds.WANDERING_SAILOR_YES.get() : FtSounds.WANDERING_SAILOR_NO.get();
     }
 
     @Override
     public SoundEvent getNotifyTradeSound() {
-        return FinsSounds.WANDERING_SAILOR_YES.get();
+        return FtSounds.WANDERING_SAILOR_YES.get();
     }
 
     @Nullable

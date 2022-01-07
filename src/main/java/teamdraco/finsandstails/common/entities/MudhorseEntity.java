@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.common.entities.util.goals.MudhorseForageGoal;
 import teamdraco.finsandstails.registry.FinsEntities;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.EnumSet;
 
@@ -133,17 +133,17 @@ public class MudhorseEntity extends AnimalEntity implements IRangedAttackMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return FinsSounds.MUDHORSE_AMBIENT.get();
+        return FtSounds.MUDHORSE_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FinsSounds.MUDHORSE_HURT.get();
+        return FtSounds.MUDHORSE_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FinsSounds.MUDHORSE_DEATH.get();
+        return FtSounds.MUDHORSE_DEATH.get();
     }
 
     @Override

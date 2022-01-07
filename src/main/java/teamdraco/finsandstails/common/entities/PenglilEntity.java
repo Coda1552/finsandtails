@@ -36,7 +36,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import teamdraco.finsandstails.common.entities.util.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsSounds;
+import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -258,15 +258,15 @@ public class PenglilEntity extends TameableEntity {
     }
 
     protected SoundEvent getAmbientSound() {
-        return FinsSounds.PENGLIL_AMBIENT.get();
+        return FtSounds.PENGLIL_AMBIENT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return FinsSounds.PENGLIL_DEATH.get();
+        return FtSounds.PENGLIL_DEATH.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FinsSounds.PENGLIL_HURT.get();
+        return FtSounds.PENGLIL_HURT.get();
     }
 
     @Override
