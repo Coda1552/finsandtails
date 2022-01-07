@@ -1,15 +1,15 @@
 package teamdraco.finsandstails.common.enchantments;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class UppercuttingEnchantment extends Enchantment {
-    public UppercuttingEnchantment(Rarity rarity, EnchantmentType type, EquipmentSlotType[] slots) {
+    public UppercuttingEnchantment(Rarity rarity, EnchantmentCategory type, EquipmentSlot[] slots) {
         super(rarity, type, slots);
     }
 
