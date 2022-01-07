@@ -1,0 +1,263 @@
+{
+  "mudhorse.ambient": {
+    "subtitle": "finsandtails.mudhorse.ambient",
+    "sounds": [
+      {
+        "name": "finsandtails:mudhorse/ambient",
+        "stream": true
+      }
+    ]
+  },
+  "mudhorse.death": {
+    "subtitle": "finsandtails.mudhorse.death",
+    "sounds": [
+      {
+        "name": "finsandtails:mudhorse/death",
+        "stream": true
+      }
+    ]
+  },
+  "mudhorse.hurt": {
+    "subtitle": "finsandtails.mudhorse.hurt",
+    "sounds": [
+      {
+        "name": "finsandtails:mudhorse/hurt",
+        "stream": true
+      }
+    ]
+  },
+  "rubber_belly_glider.ambient": {
+    "subtitle": "finsandtails.rubber_belly_glider.ambient",
+    "sounds": [
+      {
+        "name": "finsandtails:rubber_belly_glider/ambient",
+        "stream": true
+      }
+    ]
+  },
+  "rubber_belly_glider.death": {
+    "subtitle": "finsandtails.rubber_belly_glider.death",
+    "sounds": [
+      {
+        "name": "finsandtails:rubber_belly_glider/death",
+        "stream": true
+      }
+    ]
+  },
+  "rubber_belly_glider.hurt": {
+    "subtitle": "finsandtails.rubber_belly_glider.hurt",
+    "sounds": [
+      {
+        "name": "finsandtails:rubber_belly_glider/hurt",
+        "stream": true
+      }
+    ]
+  },
+  "penglil.ambient": {
+    "subtitle": "finsandtails.penglil.ambient",
+    "sounds": [
+      {
+        "name": "finsandtails:penglil/ambient",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:penglil/screech",
+        "stream": true
+      }
+    ]
+  },
+  "penglil.death": {
+    "subtitle": "finsandtails.penglil.death",
+    "sounds": [
+      {
+        "name": "finsandtails:penglil/death",
+        "stream": true
+      }
+    ]
+  },
+  "penglil.hurt": {
+    "subtitle": "finsandtails.penglil.hurt",
+    "sounds": [
+      {
+        "name": "finsandtails:penglil/hurt",
+        "stream": true
+      }
+    ]
+  },
+  "crab.death": {
+    "subtitle": "finsandtails.crab.death",
+    "sounds": [
+      {
+        "name": "finsandtails:crab/death",
+        "stream": true
+      }
+    ]
+  },
+  "crab.crunch": {
+    "subtitle": "finsandtails.crab.crunch",
+    "sounds": [
+      {
+        "name": "finsandtails:crab/crunch",
+        "stream": true
+      }
+    ]
+  },
+  "didgeridoo.play": {
+    "subtitle": "finsandtails.didgeridoo.play",
+    "sounds": [
+      {
+        "name": "finsandtails:didgeridoo/didgeridoo_1",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:didgeridoo/didgeridoo_2",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:didgeridoo/didgeridoo_3",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.crashing_tides": {
+    "category": "disc",
+    "sounds": [
+      {
+        "name": "finsandtails:music_disc/crashing_tides",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.whistling_wyverns": {
+    "category": "disc",
+    "sounds": [
+      {
+        "name": "finsandtails:music_disc/whistling_wyverns",
+        "stream": true
+      }
+    ]
+  },
+  "jetpack.use": {
+    "subtitle": "finsandtails.jetpack.use",
+    "sounds": [
+      {
+        "name": "finsandtails:jetpack/use_1",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:jetpack/use_2",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:jetpack/use_3",
+        "stream": true
+      }
+    ]
+  },
+  "click": {
+    "subtitle": "finsandtails.click",
+    "sounds": [
+      {
+        "name": "finsandtails:click",
+        "stream": true
+      }
+    ]
+  },
+  "wherble.ambient": {
+    "subtitle": "finsandtails.wherble.ambient",
+    "sounds": [
+      {
+        "name": "finsandtails:wherble/ambient_1",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:wherble/ambient_2",
+        "stream": true
+      }
+    ]
+  },
+  "wherble.death": {
+    "subtitle": "finsandtails.wherble.death",
+    "sounds": [
+      {
+        "name": "finsandtails:wherble/death",
+        "stream": true
+      }
+    ]
+  },
+  "wherble.hurt": {
+    "subtitle": "finsandtails.wherble.hurt",
+    "sounds": [
+      {
+        "name": "finsandtails:wherble/hurt",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.ambient": {
+    "subtitle": "finsandtails.wandering_sailor.ambient",
+    "sounds": [
+      {
+        "name": "finsandtails:wandering_sailor/ambient_1",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:wandering_sailor/ambient_2",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.death": {
+    "subtitle": "finsandtails.wandering_sailor.death",
+    "sounds": [
+      {
+        "name": "finsandtails:wandering_sailor/death",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.hurt": {
+    "subtitle": "finsandtails.wandering_sailor.hurt",
+    "sounds": [
+      {
+        "name": "finsandtails:wandering_sailor/hurt",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.trade": {
+    "subtitle": "finsandtails.wandering_sailor.trade",
+    "sounds": [
+      {
+        "name": "finsandtails:wandering_sailor/trade",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.yes": {
+    "subtitle": "finsandtails.wandering_sailor.yes",
+    "sounds": [
+      {
+        "name": "finsandtails:wandering_sailor/yes_1",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:wandering_sailor/yes_2",
+        "stream": true
+      }
+    ]
+  },
+  "wandering_sailor.no": {
+    "subtitle": "finsandtails.wandering_sailor.no",
+    "sounds": [
+      {
+        "name": "finsandtails:wandering_sailor/no_1",
+        "stream": true
+      },
+      {
+        "name": "finsandtails:wandering_sailor/no_2",
+        "stream": true
+      }
+    ]
+  }
+}

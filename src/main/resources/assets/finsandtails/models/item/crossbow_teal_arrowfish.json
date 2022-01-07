@@ -1,0 +1,6 @@
+{
+  "parent": "item/crossbow",
+  "textures": {
+    "layer0": "finsandtails:item/crossbow_teal_arrowfish"
+  }
+}

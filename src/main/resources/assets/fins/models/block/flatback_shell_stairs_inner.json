@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "fins:block/flatback_shell_block",
-    "top": "fins:block/flatback_shell_block",
-    "side": "fins:block/flatback_shell_block"
-  }
-}

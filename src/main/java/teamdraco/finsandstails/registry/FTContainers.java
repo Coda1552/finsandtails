@@ -2,8 +2,8 @@ package teamdraco.finsandstails.registry;
 
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.container.CrabCruncherContainer;

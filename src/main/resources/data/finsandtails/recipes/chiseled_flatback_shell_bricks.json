@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#",
+        "#"
+    ],
+    "key": {
+        "#": {
+            "item": "finsandtails:flatback_shell_brick_slab"
+        }
+    },
+    "result": {
+        "item": "finsandtails:chiseled_flatback_shell_bricks",
+        "count": 1
+    }
+}

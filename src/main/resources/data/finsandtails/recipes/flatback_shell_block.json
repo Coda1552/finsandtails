@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "finsandtails:flatback_leaf_snail_shell"
+        }
+    },
+    "result": {
+        "item": "finsandtails:flatback_shell_block",
+        "count": 1
+    }
+}

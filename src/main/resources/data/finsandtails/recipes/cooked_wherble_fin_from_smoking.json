@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "finsandtails:wherble_fin"
+  },
+  "result": "finsandtails:cooked_wherble_fin",
+  "experience": 0.35,
+  "cookingtime": 100
+}

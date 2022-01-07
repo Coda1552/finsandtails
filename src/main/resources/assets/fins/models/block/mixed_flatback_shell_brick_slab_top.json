@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "fins:block/mixed_flatback_shell_bricks",
-    "top": "fins:block/mixed_flatback_shell_bricks",
-    "side": "fins:block/mixed_flatback_shell_bricks"
-  }
-}

@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "fins:spindly_gem_crab_gem",
-    "fins:spindly_emerald",
-    "fins:spindly_pearl",
-    "fins:spindly_sapphire",
-    "fins:spindly_ruby",
-    "fins:spindly_amber"
+    "finsandtails:spindly_gem_crab_gem",
+    "finsandtails:spindly_emerald",
+    "finsandtails:spindly_pearl",
+    "finsandtails:spindly_sapphire",
+    "finsandtails:spindly_ruby",
+    "finsandtails:spindly_amber"
   ]
 }

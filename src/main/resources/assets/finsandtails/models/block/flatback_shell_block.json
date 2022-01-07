@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "finsandtails:block/flatback_shell_block"
+  }
+}

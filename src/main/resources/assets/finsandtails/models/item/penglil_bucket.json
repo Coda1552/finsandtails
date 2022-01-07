@@ -1,0 +1,56 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/penglil_bucket_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "finsandtails:variant": 0
+      },
+      "model": "finsandtails:item/penglil_bucket"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 1
+      },
+      "model": "finsandtails:item/penglil_bucket_2"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 2
+      },
+      "model": "finsandtails:item/penglil_bucket_3"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 3
+      },
+      "model": "finsandtails:item/penglil_bucket_4"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 4
+      },
+      "model": "finsandtails:item/penglil_bucket_5"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 5
+      },
+      "model": "finsandtails:item/penglil_bucket_6"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 6
+      },
+      "model": "finsandtails:item/penglil_bucket_7"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 7
+      },
+      "model": "finsandtails:item/penglil_bucket_8"
+    }
+  ]
+}

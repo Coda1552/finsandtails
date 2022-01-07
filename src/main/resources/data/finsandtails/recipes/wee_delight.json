@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "finsandtails:vibra_wee"
+    },
+    {
+      "item": "finsandtails:wee_wee"
+    },
+    {
+      "item": "finsandtails:pea_wee"
+    },
+    {
+      "item": "minecraft:mushroom_stew"
+    },
+    {
+      "item": "finsandtails:blu_wee"
+    }
+  ],
+  "result": {
+    "item": "finsandtails:wee_delight",
+    "count": 1
+  }
+}

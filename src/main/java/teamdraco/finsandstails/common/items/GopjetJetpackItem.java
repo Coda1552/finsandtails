@@ -157,7 +157,7 @@ public class GopjetJetpackItem extends ArmorItem {
     @Override
     public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {
         super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
-        p_77624_3_.add(new TranslatableComponent("fins.gopjet_jetpack.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+        p_77624_3_.add(new TranslatableComponent("finsandtails.gopjet_jetpack.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
     }
 
     @Override

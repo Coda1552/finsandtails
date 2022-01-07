@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "finsandtails:bugfish_mandibles"
+    }
+  ],
+  "result": {
+    "item": "finsandtails:banner_pattern_mandibles"
+  }
+}

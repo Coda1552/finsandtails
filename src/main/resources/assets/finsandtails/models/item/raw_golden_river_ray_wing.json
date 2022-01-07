@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/raw_golden_river_ray_wing"
+  }
+}

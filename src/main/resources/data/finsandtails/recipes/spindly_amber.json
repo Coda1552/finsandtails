@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "finsandtails:spindly_amber_block"
+    }
+  ],
+  "result": {
+    "item": "finsandtails:spindly_amber",
+    "count": 9
+  }
+}

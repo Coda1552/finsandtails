@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/red_bull_crab_claw"
+  }
+}

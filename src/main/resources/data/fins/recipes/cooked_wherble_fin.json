@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "fins:wherble_fin"
-  },
-  "result": "fins:cooked_wherble_fin",
-  "experience": 0.1,
-  "cookingtime": 200
-}

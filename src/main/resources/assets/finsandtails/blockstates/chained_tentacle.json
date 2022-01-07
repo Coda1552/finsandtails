@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "finsandtails:block/chained_tentacle",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "finsandtails:block/chained_tentacle"
+    },
+    "axis=z": {
+      "model": "finsandtails:block/chained_tentacle",
+      "x": 90
+    }
+  }
+}

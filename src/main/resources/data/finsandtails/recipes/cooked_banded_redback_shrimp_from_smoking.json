@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "finsandtails:banded_redback_shrimp"
+  },
+  "result": "finsandtails:cooked_banded_redback_shrimp",
+  "experience": 0.35,
+  "cookingtime": 100
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "finsandtails:spindly_ruby"
+    }
+  },
+  "result": {
+    "item": "finsandtails:spindly_ruby_block"
+  }
+}

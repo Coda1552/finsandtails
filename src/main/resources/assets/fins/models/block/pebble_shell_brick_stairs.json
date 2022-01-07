@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "fins:block/pebble_shell_bricks",
-    "top": "fins:block/pebble_shell_bricks",
-    "side": "fins:block/pebble_shell_bricks"
-  }
-}

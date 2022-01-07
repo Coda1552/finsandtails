@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "finsandtails:spindly_emerald"
+    },
+    {
+      "item": "finsandtails:spindly_sapphire"
+    },
+    {
+      "item": "finsandtails:spindly_amber"
+    },
+    {
+      "item": "finsandtails:spindly_pearl"
+    },
+    {
+      "item": "finsandtails:spindly_ruby"
+    }
+  ],
+  "result": {
+    "item": "finsandtails:spindly_gem_crab_gem",
+    "count": 1
+  }
+}

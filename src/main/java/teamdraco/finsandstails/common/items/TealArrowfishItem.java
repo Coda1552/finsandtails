@@ -33,6 +33,6 @@ public class TealArrowfishItem extends ArrowItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> components, TooltipFlag flag) {
         super.appendHoverText(stack, world, components, flag);
-        components.add(new TranslatableComponent("fins.teal_arrowfish.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+        components.add(new TranslatableComponent("finsandtails.teal_arrowfish.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
     }
 }

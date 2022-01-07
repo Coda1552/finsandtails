@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "finsandtails:block/mixed_pebble_shell_bricks",
+    "top": "finsandtails:block/mixed_pebble_shell_bricks",
+    "side": "finsandtails:block/mixed_pebble_shell_bricks"
+  }
+}

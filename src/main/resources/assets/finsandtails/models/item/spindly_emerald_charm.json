@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/spindly_emerald_charm"
+  }
+}

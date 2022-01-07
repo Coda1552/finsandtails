@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " #B",
+    "SB#",
+    "BS "
+  ],
+  "key": {
+    "#": {
+      "item": "finsandtails:mudhorse_leather"
+    },
+    "B": {
+      "item": "minecraft:bamboo"
+    },
+    "S": {
+      "item": "minecraft:seagrass"
+    }
+  },
+  "result": {
+    "item": "finsandtails:swamp_didgeridoo",
+    "count": 1
+  }
+}

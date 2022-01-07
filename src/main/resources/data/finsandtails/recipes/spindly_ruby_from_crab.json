@@ -1,0 +1,12 @@
+{
+  "type": "finsandtails:crunching",
+  "base": {
+    "item": "finsandtails:ruby_spindly_gem_crab"
+  },
+  "addition": {
+    "item": "finsandtails:ruby_spindly_gem_crab"
+  },
+  "result": {
+    "item": "finsandtails:spindly_ruby"
+  }
+}

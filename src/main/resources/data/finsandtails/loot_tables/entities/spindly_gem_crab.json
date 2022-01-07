@@ -1,0 +1,74 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:emerald_spindly_gem_crab",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{\"Variant\":0}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:pearl_spindly_gem_crab",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{\"Variant\":1}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:sapphire_spindly_gem_crab",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{\"Variant\":2}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:ruby_spindly_gem_crab",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{\"Variant\":3}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:amber_spindly_gem_crab",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{\"Variant\":4}"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

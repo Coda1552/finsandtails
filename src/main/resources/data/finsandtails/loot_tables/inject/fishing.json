@@ -1,0 +1,94 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [
+    {
+      "rolls": {
+        "min": 1.0,
+        "max": 1.0,
+        "type": "minecraft:uniform"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "finsandtails:banded_redback_shrimp"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 25,
+          "name": "finsandtails:blu_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "finsandtails:pea_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "finsandtails:high_finned_blue"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "finsandtails:ornate_bugfish"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "name": "finsandtails:flatback_sucker"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "finsandtails:swamp_mucker"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "finsandtails:teal_arrowfish"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 7,
+          "name": "finsandtails:vibra_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "finsandtails:wee_wee"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "finsandtails:ruby_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "finsandtails:amber_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "finsandtails:emerald_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "finsandtails:pearl_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "finsandtails:sapphire_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "finsandtails:night_light_squid"
+        }
+      ]
+    }
+  ]
+}

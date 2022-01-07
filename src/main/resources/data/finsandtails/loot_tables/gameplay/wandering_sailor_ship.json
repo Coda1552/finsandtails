@@ -1,0 +1,130 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 2,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:ruby_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:amber_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:sapphire_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:pearl_spindly_gem_crab"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:emerald_spindly_gem_crab"
+        }
+      ]
+    },
+    {
+      "rolls": 2,
+      "bonus_rolls": 3,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:high_finned_blue",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:blu_wee",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 4,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:flatback_sucker",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:teal_arrowfish",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 2,
+                "max": 7
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:white_bull_crab_claw"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:red_bull_crab_claw"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:cooked_papa_wee",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:wee_delight"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:seafood_soup"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "finsandtails:bugfish_mandibles"
+        }
+      ]
+    }
+  ]
+}

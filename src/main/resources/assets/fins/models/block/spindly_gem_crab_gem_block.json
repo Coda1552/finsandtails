@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "fins:block/spindly_gem_crab_gem_block"
-  }
-}

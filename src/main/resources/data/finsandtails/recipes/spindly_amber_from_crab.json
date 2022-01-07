@@ -1,0 +1,12 @@
+{
+  "type": "finsandtails:crunching",
+  "base": {
+    "item": "finsandtails:amber_spindly_gem_crab"
+  },
+  "addition": {
+    "item": "finsandtails:amber_spindly_gem_crab"
+  },
+  "result": {
+    "item": "finsandtails:spindly_amber"
+  }
+}

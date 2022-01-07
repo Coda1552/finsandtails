@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "finsandtails:mudhorse_leather"
+    },
+    "S": {
+      "item": "minecraft:seagrass"
+    },
+    "C": {
+      "tag": "forge:chests/wooden"
+    }
+  },
+  "result": {
+    "item": "finsandtails:mudhorse_pouch",
+    "count": 1
+  }
+}

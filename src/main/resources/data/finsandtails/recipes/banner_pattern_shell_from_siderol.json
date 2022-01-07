@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "finsandtails:siderol_whiskered_snail_shell"
+    }
+  ],
+  "result": {
+    "item": "finsandtails:banner_pattern_shell"
+  }
+}

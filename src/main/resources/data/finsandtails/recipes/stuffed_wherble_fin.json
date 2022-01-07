@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "finsandtails:cooked_wherble_fin"
+    },
+    {
+      "item": "minecraft:potato"
+    }
+  ],
+  "result": {
+    "item": "finsandtails:stuffed_wherble_fin",
+    "count": 4
+  }
+}

@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "fins:block/pebble_shell_pillar_top",
-    "side": "fins:block/pebble_shell_pillar"
-  }
-}

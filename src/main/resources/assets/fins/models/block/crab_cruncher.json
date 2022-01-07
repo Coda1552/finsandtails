@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "top": "fins:block/crab_cruncher_top",
-    "side": "fins:block/crab_cruncher_side",
-    "front": "fins:block/crab_cruncher_side",
-    "bottom": "fins:block/crab_cruncher_bottom"
-  }
-}

@@ -1,0 +1,26 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/golden_river_ray_bucket_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "finsandtails:variant": 0
+      },
+      "model": "finsandtails:item/golden_river_ray_bucket"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 1
+      },
+      "model": "finsandtails:item/golden_river_ray_bucket_2"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 2
+      },
+      "model": "finsandtails:item/golden_river_ray_bucket_3"
+    }
+  ]
+}

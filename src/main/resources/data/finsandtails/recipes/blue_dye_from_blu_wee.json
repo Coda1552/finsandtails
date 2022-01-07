@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#"
+    ],
+    "key": {
+        "#": {
+            "item": "finsandtails:blu_wee"
+        }
+    },
+    "result": {
+        "item": "minecraft:blue_dye",
+        "count": 1
+    }
+}

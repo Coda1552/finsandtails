@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "fins:block/chiseled_pebble_shell_bricks"
-  }
-}

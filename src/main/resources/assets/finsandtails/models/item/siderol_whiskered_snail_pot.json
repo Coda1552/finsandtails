@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/siderol_whiskered_snail_pot"
+  }
+}

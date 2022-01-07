@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "s#",
+        "#s"
+    ],
+    "key": {
+        "#": {
+            "item": "finsandtails:river_pebble_snail_shell"
+        },
+        "s": {
+            "item": "finsandtails:siderol_whiskered_snail_shell"
+        }
+    },
+    "result": {
+        "item": "finsandtails:mixed_pebble_shell_bricks",
+        "count": 4
+    }
+}

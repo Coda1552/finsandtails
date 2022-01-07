@@ -1,0 +1,20 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/gem_crab_amulet"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "finsandtails:broken": 0
+      },
+      "model": "finsandtails:item/gem_crab_amulet"
+    },
+    {
+      "predicate": {
+        "finsandtails:broken": 1
+      },
+      "model": "finsandtails:item/gem_crab_amulet_broken"
+    }
+  ]
+}

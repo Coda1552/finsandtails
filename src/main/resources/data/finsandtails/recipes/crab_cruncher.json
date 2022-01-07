@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#C#",
+    "iMi",
+    "#C#"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:logs"
+    },
+    "C": {
+      "item": "minecraft:cobblestone"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "finsandtails:bugfish_mandibles"
+    }
+  },
+  "result": {
+    "item": "finsandtails:crab_cruncher",
+    "count": 1
+  }
+}

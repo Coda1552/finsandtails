@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "# #",
+    " C "
+  ],
+  "key": {
+    "#": {
+      "item": "finsandtails:mudhorse_leather"
+    },
+    "C": {
+      "item": "finsandtails:spindly_gem_crab_gem_block"
+    }
+  },
+  "result": {
+    "item": "finsandtails:gem_crab_amulet",
+    "count": 1
+  }
+}

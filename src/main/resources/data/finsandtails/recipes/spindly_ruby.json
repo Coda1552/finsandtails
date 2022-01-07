@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "finsandtails:spindly_ruby_block"
+    }
+  ],
+  "result": {
+    "item": "finsandtails:spindly_ruby",
+    "count": 9
+  }
+}

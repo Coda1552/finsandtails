@@ -189,7 +189,7 @@ public class CommonEvents {
                 addEntry(pool, getInjectEntry(new ResourceLocation(FinsAndTails.MOD_ID, "inject/fishing"), 10, 1));
             }
             if (name.equals(BuiltInLootTables.FISHERMAN_GIFT)) {
-                addEntry(pool, getInjectEntry(new ResourceLocation("fins:inject/fisherman_gift"), 15, 1));
+                addEntry(pool, getInjectEntry(new ResourceLocation("finsandtails:inject/fisherman_gift"), 15, 1));
             }
         }
     }

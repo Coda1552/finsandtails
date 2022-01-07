@@ -38,7 +38,7 @@ public class FTItems {
         @Override
         public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
             super.appendHoverText(stack, level, components, flag);
-            components.add(new TranslatableComponent("fins.high_finned_blue.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+            components.add(new TranslatableComponent("finsandtails.high_finned_blue.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
     });
     public static final RegistryObject<Item> ORNATE_BUGFISH = ITEMS.register("ornate_bugfish", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build())));

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "finsandtails:white_bull_crab_claw"
+  },
+  "result": "finsandtails:cooked_bull_crab_claw",
+  "experience": 0.35,
+  "cookingtime": 600
+}

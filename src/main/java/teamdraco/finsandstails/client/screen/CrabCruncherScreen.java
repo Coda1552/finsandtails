@@ -34,7 +34,7 @@ public class CrabCruncherScreen extends ContainerScreen<CrabCruncherContainer> {
 
     @Override
     protected void renderLabels(MatrixStack matrixStack, int x, int y) {
-        TranslationTextComponent textCompontent = new TranslationTextComponent("container.fins.crab_cruncher");
+        TranslationTextComponent textCompontent = new TranslationTextComponent("container.finsandtails.crab_cruncher");
 
         this.font.draw(matrixStack, this.inventory.getDisplayName(), (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
         this.font.draw(matrixStack, textCompontent, ((float) imageWidth / 2 - font.width(textCompontent) / 2), 6f, 4210752);

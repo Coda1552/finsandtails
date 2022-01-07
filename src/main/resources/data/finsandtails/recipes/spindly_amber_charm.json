@@ -1,0 +1,12 @@
+{
+  "type": "finsandtails:crunching",
+  "base": {
+    "item": "finsandtails:empty_charm"
+  },
+  "addition": {
+    "item": "finsandtails:spindly_amber"
+  },
+  "result": {
+    "item": "finsandtails:spindly_amber_charm"
+  }
+}
