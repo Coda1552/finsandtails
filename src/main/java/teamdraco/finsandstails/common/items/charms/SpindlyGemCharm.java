@@ -23,9 +23,7 @@ public class SpindlyGemCharm extends ArmorItem implements ISpindlyCharmItem {
 
     public SpindlyGemCharm() {
         super(MATERIAL, EquipmentSlot.CHEST, new Item.Properties().tab(FinsAndTails.GROUP).durability(2).rarity(Rarity.RARE));
-        ItemModelShaper.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player) -> {
-            return SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F;
-        });
+        ItemModelShaper.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player) -> SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F);
     }
 
     @Override

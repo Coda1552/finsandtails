@@ -1,39 +1,40 @@
 package teamdraco.finsandstails.common.items;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.common.entities.MudhorseEntity;
 import teamdraco.finsandstails.registry.FinsEntities;
 import teamdraco.finsandstails.registry.FinsSounds;
 
 import java.util.List;
+import java.util.Random;
 
 public class SwampDidgeridooItem extends Item {
 
-    public SwampDidgeridooItem(Properties properties) {
+    public SwampDidgeridooItem(Item.Properties properties) {
         super(properties);
     }
 
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         List<MudhorseEntity> mudhorses = world.getEntities(FinsEntities.MUDHORSE.get(), player.getBoundingBox().inflate(8), entity -> entity.getCommander() == null);
         if (mudhorses.isEmpty()) {
             player.playSound(SoundEvents.VILLAGER_NO, 0.4f, 1);
             addParticleEffect(ParticleTypes.SMOKE, world, player.getX() - 0.5, player.getY() + 1, player.getZ() - 0.5);
-            return ActionResult.pass(stack);
+            return InteractionResultHolder.pass(stack);
         }
 
         for (MudhorseEntity mudhorseEntity : mudhorses) {
@@ -43,16 +44,17 @@ public class SwampDidgeridooItem extends Item {
         player.playSound(FinsSounds.DIDGERIDOO_PLAY.get(), 0.4f, 1);
         player.getCooldowns().addCooldown(this, 600);
         stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(hand));
-        return ActionResult.success(stack);
+        return InteractionResultHolder.success(stack);
     }
 
     @Override
-    public void appendHoverText(ItemStack p_77624_1_, @Nullable World p_77624_2_, List<ITextComponent> p_77624_3_, ITooltipFlag p_77624_4_) {
+    public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {
         super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
-        p_77624_3_.add(new TranslationTextComponent("fins.swamp_didgeridoo.desc").withStyle(TextFormatting.GRAY).withStyle(TextFormatting.ITALIC));
+        p_77624_3_.add(new TranslatableComponent("fins.swamp_didgeridoo.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
     }
 
-    private void addParticleEffect(IParticleData particleData, World world, double x, double y, double z) {
+    private void addParticleEffect(SimpleParticleType particleData, Level world, double x, double y, double z) {
+        Random random = new Random();
         for(int i = 0; i < 10; ++i) {
             double d2 = random.nextGaussian() * 0.02D;
             double d3 = random.nextGaussian() * 0.02D;

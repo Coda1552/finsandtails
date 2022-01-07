@@ -107,8 +107,8 @@ public class FTItems {
 
     //Buckets
     //TODO: update to WCBucketItem & add callbacks for needed buckets
-    public static final RegistryObject<Item> BLU_WEE_BUCKET = ITEMS.register("blu_wee_bucket", () -> new MobBucketItem(FinsEntities.BLU_WEE, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
-    public static final RegistryObject<Item> PEA_WEE_BUCKET = ITEMS.register("pea_wee_bucket", () -> new MobBucketItem(FinsEntities.PEA_WEE, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
+    public static final RegistryObject<Item> BLU_WEE_BUCKET = ITEMS.register("blu_wee_bucket", () -> new MobBucketItem(FinsEntities.BLU_WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
+    public static final RegistryObject<Item> PEA_WEE_BUCKET = ITEMS.register("pea_wee_bucket", () -> new MobBucketItem(FinsEntities.PEA_WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> BANDED_REDBACK_SHRIMP_BUCKET = ITEMS.register("banded_redback_shrimp_bucket", () -> new MobBucketItem(FinsEntities.BANDED_REDBACK_SHRIMP, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> TEAL_ARROWFISH_BUCKET = ITEMS.register("teal_arrowfish_bucket", () -> new MobBucketItem(FinsEntities.TEAL_ARROWFISH, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> SWAMP_MUCKER_BUCKET = ITEMS.register("swamp_mucker_bucket", () -> new MobBucketItem(FinsEntities.SWAMP_MUCKER, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
