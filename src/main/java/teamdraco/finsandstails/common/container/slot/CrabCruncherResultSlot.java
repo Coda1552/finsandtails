@@ -1,22 +1,22 @@
 package teamdraco.finsandstails.common.container.slot;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.IRecipeHolder;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.world.inventory.RecipeHolder;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.hooks.BasicEventHooks;
 import teamdraco.finsandstails.registry.FTRecipes;
 
 public class CrabCruncherResultSlot extends Slot {
-   private final CraftingInventory craftMatrix;
-   private final PlayerEntity player;
+   private final CraftingMenu craftMatrix;
+   private final Player player;
    private int amountCrafted;
 
-   public CrabCruncherResultSlot(PlayerEntity player, CraftingInventory craftingInventory, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
+   public CrabCruncherResultSlot(Player player, CraftingMenu craftingInventory, Container inventoryIn, int slotIndex, int xPosition, int yPosition) {
       super(inventoryIn, slotIndex, xPosition, yPosition);
       this.player = player;
       this.craftMatrix = craftingInventory;
@@ -49,14 +49,14 @@ public class CrabCruncherResultSlot extends Slot {
          BasicEventHooks.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
       }
 
-      if (this.container instanceof IRecipeHolder) {
-         ((IRecipeHolder)this.container).awardUsedRecipes(this.player);
+      if (this.container instanceof RecipeHolder) {
+         ((RecipeHolder)this.container).awardUsedRecipes(this.player);
       }
 
       this.amountCrafted = 0;
    }
 
-   public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
+   public ItemStack onTake(Player thePlayer, ItemStack stack) {
       this.checkTakeAchievements(stack);
       ForgeHooks.setCraftingPlayer(thePlayer);
       NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.level);
@@ -75,7 +75,7 @@ public class CrabCruncherResultSlot extends Slot {
             } else if (ItemStack.isSame(itemstack, itemstack1) && ItemStack.tagMatches(itemstack, itemstack1)) {
                itemstack1.grow(itemstack.getCount());
                this.craftMatrix.setItem(i, itemstack1);
-            } else if (!this.player.inventory.add(itemstack1)) {
+            } else if (!this.player.getInventory().add(itemstack1)) {
                this.player.drop(itemstack1, false);
             }
          }

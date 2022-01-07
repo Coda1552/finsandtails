@@ -35,7 +35,7 @@ public class CrabCruncherContainer extends Container {
     private final CraftResultInventory craftResult = new CraftResultInventory();
 
     public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory) {
-        this(windowId, playerInventory, IWorldPosCallable.NULL);
+        this(windowId, playerInventory, .NULL);
     }
 
     public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
