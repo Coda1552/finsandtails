@@ -3,7 +3,8 @@ package teamdraco.finsandstails;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.IConfigSpec;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -36,9 +37,9 @@ public class FinsConfig {
     public static int glassSkipperSpawnWeight;
 
     @SubscribeEvent
-    public static void configLoad(ModConfig.ModConfigEvent event) {
+    public static void configLoad(ModConfigEvent.Reloading event) {
         try {
-            ForgeConfigSpec spec = event.getConfig().getSpec();
+            IConfigSpec spec = event.getConfig().getSpec();
             if (spec == Common.SPEC) Common.reload();
         }
         catch (Throwable e) {
