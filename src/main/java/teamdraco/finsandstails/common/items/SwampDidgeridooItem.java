@@ -15,7 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.common.entities.MudhorseEntity;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class SwampDidgeridooItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        List<MudhorseEntity> mudhorses = world.getEntities(FinsEntities.MUDHORSE.get(), player.getBoundingBox().inflate(8), entity -> entity.getCommander() == null);
+        List<MudhorseEntity> mudhorses = world.getEntities(FTEntities.MUDHORSE.get(), player.getBoundingBox().inflate(8), entity -> entity.getCommander() == null);
         if (mudhorses.isEmpty()) {
             player.playSound(SoundEvents.VILLAGER_NO, 0.4f, 1);
             addParticleEffect(ParticleTypes.SMOKE, world, player.getX() - 0.5, player.getY() + 1, player.getZ() - 0.5);

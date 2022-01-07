@@ -35,7 +35,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -112,7 +112,7 @@ public class FinsBucketItem extends BucketItem {
 
     @Override
     protected ItemStack getEmptySuccessItem(ItemStack stack, PlayerEntity player) {
-        if (entityTypeSupplier == FinsEntities.FLATBACK_LEAF_SNAIL || entityTypeSupplier == FinsEntities.SIDEROL_WHISKERED_SNAIL || entityTypeSupplier == FinsEntities.RIVER_PEBBLE_SNAIL) {
+        if (entityTypeSupplier == FTEntities.FLATBACK_LEAF_SNAIL || entityTypeSupplier == FTEntities.SIDEROL_WHISKERED_SNAIL || entityTypeSupplier == FTEntities.RIVER_PEBBLE_SNAIL) {
             return !player.abilities.instabuild ? new ItemStack(Items.FLOWER_POT) : stack;
         }
         else {

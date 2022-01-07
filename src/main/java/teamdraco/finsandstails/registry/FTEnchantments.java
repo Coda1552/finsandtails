@@ -11,7 +11,7 @@ import teamdraco.finsandstails.common.enchantments.CrabsFavorEnchantment;
 import teamdraco.finsandstails.common.enchantments.FlukedEdgeEnchantment;
 import teamdraco.finsandstails.common.enchantments.UppercuttingEnchantment;
 
-public class FinsEnchantments {
+public class FTEnchantments {
     public static final DeferredRegister<Enchantment> REGISTER = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, FinsAndTails.MOD_ID);
 
     public static final RegistryObject<Enchantment> FLUKED_EDGE = REGISTER.register("fluked_edge", () -> new FlukedEdgeEnchantment(Enchantment.Rarity.RARE, EnchantmentType.ARMOR_FEET, new EquipmentSlotType[] {EquipmentSlotType.FEET}));

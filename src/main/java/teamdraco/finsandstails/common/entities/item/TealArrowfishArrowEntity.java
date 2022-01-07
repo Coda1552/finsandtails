@@ -12,7 +12,7 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 import teamdraco.finsandstails.common.items.TealArrowfishItem;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 
 public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAdditionalSpawnData {
     private final TealArrowfishItem arrow;
@@ -23,7 +23,7 @@ public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAd
     }
 
     public TealArrowfishArrowEntity(Level worldIn, Item item) {
-        super(FinsEntities.TEAL_ARROWFISH_ARROW.get(), worldIn);
+        super(FTEntities.TEAL_ARROWFISH_ARROW.get(), worldIn);
         this.arrow = (TealArrowfishItem) item;
     }
 

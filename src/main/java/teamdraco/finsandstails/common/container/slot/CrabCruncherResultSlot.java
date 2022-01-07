@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.hooks.BasicEventHooks;
-import teamdraco.finsandstails.registry.FinsRecipes;
+import teamdraco.finsandstails.registry.FTRecipes;
 
 public class CrabCruncherResultSlot extends Slot {
    private final CraftingInventory craftMatrix;
@@ -59,7 +59,7 @@ public class CrabCruncherResultSlot extends Slot {
    public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
       this.checkTakeAchievements(stack);
       ForgeHooks.setCraftingPlayer(thePlayer);
-      NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FinsRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.level);
+      NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.level);
       ForgeHooks.setCraftingPlayer(null);
       for(int i = 0; i < nonnulllist.size(); ++i) {
          ItemStack itemstack = this.craftMatrix.getItem(i);

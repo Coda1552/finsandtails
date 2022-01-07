@@ -1,7 +1,7 @@
 package teamdraco.finsandstails.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.ItemModelShaper;
@@ -21,46 +21,46 @@ import teamdraco.finsandstails.common.items.charms.SpindlyGemCharm;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsContainers;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTContainers;
+import teamdraco.finsandstails.registry.FTEntities;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
 
     public static void init() {
-        EntityRenderers.register(FinsEntities.BLU_WEE.get(), BluWeeRenderer::new);
-        EntityRenderers.register(FinsEntities.PEA_WEE.get(), PeaWeeRenderer::new);
-        EntityRenderers.register(FinsEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpRenderer::new);
-        EntityRenderers.register(FinsEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
-        EntityRenderers.register(FinsEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
-        EntityRenderers.register(FinsEntities.FLATBACK_SUCKER.get(), FlatbackSuckerRenderer::new);
-        EntityRenderers.register(FinsEntities.HIGH_FINNED_BLUE.get(), HighFinnedBlueRenderer::new);
-        EntityRenderers.register(FinsEntities.MUDHORSE.get(), MudhorseRenderer::new);
-        EntityRenderers.register(FinsEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
-        EntityRenderers.register(FinsEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchRenderer::new);
-        EntityRenderers.register(FinsEntities.PENGLIL.get(), PenglilRenderer::new);
-        EntityRenderers.register(FinsEntities.SPINDLY_GEM_CRAB.get(), SpindlyGemCrabRenderer::new);
-        EntityRenderers.register(FinsEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailRenderer::new);
-        EntityRenderers.register(FinsEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderRenderer::new);
-        EntityRenderers.register(FinsEntities.RED_BULL_CRAB.get(), RedBullCrabRenderer::new);
-        EntityRenderers.register(FinsEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabRenderer::new);
-        EntityRenderers.register(FinsEntities.WEE_WEE.get(), WeeWeeRenderer::new);
-        EntityRenderers.register(FinsEntities.VIBRA_WEE.get(), VibraWeeRenderer::new);
-        EntityRenderers.register(FinsEntities.GOPJET.get(), GopjetRenderer::new);
-        EntityRenderers.register(FinsEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailRenderer::new);
-        EntityRenderers.register(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailRenderer::new);
-        EntityRenderers.register(FinsEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayRenderer::new);
-        EntityRenderers.register(FinsEntities.NIGHT_LIGHT_SQUID.get(), NightLightSquidRenderer::new);
-        EntityRenderers.register(FinsEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
-        EntityRenderers.register(FinsEntities.PAPA_WEE.get(), PapaWeeRenderer::new);
-        EntityRenderers.register(FinsEntities.WHERBLE.get(), WherbleRenderer::new);
-        EntityRenderers.register(FinsEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);
-        EntityRenderers.register(FinsEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabRenderer::new);
-        EntityRenderers.register(FinsEntities.GLASS_SKIPPER.get(), GlassSkipperRenderer::new);
+        EntityRenderers.register(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
+        EntityRenderers.register(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
+        EntityRenderers.register(FTEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpRenderer::new);
+        EntityRenderers.register(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
+        EntityRenderers.register(FTEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
+        EntityRenderers.register(FTEntities.FLATBACK_SUCKER.get(), FlatbackSuckerRenderer::new);
+        EntityRenderers.register(FTEntities.HIGH_FINNED_BLUE.get(), HighFinnedBlueRenderer::new);
+        EntityRenderers.register(FTEntities.MUDHORSE.get(), MudhorseRenderer::new);
+        EntityRenderers.register(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
+        EntityRenderers.register(FTEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchRenderer::new);
+        EntityRenderers.register(FTEntities.PENGLIL.get(), PenglilRenderer::new);
+        EntityRenderers.register(FTEntities.SPINDLY_GEM_CRAB.get(), SpindlyGemCrabRenderer::new);
+        EntityRenderers.register(FTEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailRenderer::new);
+        EntityRenderers.register(FTEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderRenderer::new);
+        EntityRenderers.register(FTEntities.RED_BULL_CRAB.get(), RedBullCrabRenderer::new);
+        EntityRenderers.register(FTEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabRenderer::new);
+        EntityRenderers.register(FTEntities.WEE_WEE.get(), WeeWeeRenderer::new);
+        EntityRenderers.register(FTEntities.VIBRA_WEE.get(), VibraWeeRenderer::new);
+        EntityRenderers.register(FTEntities.GOPJET.get(), GopjetRenderer::new);
+        EntityRenderers.register(FTEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailRenderer::new);
+        EntityRenderers.register(FTEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailRenderer::new);
+        EntityRenderers.register(FTEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayRenderer::new);
+        EntityRenderers.register(FTEntities.NIGHT_LIGHT_SQUID.get(), NightLightSquidRenderer::new);
+        EntityRenderers.register(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
+        EntityRenderers.register(FTEntities.PAPA_WEE.get(), PapaWeeRenderer::new);
+        EntityRenderers.register(FTEntities.WHERBLE.get(), WherbleRenderer::new);
+        EntityRenderers.register(FTEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);
+        EntityRenderers.register(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabRenderer::new);
+        EntityRenderers.register(FTEntities.GLASS_SKIPPER.get(), GlassSkipperRenderer::new);
 
         ItemBlockRenderTypes.setRenderLayer(FTBlocks.CHAINED_TENTACLE.get(), RenderType.cutout());
-        ScreenManager.register(FinsContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
-        ScreenManager.register(FinsContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
+        MenuScreens.register(FTContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
+        MenuScreens.register(FTContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
         ItemModelShaper.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player) -> SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F);
     }
 

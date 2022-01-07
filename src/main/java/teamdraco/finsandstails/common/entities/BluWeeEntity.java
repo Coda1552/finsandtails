@@ -14,7 +14,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import teamdraco.finsandstails.common.entities.util.goals.WeeHurtByEntityGoal;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class BluWeeEntity extends AbstractGroupFishEntity {
     public void tick() {
         super.tick();
         if (random.nextInt(2500) == 0 && shouldSpawnPapaWee()) {
-            PapaWeeEntity papaWee = FinsEntities.PAPA_WEE.get().create(level);
+            PapaWeeEntity papaWee = FTEntities.PAPA_WEE.get().create(level);
             papaWee.setPos(this.getX(), this.getY(), this.getZ());
 
             level.addFreshEntity(papaWee);

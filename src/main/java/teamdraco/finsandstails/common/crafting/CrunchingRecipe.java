@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FinsRecipes;
+import teamdraco.finsandstails.registry.FTRecipes;
 
 public class CrunchingRecipe implements IRecipe<CraftingInventory> {
     private final Ingredient base;
@@ -55,11 +55,11 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
     }
 
     public IRecipeSerializer<?> getSerializer() {
-        return FinsRecipes.CRUNCHING_SERIALIZER.get();
+        return FTRecipes.CRUNCHING_SERIALIZER.get();
     }
 
     public IRecipeType<?> getType() {
-        return FinsRecipes.CRUNCHING_TYPE;
+        return FTRecipes.CRUNCHING_TYPE;
     }
 
     @Override

@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 
-public class FinsRecipes {
+public class FTRecipes {
     public static final DeferredRegister<IRecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, FinsAndTails.MOD_ID);
 
     public static final RegistryObject<CrunchingRecipe.Serializer> CRUNCHING_SERIALIZER = SERIALIZERS.register("crunching", CrunchingRecipe.Serializer::new);

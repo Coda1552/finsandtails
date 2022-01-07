@@ -31,8 +31,8 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.*;
-import teamdraco.finsandstails.registry.FinsEntities;
-import teamdraco.finsandstails.registry.FinsStructures;
+import teamdraco.finsandstails.registry.FTEntities;
+import teamdraco.finsandstails.registry.FTStructures;
 
 import java.util.List;
 import java.util.Map;
@@ -101,7 +101,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
         private Rotation rotation;
 
         public Piece(TemplateManager templateManagerIn, ResourceLocation resourceLocationIn, BlockPos pos, Rotation rotationIn) {
-            super(FinsStructures.SAILORS_SHIP_PIECE, 0);
+            super(FTStructures.SAILORS_SHIP_PIECE, 0);
             this.resourceLocation = resourceLocationIn;
             this.templatePosition = pos;
             this.rotation = rotationIn;
@@ -109,7 +109,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
         }
 
         public Piece(TemplateManager templateManagerIn, CompoundNBT tagCompound) {
-            super(FinsStructures.SAILORS_SHIP_PIECE, tagCompound);
+            super(FTStructures.SAILORS_SHIP_PIECE, tagCompound);
             this.resourceLocation = new ResourceLocation(tagCompound.getString("Template"));
             this.rotation = Rotation.valueOf(tagCompound.getString("Rot"));
             this.setupPiece(templateManagerIn);
@@ -155,7 +155,7 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
             }
             if ("sailor".equals(function)) {
                 worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                WanderingSailorEntity entity = FinsEntities.WANDERING_SAILOR.get().create(worldIn.getLevel());
+                WanderingSailorEntity entity = FTEntities.WANDERING_SAILOR.get().create(worldIn.getLevel());
                 if (entity != null) {
                     entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                     entity.finalizeSpawn(worldIn, worldIn.getCurrentDifficultyAt(pos), SpawnReason.STRUCTURE, null, null);
@@ -164,11 +164,11 @@ public class SailorsShipStructure extends Structure<NoFeatureConfig> {
             }
             if ("fish".equals(function)) {
                 Map<Integer, MobEntity> map = Util.make(Maps.newHashMap(), (hashMap) -> {
-                    hashMap.put(0, FinsEntities.NIGHT_LIGHT_SQUID.get().create(worldIn.getLevel()));
-                    hashMap.put(1, FinsEntities.GOPJET.get().create(worldIn.getLevel()));
-                    hashMap.put(2, FinsEntities.SPINDLY_GEM_CRAB.get().create(worldIn.getLevel()));
-                    hashMap.put(3, FinsEntities.PHANTOM_NUDIBRANCH.get().create(worldIn.getLevel()));
-                    hashMap.put(4, FinsEntities.ORNATE_BUGFISH.get().create(worldIn.getLevel()));
+                    hashMap.put(0, FTEntities.NIGHT_LIGHT_SQUID.get().create(worldIn.getLevel()));
+                    hashMap.put(1, FTEntities.GOPJET.get().create(worldIn.getLevel()));
+                    hashMap.put(2, FTEntities.SPINDLY_GEM_CRAB.get().create(worldIn.getLevel()));
+                    hashMap.put(3, FTEntities.PHANTOM_NUDIBRANCH.get().create(worldIn.getLevel()));
+                    hashMap.put(4, FTEntities.ORNATE_BUGFISH.get().create(worldIn.getLevel()));
                 });
 
                 worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);

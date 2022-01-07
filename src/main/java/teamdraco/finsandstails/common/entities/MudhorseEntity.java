@@ -28,7 +28,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.common.entities.util.goals.MudhorseForageGoal;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
@@ -189,7 +189,7 @@ public class MudhorseEntity extends AnimalEntity implements IRangedAttackMob {
     @Nullable
     @Override
     public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
-        return FinsEntities.MUDHORSE.get().create(world);
+        return FTEntities.MUDHORSE.get().create(world);
     }
 
     @Override

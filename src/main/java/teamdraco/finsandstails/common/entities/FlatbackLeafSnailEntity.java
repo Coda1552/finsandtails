@@ -18,7 +18,7 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class FlatbackLeafSnailEntity extends AnimalEntity {
@@ -98,7 +98,7 @@ public class FlatbackLeafSnailEntity extends AnimalEntity {
     @Nullable
     @Override
     public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
-        return FinsEntities.FLATBACK_LEAF_SNAIL.get().create(world);
+        return FTEntities.FLATBACK_LEAF_SNAIL.get().create(world);
     }
 
     public boolean isFood(ItemStack stack) {

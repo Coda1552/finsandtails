@@ -10,7 +10,7 @@ import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 
-public class FinsEntities {
+public class FTEntities {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITIES, FinsAndTails.MOD_ID);
 
     public static final RegistryObject<EntityType<BluWeeEntity>> BLU_WEE = create("blu_wee", EntityType.Builder.of(BluWeeEntity::new, EntityClassification.WATER_AMBIENT).sized(0.3f, 0.2f));

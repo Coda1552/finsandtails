@@ -61,78 +61,78 @@ public class FinsAndTails {
         //bus.addListener(this::setup);
         //forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
 
-        FinsEnchantments.REGISTER.register(bus);
+        FTEnchantments.REGISTER.register(bus);
         FTItems.ITEMS.register(bus);
         FTBlocks.BLOCKS.register(bus);
-        FinsContainers.REGISTER.register(bus);
-        FinsEntities.REGISTER.register(bus);
+        FTContainers.REGISTER.register(bus);
+        FTEntities.REGISTER.register(bus);
         FtSounds.REGISTER.register(bus);
-        FinsRecipes.SERIALIZERS.register(bus);
-        FinsStructures.REGISTER.register(bus);
+        FTRecipes.SERIALIZERS.register(bus);
+        FTStructures.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
     }
 
     private void registerCommon(FMLCommonSetupEvent event) {
-        SpawnPlacements.register(FinsEntities.BLU_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.PEA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.BANDED_REDBACK_SHRIMP.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.SWAMP_MUCKER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.TEAL_ARROWFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.FLATBACK_SUCKER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.HIGH_FINNED_BLUE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.MUDHORSE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
-        SpawnPlacements.register(FinsEntities.PHANTOM_NUDIBRANCH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.ORNATE_BUGFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.PENGLIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PenglilEntity::canPenglilSpawn);
-        SpawnPlacements.register(FinsEntities.SPINDLY_GEM_CRAB.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.FLATBACK_LEAF_SNAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
-        SpawnPlacements.register(FinsEntities.RED_BULL_CRAB.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RedBullCrabEntity::canCrabSpawn);
-        SpawnPlacements.register(FinsEntities.WHITE_BULL_CRAB.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RedBullCrabEntity::canCrabSpawn);
-        SpawnPlacements.register(FinsEntities.WEE_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.VIBRA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.RIVER_PEBBLE_SNAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
-        SpawnPlacements.register(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
-        SpawnPlacements.register(FinsEntities.GOLDEN_RIVER_RAY.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.NIGHT_LIGHT_SQUID.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, NightLightSquidEntity::checkSquidSpawnRules);
-        SpawnPlacements.register(FinsEntities.GOPJET.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.PAPA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
-        SpawnPlacements.register(FinsEntities.WHERBLE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WherbleEntity::checkWherbleSpawnRules);
-        SpawnPlacements.register(FinsEntities.GLASS_SKIPPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
+        SpawnPlacements.register(FTEntities.BLU_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.PEA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.BANDED_REDBACK_SHRIMP.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.SWAMP_MUCKER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.TEAL_ARROWFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.FLATBACK_SUCKER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.HIGH_FINNED_BLUE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.MUDHORSE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
+        SpawnPlacements.register(FTEntities.PHANTOM_NUDIBRANCH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.ORNATE_BUGFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.PENGLIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PenglilEntity::canPenglilSpawn);
+        SpawnPlacements.register(FTEntities.SPINDLY_GEM_CRAB.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.FLATBACK_LEAF_SNAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
+        SpawnPlacements.register(FTEntities.RED_BULL_CRAB.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RedBullCrabEntity::canCrabSpawn);
+        SpawnPlacements.register(FTEntities.WHITE_BULL_CRAB.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RedBullCrabEntity::canCrabSpawn);
+        SpawnPlacements.register(FTEntities.WEE_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.VIBRA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.RIVER_PEBBLE_SNAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
+        SpawnPlacements.register(FTEntities.SIDEROL_WHISKERED_SNAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
+        SpawnPlacements.register(FTEntities.GOLDEN_RIVER_RAY.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.NIGHT_LIGHT_SQUID.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, NightLightSquidEntity::checkSquidSpawnRules);
+        SpawnPlacements.register(FTEntities.GOPJET.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.PAPA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFishEntity::checkFishSpawnRules);
+        SpawnPlacements.register(FTEntities.WHERBLE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WherbleEntity::checkWherbleSpawnRules);
+        SpawnPlacements.register(FTEntities.GLASS_SKIPPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
 
         BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FTItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
     }
 
     private void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(FinsEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpEntity.createAttributes().build());
-        event.put(FinsEntities.BLU_WEE.get(), BluWeeEntity.createAttributes().build());
-        event.put(FinsEntities.FLATBACK_SUCKER.get(), FlatbackSuckerEntity.createAttributes().build());
-        event.put(FinsEntities.HIGH_FINNED_BLUE.get(), HighFinnedBlueEntity.createAttributes().build());
-        event.put(FinsEntities.MUDHORSE.get(), MudhorseEntity.createAttributes().build());
-        event.put(FinsEntities.ORNATE_BUGFISH.get(), OrnateBugfishEntity.createAttributes().build());
-        event.put(FinsEntities.PEA_WEE.get(), PeaWeeEntity.createAttributes().build());
-        event.put(FinsEntities.PENGLIL.get(), PenglilEntity.createAttributes().build());
-        event.put(FinsEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchEntity.createAttributes().build());
-        event.put(FinsEntities.SPINDLY_GEM_CRAB.get(), SpindlyGemCrabEntity.createAttributes().build());
-        event.put(FinsEntities.SWAMP_MUCKER.get(), SwampMuckerEntity.createAttributes().build());
-        event.put(FinsEntities.TEAL_ARROWFISH.get(), TealArrowfishEntity.createAttributes().build());
-        event.put(FinsEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailEntity.createAttributes().build());
-        event.put(FinsEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderEntity.registerRBGAttributes().build());
-        event.put(FinsEntities.RED_BULL_CRAB.get(), RedBullCrabEntity.createAttributes().build());
-        event.put(FinsEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabEntity.createAttributes().build());
-        event.put(FinsEntities.WEE_WEE.get(), WeeWeeEntity.createAttributes().build());
-        event.put(FinsEntities.VIBRA_WEE.get(), AbstractFishEntity.createAttributes().build());
-        event.put(FinsEntities.GOPJET.get(), GopjetEntity.createAttributes().build());
-        event.put(FinsEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailEntity.createAttributes().build());
-        event.put(FinsEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailEntity.createAttributes().build());
-        event.put(FinsEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayEntity.createAttributes().build());
-        event.put(FinsEntities.NIGHT_LIGHT_SQUID.get(), NightLightSquidEntity.createAttributes().build());
-        event.put(FinsEntities.PAPA_WEE.get(), PapaWeeEntity.createAttributes().build());
-        event.put(FinsEntities.WHERBLE.get(), WherbleEntity.createAttributes().build());
-        event.put(FinsEntities.WANDERING_SAILOR.get(), WanderingSailorEntity.createAttributes().build());
-        event.put(FinsEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
-        event.put(FinsEntities.GLASS_SKIPPER.get(), GlassSkipperEntity.createAttributes().build());
+        event.put(FTEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpEntity.createAttributes().build());
+        event.put(FTEntities.BLU_WEE.get(), BluWeeEntity.createAttributes().build());
+        event.put(FTEntities.FLATBACK_SUCKER.get(), FlatbackSuckerEntity.createAttributes().build());
+        event.put(FTEntities.HIGH_FINNED_BLUE.get(), HighFinnedBlueEntity.createAttributes().build());
+        event.put(FTEntities.MUDHORSE.get(), MudhorseEntity.createAttributes().build());
+        event.put(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishEntity.createAttributes().build());
+        event.put(FTEntities.PEA_WEE.get(), PeaWeeEntity.createAttributes().build());
+        event.put(FTEntities.PENGLIL.get(), PenglilEntity.createAttributes().build());
+        event.put(FTEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchEntity.createAttributes().build());
+        event.put(FTEntities.SPINDLY_GEM_CRAB.get(), SpindlyGemCrabEntity.createAttributes().build());
+        event.put(FTEntities.SWAMP_MUCKER.get(), SwampMuckerEntity.createAttributes().build());
+        event.put(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishEntity.createAttributes().build());
+        event.put(FTEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailEntity.createAttributes().build());
+        event.put(FTEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderEntity.registerRBGAttributes().build());
+        event.put(FTEntities.RED_BULL_CRAB.get(), RedBullCrabEntity.createAttributes().build());
+        event.put(FTEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabEntity.createAttributes().build());
+        event.put(FTEntities.WEE_WEE.get(), WeeWeeEntity.createAttributes().build());
+        event.put(FTEntities.VIBRA_WEE.get(), AbstractFishEntity.createAttributes().build());
+        event.put(FTEntities.GOPJET.get(), GopjetEntity.createAttributes().build());
+        event.put(FTEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailEntity.createAttributes().build());
+        event.put(FTEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailEntity.createAttributes().build());
+        event.put(FTEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayEntity.createAttributes().build());
+        event.put(FTEntities.NIGHT_LIGHT_SQUID.get(), NightLightSquidEntity.createAttributes().build());
+        event.put(FTEntities.PAPA_WEE.get(), PapaWeeEntity.createAttributes().build());
+        event.put(FTEntities.WHERBLE.get(), WherbleEntity.createAttributes().build());
+        event.put(FTEntities.WANDERING_SAILOR.get(), WanderingSailorEntity.createAttributes().build());
+        event.put(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
+        event.put(FTEntities.GLASS_SKIPPER.get(), GlassSkipperEntity.createAttributes().build());
     }
 
     private void registerClient(FMLClientSetupEvent event) {

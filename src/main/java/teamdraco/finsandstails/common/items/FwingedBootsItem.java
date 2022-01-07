@@ -27,7 +27,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.FwingedBootsModel;
-import teamdraco.finsandstails.registry.FinsEnchantments;
+import teamdraco.finsandstails.registry.FTEnchantments;
 
 import javax.annotation.Nullable;
 
@@ -46,8 +46,8 @@ public class FwingedBootsItem extends ArmorItem {
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1, 0));
         }
 
-        int j = EnchantmentHelper.getItemEnchantmentLevel(FinsEnchantments.FLUKED_EDGE.get(), stack);
-        if (EnchantmentHelper.getEnchantments(stack).containsKey(FinsEnchantments.FLUKED_EDGE.get())) {
+        int j = EnchantmentHelper.getItemEnchantmentLevel(FTEnchantments.FLUKED_EDGE.get(), stack);
+        if (EnchantmentHelper.getEnchantments(stack).containsKey(FTEnchantments.FLUKED_EDGE.get())) {
             if (j <= 0 || worldIn.getBlockState(player.blockPosition().below()).is(Blocks.WATER) && worldIn.getBlockState(player.blockPosition()).isAir() /*&& player.isSwimming()*/ && player.getDeltaMovement().y > 0.25) {
 
                 if (j > 0) {

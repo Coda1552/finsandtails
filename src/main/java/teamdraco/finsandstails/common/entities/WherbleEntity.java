@@ -27,7 +27,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
@@ -155,7 +155,7 @@ public class WherbleEntity extends AnimalEntity {
     @Nullable
     @Override
     public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-        WherbleEntity wherble = FinsEntities.WHERBLE.get().create(p_241840_1_);
+        WherbleEntity wherble = FTEntities.WHERBLE.get().create(p_241840_1_);
         wherble.setVariant(random.nextInt(4));
         return wherble;
     }

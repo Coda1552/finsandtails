@@ -29,7 +29,7 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import org.jetbrains.annotations.Nullable;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class RiverPebbleSnailEntity extends AnimalEntity {
@@ -88,7 +88,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     @Nullable
     @Override
     public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
-        RiverPebbleSnailEntity snail = FinsEntities.RIVER_PEBBLE_SNAIL.get().create(world);
+        RiverPebbleSnailEntity snail = FTEntities.RIVER_PEBBLE_SNAIL.get().create(world);
         if (ageable instanceof RiverPebbleSnailEntity) {
             snail.setVariant(random.nextInt(5));
         }

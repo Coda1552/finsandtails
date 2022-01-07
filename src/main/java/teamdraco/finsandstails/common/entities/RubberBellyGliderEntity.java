@@ -28,7 +28,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import teamdraco.finsandstails.common.entities.util.GroundAndSwimmerNavigator;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
@@ -191,7 +191,7 @@ public class RubberBellyGliderEntity extends AnimalEntity {
 
     @Override
     public AgeableEntity getBreedOffspring(ServerWorld serverWorld, AgeableEntity ageableEntity) {
-        return FinsEntities.RUBBER_BELLY_GLIDER.get().create(level);
+        return FTEntities.RUBBER_BELLY_GLIDER.get().create(level);
     }
 
     @Override

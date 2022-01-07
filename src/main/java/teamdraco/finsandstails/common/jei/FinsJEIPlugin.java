@@ -10,7 +10,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.registry.FinsRecipes;
+import teamdraco.finsandstails.registry.FTRecipes;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -28,7 +28,7 @@ public class FinsJEIPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
 
-        registration.addRecipes(getRecipes(manager, FinsRecipes.CRUNCHING_TYPE), CrunchingRecipeCategory.ID);
+        registration.addRecipes(getRecipes(manager, FTRecipes.CRUNCHING_TYPE), CrunchingRecipeCategory.ID);
     }
 
     @Override

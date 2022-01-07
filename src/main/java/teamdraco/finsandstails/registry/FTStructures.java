@@ -18,7 +18,7 @@ import teamdraco.finsandstails.common.world.structure.SailorsShipStructure;
 import java.util.Locale;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID)
-public class FinsStructures {
+public class FTStructures {
     public static IStructurePieceType SAILORS_SHIP_PIECE = register(SailorsShipStructure.Piece::new, "SailorsShip");
     public static final DeferredRegister<Structure<?>> REGISTER = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, FinsAndTails.MOD_ID);
 

@@ -41,7 +41,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import teamdraco.finsandstails.registry.FinsEntities;
+import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 import javax.annotation.Nullable;
@@ -308,7 +308,7 @@ public class GlassSkipperEntity extends AnimalEntity implements IFlyingAnimal {
     }
 
     public GlassSkipperEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-        GlassSkipperEntity entity = FinsEntities.GLASS_SKIPPER.get().create(p_241840_1_);
+        GlassSkipperEntity entity = FTEntities.GLASS_SKIPPER.get().create(p_241840_1_);
         entity.setVariant(random.nextInt(5));
         return entity;
     }

@@ -8,7 +8,7 @@ import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.container.CrabCruncherContainer;
 import teamdraco.finsandstails.common.container.MudhorsePouchContainer;
 
-public class FinsContainers {
+public class FTContainers {
     public static final DeferredRegister<ContainerType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, FinsAndTails.MOD_ID);
 
     public static final RegistryObject<ContainerType<MudhorsePouchContainer>> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", () -> new ContainerType<>(MudhorsePouchContainer::new));

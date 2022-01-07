@@ -8,7 +8,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import teamdraco.finsandstails.registry.FinsContainers;
+import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class MudhorsePouchContainer extends Container {
@@ -20,7 +20,7 @@ public class MudhorsePouchContainer extends Container {
     }
 
     public MudhorsePouchContainer(int id, PlayerInventory playerInventory, ItemStack inventoryStack) {
-        super(FinsContainers.MUDHORSE_POUCH.get(), id);
+        super(FTContainers.MUDHORSE_POUCH.get(), id);
         MudhorsePouchInventory inventory = getStackInventory(inventoryStack);
         checkContainerSize(inventory, 9);
         this.stackInventory = inventory;

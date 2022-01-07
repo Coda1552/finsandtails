@@ -21,8 +21,8 @@ import teamdraco.finsandstails.common.container.slot.CrabCruncherResultSlot;
 import teamdraco.finsandstails.common.container.slot.CrabCruncherSlot;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 import teamdraco.finsandstails.registry.FTBlocks;
-import teamdraco.finsandstails.registry.FinsContainers;
-import teamdraco.finsandstails.registry.FinsRecipes;
+import teamdraco.finsandstails.registry.FTContainers;
+import teamdraco.finsandstails.registry.FTRecipes;
 import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.Optional;
@@ -39,7 +39,7 @@ public class CrabCruncherContainer extends Container {
     }
 
     public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
-        super(FinsContainers.CRAB_CRUNCHER.get(), windowId);
+        super(FTContainers.CRAB_CRUNCHER.get(), windowId);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
 
@@ -121,7 +121,7 @@ public class CrabCruncherContainer extends Container {
         if (!world.isClientSide) {
             ServerPlayer serverplayerentity = (ServerPlayer)player;
             ItemStack itemstack = ItemStack.EMPTY;
-            Optional<CrunchingRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(FinsRecipes.CRUNCHING_TYPE, inventory, world);
+            Optional<CrunchingRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(FTRecipes.CRUNCHING_TYPE, inventory, world);
             if (optional.isPresent()) {
                 itemstack = optional.get().assemble(inventory);
             }
