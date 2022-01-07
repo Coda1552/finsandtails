@@ -31,6 +31,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.finsandtails.geckolib3.GeckoLib;
 import teamdraco.finsandstails.client.ClientEvents;
 import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.registry.*;
@@ -72,6 +73,8 @@ public class FinsAndTails {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
+
+        GeckoLib.initialize();
     }
 
     private void registerCommon(FMLCommonSetupEvent event) {

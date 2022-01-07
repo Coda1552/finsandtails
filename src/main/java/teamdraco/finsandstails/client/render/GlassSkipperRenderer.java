@@ -7,7 +7,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.GlassSkipperModel;
-import teamdraco.finsandstails.common.entities.GlassSkipperEntity;
 
 import java.util.Map;
 

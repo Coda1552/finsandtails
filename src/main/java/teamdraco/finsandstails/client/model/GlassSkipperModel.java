@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import teamdraco.finsandstails.common.entities.GlassSkipperEntity;
 
 import java.util.Collections;
 
