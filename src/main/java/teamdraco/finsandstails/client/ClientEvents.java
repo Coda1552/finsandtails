@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.client.render.BandedRedbackShrimpRenderer;
 import teamdraco.finsandstails.client.render.BluWeeRenderer;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
@@ -31,6 +32,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
+        event.registerEntityRenderer(FTEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpRenderer::new);
     }
 
     @SubscribeEvent

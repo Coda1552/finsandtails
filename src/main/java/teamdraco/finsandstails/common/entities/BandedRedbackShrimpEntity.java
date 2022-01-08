@@ -12,9 +12,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class BandedRedbackShrimpEntity extends AbstractSchoolingFish {
+public class BandedRedbackShrimpEntity extends AbstractSchoolingFish implements IAnimatable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public BandedRedbackShrimpEntity(EntityType<? extends BandedRedbackShrimpEntity> type, Level world) {
         super(type, world);
@@ -59,5 +66,19 @@ public class BandedRedbackShrimpEntity extends AbstractSchoolingFish {
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.BANDED_REDBACK_SHRIMP_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
     }
 }
