@@ -1,16 +1,16 @@
 package teamdraco.finsandstails.common.entities.util.goals;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.passive.fish.AbstractFishEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.AbstractFish;
 import teamdraco.finsandstails.common.entities.PapaWeeEntity;
 
 import java.util.List;
 
 public class WeeHurtByEntityGoal extends Goal {
-    private final AbstractFishEntity wee;
+    private final AbstractFish wee;
 
-    public WeeHurtByEntityGoal(AbstractFishEntity owner) {
+    public WeeHurtByEntityGoal(AbstractFish owner) {
         this.wee = owner;
     }
 

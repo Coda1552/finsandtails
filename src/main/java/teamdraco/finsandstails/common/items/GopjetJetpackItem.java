@@ -1,5 +1,6 @@
 package teamdraco.finsandstails.common.items;
 
+import coda.dracoshoard.common.items.DHArmorMaterial;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
@@ -37,9 +38,9 @@ import java.util.List;
 import java.util.Random;
 
 public class GopjetJetpackItem extends ArmorItem {
-    public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.GOPJET_JET.get()));
+    public static final ArmorMaterial MATERIAL = new DHArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.GOPJET_JET.get()));
     private int bubbleSoundTime;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public GopjetJetpackItem() {
         super(MATERIAL, EquipmentSlot.CHEST, new Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(128));

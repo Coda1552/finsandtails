@@ -1,10 +1,10 @@
 package teamdraco.finsandstails.common.entities.util.goals;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import teamdraco.finsandstails.common.entities.MudhorseEntity;
 
 import java.util.EnumSet;
@@ -12,7 +12,7 @@ import java.util.EnumSet;
 public class MudhorseForageGoal extends Goal {
     // private static final ResourceLocation FORAGING_LOOT = new ResourceLocation(FinsAndTails.MOD_ID, "gameplay/mudhorse_foraging");
     private final MudhorseEntity mudhorse;
-    private final World level;
+    private final Level level;
     private int eatAnimationTick;
 
     public MudhorseForageGoal(MudhorseEntity p_i45314_1_) {

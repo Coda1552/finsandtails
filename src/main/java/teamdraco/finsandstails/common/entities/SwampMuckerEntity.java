@@ -1,37 +1,33 @@
 package teamdraco.finsandstails.common.entities;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.entity.passive.fish.AbstractGroupFishEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import teamdraco.finsandstails.common.entities.util.goals.SwampMuckerJumpGoal;
+import coda.dracoshoard.common.entities.goals.WaterJumpGoal;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.AbstractSchoolingFish;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class SwampMuckerEntity  extends AbstractGroupFishEntity {
+public class SwampMuckerEntity  extends AbstractSchoolingFish {
 
-    public SwampMuckerEntity(EntityType<? extends SwampMuckerEntity> type, World world) {
+    public SwampMuckerEntity(EntityType<? extends SwampMuckerEntity> type, Level world) {
         super(type, world);
     }
 
     @Override
-    protected void registerGoals() {
+    public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(0, new SwampMuckerJumpGoal(this, 2));
-        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new WaterJumpGoal(this, 2));
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.MOVEMENT_SPEED, 0.5);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3).add(Attributes.MOVEMENT_SPEED, 0.5);
     }
 
     @Override
@@ -40,40 +36,32 @@ public class SwampMuckerEntity  extends AbstractGroupFishEntity {
     }
 
     @Override
-    protected ItemStack getBucketItemStack() {
+    public ItemStack getBucketItemStack() {
         return new ItemStack(FTItems.SWAMP_MUCKER_BUCKET.get());
     }
 
-    protected SoundEvent getAmbientSound() {
+    @Override
+    public SoundEvent getAmbientSound() {
         return SoundEvents.COD_AMBIENT;
-    }
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.COD_DEATH;
-    }
-
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.COD_HURT;
-    }
-
-    protected SoundEvent getFlopSound() {
-        return SoundEvents.COD_FLOP;
-    }
-
-    static class SwimGoal extends RandomSwimmingGoal {
-        private final SwampMuckerEntity fish;
-
-        public SwimGoal(SwampMuckerEntity fish) {
-            super(fish, 1.0D, 40);
-            this.fish = fish;
-        }
-
-        public boolean canUse() {
-            return this.fish.canRandomSwim() && super.canUse();
-        }
     }
 
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public SoundEvent getDeathSound() {
+        return SoundEvents.COD_DEATH;
+    }
+
+    @Override
+    public SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.COD_HURT;
+    }
+
+    @Override
+    public SoundEvent getFlopSound() {
+        return SoundEvents.COD_FLOP;
+    }
+
+    @Override
+    public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.SWAMP_MUCKER_SPAWN_EGG.get());
     }
 }

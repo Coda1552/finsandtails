@@ -33,10 +33,6 @@ public class FlatbackSuckerEntity extends AbstractFish {
         return new GroundPathNavigation(this, world);
     }
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4);
-    }
-
     @Override
     public void tick() {
         super.tick();
