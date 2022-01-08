@@ -1,57 +1,51 @@
 package teamdraco.finsandstails.common.entities;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.entity.passive.fish.AbstractFishEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class PhantomNudibranchEntity extends AbstractFishEntity {
+public class PhantomNudibranchEntity extends AbstractFish {
 
-    public PhantomNudibranchEntity(EntityType<? extends PhantomNudibranchEntity> type, World world) {
+    public PhantomNudibranchEntity(EntityType<? extends PhantomNudibranchEntity> type, Level world) {
         super(type, world);
     }
 
     @Override
-    protected void registerGoals() {
+    public void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, EntityPredicates.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 40));
     }
 
     @Override
-    protected ItemStack getBucketItemStack() {
+    public ItemStack getBucketItemStack() {
         return new ItemStack(FTItems.PHANTOM_NUDIBRANCH_BUCKET.get());
     }
 
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return SoundEvents.COD_AMBIENT;
     }
 
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return SoundEvents.COD_DEATH;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    public SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.COD_HURT;
     }
 
-    protected SoundEvent getFlopSound() {
+    public SoundEvent getFlopSound() {
         return SoundEvents.COD_FLOP;
     }
 
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.PHANTOM_NUDIBRANCH_SPAWN_EGG.get());
     }
 }

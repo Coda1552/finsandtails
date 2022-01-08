@@ -1,25 +1,29 @@
 package teamdraco.finsandstails.common.entities;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.registry.FTItems;
@@ -27,10 +31,10 @@ import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 
-public class GoliathGardenCrabEntity extends WaterMobEntity {
+public class GoliathGardenCrabEntity extends WaterAnimal {
     private int attackAnimationTick;
 
-    public GoliathGardenCrabEntity(EntityType<? extends GoliathGardenCrabEntity> type, World world) {
+    public GoliathGardenCrabEntity(EntityType<? extends GoliathGardenCrabEntity> type, Level world) {
         super(type, world);
         this.moveControl = new GoliathGardenCrabEntity.MoveHelperController(this);
     }
@@ -39,15 +43,15 @@ public class GoliathGardenCrabEntity extends WaterMobEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, RedBullCrabEntity.class, 8.0F, 2.2D, 2.2D));
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D, 1500));
-        this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(2, new LookAtGoal(this, VillagerEntity.class, 6.0F));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 1.0D, 1500));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Villager.class, 6.0F));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     }
 
     @Override
-    protected PathNavigator createNavigation(World world) {
-        return new GroundPathNavigator(this, world);
+    protected PathNavigation createNavigation(Level world) {
+        return new GroundPathNavigation(this, world);
     }
 
     @Override
@@ -55,8 +59,8 @@ public class GoliathGardenCrabEntity extends WaterMobEntity {
         return 0.9f;
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 100).add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.KNOCKBACK_RESISTANCE, 0.8D).add(Attributes.ATTACK_DAMAGE, 10.0D);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 100).add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.KNOCKBACK_RESISTANCE, 0.8D).add(Attributes.ATTACK_DAMAGE, 10.0D);
     }
 
     private float getAttackDamage() {
@@ -118,7 +122,7 @@ public class GoliathGardenCrabEntity extends WaterMobEntity {
     }
 
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.GOLIATH_GARDEN_CRAB_SPAWN_EGG.get());
     }
 
@@ -126,7 +130,7 @@ public class GoliathGardenCrabEntity extends WaterMobEntity {
     protected void handleAirSupply(int p_209207_1_) {
     }
 
-    static class MoveHelperController extends MovementController {
+    static class MoveHelperController extends MoveControl {
         private final GoliathGardenCrabEntity crab;
 
         MoveHelperController(GoliathGardenCrabEntity crab) {
@@ -139,17 +143,17 @@ public class GoliathGardenCrabEntity extends WaterMobEntity {
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.operation == Action.MOVE_TO && !this.crab.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.crab.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.crab.getX();
                 double d1 = this.wantedY - this.crab.getY();
                 double d2 = this.wantedZ - this.crab.getZ();
-                double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
-                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
                 this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
                 this.crab.yBodyRot = this.crab.yRot;
                 float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.crab.setSpeed(MathHelper.lerp(0.125F, this.crab.getSpeed(), f1));
+                this.crab.setSpeed(Mth.lerp(0.125F, this.crab.getSpeed(), f1));
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
                 this.crab.setSpeed(0.0F);

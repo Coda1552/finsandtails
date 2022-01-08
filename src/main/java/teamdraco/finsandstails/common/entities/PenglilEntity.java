@@ -1,83 +1,74 @@
 package teamdraco.finsandstails.common.entities;
 
+import coda.dracoshoard.common.entities.ai.GroundAndSwimmerNavigator;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.loot.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import teamdraco.finsandstails.common.entities.util.GroundAndSwimmerNavigator;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class PenglilEntity extends TameableEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(PenglilEntity.class, DataSerializers.INT);
-    private static final DataParameter<Boolean> IS_LYING = EntityDataManager.defineId(PenglilEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> RELAX_STATE_ONE = EntityDataManager.defineId(PenglilEntity.class, DataSerializers.BOOLEAN);
+public class PenglilEntity extends TamableAnimal {
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_LYING = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> RELAX_STATE_ONE = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public PenglilEntity(EntityType<? extends PenglilEntity> type, World world) {
+    public PenglilEntity(EntityType<? extends PenglilEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new PenglilEntity.MoveHelperController(this);
+        this.moveControl = new MoveHelperController(this);
         this.maxUpStep = 1;
     }
 
-    @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        return new GroundAndSwimmerNavigator(this, level);
-    }
-
-    @Override
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
-
-    @Override
-    public boolean isPushedByFluid() {
-        return false;
-    }
-
-    public static boolean canPenglilSpawn(EntityType<? extends TameableEntity> penglil, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
-        return worldIn.getBlockState(pos.below()).getBlock() == Blocks.SAND && worldIn.getRawBrightness(pos, 0) > 8;
-    }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SitGoal(this));
+        this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PapaWeeEntity.class, 8.0F, 1.6D, 1.4D));
-        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 1.0D, 10) {
+        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 1.0D, 10) {
             @Override
             public boolean canUse() {
                 return !this.mob.isInWater() && super.canUse();
@@ -98,8 +89,27 @@ public class PenglilEntity extends TameableEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, true));
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.15);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.15);
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level worldIn) {
+        return new GroundAndSwimmerNavigator(this, level);
+    }
+
+    @Override
+    public boolean canBreatheUnderwater() {
+        return true;
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
+    public static boolean canPenglilSpawn(EntityType<? extends TamableAnimal> penglil, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
+        return worldIn.getBlockState(pos.below()).getBlock() == Blocks.SAND && worldIn.getRawBrightness(pos, 0) > 8;
     }
 
     public void setTame(boolean tamed) {
@@ -113,26 +123,26 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
         Item item = heldItem.getItem();
         ItemStack itemstack1 = new ItemStack(FTItems.PENGLIL_BUCKET.get());
-        ActionResultType actionresulttype = super.mobInteract(player, hand);
+        InteractionResult actionresulttype = super.mobInteract(player, hand);
 
         if (heldItem.getItem() == Items.BUCKET && this.isAlive() && !this.isOrderedToSit()) {
             playSound(SoundEvents.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
             this.setBucketData(itemstack1);
             if (!this.level.isClientSide) {
-                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
+                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
             }
             if (heldItem.isEmpty()) {
                 player.setItemInHand(hand, itemstack1);
-            } else if (!player.inventory.add(itemstack1)) {
+            } else if (!player.getInventory().add(itemstack1)) {
                 player.drop(itemstack1, false);
             }
-            this.remove();
-            return ActionResultType.SUCCESS;
+            this.discard();
+            return InteractionResult.SUCCESS;
         }
 
         float maxHealth = this.getMaxHealth();
@@ -146,11 +156,11 @@ public class PenglilEntity extends TameableEntity {
             double d1 = this.random.nextGaussian() * 0.02D;
             double d2 = this.random.nextGaussian() * 0.02D;
             this.level.addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
 
         if (item == FTItems.HIGH_FINNED_BLUE.get() && !this.isTame()) {
-            if (!player.abilities.instabuild) {
+            if (!player.isCreative()) {
                 heldItem.shrink(1);
             }
             if (this.random.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
@@ -163,17 +173,16 @@ public class PenglilEntity extends TameableEntity {
             else {
                 this.level.broadcastEntityEvent(this, (byte) 6);
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         if (this.isOwnedBy(player) && item != FTItems.HIGH_FINNED_BLUE.get()){
             setOrderedToSit(!isInSittingPose());
             this.jumping = false;
             this.navigation.stop();
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
 
-        return actionresulttype;
-    }
+        return actionresulttype;    }
 
     @Override
     public int getAmbientSoundInterval() {
@@ -181,7 +190,7 @@ public class PenglilEntity extends TameableEntity {
     }
 
     private void setBucketData(ItemStack bucket) {
-        CompoundNBT compoundnbt = bucket.getOrCreateTag();
+        CompoundTag compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
         if (isTame()) {
             compoundnbt.putUUID("Owner", getOwnerUUID());
@@ -192,7 +201,7 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public void travel(Vector3d travelVector) {
+    public void travel(Vec3 travelVector) {
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -222,20 +231,20 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
     @Nullable
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         if (dataTag == null) {
             setVariant(random.nextInt(8));
@@ -253,7 +262,7 @@ public class PenglilEntity extends TameableEntity {
 
     @Nullable
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+    public AgeableMob getBreedOffspring(ServerLevel p_241840_1_, AgeableMob p_241840_2_) {
         return null;
     }
 
@@ -270,7 +279,7 @@ public class PenglilEntity extends TameableEntity {
     }
 
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.PENGLIL_SPAWN_EGG.get());
     }
 
@@ -292,7 +301,7 @@ public class PenglilEntity extends TameableEntity {
 
     static class MorningGiftGoal extends Goal {
         private final PenglilEntity penglil;
-        private PlayerEntity owner;
+        private Player owner;
         private BlockPos bedPos;
         private int tickCounter;
 
@@ -307,8 +316,8 @@ public class PenglilEntity extends TameableEntity {
                 return false;
             } else {
                 LivingEntity livingentity = this.penglil.getOwner();
-                if (livingentity instanceof PlayerEntity) {
-                    this.owner = (PlayerEntity)livingentity;
+                if (livingentity instanceof Player) {
+                    this.owner = (Player)livingentity;
                     if (!livingentity.isSleeping()) {
                         return false;
                     }
@@ -319,7 +328,7 @@ public class PenglilEntity extends TameableEntity {
 
                     BlockPos blockpos = this.owner.blockPosition();
                     BlockState blockstate = this.penglil.level.getBlockState(blockpos);
-                    if (blockstate.getBlock().is(BlockTags.BEDS)) {
+                    if (blockstate.is(BlockTags.BEDS)) {
                         this.bedPos = blockstate.getOptionalValue(BedBlock.FACING).map((p_234186_1_) -> {
                             return blockpos.relative(p_234186_1_.getOpposite());
                         }).orElseGet(() -> {
@@ -334,7 +343,7 @@ public class PenglilEntity extends TameableEntity {
         }
 
         private boolean spaceIsOccupied() {
-            for(PenglilEntity penglilentity : this.penglil.level.getEntitiesOfClass(PenglilEntity.class, (new AxisAlignedBB(this.bedPos)).inflate(2.0D))) {
+            for(PenglilEntity penglilentity : this.penglil.level.getEntitiesOfClass(PenglilEntity.class, (new AABB(this.bedPos)).inflate(2.0D))) {
                 if (penglilentity != this.penglil && (penglilentity.isLying() || penglilentity.isRelaxStateOne())) {
                     return true;
                 }
@@ -369,15 +378,15 @@ public class PenglilEntity extends TameableEntity {
 
         private void giveMorningGift() {
             Random random = this.penglil.getRandom();
-            BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-            blockpos$mutable.set(this.penglil.blockPosition());
-            this.penglil.randomTeleport((double)(blockpos$mutable.getX() + random.nextInt(11) - 5), (double)(blockpos$mutable.getY() + random.nextInt(5) - 2), (double)(blockpos$mutable.getZ() + random.nextInt(11) - 5), false);
-            blockpos$mutable.set(this.penglil.blockPosition());
-            LootTable loottable = this.penglil.level.getServer().getLootTables().get(LootTables.FISHING);
-            LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.penglil.level)).withParameter(LootParameters.ORIGIN, this.penglil.position()).withParameter(LootParameters.THIS_ENTITY, this.penglil).withRandom(random);
+            BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+            mutable.set(this.penglil.blockPosition());
+            this.penglil.randomTeleport((double)(mutable.getX() + random.nextInt(11) - 5), (double)(mutable.getY() + random.nextInt(5) - 2), (double)(mutable.getZ() + random.nextInt(11) - 5), false);
+            mutable.set(this.penglil.blockPosition());
+            LootTable loottable = this.penglil.level.getServer().getLootTables().get(BuiltInLootTables.FISHING);
+            LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) this.penglil.level)).withParameter(LootContextParams.ORIGIN, this.penglil.position()).withParameter(LootContextParams.THIS_ENTITY, this.penglil).withRandom(random);
 
-            for(ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootParameterSets.GIFT))) {
-                this.penglil.level.addFreshEntity(new ItemEntity(this.penglil.level, (double)blockpos$mutable.getX() - (double)MathHelper.sin(this.penglil.yBodyRot * ((float)Math.PI / 180F)), (double)blockpos$mutable.getY(), (double)blockpos$mutable.getZ() + (double)MathHelper.cos(this.penglil.yBodyRot * ((float)Math.PI / 180F)), itemstack));
+            for(ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.GIFT))) {
+                this.penglil.level.addFreshEntity(new ItemEntity(this.penglil.level, (double)mutable.getX() - (double)Mth.sin(this.penglil.yBodyRot * ((float)Math.PI / 180F)), (double)mutable.getY(), (double)mutable.getZ() + (double)Mth.cos(this.penglil.yBodyRot * ((float)Math.PI / 180F)), itemstack));
             }
 
         }
@@ -403,7 +412,7 @@ public class PenglilEntity extends TameableEntity {
         }
     }
 
-    static class MoveHelperController extends MovementController {
+    static class MoveHelperController extends MoveControl {
         private final PenglilEntity penglil;
 
         MoveHelperController(PenglilEntity penglil) {
@@ -426,17 +435,17 @@ public class PenglilEntity extends TameableEntity {
 
         public void tick() {
             this.updateSpeed();
-            if (this.operation == MovementController.Action.MOVE_TO && !this.penglil.getNavigation().isDone()) {
+            if (this.operation == MoveControl.Operation.MOVE_TO && !this.penglil.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.penglil.getX();
                 double d1 = this.wantedY - this.penglil.getY();
                 double d2 = this.wantedZ - this.penglil.getZ();
-                double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
-                float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
                 this.penglil.yRot = this.rotlerp(this.penglil.yRot, f, 90.0F);
                 this.penglil.yBodyRot = this.penglil.yRot;
                 float f1 = (float)(this.speedModifier * this.penglil.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.penglil.setSpeed(MathHelper.lerp(0.125F, this.penglil.getSpeed(), f1));
+                this.penglil.setSpeed(Mth.lerp(0.125F, this.penglil.getSpeed(), f1));
                 this.penglil.setDeltaMovement(this.penglil.getDeltaMovement().add(0.0D, (double)this.penglil.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
                 this.penglil.setSpeed(0.0F);

@@ -1,41 +1,46 @@
 package teamdraco.finsandstails.common.entities;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class RiverPebbleSnailEntity extends AnimalEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(RiverPebbleSnailEntity.class, DataSerializers.INT);
+public class RiverPebbleSnailEntity extends Animal {
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(RiverPebbleSnailEntity.class, EntityDataSerializers.INT);
 
-    public RiverPebbleSnailEntity(EntityType<? extends RiverPebbleSnailEntity> type, World worldIn) {
+    public RiverPebbleSnailEntity(EntityType<? extends RiverPebbleSnailEntity> type, Level worldIn) {
         super(type, worldIn);
         this.moveControl = new RiverPebbleSnailEntity.MoveHelperController(this);
     }
@@ -45,49 +50,49 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
         return true;
     }
 
-    protected void registerGoals() {
+    public void registerGoals() {
         this.goalSelector.addGoal(0, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(Items.BROWN_MUSHROOM), false));
-        this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
 
-    protected void ageBoundaryReached() {
+    public void ageBoundaryReached() {
         super.ageBoundaryReached();
         if (!this.isBaby() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
             this.spawnAtLocation(FTItems.RIVER_PEBBLE_SNAIL_SHELL.get(), 1);
         }
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 4).add(Attributes.MOVEMENT_SPEED, 0.15);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4).add(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
     @Override
-    protected float getWaterSlowDown() {
+    public float getWaterSlowDown() {
         return 0.9F;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    public SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.COD_HURT;
     }
 
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return SoundEvents.COD_DEATH;
     }
 
-    protected void playStepSound(BlockPos pos, BlockState blockIn) {
+    public void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ENDERMITE_STEP, 0.15F, 1.0F);
     }
 
-    protected float getSoundVolume() {
+    public float getSoundVolume() {
         return 0.4F;
     }
 
     @Nullable
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         RiverPebbleSnailEntity snail = FTEntities.RIVER_PEBBLE_SNAIL.get().create(world);
         if (ageable instanceof RiverPebbleSnailEntity) {
             snail.setVariant(random.nextInt(5));
@@ -95,12 +100,12 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
         return snail;
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+    public float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return 0.25F;
     }
 
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.RIVER_PEBBLE_SNAIL_SPAWN_EGG.get());
     }
 
@@ -109,7 +114,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     }
 
     @Override
-    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
 
         if (heldItem.getItem() == Items.FLOWER_POT && this.isAlive() && !this.isBaby()) {
@@ -118,21 +123,21 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
             ItemStack itemstack1 = new ItemStack(FTItems.RIVER_PEBBLE_SNAIL_POT.get());
             this.setBucketData(itemstack1);
             if (!this.level.isClientSide) {
-                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
+                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
             }
             if (heldItem.isEmpty()) {
                 player.setItemInHand(hand, itemstack1);
-            } else if (!player.inventory.add(itemstack1)) {
+            } else if (!player.getInventory().add(itemstack1)) {
                 player.drop(itemstack1, false);
             }
-            this.remove();
-            return ActionResultType.SUCCESS;
+            this.discard();
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
 
     private void setBucketData(ItemStack bucket) {
-        CompoundNBT compoundnbt = bucket.getOrCreateTag();
+        CompoundTag compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
@@ -140,7 +145,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @javax.annotation.Nullable ILivingEntityData spawnDataIn, @javax.annotation.Nullable CompoundNBT dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         if (dataTag == null) {
             setVariant(random.nextInt(5));
         } else {
@@ -152,7 +157,7 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
+    public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(VARIANT, 0);
     }
@@ -166,22 +171,22 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
-    protected PathNavigator createNavigation(World world) {
-        return new GroundPathNavigator(this, world);
+    public PathNavigation createNavigation(Level world) {
+        return new GroundPathNavigation(this, world);
     }
 
-    static class MoveHelperController extends MovementController {
+    static class MoveHelperController extends MoveControl {
         private final RiverPebbleSnailEntity snail;
 
         MoveHelperController(RiverPebbleSnailEntity snail) {
@@ -194,17 +199,17 @@ public class RiverPebbleSnailEntity extends AnimalEntity {
                 this.snail.setDeltaMovement(this.snail.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.operation == Action.MOVE_TO && !this.snail.getNavigation().isDone()) {
+            if (this.operation == MoveControl.Operation.MOVE_TO && !this.snail.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.snail.getX();
                 double d1 = this.wantedY - this.snail.getY();
                 double d2 = this.wantedZ - this.snail.getZ();
-                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
-                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
                 this.snail.yRot = this.rotlerp(this.snail.yRot, f, 90.0F);
                 this.snail.yBodyRot = this.snail.yRot;
                 float f1 = (float) (this.speedModifier * this.snail.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.snail.setSpeed(MathHelper.lerp(0.125F, this.snail.getSpeed(), f1));
+                this.snail.setSpeed(Mth.lerp(0.125F, this.snail.getSpeed(), f1));
                 this.snail.setDeltaMovement(this.snail.getDeltaMovement().add(0.0D, (double) this.snail.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
                 this.snail.setSpeed(0.0F);

@@ -1,68 +1,63 @@
 package teamdraco.finsandstails.common.entities;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.DolphinLookController;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.entity.passive.fish.AbstractFishEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
 
-import static net.minecraft.util.EntityPredicates.NO_CREATIVE_OR_SPECTATOR;
-import static net.minecraft.util.EntityPredicates.NO_SPECTATORS;
+import static net.minecraft.world.entity.EntitySelector.NO_CREATIVE_OR_SPECTATOR;
 
-public class GopjetEntity extends AbstractFishEntity {
-    private static final DataParameter<Boolean> IS_BOOSTING = EntityDataManager.defineId(GopjetEntity.class, DataSerializers.BOOLEAN);
+public class GopjetEntity extends AbstractFish {
+    private static final EntityDataAccessor<Boolean> IS_BOOSTING = SynchedEntityData.defineId(GopjetEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int BOOST_TIMER = 400;
     private int boostTimer = BOOST_TIMER;
 
-    public GopjetEntity(EntityType<? extends GopjetEntity> type, World world) {
+    public GopjetEntity(EntityType<? extends GopjetEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new GopjetEntity.MoveHelperController(this);
-        this.lookControl = new DolphinLookController(this, 10);
+        this.moveControl = new MoveHelperController(this);
+        this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
     @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
+    public void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.6D, 1.4D, NO_SPECTATORS::test));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.5D, 40));
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.MOVEMENT_SPEED, 0.3D);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.MOVEMENT_SPEED, 0.3D);
     }
 
-    protected void defineSynchedData() {
+    public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(IS_BOOSTING, false);
     }
 
     @Override
     public void tick() {
-        List<PlayerEntity> list = level.getEntitiesOfClass(PlayerEntity.class, this.getBoundingBox().inflate(3.0D), NO_CREATIVE_OR_SPECTATOR);
+        List<Player> list = level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.0D), NO_CREATIVE_OR_SPECTATOR);
 
         super.tick();
         if (boostTimer > 0) {
@@ -90,23 +85,23 @@ public class GopjetEntity extends AbstractFishEntity {
     }
 
     @Override
-    protected ItemStack getBucketItemStack() {
+    public ItemStack getBucketItemStack() {
         return new ItemStack(FTItems.GOPJET_BUCKET.get());
     }
 
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return SoundEvents.COD_AMBIENT;
     }
 
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return SoundEvents.COD_DEATH;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    public SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.COD_HURT;
     }
 
-    protected SoundEvent getFlopSound() {
+    public SoundEvent getFlopSound() {
         return SoundEvents.COD_FLOP;
     }
 
@@ -123,7 +118,7 @@ public class GopjetEntity extends AbstractFishEntity {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void createParticles(IParticleData p_208401_1_, int amount) {
+    private void createParticles(SimpleParticleType p_208401_1_, int amount) {
         for (int i = 0; i < amount; i++) {
             double d0 = this.random.nextGaussian() * 0.056D;
             double d1 = this.random.nextGaussian() * 0.034D;
@@ -133,11 +128,11 @@ public class GopjetEntity extends AbstractFishEntity {
     }
 
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.GOPJET_SPAWN_EGG.get());
     }
 
-    static class MoveHelperController extends MovementController {
+    static class MoveHelperController extends MoveControl {
         private final GopjetEntity gopjet;
 
         public MoveHelperController(GopjetEntity gopjetEntity) {
@@ -150,7 +145,7 @@ public class GopjetEntity extends AbstractFishEntity {
                 this.gopjet.setDeltaMovement(this.gopjet.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
             }
 
-            if (this.operation == MovementController.Action.MOVE_TO && !this.gopjet.getNavigation().isDone()) {
+            if (this.operation == MoveControl.Operation.MOVE_TO && !this.gopjet.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.gopjet.getX();
                 double d1 = this.wantedY - this.gopjet.getY();
                 double d2 = this.wantedZ - this.gopjet.getZ();
@@ -158,18 +153,18 @@ public class GopjetEntity extends AbstractFishEntity {
                 if (d3 < (double)2.5000003E-7F) {
                     this.mob.setZza(0.0F);
                 } else {
-                    float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                    float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
                     this.gopjet.yRot = this.rotlerp(this.gopjet.yRot, f, 10.0F);
                     this.gopjet.yBodyRot = this.gopjet.yRot;
                     this.gopjet.yHeadRot = this.gopjet.yRot;
                     float f1 = (float)(this.speedModifier * this.gopjet.getAttributeValue(Attributes.MOVEMENT_SPEED));
                     if (this.gopjet.isInWater()) {
                         this.gopjet.setSpeed(f1 * 0.02F);
-                        float f2 = -((float)(MathHelper.atan2(d1, (double)MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
-                        f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
+                        float f2 = -((float)(Mth.atan2(d1, Mth.sqrt((float) (d0 * d0 + d2 * d2))) * (double)(180F / (float)Math.PI)));
+                        f2 = Mth.clamp(Mth.wrapDegrees(f2), -85.0F, 85.0F);
                         this.gopjet.xRot = this.rotlerp(this.gopjet.xRot, f2, 5.0F);
-                        float f3 = MathHelper.cos(this.gopjet.xRot * ((float)Math.PI / 180F));
-                        float f4 = MathHelper.sin(this.gopjet.xRot * ((float)Math.PI / 180F));
+                        float f3 = Mth.cos(this.gopjet.xRot * ((float)Math.PI / 180F));
+                        float f4 = Mth.sin(this.gopjet.xRot * ((float)Math.PI / 180F));
                         this.gopjet.zza = f3 * f1;
                         this.gopjet.yya = -f4 * f1;
                     } else {

@@ -1,58 +1,57 @@
 package teamdraco.finsandstails.common.entities;
 
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.DolphinLookController;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.fish.AbstractFishEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SChangeGameStatePacket;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import coda.dracoshoard.common.entities.ai.FancySwimmingMoveHelperController;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.HitResult;
 import teamdraco.finsandstails.registry.FTItems;
 
 import javax.annotation.Nullable;
 
-public class GoldenRiverRayEntity extends AbstractFishEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.defineId(GoldenRiverRayEntity.class, DataSerializers.INT);
+public class GoldenRiverRayEntity extends AbstractFish {
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(GoldenRiverRayEntity.class, EntityDataSerializers.INT);
 
-    public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, World world) {
+    public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new MoveHelperController(this);
-        this.lookControl = new DolphinLookController(this, 50);
-        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
+        this.moveControl = new FancySwimmingMoveHelperController(this);
+        this.lookControl = new SmoothSwimmingLookControl(this, 50);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
     @Override
-    protected void registerGoals() {
+    public void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.85D));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 6, 1.0D, 1.85D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 1));
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, RiverPebbleSnailEntity.class, false));
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1);
     }
 
     @Override
@@ -64,10 +63,10 @@ public class GoldenRiverRayEntity extends AbstractFishEntity {
         }
     }
 
-    public void playerTouch(PlayerEntity entityIn) {
-        if (entityIn instanceof ServerPlayerEntity && entityIn.hurt(DamageSource.mobAttack(this), 1)) {
-            ((ServerPlayerEntity)entityIn).connection.send(new SChangeGameStatePacket(SChangeGameStatePacket.PUFFER_FISH_STING, 0.0F));
-            entityIn.addEffect(new EffectInstance(Effects.POISON, 120, 0));
+    public void playerTouch(Player entityIn) {
+        if (entityIn instanceof ServerPlayer && entityIn.hurt(DamageSource.mobAttack(this), 1)) {
+            ((ServerPlayer)entityIn).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.PUFFER_FISH_STING, 0.0F));
+            entityIn.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0));
         }
     }
 
@@ -75,15 +74,15 @@ public class GoldenRiverRayEntity extends AbstractFishEntity {
     public boolean hurt(DamageSource source, float amount) {
         Entity attacker = source.getDirectEntity();
         if (attacker instanceof LivingEntity) {
-            ((LivingEntity) attacker).addEffect(new EffectInstance(Effects.POISON, 200, 0));
+            ((LivingEntity) attacker).addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0));
             attacker.hurt(DamageSource.mobAttack(this), 1);
         }
         return super.hurt(source, amount);
     }
 
     @Override
-    protected void saveToBucketTag(ItemStack bucket) {
-        CompoundNBT compoundnbt = bucket.getOrCreateTag();
+    public void saveToBucketTag(ItemStack bucket) {
+        CompoundTag compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
@@ -91,7 +90,7 @@ public class GoldenRiverRayEntity extends AbstractFishEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
+    public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(VARIANT, 0);
     }
@@ -105,20 +104,20 @@ public class GoldenRiverRayEntity extends AbstractFishEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", getVariant());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         setVariant(compound.getInt("Variant"));
     }
 
     @Nullable
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @javax.annotation.Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         if (dataTag == null) {
             setVariant(random.nextInt(3));
@@ -131,84 +130,28 @@ public class GoldenRiverRayEntity extends AbstractFishEntity {
     }
 
     @Override
-    protected ItemStack getBucketItemStack() {
+    public ItemStack getBucketItemStack() {
         return new ItemStack(FTItems.GOLDEN_RIVER_RAY_BUCKET.get());
     }
 
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return SoundEvents.COD_AMBIENT;
     }
 
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return SoundEvents.COD_DEATH;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    public SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.COD_HURT;
     }
 
-    protected SoundEvent getFlopSound() {
+    public SoundEvent getFlopSound() {
         return SoundEvents.COD_FLOP;
     }
 
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.GOLDEN_RIVER_RAY_SPAWN_EGG.get());
-    }
-
-    static class MoveHelperController extends MovementController {
-        private final GoldenRiverRayEntity fish;
-
-        public MoveHelperController(GoldenRiverRayEntity p_i48945_1_) {
-            super(p_i48945_1_);
-            this.fish = p_i48945_1_;
-        }
-
-        public void tick() {
-            if (fish.getTarget() != null) {
-                // TODO - make them not ocassionally freeze when targetting something
-
-                Path path = this.fish.navigation.createPath(fish.getTarget(), 1);
-                this.fish.navigation.moveTo(path, 1.0D);
-            }
-
-            if (this.fish.isInWater() && fish.getTarget() == null) {
-                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
-            }
-
-            if (this.operation == MovementController.Action.MOVE_TO && !this.fish.getNavigation().isDone()) {
-                double d0 = this.wantedX - this.fish.getX();
-                double d1 = this.wantedY - this.fish.getY();
-                double d2 = this.wantedZ - this.fish.getZ();
-                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                if (d3 < (double)2.5000003E-7F) {
-                    this.mob.setZza(0.0F);
-                } else {
-                    float f = (float)(MathHelper.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                    this.fish.yRot = this.rotlerp(this.fish.yRot, f, 10.0F);
-                    this.fish.yBodyRot = this.fish.yRot;
-                    this.fish.yHeadRot = this.fish.yRot;
-                    float f1 = (float)(this.speedModifier * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                    if (this.fish.isInWater()) {
-                        this.fish.setSpeed(f1 * 0.02F);
-                        float f2 = -((float)(MathHelper.atan2(d1, (double)MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double)(180F / (float)Math.PI)));
-                        f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
-                        this.fish.xRot = this.rotlerp(this.fish.xRot, f2, 5.0F);
-                        float f3 = MathHelper.cos(this.fish.xRot * ((float)Math.PI / 180F));
-                        float f4 = MathHelper.sin(this.fish.xRot * ((float)Math.PI / 180F));
-                        this.fish.zza = f3 * f1;
-                        this.fish.yya = -f4 * f1;
-                    } else {
-                        this.fish.setSpeed(f1 * 0.1F);
-                    }
-
-                }
-            } else {
-                this.fish.setSpeed(0.0F);
-                this.fish.setXxa(0.0F);
-                this.fish.setYya(0.0F);
-                this.fish.setZza(0.0F);
-            }
-        }
     }
 }
