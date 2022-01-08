@@ -136,12 +136,6 @@ public class FinsAndTails {
         event.put(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
     }
 
-    private void registerClient(FMLClientSetupEvent event) {
-        ClientEvents.init();
-        CALLBACKS.forEach(Runnable::run);
-        CALLBACKS.clear();
-    }
-
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<FriendlyByteBuf, T> reader, LogicalSide side) {
         NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, reader, (msg, contextSupplier) -> {
             NetworkEvent.Context context = contextSupplier.get();

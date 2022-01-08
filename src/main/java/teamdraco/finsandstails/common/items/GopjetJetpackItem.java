@@ -29,7 +29,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.model.GopjetJetpackModel;
+import teamdraco.finsandstails.client.old.model.GopjetJetpackModel;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 

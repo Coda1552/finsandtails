@@ -27,7 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.model.FwingedBootsModel;
+import teamdraco.finsandstails.client.old.model.FwingedBootsModel;
 import teamdraco.finsandstails.registry.FTEnchantments;
 
 import javax.annotation.Nullable;
