@@ -116,7 +116,6 @@ public class CommonEvents {
 
         if (event.getCategory() == Biome.BiomeCategory.FOREST) {
             event.getSpawns().getSpawner(MobCategory.CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.FLATBACK_LEAF_SNAIL.get(), FinsConfig.Common.INSTANCE.flatbackLeafSnailSpawnWeight.get(), 1, 2));
-            event.getSpawns().getSpawner(MobCategory.CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.GLASS_SKIPPER.get(), FinsConfig.Common.INSTANCE.glassSkipperSpawnWeight.get(), 1, 1));
         }
 
         if (event.getCategory() == Biome.BiomeCategory.ICY) {
@@ -158,10 +157,6 @@ public class CommonEvents {
                 event.getSpawns().getSpawner(MobCategory.AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.RIVER_PEBBLE_SNAIL.get(), FinsConfig.Common.INSTANCE.riverPebbleSnailSpawnWeight.get(), 1, 1));
                 event.getSpawns().getSpawner(MobCategory.WATER_CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.GOLDEN_RIVER_RAY.get(), FinsConfig.Common.INSTANCE.goldenRiverRaySpawnWeight.get(), 1, 1));
             }
-
-            if (name.equals("flower_forest")) {
-                event.getSpawns().getSpawner(MobCategory.CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.GLASS_SKIPPER.get(), FinsConfig.Common.INSTANCE.glassSkipperSpawnWeight.get() * 2, 2, 6));
-            }
         }
     }
 
@@ -183,14 +178,14 @@ public class CommonEvents {
     @SubscribeEvent
     public static void onLootLoad(LootTableLoadEvent event) throws IllegalAccessException {
         ResourceLocation name = event.getName();
+        LootPool pool = event.getTable().getPool("main");
         if (name.equals(BuiltInLootTables.FISHING_FISH)) {
-            LootPool pool = event.getTable().getPool("main");
             if (FinsConfig.Common.INSTANCE.finsFishingLoot.get()) {
                 addEntry(pool, getInjectEntry(new ResourceLocation(FinsAndTails.MOD_ID, "inject/fishing"), 10, 1));
             }
-            if (name.equals(BuiltInLootTables.FISHERMAN_GIFT)) {
-                addEntry(pool, getInjectEntry(new ResourceLocation("finsandtails:inject/fisherman_gift"), 15, 1));
-            }
+        }
+        if (name.equals(BuiltInLootTables.FISHERMAN_GIFT)) {
+            addEntry(pool, getInjectEntry(new ResourceLocation("finsandtails:inject/fisherman_gift"), 15, 1));
         }
     }
 
