@@ -21,7 +21,7 @@ public class CrabGauntletItem extends Item {
     private final float attackDamage;
     public final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
-    public CrabGauntletItem(Tier tier, int attackDamageIn, float attackSpeedIn, Item.Properties builderIn) {
+    public CrabGauntletItem(Tier tier, int attackDamageIn, float attackSpeedIn, Properties builderIn) {
         super(builderIn);
         this.attackDamage = (float)attackDamageIn + tier.getAttackDamageBonus();
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();

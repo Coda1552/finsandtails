@@ -212,7 +212,7 @@ public class MudhorseEntity extends Animal {
         public CommanderHurt(MudhorseEntity mudhorse) {
             super(mudhorse, false);
             this.mudhorse = mudhorse;
-            this.setFlags(EnumSet.of(Goal.Flag.TARGET));
+            this.setFlags(EnumSet.of(Flag.TARGET));
         }
 
         public boolean canUse() {

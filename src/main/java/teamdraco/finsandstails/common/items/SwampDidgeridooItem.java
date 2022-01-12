@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class SwampDidgeridooItem extends Item {
 
-    public SwampDidgeridooItem(Item.Properties properties) {
+    public SwampDidgeridooItem(Properties properties) {
         super(properties);
     }
 

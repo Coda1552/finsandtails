@@ -23,14 +23,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
 
 import static net.minecraft.world.entity.EntitySelector.NO_CREATIVE_OR_SPECTATOR;
 
-public class GopjetEntity extends AbstractFish {
+public class GopjetEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Boolean> IS_BOOSTING = SynchedEntityData.defineId(GopjetEntity.class, EntityDataSerializers.BOOLEAN);
+    private final AnimationFactory factory = new AnimationFactory(this);
     private static final int BOOST_TIMER = 400;
     private int boostTimer = BOOST_TIMER;
 
@@ -132,6 +140,25 @@ public class GopjetEntity extends AbstractFish {
         return new ItemStack(FTItems.GOPJET_SPAWN_EGG.get());
     }
 
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
+    }
+
     static class MoveHelperController extends MoveControl {
         private final GopjetEntity gopjet;
 
@@ -145,7 +172,7 @@ public class GopjetEntity extends AbstractFish {
                 this.gopjet.setDeltaMovement(this.gopjet.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
             }
 
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.gopjet.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.gopjet.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.gopjet.getX();
                 double d1 = this.wantedY - this.gopjet.getY();
                 double d2 = this.wantedZ - this.gopjet.getZ();

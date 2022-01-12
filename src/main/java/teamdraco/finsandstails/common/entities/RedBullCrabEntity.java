@@ -38,18 +38,26 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class RedBullCrabEntity extends WaterAnimal {
+public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(RedBullCrabEntity.class, EntityDataSerializers.BOOLEAN);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public RedBullCrabEntity(EntityType<? extends RedBullCrabEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new RedBullCrabEntity.MoveHelperController(this);
+        this.moveControl = new MoveHelperController(this);
         this.maxUpStep = 0.7f;
     }
 
@@ -190,6 +198,25 @@ public class RedBullCrabEntity extends WaterAnimal {
         }
     }
 
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
+    }
+
     static class MoveHelperController extends MoveControl {
         private final Mob crab;
 
@@ -203,7 +230,7 @@ public class RedBullCrabEntity extends WaterAnimal {
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.crab.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.crab.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.crab.getX();
                 double d1 = this.wantedY - this.crab.getY();
                 double d2 = this.wantedZ - this.crab.getZ();

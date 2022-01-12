@@ -45,7 +45,7 @@ public class NightLightSquidEntity extends AbstractSchoolingFish {
 
     public NightLightSquidEntity(EntityType<? extends NightLightSquidEntity> type, Level worldIn) {
         super(type, worldIn);
-        this.moveControl = new NightLightSquidEntity.MoveHelperController(this);
+        this.moveControl = new MoveHelperController(this);
     }
 
     public void registerGoals() {
@@ -207,7 +207,7 @@ public class NightLightSquidEntity extends AbstractSchoolingFish {
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
             }
 
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.fish.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.fish.getNavigation().isDone()) {
                 float f = (float) (this.speedModifier * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 this.fish.setSpeed(Mth.lerp(0.125F, this.fish.getSpeed(), f));
                 double d0 = this.wantedX - this.fish.getX();

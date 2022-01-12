@@ -30,17 +30,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
 import javax.annotation.Nullable;
 
-public class WhiteBullCrabEntity extends WaterAnimal {
+public class WhiteBullCrabEntity extends WaterAnimal implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(WhiteBullCrabEntity.class, EntityDataSerializers.BOOLEAN);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public WhiteBullCrabEntity(EntityType<? extends WhiteBullCrabEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new WhiteBullCrabEntity.MoveHelperController(this);
+        this.moveControl = new MoveHelperController(this);
     }
 
     @Override
@@ -164,6 +172,25 @@ public class WhiteBullCrabEntity extends WaterAnimal {
         }
     }
 
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
+    }
+
     static class MoveHelperController extends MoveControl {
         private final WhiteBullCrabEntity crab;
 
@@ -177,7 +204,7 @@ public class WhiteBullCrabEntity extends WaterAnimal {
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.crab.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.crab.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.crab.getX();
                 double d1 = this.wantedY - this.crab.getY();
                 double d2 = this.wantedZ - this.crab.getZ();

@@ -47,7 +47,7 @@ public class SpindlyGemCrabEntity extends AbstractFish {
 
     public SpindlyGemCrabEntity(EntityType<? extends SpindlyGemCrabEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new SpindlyGemCrabEntity.MoveHelperController(this);
+        this.moveControl = new MoveHelperController(this);
     }
 
     @Override
@@ -176,7 +176,7 @@ public class SpindlyGemCrabEntity extends AbstractFish {
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
             }
 
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.crab.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.crab.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.crab.getX();
                 double d1 = this.wantedY - this.crab.getY();
                 double d2 = this.wantedZ - this.crab.getZ();

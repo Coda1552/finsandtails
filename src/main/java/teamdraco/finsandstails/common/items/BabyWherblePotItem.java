@@ -28,7 +28,7 @@ import teamdraco.finsandstails.registry.FTEntities;
 import java.util.function.Supplier;
 
 public class BabyWherblePotItem extends FinsBucketItem {
-    private final java.util.function.Supplier<? extends EntityType<?>> entityTypeSupplier;
+    private final Supplier<? extends EntityType<?>> entityTypeSupplier;
     private final Supplier<? extends Fluid> fluid;
 
     public BabyWherblePotItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Properties builder) {

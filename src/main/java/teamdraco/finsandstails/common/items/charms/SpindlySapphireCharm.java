@@ -20,7 +20,7 @@ public class SpindlySapphireCharm extends ArmorItem implements ISpindlyCharmItem
     public static final ArmorMaterial MATERIAL = new DHArmorMaterial(FinsAndTails.MOD_ID + ":spindly_sapphire_charm", 1, new int[]{1, 2, 3, 1}, 8, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
 
     public SpindlySapphireCharm() {
-        super(MATERIAL, EquipmentSlot.CHEST, new Item.Properties().tab(FinsAndTails.GROUP).durability(25).rarity(Rarity.UNCOMMON));
+        super(MATERIAL, EquipmentSlot.CHEST, new Properties().tab(FinsAndTails.GROUP).durability(25).rarity(Rarity.UNCOMMON));
     }
 
     @Override

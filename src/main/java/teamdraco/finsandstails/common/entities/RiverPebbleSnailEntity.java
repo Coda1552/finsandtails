@@ -42,7 +42,7 @@ public class RiverPebbleSnailEntity extends Animal {
 
     public RiverPebbleSnailEntity(EntityType<? extends RiverPebbleSnailEntity> type, Level worldIn) {
         super(type, worldIn);
-        this.moveControl = new RiverPebbleSnailEntity.MoveHelperController(this);
+        this.moveControl = new MoveHelperController(this);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class RiverPebbleSnailEntity extends Animal {
                 this.snail.setDeltaMovement(this.snail.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.snail.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.snail.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.snail.getX();
                 double d1 = this.wantedY - this.snail.getY();
                 double d2 = this.wantedZ - this.snail.getZ();

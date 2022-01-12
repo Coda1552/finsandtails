@@ -36,7 +36,7 @@ public class GoliathGardenCrabEntity extends WaterAnimal {
 
     public GoliathGardenCrabEntity(EntityType<? extends GoliathGardenCrabEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new GoliathGardenCrabEntity.MoveHelperController(this);
+        this.moveControl = new MoveHelperController(this);
     }
 
     @Override

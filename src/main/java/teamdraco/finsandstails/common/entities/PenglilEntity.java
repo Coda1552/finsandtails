@@ -81,7 +81,7 @@ public class PenglilEntity extends TamableAnimal {
                 return super.canUse() && isInWater();
             }
         });
-        this.goalSelector.addGoal(3, new PenglilEntity.MorningGiftGoal(this));
+        this.goalSelector.addGoal(3, new MorningGiftGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, true));
@@ -435,7 +435,7 @@ public class PenglilEntity extends TamableAnimal {
 
         public void tick() {
             this.updateSpeed();
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.penglil.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.penglil.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.penglil.getX();
                 double d1 = this.wantedY - this.penglil.getY();
                 double d2 = this.wantedZ - this.penglil.getZ();

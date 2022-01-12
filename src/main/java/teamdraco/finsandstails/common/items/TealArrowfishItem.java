@@ -17,7 +17,7 @@ import java.util.List;
 
 public class TealArrowfishItem extends ArrowItem {
 
-    public TealArrowfishItem(Item.Properties builder) {
+    public TealArrowfishItem(Properties builder) {
         super(builder);
     }
 

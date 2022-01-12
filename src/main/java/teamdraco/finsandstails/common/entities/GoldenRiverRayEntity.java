@@ -28,12 +28,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 
 import javax.annotation.Nullable;
 
-public class GoldenRiverRayEntity extends AbstractFish {
+public class GoldenRiverRayEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(GoldenRiverRayEntity.class, EntityDataSerializers.INT);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, Level world) {
         super(type, world);
@@ -117,7 +125,7 @@ public class GoldenRiverRayEntity extends AbstractFish {
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         if (dataTag == null) {
             setVariant(random.nextInt(3));
@@ -153,5 +161,24 @@ public class GoldenRiverRayEntity extends AbstractFish {
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.GOLDEN_RIVER_RAY_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 }

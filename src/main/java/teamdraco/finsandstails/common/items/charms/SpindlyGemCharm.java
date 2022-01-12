@@ -20,7 +20,7 @@ public class SpindlyGemCharm extends ArmorItem implements ISpindlyCharmItem {
     public static final ArmorMaterial MATERIAL = new DHArmorMaterial(FinsAndTails.MOD_ID + ":gem_crab_amulet", 1, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
 
     public SpindlyGemCharm() {
-        super(MATERIAL, EquipmentSlot.CHEST, new Item.Properties().tab(FinsAndTails.GROUP).durability(2).rarity(Rarity.RARE));
+        super(MATERIAL, EquipmentSlot.CHEST, new Properties().tab(FinsAndTails.GROUP).durability(2).rarity(Rarity.RARE));
     }
 
     @Override

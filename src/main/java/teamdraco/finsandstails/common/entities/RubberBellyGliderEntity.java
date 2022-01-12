@@ -58,7 +58,7 @@ public class RubberBellyGliderEntity extends Animal {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RubberBellyGliderEntity.PuffGoal(this));
+        this.goalSelector.addGoal(0, new PuffGoal(this));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 8.0F, 1.6D, 1.4D, EntitySelector.NO_SPECTATORS::test));
@@ -281,7 +281,7 @@ public class RubberBellyGliderEntity extends Animal {
 
         public void tick() {
             this.updateSpeed();
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.glider.getNavigation().isDone()) {
+            if (this.operation == Operation.MOVE_TO && !this.glider.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.glider.getX();
                 double d1 = this.wantedY - this.glider.getY();
                 double d2 = this.wantedZ - this.glider.getZ();

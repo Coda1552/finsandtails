@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
 import software.bernie.finsandtails.geckolib3.core.PlayState;
 import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
 import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
@@ -21,7 +22,7 @@ import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
 
-public class BluWeeEntity extends AbstractSchoolingFish implements IAnimatable {
+public class BluWeeEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
     private final AnimationFactory factory = new AnimationFactory(this);
 
     public BluWeeEntity(EntityType<? extends BluWeeEntity> type, Level world) {
@@ -32,7 +33,7 @@ public class BluWeeEntity extends AbstractSchoolingFish implements IAnimatable {
     public void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(2, new WeeHurtByEntityGoal(this));
+        this.goalSelector.addGoal(1, new WeeHurtByEntityGoal(this));
     }
 
     @Override
@@ -70,6 +71,11 @@ public class BluWeeEntity extends AbstractSchoolingFish implements IAnimatable {
 
             level.addFreshEntity(papaWee);
         }
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 
     private boolean shouldSpawnPapaWee() {

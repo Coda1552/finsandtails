@@ -104,7 +104,7 @@ public class FinsBucketItem extends BucketItem {
         }
     }
 
-    private final java.util.function.Supplier<? extends EntityType<?>> entityTypeSupplier;
+    private final Supplier<? extends EntityType<?>> entityTypeSupplier;
     private EntityType<?> getEntityType() {
         return entityTypeSupplier.get();
     }

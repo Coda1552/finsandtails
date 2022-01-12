@@ -38,7 +38,7 @@ public class FwingedBootsItem extends ArmorItem {
     //public static final Lazy<Multimap<Attribute, AttributeModifier>> MOVEMENT_MODIFIER = Lazy.of(() -> ImmutableMultimap.of(Attributes.MOVEMENT_SPEED, new AttributeModifier("Movement modifier", 0.85, AttributeModifier.Operation.MULTIPLY_BASE)));
 
     public FwingedBootsItem() {
-        super(MATERIAL, EquipmentSlot.FEET, new Item.Properties().tab(FinsAndTails.GROUP));
+        super(MATERIAL, EquipmentSlot.FEET, new Properties().tab(FinsAndTails.GROUP));
     }
 
     @Override

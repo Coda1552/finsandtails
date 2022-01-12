@@ -23,10 +23,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class FlatbackLeafSnailEntity extends Animal {
+public class FlatbackLeafSnailEntity extends Animal implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public FlatbackLeafSnailEntity(EntityType<? extends FlatbackLeafSnailEntity> type, Level worldIn) {
         super(type, worldIn);
@@ -117,5 +125,24 @@ public class FlatbackLeafSnailEntity extends Animal {
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.FLATBACK_LEAF_SNAIL_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 }

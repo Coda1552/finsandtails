@@ -10,6 +10,6 @@ public class BluWeeRenderer extends GeoEntityRenderer<BluWeeEntity> {
 
     public BluWeeRenderer(EntityRendererProvider.Context context) {
         super(context, new BluWeeModel());
-        this.shadowRadius = 0.2F; //change 0.7 to the desired shadow size.
+        this.shadowRadius = 0.2F;
     }
 }

@@ -13,13 +13,21 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.util.goals.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
 
-public class PeaWeeEntity extends AbstractFish {
+public class PeaWeeEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public PeaWeeEntity(EntityType<? extends PeaWeeEntity> type, Level world) {
         super(type, world);
@@ -27,11 +35,9 @@ public class PeaWeeEntity extends AbstractFish {
 
     @Override
     public void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0f, 1.5f));
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, EntitySelector.NO_SPECTATORS::test));
-        this.goalSelector.addGoal(3, new WeeHurtByEntityGoal(this));
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 40));
+        this.goalSelector.addGoal(1, new WeeHurtByEntityGoal(this));
     }
 
     @Override
@@ -71,6 +77,11 @@ public class PeaWeeEntity extends AbstractFish {
         }
     }
 
+    @Override
+    public int tickTimer() {
+        return tickCount;
+    }
+
     private boolean shouldSpawnPapaWee() {
         List<PeaWeeEntity> weeList = this.level.getEntitiesOfClass(PeaWeeEntity.class, this.getBoundingBox().inflate(8.0D));
         List<PapaWeeEntity> papaWeeList = this.level.getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
@@ -81,4 +92,19 @@ public class PeaWeeEntity extends AbstractFish {
             return false;
         }
     }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
+    }
 }
+

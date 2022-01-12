@@ -12,7 +12,7 @@ import teamdraco.finsandstails.common.container.MudhorsePouchContainer;
 
 public class MudhorsePouchItem extends Item {
     public MudhorsePouchItem() {
-        super(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1));
+        super(new Properties().tab(FinsAndTails.GROUP).stacksTo(1));
     }
 
     @Override
