@@ -1,25 +1,24 @@
 package teamdraco.finsandstails.common.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class MudhorsePouchContainer extends Container {
+public class MudhorsePouchContainer extends AbstractContainerMenu {
     private final MudhorsePouchInventory stackInventory;
     private ItemStack itemStack;
 
-    public MudhorsePouchContainer(int id, PlayerInventory playerInventory) {
+    public MudhorsePouchContainer(int id, Inventory playerInventory) {
         this(id, playerInventory, ItemStack.EMPTY);
     }
 
-    public MudhorsePouchContainer(int id, PlayerInventory playerInventory, ItemStack inventoryStack) {
+    public MudhorsePouchContainer(int id, Inventory playerInventory, ItemStack inventoryStack) {
         super(FTContainers.MUDHORSE_POUCH.get(), id);
         MudhorsePouchInventory inventory = getStackInventory(inventoryStack);
         checkContainerSize(inventory, 9);
@@ -52,9 +51,9 @@ public class MudhorsePouchContainer extends Container {
     private static MudhorsePouchInventory getStackInventory(ItemStack stack) {
         MudhorsePouchInventory inventory = new MudhorsePouchInventory();
         if (!stack.isEmpty() && stack.hasTag()) {
-            ListNBT items = stack.getTag().getList("Items", 10);
+            ListTag items = stack.getTag().getList("Items", 10);
             for (int i = 0; i < items.size(); i++) {
-                CompoundNBT item = items.getCompound(i);
+                CompoundTag item = items.getCompound(i);
                 inventory.setItem(item.getByte("Slot"), ItemStack.of(item));
             }
         }
@@ -62,12 +61,12 @@ public class MudhorsePouchContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn) {
+    public boolean stillValid(Player playerIn) {
         return this.stackInventory.stillValid(playerIn);
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         ItemStack resultStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot != null && slot.hasItem()) {
@@ -98,7 +97,7 @@ public class MudhorsePouchContainer extends Container {
     }
 
     @Override
-    public void removed(PlayerEntity playerIn) {
+    public void removed(Player playerIn) {
         super.removed(playerIn);
         this.stackInventory.stopOpen(playerIn);
         if (!playerIn.level.isClientSide && stackInventory.isDirty()) {
@@ -107,7 +106,7 @@ public class MudhorsePouchContainer extends Container {
     }
 
     private class PlayerInventorySlot extends Slot {
-        public PlayerInventorySlot(IInventory inventory, int index, int xPosition, int yPosition) {
+        public PlayerInventorySlot(Inventory inventory, int index, int xPosition, int yPosition) {
             super(inventory, index, xPosition, yPosition);
         }
 

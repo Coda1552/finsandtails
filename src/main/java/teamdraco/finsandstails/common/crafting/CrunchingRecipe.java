@@ -1,20 +1,20 @@
 package teamdraco.finsandstails.common.crafting;
 
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import teamdraco.finsandstails.registry.FTBlocks;
-import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTRecipes;
 
-public class CrunchingRecipe implements IRecipe<CraftingInventory> {
+public class CrunchingRecipe implements Recipe<CraftingContainer> {
     private final Ingredient base;
     private final Ingredient addition;
     private final ItemStack result;
@@ -28,14 +28,13 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level level) {
         return this.base.test(inv.getItem(0)) && this.addition.test(inv.getItem(1));
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
-        ItemStack itemstack = this.result.copy();
-        return itemstack;
+    public ItemStack assemble(CraftingContainer inv) {
+        return this.result.copy();
     }
 
     public boolean canCraftInDimensions(int width, int height) {
@@ -54,11 +53,11 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
         return this.recipeId;
     }
 
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return FTRecipes.CRUNCHING_SERIALIZER.get();
     }
 
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return FTRecipes.CRUNCHING_TYPE;
     }
 
@@ -68,23 +67,23 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
 
         i.add(base);
         i.add(addition);
-        i.add(Ingredient.of(new ItemStack(FTItems.CRAB_CRUNCHER.get())));
+        i.add(Ingredient.of(new ItemStack(FTBlocks.CRAB_CRUNCHER.get().asItem())));
 
         return i;
     }
 
-    public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrunchingRecipe> {
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<CrunchingRecipe> {
 
         @Override
         public CrunchingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-            Ingredient ingredient = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "base"));
-             Ingredient ingredient1 = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "addition"));
-            ItemStack itemstack = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
-            return new CrunchingRecipe(recipeId, ingredient, ingredient1, itemstack);
+            Ingredient ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "base"));
+            Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "addition"));
+            Item item = ShapedRecipe.itemFromJson(GsonHelper.getAsJsonObject(json, "result"));
+            return new CrunchingRecipe(recipeId, ingredient, ingredient1, new ItemStack(item));
         }
 
         @Override
-        public CrunchingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+        public CrunchingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
             Ingredient ingredient = Ingredient.fromNetwork(buffer);
             Ingredient ingredient1 = Ingredient.fromNetwork(buffer);
             ItemStack itemstack = buffer.readItem();
@@ -92,7 +91,7 @@ public class CrunchingRecipe implements IRecipe<CraftingInventory> {
         }
 
         @Override
-        public void toNetwork(PacketBuffer buffer, CrunchingRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buffer, CrunchingRecipe recipe) {
             recipe.base.toNetwork(buffer);
             recipe.addition.toNetwork(buffer);
             buffer.writeItem(recipe.result);

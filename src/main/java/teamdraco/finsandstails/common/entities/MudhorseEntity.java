@@ -28,6 +28,14 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.util.goals.MudhorseForageGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
@@ -35,7 +43,8 @@ import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.EnumSet;
 
-public class MudhorseEntity extends Animal {
+public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
     private LivingEntity commander;
     private int commanderSetTime;
     private int attackTimer;
@@ -202,6 +211,34 @@ public class MudhorseEntity extends Animal {
     @Override
     public boolean canAttack(LivingEntity p_21171_) {
         return !(p_21171_ instanceof MudhorseEntity);
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", true));
+        }
+        else if (eatAnimationTick < 40) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.grazing", true));
+        }
+        else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.idle", true));
+        }
+        return PlayState.STOP;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 
     private static class CommanderHurt extends TargetGoal {

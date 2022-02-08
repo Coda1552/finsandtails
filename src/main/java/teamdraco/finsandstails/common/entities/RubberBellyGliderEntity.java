@@ -30,15 +30,23 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.function.Predicate;
 
-public class RubberBellyGliderEntity extends Animal {
+public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Boolean> PUFFED = SynchedEntityData.defineId(RubberBellyGliderEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDimensions PUFFED_SIZE = EntityDimensions.scalable(0.7f, 0.5f);
+    private final AnimationFactory factory = new AnimationFactory(this);
     private int puffTimer;
     private static final Predicate<Entity> ENEMY_MATCHER = (entity) -> {
         if (entity instanceof Player) {
@@ -187,6 +195,11 @@ public class RubberBellyGliderEntity extends Animal {
     }
 
     @Override
+    public int tickTimer() {
+        return tickCount;
+    }
+
+    @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.RUBBER_BELLY_GLIDER_SPAWN_EGG.get());
     }
@@ -237,6 +250,20 @@ public class RubberBellyGliderEntity extends Animal {
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.getItem() == FTItems.AMBER_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.RUBY_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.EMERALD_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.SAPPHIRE_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.PEARL_SPINDLY_GEM_CRAB.get();
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
     }
 
     static class PuffGoal extends Goal {

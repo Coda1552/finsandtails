@@ -1,0 +1,58 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 44,
+				"texture_height": 22,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 1.5,
+				"visible_bounds_offset": [0, 0.25, 0]
+			},
+			"bones": [
+				{
+					"name": "body",
+					"pivot": [0, 1.5, 0],
+					"cubes": [
+						{"origin": [-2, 0, -3], "size": [4, 3, 6], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "leftantenna",
+					"parent": "body",
+					"pivot": [-1, 2.5, -2.5],
+					"rotation": [-40, 0, -20],
+					"cubes": [
+						{"origin": [-2, 2.5, -2.5], "size": [2, 4, 0], "uv": [0, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "rightantenna",
+					"parent": "body",
+					"pivot": [1, 2.5, -2.5],
+					"rotation": [-40, 0, 20],
+					"cubes": [
+						{"origin": [0, 2.5, -2.5], "size": [2, 4, 0], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "rightmantle",
+					"parent": "body",
+					"pivot": [2, 1, 1],
+					"cubes": [
+						{"origin": [0, 1, -2], "size": [5, 0, 7], "uv": [15, 0]}
+					]
+				},
+				{
+					"name": "leftmantle",
+					"parent": "body",
+					"pivot": [-2, 1, 1],
+					"cubes": [
+						{"origin": [-5, 1, -2], "size": [5, 0, 7], "uv": [15, 0], "mirror": true}
+					]
+				}
+			]
+		}
+	]
+}

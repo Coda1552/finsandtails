@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.common.container;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
 
-public class MudhorsePouchInventory extends Inventory {
+public class MudhorsePouchInventory extends SimpleContainer {
     private boolean isDirty;
 
     public MudhorsePouchInventory() {
@@ -23,10 +23,10 @@ public class MudhorsePouchInventory extends Inventory {
     }
 
     public void write(ItemStack stack) {
-        CompoundNBT tag = new CompoundNBT();
-        ListNBT list = new ListNBT();
+        CompoundTag tag = new CompoundTag();
+        ListTag list = new ListTag();
         for (int i = 0; i < getContainerSize(); i++) {
-            CompoundNBT item = new CompoundNBT();
+            CompoundTag item = new CompoundTag();
             item.putByte("Slot", (byte) i);
             list.add(getItem(i).save(item));
         }

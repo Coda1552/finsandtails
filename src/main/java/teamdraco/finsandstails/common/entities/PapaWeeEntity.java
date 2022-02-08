@@ -16,10 +16,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.util.goals.PapaWeeAttractionGoal;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class PapaWeeEntity extends AbstractFish {
+public class PapaWeeEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public PapaWeeEntity(EntityType<? extends PapaWeeEntity> type, Level world) {
         super(type, world);
@@ -88,6 +96,25 @@ public class PapaWeeEntity extends AbstractFish {
         } else {
             super.travel(p_213352_1_);
         }
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.STOP;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 }
 

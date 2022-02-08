@@ -1,0 +1,50 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 20,
+				"texture_height": 16,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 1.5,
+				"visible_bounds_offset": [0, 0.25, 0]
+			},
+			"bones": [
+				{
+					"name": "body",
+					"pivot": [0, 2, 0],
+					"cubes": [
+						{"origin": [-1.5, 0, -2.5], "size": [3, 2, 5], "uv": [0, 9]}
+					]
+				},
+				{
+					"name": "shell",
+					"parent": "body",
+					"pivot": [0, 1, 0],
+					"rotation": [15, 0, 0],
+					"cubes": [
+						{"origin": [-2, 0, 0], "size": [4, 4, 5], "uv": [1, 0]}
+					]
+				},
+				{
+					"name": "mouth",
+					"parent": "body",
+					"pivot": [0, 0.5, -2.5],
+					"cubes": [
+						{"origin": [-1, 0, -3.5], "size": [2, 1, 1], "uv": [11, 9]}
+					]
+				},
+				{
+					"name": "stalks",
+					"parent": "body",
+					"pivot": [0, 2, -1.5],
+					"rotation": [28.64789, 0, 0],
+					"cubes": [
+						{"origin": [-1, 2, -2.5], "size": [2, 2, 1], "uv": [11, 11]}
+					]
+				}
+			]
+		}
+	]
+}

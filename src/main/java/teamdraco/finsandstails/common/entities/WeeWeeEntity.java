@@ -13,13 +13,21 @@ import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.util.goals.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
 
-public class WeeWeeEntity extends AbstractSchoolingFish {
+public class WeeWeeEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public WeeWeeEntity(EntityType<? extends WeeWeeEntity> type, Level world) {
         super(type, world);
@@ -73,6 +81,11 @@ public class WeeWeeEntity extends AbstractSchoolingFish {
         }
     }
 
+    @Override
+    public int tickTimer() {
+        return tickCount;
+    }
+
     private boolean shouldSpawnPapaWee() {
         List<WeeWeeEntity> weeList = this.level.getEntitiesOfClass(WeeWeeEntity.class, this.getBoundingBox().inflate(8.0D));
         List<PapaWeeEntity> papaWeeList = this.level.getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
@@ -82,5 +95,19 @@ public class WeeWeeEntity extends AbstractSchoolingFish {
         else {
             return false;
         }
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
     }
 }

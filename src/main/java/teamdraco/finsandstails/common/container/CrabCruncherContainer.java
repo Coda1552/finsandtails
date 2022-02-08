@@ -1,22 +1,15 @@
 package teamdraco.finsandstails.common.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.CraftResultInventory;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SSetSlotPacket;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import teamdraco.finsandstails.common.container.slot.CrabCruncherResultSlot;
 import teamdraco.finsandstails.common.container.slot.CrabCruncherSlot;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
@@ -26,25 +19,24 @@ import teamdraco.finsandstails.registry.FTRecipes;
 import teamdraco.finsandstails.registry.FtSounds;
 
 import java.util.Optional;
-import java.util.logging.Level;
 
-public class CrabCruncherContainer extends Container {
-    private final IWorldPosCallable worldPosCallable;
-    private final PlayerEntity player;
-    private final CraftingInventory inventory = new CraftingInventory(this, 2, 1);
-    private final CraftResultInventory craftResult = new CraftResultInventory();
+public class CrabCruncherContainer extends AbstractContainerMenu {
+    private final CraftingContainer inventory = new CraftingContainer(this, 2, 1);
+    private final ResultContainer craftResult = new ResultContainer();
+    private final ContainerLevelAccess access;
+    private final Player player;
 
-    public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory) {
-        this(windowId, playerInventory, .NULL);
+    public CrabCruncherContainer(int id, Inventory playerInventory) {
+        this(id, playerInventory, ItemStack.EMPTY);
     }
 
-    public CrabCruncherContainer(final int windowId, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
-        super(FTContainers.CRAB_CRUNCHER.get(), windowId);
-        this.worldPosCallable = worldPosCallable;
+    public CrabCruncherContainer(final int containerId, Inventory playerInventory, ContainerLevelAccess access) {
+        super(FTContainers.CRAB_CRUNCHER.get(), containerId);
         this.player = playerInventory.player;
+        this.access = access;
 
         // Result Slot
-        this.addSlot(new CrabCruncherResultSlot(player, inventory, craftResult, 0, 134, 47));
+        this.addSlot(new CrabCruncherResultSlot(player, craftResult, inventory, 0, 134, 47));
 
         // Input Slots
         this.addSlot(new CrabCruncherSlot(inventory, 0, 27, 47));
@@ -64,19 +56,14 @@ public class CrabCruncherContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn) {
-        return stillValid(worldPosCallable, playerIn, FTBlocks.CRAB_CRUNCHER.get());
-    }
-
-    @Override
-    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
-                this.worldPosCallable.execute((p_217067_2_, p_217067_3_) -> {
+                this.access.execute((p_217067_2_, p_217067_3_) -> {
                     itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, playerIn);
                 });
                 if (!this.moveItemStackTo(itemstack1, 3, 39,true)) {
@@ -128,18 +115,24 @@ public class CrabCruncherContainer extends Container {
             world.playSound(player, player.blockPosition(), FtSounds.CRAB_CRUNCH.get(), SoundSource.BLOCKS, 0.6F, 1.0F);
 
             craftResult.setItem(0, itemstack);
-            serverplayerentity.connection.send(new SSetSlotPacket(containerId, 0, itemstack));
+            serverplayerentity.connection.send(new ClientboundContainerSetSlotPacket(containerId, 0, 0, itemstack));
         }
     }
 
     @Override
-    public void slotsChanged(SimpleContainer inventoryIn) {
-        this.worldPosCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
+    public void slotsChanged(Container inventoryIn) {
+        this.access.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
     }
 
     @Override
-    public void removed(PlayerEntity playerIn) {
+    public void removed(Player playerIn) {
         super.removed(playerIn);
-        this.worldPosCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, p_217068_2_, inventory));
+        this.access.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, inventory));
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return stillValid(this.access, player, FTBlocks.CRAB_CRUNCHER.get());
     }
 }
+

@@ -55,7 +55,6 @@ public class FinsAndTails {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
-        bus.addListener(this::registerClient);
         bus.addListener(this::registerCommon);
         bus.addListener(this::registerEntityAttributes);
 

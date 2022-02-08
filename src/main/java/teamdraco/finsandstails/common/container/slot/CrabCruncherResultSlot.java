@@ -3,20 +3,19 @@ package teamdraco.finsandstails.common.container.slot;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.RecipeHolder;
+import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.fml.hooks.BasicEventHooks;
 import teamdraco.finsandstails.registry.FTRecipes;
 
 public class CrabCruncherResultSlot extends Slot {
-   private final CraftingMenu craftMatrix;
+   private final ResultContainer craftMatrix;
    private final Player player;
    private int amountCrafted;
 
-   public CrabCruncherResultSlot(Player player, CraftingMenu craftingInventory, Container inventoryIn, int slotIndex, int xPosition, int yPosition) {
+   public CrabCruncherResultSlot(Player player, ResultContainer craftingInventory, Container inventoryIn, int slotIndex, int xPosition, int yPosition) {
       super(inventoryIn, slotIndex, xPosition, yPosition);
       this.player = player;
       this.craftMatrix = craftingInventory;
@@ -46,7 +45,6 @@ public class CrabCruncherResultSlot extends Slot {
    protected void checkTakeAchievements(ItemStack stack) {
       if (this.amountCrafted > 0) {
          stack.onCraftedBy(this.player.level, this.player, this.amountCrafted);
-         BasicEventHooks.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
       }
 
       if (this.container instanceof RecipeHolder) {
@@ -56,7 +54,7 @@ public class CrabCruncherResultSlot extends Slot {
       this.amountCrafted = 0;
    }
 
-   public ItemStack onTake(Player thePlayer, ItemStack stack) {
+   public void onTake(Player thePlayer, ItemStack stack) {
       this.checkTakeAchievements(stack);
       ForgeHooks.setCraftingPlayer(thePlayer);
       NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.level);
@@ -80,7 +78,5 @@ public class CrabCruncherResultSlot extends Slot {
             }
          }
       }
-
-      return stack;
    }
 }

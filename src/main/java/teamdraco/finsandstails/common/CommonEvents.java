@@ -97,7 +97,7 @@ public class CommonEvents {
             event.getSpawns().getSpawner(MobCategory.WATER_AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.SWAMP_MUCKER.get(), FinsConfig.Common.INSTANCE.swampMuckerSpawnWeight.get(), 2, 4));
             event.getSpawns().getSpawner(MobCategory.WATER_AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.FLATBACK_SUCKER.get(), FinsConfig.Common.INSTANCE.flatbackSuckerSpawnWeight.get(), 1, 1));
             event.getSpawns().getSpawner(MobCategory.CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.MUDHORSE.get(), FinsConfig.Common.INSTANCE.mudhorseSpawnWeight.get(), 2, 3));
-            event.getGeneration().getStructures().add(() -> FTConfiguredStructures.CONFIGURED_SAILORS_SHIP);
+            //event.getGeneration().getStructures().add(() -> FTConfiguredStructures.CONFIGURED_SAILORS_SHIP);
         }
 
         if (event.getCategory() == Biome.BiomeCategory.JUNGLE) {
@@ -140,7 +140,7 @@ public class CommonEvents {
             if (name.equals("ocean") || name.equals("deep_ocean")) {
                 event.getSpawns().getSpawner(MobCategory.WATER_AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.HIGH_FINNED_BLUE.get(), FinsConfig.Common.INSTANCE.highFinnedBlueSpawnWeight.get(), 6, 12));
                 event.getSpawns().getSpawner(MobCategory.WATER_CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.GOPJET.get(), FinsConfig.Common.INSTANCE.gopjetSpawnWeight.get(), 2, 3));
-                event.getGeneration().getStructures().add(() -> FTConfiguredStructures.CONFIGURED_SAILORS_SHIP);
+                //event.getGeneration().getStructures().add(() -> FTConfiguredStructures.CONFIGURED_SAILORS_SHIP);
             }
 
             if (name.equals("lukewarm_ocean") || name.equals("deep_lukewarm_ocean")) {

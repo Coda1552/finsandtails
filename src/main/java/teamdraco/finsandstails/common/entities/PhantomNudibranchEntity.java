@@ -9,9 +9,17 @@ import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class PhantomNudibranchEntity extends AbstractFish {
+public class PhantomNudibranchEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public PhantomNudibranchEntity(EntityType<? extends PhantomNudibranchEntity> type, Level world) {
         super(type, world);
@@ -47,5 +55,24 @@ public class PhantomNudibranchEntity extends AbstractFish {
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.PHANTOM_NUDIBRANCH_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+        @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 }
