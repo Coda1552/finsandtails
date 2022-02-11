@@ -54,7 +54,7 @@ public class CrabCruncherResultSlot extends Slot {
       this.amountCrafted = 0;
    }
 
-   public void onTake(Player thePlayer, ItemStack stack) {
+/*   public void onTake(Player thePlayer, ItemStack stack) {
       this.checkTakeAchievements(stack);
       ForgeHooks.setCraftingPlayer(thePlayer);
       NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.level);
@@ -78,5 +78,5 @@ public class CrabCruncherResultSlot extends Slot {
             }
          }
       }
-   }
+   }*/
 }

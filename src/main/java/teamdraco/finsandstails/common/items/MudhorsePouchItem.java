@@ -1,3 +1,4 @@
+/*
 package teamdraco.finsandstails.common.items;
 
 import net.minecraft.world.InteractionHand;
@@ -24,3 +25,4 @@ public class MudhorsePouchItem extends Item {
         return InteractionResultHolder.success(stack);
     }
 }
+*/

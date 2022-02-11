@@ -1,3 +1,4 @@
+/*
 package teamdraco.finsandstails.registry;
 
 import net.minecraft.util.ResourceLocation;
@@ -18,3 +19,4 @@ public class FTConfiguredStructures {
         FlatGenerationSettings.STRUCTURE_FEATURES.put(FTStructures.SAILORS_SHIP.get(), CONFIGURED_SAILORS_SHIP);
     }
 }
+*/

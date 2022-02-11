@@ -1,3 +1,4 @@
+/*
 package teamdraco.finsandstails.common.jei;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -65,3 +66,4 @@ public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe>
         itemStackGroup.set(iIngredients);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package teamdraco.finsandstails.common.jei;
 
 import mezz.jei.api.IModPlugin;
@@ -42,3 +43,4 @@ public class FinsJEIPlugin implements IModPlugin {
         return manager.getRecipes().parallelStream().filter(recipe -> recipe.getType() == type).collect(Collectors.toList());
     }
 }
+*/

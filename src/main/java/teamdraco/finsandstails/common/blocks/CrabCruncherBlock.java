@@ -6,6 +6,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -31,12 +32,6 @@ public class CrabCruncherBlock extends Block {
         } else {
             return InteractionResult.SUCCESS;
         }
-    }
-
-    @Nullable
-    @Override
-    public MenuProvider getMenuProvider(BlockState state, Level worldIn, BlockPos pos) {
-        return new SimpleMenuProvider((id, inventory, player) -> new CrabCruncherContainer(id, inventory, IWorldPosCallable.create(worldIn, pos)), CONTAINER_NAME);
     }
 
     @Override

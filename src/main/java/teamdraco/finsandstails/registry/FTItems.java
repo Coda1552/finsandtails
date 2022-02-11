@@ -88,7 +88,7 @@ public class FTItems {
     public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = ITEMS.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).fast().build())));
 
     //Gear
-    public static final RegistryObject<Item> MUDHORSE_POUCH = ITEMS.register("mudhorse_pouch", MudhorsePouchItem::new);
+    //public static final RegistryObject<Item> MUDHORSE_POUCH = ITEMS.register("mudhorse_pouch", MudhorsePouchItem::new);
     public static final RegistryObject<Item> FWINGED_BOOTS = ITEMS.register("fwinged_boots", FwingedBootsItem::new);
     public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = ITEMS.register("white_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 2, -0.6F, new Item.Properties().tab(FinsAndTails.GROUP).durability(200)));
     public static final RegistryObject<Item> RED_CLAW_GAUNTLET = ITEMS.register("red_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 3, -1.4F, new Item.Properties().tab(FinsAndTails.GROUP).durability(130)));
@@ -159,7 +159,6 @@ public class FTItems {
     public static final RegistryObject<Item> WHERBLE_SPAWN_EGG = ITEMS.register("wherble_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WHERBLE, 0xd5e2e9, 0x2684b4, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WANDERING_SAILOR_SPAWN_EGG = ITEMS.register("wandering_sailor_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WANDERING_SAILOR, 0x31a7cf, 0xd3904c, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = ITEMS.register("goliath_garden_crab_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties().tab(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> GLASS_SKIPPER_SPAWN_EGG = ITEMS.register("glass_skipper_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GLASS_SKIPPER, 0x4d4d4d, 0x32ade9, new Item.Properties().tab(FinsAndTails.GROUP)));
 
     //Misc.
     public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = ITEMS.register("banner_pattern_mandibles", () -> new BannerPatternItem(registerPattern("mandibles"), new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));

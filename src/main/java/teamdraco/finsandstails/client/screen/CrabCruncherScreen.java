@@ -1,22 +1,23 @@
 package teamdraco.finsandstails.client.screen;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.container.CrabCruncherContainer;
 
 @OnlyIn(Dist.CLIENT)
-public class CrabCruncherScreen extends ContainerScreen<CrabCruncherContainer> {
+public class CrabCruncherScreen extends AbstractContainerScreen<CrabCruncherContainer> {
     private static final ResourceLocation BLENDER_GUI = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/crab_cruncher.png");
 
-    public CrabCruncherScreen(CrabCruncherContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+    public CrabCruncherScreen(CrabCruncherContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
 
         this.leftPos = 0;
@@ -26,24 +27,24 @@ public class CrabCruncherScreen extends ContainerScreen<CrabCruncherContainer> {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
-        TranslationTextComponent textCompontent = new TranslationTextComponent("container.finsandtails.crab_cruncher");
+    protected void renderLabels(PoseStack matrixStack, int x, int y) {
+        TranslatableComponent textCompontent = new TranslatableComponent("container.finsandtails.crab_cruncher");
 
-        this.font.draw(matrixStack, this.inventory.getDisplayName(), (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
         this.font.draw(matrixStack, textCompontent, ((float) imageWidth / 2 - font.width(textCompontent) / 2), 6f, 4210752);
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.color4f(1f, 1f, 1f, 1f);
-        this.minecraft.textureManager.bind(BLENDER_GUI);
+    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        this.minecraft.textureManager.bindForSetup(BLENDER_GUI);
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, x, y, 0, 0, this.imageWidth, this.imageHeight);

@@ -45,7 +45,7 @@ import java.util.function.Function;
 
 @Mod(FinsAndTails.MOD_ID)
 public class FinsAndTails {
-    public static final String MOD_ID = "finandtails";
+    public static final String MOD_ID = "finsandtails";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
     public static final List<Runnable> CALLBACKS = new ArrayList<>();
@@ -68,7 +68,7 @@ public class FinsAndTails {
         FTEntities.REGISTER.register(bus);
         FtSounds.REGISTER.register(bus);
         FTRecipes.SERIALIZERS.register(bus);
-        FTStructures.REGISTER.register(bus);
+        //FTStructures.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);

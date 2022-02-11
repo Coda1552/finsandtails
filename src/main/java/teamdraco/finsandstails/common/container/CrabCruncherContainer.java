@@ -1,5 +1,6 @@
 package teamdraco.finsandstails.common.container;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -23,17 +24,17 @@ import java.util.Optional;
 public class CrabCruncherContainer extends AbstractContainerMenu {
     private final CraftingContainer inventory = new CraftingContainer(this, 2, 1);
     private final ResultContainer craftResult = new ResultContainer();
-    private final ContainerLevelAccess access;
+    private final ContainerLevelAccess canInteractWithCallable;
     private final Player player;
 
-    public CrabCruncherContainer(int id, Inventory playerInventory) {
-        this(id, playerInventory, ItemStack.EMPTY);
+    public CrabCruncherContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
+        this(windowId, playerInventory, new SimpleContainerData(3));
     }
 
-    public CrabCruncherContainer(final int containerId, Inventory playerInventory, ContainerLevelAccess access) {
-        super(FTContainers.CRAB_CRUNCHER.get(), containerId);
+    public CrabCruncherContainer(final int windowId, final Inventory playerInventory, final  ContainerData data) {
+        super(FTContainers.CRAB_CRUNCHER.get(), windowId);
         this.player = playerInventory.player;
-        this.access = access;
+        this.canInteractWithCallable = ContainerLevelAccess.create(player.level, player.blockPosition());
 
         // Result Slot
         this.addSlot(new CrabCruncherResultSlot(player, craftResult, inventory, 0, 134, 47));
@@ -63,7 +64,7 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
-                this.access.execute((p_217067_2_, p_217067_3_) -> {
+                this.canInteractWithCallable.execute((p_217067_2_, p_217067_3_) -> {
                     itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, playerIn);
                 });
                 if (!this.moveItemStackTo(itemstack1, 3, 39,true)) {
@@ -95,10 +96,10 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
 
-            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
+/*            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
             if (index == 0) {
                 playerIn.drop(itemstack2, false);
-            }
+            }*/
         }
 
         return itemstack;
@@ -121,18 +122,18 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
 
     @Override
     public void slotsChanged(Container inventoryIn) {
-        this.access.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
+        this.canInteractWithCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
     }
 
     @Override
     public void removed(Player playerIn) {
         super.removed(playerIn);
-        this.access.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, inventory));
+        this.canInteractWithCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, inventory));
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(this.access, player, FTBlocks.CRAB_CRUNCHER.get());
+        return stillValid(this.canInteractWithCallable, player, FTBlocks.CRAB_CRUNCHER.get());
     }
 }
 

@@ -1,3 +1,4 @@
+/*
 package teamdraco.finsandstails.common.container;
 
 import net.minecraft.nbt.CompoundTag;
@@ -122,3 +123,4 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
         }
     }
 }
+*/

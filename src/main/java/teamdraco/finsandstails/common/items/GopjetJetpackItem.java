@@ -29,7 +29,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.old.model.GopjetJetpackModel;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
@@ -166,10 +165,11 @@ public class GopjetJetpackItem extends ArmorItem {
         return enchantment != Enchantments.UNBREAKING && super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
-    @Nullable
+    // TODO - make this use a geckolib model
+/*    @Nullable
     @Override
     @OnlyIn(Dist.CLIENT)
     public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A _default) {
         return (A) GopjetJetpackModel.INSTANCE;
-    }
+    }*/
 }

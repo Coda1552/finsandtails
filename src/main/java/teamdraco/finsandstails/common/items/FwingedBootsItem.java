@@ -27,7 +27,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.old.model.FwingedBootsModel;
 import teamdraco.finsandstails.registry.FTEnchantments;
 
 import javax.annotation.Nullable;
@@ -84,11 +83,13 @@ public class FwingedBootsItem extends ArmorItem {
         return enchantment != Enchantments.DEPTH_STRIDER && super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
-    @SuppressWarnings("unchecked")
+
+    // TODO - make this use a geckolib model
+    /*@SuppressWarnings("unchecked")
     @Nullable
     @Override
     @OnlyIn(Dist.CLIENT)
     public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A _default) {
         return (A) FwingedBootsModel.INSTANCE;
-    }
+    }*/
 }

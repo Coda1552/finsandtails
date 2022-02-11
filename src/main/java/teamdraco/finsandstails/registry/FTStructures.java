@@ -1,3 +1,4 @@
+/*
 package teamdraco.finsandstails.registry;
 
 import com.google.common.collect.ImmutableList;
@@ -42,3 +43,4 @@ public class FTStructures {
         DimensionStructuresSettings.DEFAULTS = ImmutableMap.<Structure<?>, StructureSeparationSettings>builder().putAll(DimensionStructuresSettings.DEFAULTS).put(structure, structureSeparationSettings).build();
     }
 }
+*/

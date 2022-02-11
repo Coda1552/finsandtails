@@ -17,7 +17,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.render.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
-import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.common.items.charms.SpindlyGemCharm;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTBlocks;
@@ -57,7 +56,7 @@ public class ClientEvents {
     public static void setupClient(FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(FTBlocks.CHAINED_TENTACLE.get(), RenderType.cutout());
 
-        MenuScreens.register(FTContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
+        //MenuScreens.register(FTContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
         MenuScreens.register(FTContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
 
         ItemProperties.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player, i) -> SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F);
