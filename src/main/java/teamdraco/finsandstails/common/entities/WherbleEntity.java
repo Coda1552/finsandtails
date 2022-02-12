@@ -81,6 +81,11 @@ public class WherbleEntity extends Animal implements IAnimatable, IAnimationTick
         this.entityData.define(VARIANT, 0);
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return source != DamageSource.FREEZE && super.hurt(source, amount);
+    }
+
     public int getVariant() {
         return this.entityData.get(VARIANT);
     }
