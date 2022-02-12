@@ -34,14 +34,18 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
+import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
+import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
 import teamdraco.finsandstails.registry.FTEntities;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 public class FinsBucketItem extends BucketItem {
-    private final boolean hasTooltip;
+    private final Supplier<? extends EntityType<?>> entityTypeSupplier;
     private final Supplier<? extends Fluid> fluid;
+    private final boolean hasTooltip;
 
     public FinsBucketItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Properties builder) {
         this(entityType, fluid, builder, true);
@@ -76,6 +80,10 @@ public class FinsBucketItem extends BucketItem {
                 if (worldIn instanceof ServerLevel) this.placeEntity((ServerLevel)worldIn, itemstack, blockpos2);
                 if (playerIn instanceof ServerPlayer) {
                     CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) playerIn, blockpos2, itemstack);
+
+                    if (entityTypeSupplier instanceof FlatbackLeafSnailEntity || entityTypeSupplier instanceof RiverPebbleSnailEntity || entityTypeSupplier instanceof SiderolWhiskeredSnailEntity) {
+
+                    }
                 }
 
                 playerIn.awardStat(Stats.ITEM_USED.get(this));
@@ -104,7 +112,6 @@ public class FinsBucketItem extends BucketItem {
         }
     }
 
-    private final Supplier<? extends EntityType<?>> entityTypeSupplier;
     private EntityType<?> getEntityType() {
         return entityTypeSupplier.get();
     }

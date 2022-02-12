@@ -69,10 +69,10 @@ public class BabyWherblePotItem extends FinsBucketItem {
     }
 
     private void placeEntity(ServerLevel worldIn, ItemStack stack, BlockPos pos) {
-        Entity entity = this.entityTypeSupplier.get().spawn(worldIn, stack, (Player)null, pos, MobSpawnType.BUCKET, true, false);
+        Entity entity = this.entityTypeSupplier.get().spawn(worldIn, stack, null, pos, MobSpawnType.BUCKET, true, false);
         if (entity != null) {
             if (entity instanceof WherbleEntity) {
-                ((WherbleEntity)entity).setAge(-24000);
+                ((WherbleEntity)entity).setAge(stack.getTag().getInt("Age"));
                 ((WherbleEntity)entity).setVariant(worldIn.random.nextInt(4));
             }
         }

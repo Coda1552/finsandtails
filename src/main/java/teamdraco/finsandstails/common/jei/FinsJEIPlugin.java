@@ -1,4 +1,3 @@
-/*
 package teamdraco.finsandstails.common.jei;
 
 import mezz.jei.api.IModPlugin;
@@ -7,9 +6,9 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTRecipes;
 
@@ -39,8 +38,7 @@ public class FinsJEIPlugin implements IModPlugin {
         registration.addRecipeCategories(new CrunchingRecipeCategory(helper));
     }
 
-    private static Collection<?> getRecipes(RecipeManager manager, IRecipeType<?> type) {
+    private static Collection<?> getRecipes(RecipeManager manager, RecipeType<?> type) {
         return manager.getRecipes().parallelStream().filter(recipe -> recipe.getType() == type).collect(Collectors.toList());
     }
 }
-*/

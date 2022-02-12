@@ -132,6 +132,7 @@ public class RiverPebbleSnailEntity extends Animal implements IAnimatable, IAnim
             this.setBucketData(itemstack1);
             if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
+                heldItem.getOrCreateTag().putInt("Age", getAge());
             }
             if (heldItem.isEmpty()) {
                 player.setItemInHand(hand, itemstack1);

@@ -1,4 +1,3 @@
-/*
 package teamdraco.finsandstails.common.jei;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -8,12 +7,13 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
-import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTBlocks;
 
 public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe> {
     public static final ResourceLocation ID = new ResourceLocation(FinsAndTails.MOD_ID, ".crunching_recipe_category");
@@ -22,7 +22,7 @@ public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe>
 
     public CrunchingRecipeCategory(IGuiHelper helper) {
         this.background = helper.createDrawable(new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/crab_cruncher.png"), 26, 46, 125, 18);
-        this.icon = helper.createDrawableIngredient(new ItemStack(FTItems.CRAB_CRUNCHER.get()));
+        this.icon = helper.createDrawableIngredient(new ItemStack(FTBlocks.CRAB_CRUNCHER.get().asItem()));
     }
 
     @Override
@@ -36,8 +36,8 @@ public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe>
     }
 
     @Override
-    public String getTitle() {
-        return new TranslationTextComponent("category." + FinsAndTails.MOD_ID + ".crunching_recipe").getString();
+    public Component getTitle() {
+        return new TranslatableComponent("category." + FinsAndTails.MOD_ID + ".crunching_recipe");
     }
 
     @Override
@@ -66,4 +66,3 @@ public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe>
         itemStackGroup.set(iIngredients);
     }
 }
-*/

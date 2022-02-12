@@ -84,6 +84,7 @@ public class FlatbackLeafSnailEntity extends Animal implements IAnimatable, IAni
 
             if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
+                heldItem.getOrCreateTag().putInt("Age", getAge());
             }
             if (heldItem.isEmpty()) {
                 player.setItemInHand(hand, itemstack1);
