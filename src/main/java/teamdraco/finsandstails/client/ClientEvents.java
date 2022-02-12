@@ -31,7 +31,7 @@ import teamdraco.finsandstails.registry.FTItems;
 public class ClientEvents {
 
     @SubscribeEvent
-    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+    public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpRenderer::new);
         event.registerEntityRenderer(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
@@ -61,7 +61,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void registerRenders(EntityRenderersEvent.AddLayers event) {
+    public static void registerArmorRenders(EntityRenderersEvent.AddLayers event) {
         GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, new FwingedBootsRenderer());
         GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, new GopjetJetpackRenderer());
     }
