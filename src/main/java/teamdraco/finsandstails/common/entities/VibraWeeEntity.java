@@ -18,6 +18,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.util.goals.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
@@ -25,8 +32,9 @@ import teamdraco.finsandstails.registry.FTItems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class VibraWeeEntity extends AbstractSchoolingFish {
+public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(VibraWeeEntity.class, EntityDataSerializers.INT);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public VibraWeeEntity(EntityType<? extends VibraWeeEntity> type, Level world) {
         super(type, world);
@@ -127,6 +135,11 @@ public class VibraWeeEntity extends AbstractSchoolingFish {
         }
     }
 
+    @Override
+    public int tickTimer() {
+        return tickCount;
+    }
+
     private boolean shouldSpawnPapaWee() {
         List<VibraWeeEntity> weeList = this.level.getEntitiesOfClass(VibraWeeEntity.class, this.getBoundingBox().inflate(8.0D));
         List<PapaWeeEntity> papaWeeList = this.level.getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
@@ -136,5 +149,19 @@ public class VibraWeeEntity extends AbstractSchoolingFish {
         else {
             return false;
         }
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
     }
 }
