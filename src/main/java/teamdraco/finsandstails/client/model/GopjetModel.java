@@ -6,7 +6,7 @@ import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.GopjetEntity;
 
 public class GopjetModel extends AnimatedGeoModel<GopjetEntity> {
-    private static final ResourceLocation GOPJET = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/gopjet/standard.png");
+    private static final ResourceLocation GOPJET = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/gopjet/gopjet.png");
     private static final ResourceLocation BOOSTING = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/gopjet/boosting.png");
 
     @Override
