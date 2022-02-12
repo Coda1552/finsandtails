@@ -1,6 +1,8 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.processor.IBone;
 import software.bernie.finsandtails.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
@@ -21,5 +23,15 @@ public class TealArrowfishModel extends AnimatedGeoModel<TealArrowfishEntity> {
     public ResourceLocation getAnimationFileLocation(TealArrowfishEntity wee) {
         return null;
         //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+    }
+
+    @Override
+    public void setLivingAnimations(TealArrowfishEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
+        super.setLivingAnimations(entity, uniqueID, customPredicate);
+        IBone body = this.getAnimationProcessor().getBone("body");
+
+        if (!entity.isInWater()) {
+            body.setRotationZ(1.5708f);
+        }
     }
 }
