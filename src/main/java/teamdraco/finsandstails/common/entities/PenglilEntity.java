@@ -125,7 +125,7 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0D);
             this.setHealth(20.0F);
         } else {
-            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(8.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(10.0D);
         }
     }
 
@@ -355,11 +355,7 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
                     BlockPos blockpos = this.owner.blockPosition();
                     BlockState blockstate = this.penglil.level.getBlockState(blockpos);
                     if (blockstate.is(BlockTags.BEDS)) {
-                        this.bedPos = blockstate.getOptionalValue(BedBlock.FACING).map((p_234186_1_) -> {
-                            return blockpos.relative(p_234186_1_.getOpposite());
-                        }).orElseGet(() -> {
-                            return new BlockPos(blockpos);
-                        });
+                        this.bedPos = blockstate.getOptionalValue(BedBlock.FACING).map((p_234186_1_) -> blockpos.relative(p_234186_1_.getOpposite())).orElseGet(() -> new BlockPos(blockpos));
                         return !this.spaceIsOccupied();
                     }
                 }

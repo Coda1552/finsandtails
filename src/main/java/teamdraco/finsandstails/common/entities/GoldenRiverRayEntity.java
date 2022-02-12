@@ -17,6 +17,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
@@ -45,7 +46,7 @@ public class GoldenRiverRayEntity extends AbstractFish implements IAnimatable, I
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new FancySwimmingMoveHelperController(this);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 50);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
