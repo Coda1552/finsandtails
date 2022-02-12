@@ -15,15 +15,15 @@ import teamdraco.finsandstails.common.container.CrabCruncherContainer;
 
 @OnlyIn(Dist.CLIENT)
 public class CrabCruncherScreen extends AbstractContainerScreen<CrabCruncherContainer> {
-    private static final ResourceLocation BLENDER_GUI = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/crab_cruncher.png");
+    private static final ResourceLocation CRUNCHER_GUI = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/crab_cruncher.png");
 
     public CrabCruncherScreen(CrabCruncherContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
 
         this.leftPos = 0;
         this.topPos = 0;
-        this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageWidth = 175;
+        this.imageHeight = 165;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CrabCruncherScreen extends AbstractContainerScreen<CrabCruncherCont
     @Override
     protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        this.minecraft.textureManager.bindForSetup(BLENDER_GUI);
+        RenderSystem.setShaderTexture(0, CRUNCHER_GUI);
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, x, y, 0, 0, this.imageWidth, this.imageHeight);

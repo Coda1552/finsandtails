@@ -1,11 +1,9 @@
 package teamdraco.finsandstails.common.container;
 
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -27,17 +25,17 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
     private final ContainerLevelAccess canInteractWithCallable;
     private final Player player;
 
-    public CrabCruncherContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
-        this(windowId, playerInventory, new SimpleContainerData(3));
+    public CrabCruncherContainer(int windowId, Inventory playerInventory) {
+        this(windowId, playerInventory, ContainerLevelAccess.NULL, new SimpleContainerData(3));
     }
 
-    public CrabCruncherContainer(final int windowId, final Inventory playerInventory, final  ContainerData data) {
+    public CrabCruncherContainer(int windowId, Inventory playerInventory, ContainerLevelAccess access, ContainerData data) {
         super(FTContainers.CRAB_CRUNCHER.get(), windowId);
         this.player = playerInventory.player;
-        this.canInteractWithCallable = ContainerLevelAccess.create(player.level, player.blockPosition());
+        this.canInteractWithCallable = access;
 
         // Result Slot
-        this.addSlot(new CrabCruncherResultSlot(player, craftResult, inventory, 0, 134, 47));
+        this.addSlot(new CrabCruncherResultSlot(player, inventory, craftResult, 2, 134, 47));
 
         // Input Slots
         this.addSlot(new CrabCruncherSlot(inventory, 0, 27, 47));
@@ -58,51 +56,30 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
-            itemstack = itemstack1.copy();
-            if (index == 0) {
-                this.canInteractWithCallable.execute((p_217067_2_, p_217067_3_) -> {
-                    itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, playerIn);
-                });
-                if (!this.moveItemStackTo(itemstack1, 3, 39,true)) {
+        if (slot.hasItem()) {
+            ItemStack stack1 = slot.getItem();
+            stack = stack1.copy();
+
+            if (index < 2) {
+                if (!this.moveItemStackTo(stack1, 0, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-
-                slot.onQuickCraft(itemstack1, itemstack);
-            } else if (index >= 3 && index < 39) {
-                if (!this.moveItemStackTo(itemstack1, 1, 3, false)) {
-                    if (index < 37) {
-                        if (!this.moveItemStackTo(itemstack1, 37, 39, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    } else if (!this.moveItemStackTo(itemstack1, 3, 30, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-            } else if (!this.moveItemStackTo(itemstack1, 3, 39, false)) {
+            }
+            else if (!this.moveItemStackTo(stack1, 0, 10, true)) {
                 return ItemStack.EMPTY;
             }
 
-            if (itemstack1.isEmpty()) {
+            if (stack1.isEmpty()) {
                 slot.set(ItemStack.EMPTY);
-            } else {
+            }
+            else {
                 slot.setChanged();
             }
-
-            if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-/*            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
-            if (index == 0) {
-                playerIn.drop(itemstack2, false);
-            }*/
         }
 
-        return itemstack;
+        return stack;
     }
 
     protected void updateCraftingResult(Level world) {

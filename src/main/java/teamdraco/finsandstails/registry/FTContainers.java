@@ -12,5 +12,5 @@ public class FTContainers {
     public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, FinsAndTails.MOD_ID);
 
     //public static final RegistryObject<MenuType<MudhorsePouchContainer>> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", () -> IForgeMenuType.<MudhorsePouchContainer>create(MudhorsePouchContainer::new));
-    public static final RegistryObject<MenuType<CrabCruncherContainer>> CRAB_CRUNCHER = REGISTER.register("crab_cruncher", () -> IForgeMenuType.create(CrabCruncherContainer::new));
+    public static final RegistryObject<MenuType<CrabCruncherContainer>> CRAB_CRUNCHER = REGISTER.register("crab_cruncher", () -> IForgeMenuType.create((windowId, playerInventory, data) -> new CrabCruncherContainer(windowId, playerInventory)));
 }

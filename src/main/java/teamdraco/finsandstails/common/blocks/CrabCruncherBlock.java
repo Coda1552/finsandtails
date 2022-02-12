@@ -6,16 +6,16 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.container.CrabCruncherContainer;
+
+import javax.annotation.Nullable;
 
 public class CrabCruncherBlock extends Block {
     private static final Component CONTAINER_NAME = new TranslatableComponent("container." + FinsAndTails.MOD_ID + "crab_cruncher");
@@ -32,6 +32,11 @@ public class CrabCruncherBlock extends Block {
         } else {
             return InteractionResult.SUCCESS;
         }
+    }
+
+    @Nullable
+    public MenuProvider getMenuProvider(BlockState p_48821_, Level p_48822_, BlockPos p_48823_) {
+        return new SimpleMenuProvider((p_53812_, p_53813_, p_53814_) -> new CrabCruncherContainer(p_53812_, p_53813_), CONTAINER_NAME);
     }
 
     @Override

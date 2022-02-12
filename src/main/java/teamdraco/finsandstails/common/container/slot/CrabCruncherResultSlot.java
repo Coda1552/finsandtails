@@ -3,6 +3,7 @@ package teamdraco.finsandstails.common.container.slot;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.RecipeHolder;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
@@ -11,11 +12,11 @@ import net.minecraftforge.common.ForgeHooks;
 import teamdraco.finsandstails.registry.FTRecipes;
 
 public class CrabCruncherResultSlot extends Slot {
-   private final ResultContainer craftMatrix;
+   private final CraftingContainer craftMatrix;
    private final Player player;
    private int amountCrafted;
 
-   public CrabCruncherResultSlot(Player player, ResultContainer craftingInventory, Container inventoryIn, int slotIndex, int xPosition, int yPosition) {
+   public CrabCruncherResultSlot(Player player, CraftingContainer craftingInventory, ResultContainer inventoryIn, int slotIndex, int xPosition, int yPosition) {
       super(inventoryIn, slotIndex, xPosition, yPosition);
       this.player = player;
       this.craftMatrix = craftingInventory;
@@ -54,10 +55,10 @@ public class CrabCruncherResultSlot extends Slot {
       this.amountCrafted = 0;
    }
 
-/*   public void onTake(Player thePlayer, ItemStack stack) {
+   public void onTake(Player thePlayer, ItemStack stack) {
       this.checkTakeAchievements(stack);
       ForgeHooks.setCraftingPlayer(thePlayer);
-      NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE, this.craftMatrix, thePlayer.level);
+      NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE, craftMatrix, thePlayer.level);
       ForgeHooks.setCraftingPlayer(null);
       for(int i = 0; i < nonnulllist.size(); ++i) {
          ItemStack itemstack = this.craftMatrix.getItem(i);
@@ -78,5 +79,5 @@ public class CrabCruncherResultSlot extends Slot {
             }
          }
       }
-   }*/
+   }
 }
