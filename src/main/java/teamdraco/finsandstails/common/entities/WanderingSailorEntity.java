@@ -24,6 +24,13 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
 
@@ -31,10 +38,11 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Random;
 
-public class WanderingSailorEntity extends AbstractVillager implements Merchant {
+public class WanderingSailorEntity extends AbstractVillager implements Merchant, IAnimatable, IAnimationTickable {
     public static final Int2ObjectMap<VillagerTrades.ItemListing[]> TRADES = toIntMap(ImmutableMap.of(
             1, new VillagerTrades.ItemListing[]{new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_EMERALD.get()), new ItemStack(FTItems.BANDED_REDBACK_SHRIMP_BUCKET.get()), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_RUBY.get(), 4), new ItemStack(FTItems.GOPJET_JET.get()), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_AMBER.get(), 4), new ItemStack(FTItems.FWIN.get(), 1), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_EMERALD.get(), 2), new ItemStack(FTItems.WHITE_BULL_CRAB_CLAW.get(), 2), 3, 3, 30)},
             2, new VillagerTrades.ItemListing[]{new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_SAPPHIRE.get()), new ItemStack(FTItems.NIGHT_LIGHT_SQUID_TENTACLE.get(), 5), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_PEARL.get()), new ItemStack(FTItems.PAPA_WEE_BUCKET.get()), 3, 3, 30)}));
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public WanderingSailorEntity(EntityType<? extends AbstractVillager> type, Level worldIn) {
         super(type, worldIn);
@@ -160,6 +168,25 @@ public class WanderingSailorEntity extends AbstractVillager implements Merchant 
 
     private static Int2ObjectMap<VillagerTrades.ItemListing[]> toIntMap(ImmutableMap<Integer, VillagerTrades.ItemListing[]> p_221238_0_) {
         return new Int2ObjectOpenHashMap<>(p_221238_0_);
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 
     private static class ItemsForItemsTrade implements VillagerTrades.ItemListing {

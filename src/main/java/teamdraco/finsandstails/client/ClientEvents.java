@@ -54,6 +54,7 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
         event.registerEntityRenderer(FTEntities.VIBRA_WEE.get(), VibraWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.WHERBLE.get(), WherbleRenderer::new);
+        event.registerEntityRenderer(FTEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);
     }
 
     @SubscribeEvent

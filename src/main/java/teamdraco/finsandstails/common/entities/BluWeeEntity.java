@@ -94,12 +94,12 @@ public class BluWeeEntity extends AbstractSchoolingFish implements IAnimatable, 
         data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
     }
 
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
     @Override
     public AnimationFactory getFactory() {
         return factory;
-    }
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-            return PlayState.CONTINUE;
     }
 }
