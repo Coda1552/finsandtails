@@ -14,9 +14,12 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import software.bernie.finsandtails.geckolib3.renderers.geo.GeoArmorRenderer;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.render.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
+import teamdraco.finsandstails.common.items.FwingedBootsItem;
+import teamdraco.finsandstails.common.items.GopjetJetpackItem;
 import teamdraco.finsandstails.common.items.charms.SpindlyGemCharm;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTBlocks;
@@ -51,10 +54,13 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderRenderer::new);
         event.registerEntityRenderer(FTEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailRenderer::new);
         event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
-        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
         event.registerEntityRenderer(FTEntities.VIBRA_WEE.get(), VibraWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.WHERBLE.get(), WherbleRenderer::new);
         event.registerEntityRenderer(FTEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);
+
+        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
+        GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, new FwingedBootsRenderer());
+        GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, new GopjetJetpackRenderer());
     }
 
     @SubscribeEvent

@@ -28,6 +28,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
+import software.bernie.finsandtails.geckolib3.item.GeoArmorItem;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FtSounds;
@@ -36,10 +40,11 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class GopjetJetpackItem extends ArmorItem {
+public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
     public static final ArmorMaterial MATERIAL = new DHArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.GOPJET_JET.get()));
-    private int bubbleSoundTime;
+    private final AnimationFactory factory = new AnimationFactory(this);
     private final Random random = new Random();
+    private int bubbleSoundTime;
 
     public GopjetJetpackItem() {
         super(MATERIAL, EquipmentSlot.CHEST, new Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(128));
@@ -165,11 +170,11 @@ public class GopjetJetpackItem extends ArmorItem {
         return enchantment != Enchantments.UNBREAKING && super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
-    // TODO - make this use a geckolib model
-/*    @Nullable
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A _default) {
-        return (A) GopjetJetpackModel.INSTANCE;
-    }*/
+    public void registerControllers(AnimationData animationData) {}
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
 }
