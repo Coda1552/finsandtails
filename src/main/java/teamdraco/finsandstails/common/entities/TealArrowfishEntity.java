@@ -14,9 +14,17 @@ import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
+import software.bernie.finsandtails.geckolib3.core.PlayState;
+import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
+import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class TealArrowfishEntity extends AbstractSchoolingFish {
+public class TealArrowfishEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public TealArrowfishEntity(EntityType<? extends TealArrowfishEntity> type, Level world) {
         super(type, world);
@@ -26,7 +34,6 @@ public class TealArrowfishEntity extends AbstractSchoolingFish {
     public void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 3.0D, true));
-        this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 40));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, false));
@@ -66,5 +73,24 @@ public class TealArrowfishEntity extends AbstractSchoolingFish {
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.TEAL_ARROWFISH_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 }

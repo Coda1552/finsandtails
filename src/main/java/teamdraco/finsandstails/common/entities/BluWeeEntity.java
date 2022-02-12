@@ -100,6 +100,6 @@ public class BluWeeEntity extends AbstractSchoolingFish implements IAnimatable, 
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-            return PlayState.STOP;
+            return PlayState.CONTINUE;
     }
 }

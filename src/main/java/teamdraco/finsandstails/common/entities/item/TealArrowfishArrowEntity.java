@@ -10,11 +10,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
+import software.bernie.finsandtails.geckolib3.core.IAnimatable;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
+import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.items.TealArrowfishItem;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTEntities;
 
-public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAdditionalSpawnData {
+public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAdditionalSpawnData, IAnimatable {
+    private final AnimationFactory factory = new AnimationFactory(this);
     private final TealArrowfishItem arrow;
 
     public TealArrowfishArrowEntity(EntityType<? extends AbstractArrow> type, Level worldIn) {
@@ -50,5 +54,14 @@ public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAd
     @Override
     public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
     }
 }
