@@ -19,7 +19,6 @@ public class WhiteBullCrabModel extends AnimatedGeoModel<WhiteBullCrabEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(WhiteBullCrabEntity entity) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/bull_crab.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/bull_crab.animations.json");
     }
 }

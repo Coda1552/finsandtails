@@ -117,7 +117,7 @@ public class SiderolWhiskeredSnailEntity extends Animal implements IAnimatable, 
     }
 
     protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return 0.25F;
+        return isBaby() ? 0.25F : 0.4F;
     }
 
     @Override
@@ -136,13 +136,7 @@ public class SiderolWhiskeredSnailEntity extends Animal implements IAnimatable, 
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", true));
-        }
-        else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.idle", true));
-        }
-        return PlayState.STOP;
+        return PlayState.CONTINUE;
     }
 
     @Override

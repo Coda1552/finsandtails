@@ -35,7 +35,7 @@ public class FlatbackLeafSnailModel extends AnimatedGeoModel<FlatbackLeafSnailEn
             body.setScaleX(0.5F);
             body.setScaleY(0.5F);
             body.setScaleZ(0.5F);
-            body.setPositionY(-2.75F);
+            body.setPositionY(-1F);
         }
     }
 }
