@@ -78,10 +78,6 @@ public class BabyWherblePotItem extends FinsBucketItem {
         }
     }
 
-    private EntityType<?> getEntityType() {
-        return entityTypeSupplier.get();
-    }
-
     private ItemStack getEmptyItem(ItemStack stack, Player player) {
         if (entityTypeSupplier == FTEntities.FLATBACK_LEAF_SNAIL || entityTypeSupplier == FTEntities.SIDEROL_WHISKERED_SNAIL || entityTypeSupplier == FTEntities.RIVER_PEBBLE_SNAIL) {
             return !player.isCreative() ? new ItemStack(Items.FLOWER_POT) : stack;
