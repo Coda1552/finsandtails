@@ -292,5 +292,8 @@
 
   "category.finsandtails.crunching_recipe": "Crunching",
 
-  "container.finsandtails.crab_cruncher": "Crab Cruncher"
+  "container.finsandtails.crab_cruncher": "Crab Cruncher",
+
+  "advancements.finsandtails.root.title": "Fins and Tails",
+  "advancements.finsandtails.root.desc": "Bucket any creature from Fins and Tails"
 }
