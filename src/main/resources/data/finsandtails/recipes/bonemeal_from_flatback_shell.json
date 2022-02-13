@@ -1,16 +1,15 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "##",
-        "##"
+        "#"
     ],
     "key": {
         "#": {
-            "item": "finsandtails:pebble_shell"
+            "item": "finsandtails:flatback_shell"
         }
     },
     "result": {
-        "item": "finsandtails:pebble_shell_bricks",
+        "item": "minecraft:bone_meal",
         "count": 4
     }
 }

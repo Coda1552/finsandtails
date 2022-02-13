@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "finsandtails:spindly_gem_crab_gem_block"
+          "name": "finsandtails:spindly_gem_block"
         }
       ],
       "conditions": [

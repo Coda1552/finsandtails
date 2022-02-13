@@ -69,7 +69,7 @@ public class RiverPebbleSnailEntity extends Animal implements IAnimatable, IAnim
     public void ageBoundaryReached() {
         super.ageBoundaryReached();
         if (!this.isBaby() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-            this.spawnAtLocation(FTItems.RIVER_PEBBLE_SNAIL_SHELL.get(), 1);
+            this.spawnAtLocation(FTItems.PEBBLE_SHELL.get(), 1);
         }
     }
 

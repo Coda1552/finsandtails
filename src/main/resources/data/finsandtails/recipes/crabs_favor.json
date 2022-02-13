@@ -4,7 +4,7 @@
     "item": "minecraft:book"
   },
   "addition": {
-    "item": "finsandtails:spindly_gem_crab_gem_block"
+    "item": "finsandtails:spindly_gem_block"
   },
   "result": {
     "item": "minecraft:enchanted_book",

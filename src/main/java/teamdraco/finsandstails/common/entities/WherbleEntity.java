@@ -112,7 +112,7 @@ public class WherbleEntity extends Animal implements IAnimatable, IAnimationTick
         if (isBaby() && heldItem.getItem() == Items.FLOWER_POT && this.isAlive()) {
             this.playSound(SoundEvents.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
             heldItem.shrink(1);
-            ItemStack bucket = new ItemStack(FTItems.BABY_WHERBLE_POT.get());
+            ItemStack bucket = new ItemStack(FTItems.WHERBLING_POT.get());
             if (this.hasCustomName()) {
                 bucket.setHoverName(this.getCustomName());
             }

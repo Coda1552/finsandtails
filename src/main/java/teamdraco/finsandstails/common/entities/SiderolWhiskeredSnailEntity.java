@@ -26,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.finsandtails.geckolib3.core.IAnimatable;
 import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
 import software.bernie.finsandtails.geckolib3.core.PlayState;
-import software.bernie.finsandtails.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
 import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
@@ -57,7 +56,7 @@ public class SiderolWhiskeredSnailEntity extends Animal implements IAnimatable, 
     protected void ageBoundaryReached() {
         super.ageBoundaryReached();
         if (!this.isBaby() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-            this.spawnAtLocation(FTItems.SIDEROL_WHISKERED_SNAIL_SHELL.get(), 1);
+            this.spawnAtLocation(FTItems.SIDEROL_SHELL.get(), 1);
         }
     }
 

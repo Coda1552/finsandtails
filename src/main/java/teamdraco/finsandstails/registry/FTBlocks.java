@@ -19,7 +19,7 @@ public class FTBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, FinsAndTails.MOD_ID);
 
     public static final RegistryObject<Block> CRAB_CRUNCHER = register("crab_cruncher", () -> new CrabCruncherBlock(BlockBehaviour.Properties.of(Material.STONE).strength(5.0f).sound(SoundType.STONE)));
-    public static final RegistryObject<Block> SPINDLY_GEM_CRAB_GEM_BLOCK = register("spindly_gem_crab_gem_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> SPINDLY_GEM_CRAB_GEM_BLOCK = register("spindly_gem_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> SPINDLY_EMERALD_BLOCK = register("spindly_emerald_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> SPINDLY_PEARL_BLOCK = register("spindly_pearl_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> SPINDLY_SAPPHIRE_BLOCK = register("spindly_sapphire_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL)));

@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "finsandtails:spindly_gem_crab_gem_block"
+      "item": "finsandtails:spindly_gem_block"
     }
   ],
   "result": {
-    "item": "finsandtails:spindly_gem_crab_gem",
+    "item": "finsandtails:spindly_gem",
     "count": 9
   }
 }

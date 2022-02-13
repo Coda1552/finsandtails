@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.WorldData;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -72,8 +73,14 @@ public class BabyWherblePotItem extends FinsBucketItem {
         Entity entity = this.entityTypeSupplier.get().spawn(worldIn, stack, null, pos, MobSpawnType.BUCKET, true, false);
         if (entity != null) {
             if (entity instanceof WherbleEntity) {
-                ((WherbleEntity)entity).setAge(stack.getTag().getInt("Age"));
-                ((WherbleEntity)entity).setVariant(worldIn.random.nextInt(4));
+                if (!stack.hasTag()) {
+                    ((WherbleEntity)entity).setAge(-24000);
+                    ((WherbleEntity)entity).setVariant(worldIn.random.nextInt(4));
+                }
+                else {
+                    ((WherbleEntity)entity).setAge(stack.getTag().getInt("Age"));
+                    ((WherbleEntity)entity).setVariant(stack.getTag().getInt("Variant"));
+                }
             }
         }
     }

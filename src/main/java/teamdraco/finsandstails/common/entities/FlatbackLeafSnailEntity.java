@@ -52,7 +52,7 @@ public class FlatbackLeafSnailEntity extends Animal implements IAnimatable, IAni
     protected void ageBoundaryReached() {
         super.ageBoundaryReached();
         if (!this.isBaby() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-            this.spawnAtLocation(FTItems.FLATBACK_LEAF_SNAIL_SHELL.get(), 1);
+            this.spawnAtLocation(FTItems.FLATBACK_SHELL.get(), 1);
         }
     }
 
