@@ -75,7 +75,7 @@ public class FTItems {
     public static final RegistryObject<Item> SPINDLY_GEM = ITEMS.register("spindly_gem", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
 
     //Food
-    public static final RegistryObject<Item> COOKED_BANDED_REDBACK_SHRIMP = ITEMS.register("cooked_banded_redback_shrimp", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.5F).build())));
+    public static final RegistryObject<Item> COOKED_BANDED_REDBACK_SHRIMP = ITEMS.register("cooked_banded_redback_shrimp", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.65F).build())));
     public static final RegistryObject<Item> BUGMEAT = ITEMS.register("bugmeat", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(3).saturationMod(0.15F).build())));
     public static final RegistryObject<Item> COOKED_BUGMEAT = ITEMS.register("cooked_bugmeat", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(8).saturationMod(0.6F).build())));
     public static final RegistryObject<Item> RAW_GOLDEN_RIVER_RAY_WING = ITEMS.register("raw_golden_river_ray_wing", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(3).saturationMod(0.3F).build())));
@@ -90,7 +90,7 @@ public class FTItems {
     public static final RegistryObject<Item> COOKED_PAPA_WEE = ITEMS.register("cooked_papa_wee", () -> new PapaWeeItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(7).saturationMod(0.6f).build())));
     public static final RegistryObject<Item> WHERBLE_FIN = ITEMS.register("wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).meat().fast().build())));
     public static final RegistryObject<Item> COOKED_WHERBLE_FIN = ITEMS.register("cooked_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.3F).meat().fast().build())));
-    public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = ITEMS.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).fast().build())));
+    public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = ITEMS.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).fast().build())));
 
     //Gear
     //public static final RegistryObject<Item> MUDHORSE_POUCH = ITEMS.register("mudhorse_pouch", MudhorsePouchItem::new);
@@ -98,7 +98,7 @@ public class FTItems {
     public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = ITEMS.register("white_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 2, -0.6F, new Item.Properties().tab(FinsAndTails.GROUP).durability(200)));
     public static final RegistryObject<Item> RED_CLAW_GAUNTLET = ITEMS.register("red_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 3, -1.4F, new Item.Properties().tab(FinsAndTails.GROUP).durability(130)));
     public static final RegistryObject<Item> GOPJET_JETPACK = ITEMS.register("gopjet_jetpack", GopjetJetpackItem::new);
-    public static final RegistryObject<Item> BUGFISH_MANDIBLES = ITEMS.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().tab(FinsAndTails.GROUP).durability(156)));
+    public static final RegistryObject<Item> BUGFISH_MANDIBLES = ITEMS.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().tab(FinsAndTails.GROUP).durability(232)));
     public static final RegistryObject<Item> SWAMP_DIDGERIDOO = ITEMS.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(64)));
     public static final RegistryObject<Item> EMPTY_CHARM = ITEMS.register("empty_charm", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GEM_CRAB_AMULET = ITEMS.register("gem_crab_amulet", SpindlyGemCharm::new);
