@@ -39,6 +39,11 @@ public class CrabsFavorEnchantment extends Enchantment {
     }
 
     @Override
+    public boolean isTradeable() {
+        return false;
+    }
+
+    @Override
     protected boolean checkCompatibility(Enchantment ench) {
         return ench != Enchantments.MOB_LOOTING;
     }

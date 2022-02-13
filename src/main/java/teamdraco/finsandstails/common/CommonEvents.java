@@ -193,7 +193,7 @@ public class CommonEvents {
 
     // TODO - fix loot table injections
     private static void addEntry(LootPool pool, LootPoolEntryContainer entry) throws IllegalAccessException {
-        List<LootPoolEntryContainer> lootEntries = (List<LootPoolEntryContainer>) ObfuscationReflectionHelper.findField(LootPool.class, "field_186453_a").get(pool);
+        List<LootPoolEntryContainer> lootEntries = (List<LootPoolEntryContainer>) ObfuscationReflectionHelper.findField(LootPool.class, "field_953").get(pool);
         if (lootEntries.stream().anyMatch(e -> e == entry)) {
             throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);
         }
