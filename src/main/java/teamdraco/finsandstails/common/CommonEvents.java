@@ -23,6 +23,7 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -202,47 +203,15 @@ public class CommonEvents {
 
         pool.entries = newEntries;
     }
-    
+
     // Thanks to WolfShotz for helping with the trade code
-    @SubscribeEvent
+/*    @SubscribeEvent
     public static void addWandererTrades(WandererTradesEvent event) {
         List<VillagerTrades.ItemListing> list = event.getGenericTrades();
 
-        list.add(cdForItems(FTItems.HIGH_FINNED_BLUE_BUCKET.get(), 1, 4, 1));
-        list.add(cdForItems(FTItems.PEA_WEE_BUCKET.get(), 1, 4, 2));
-        list.add(cdForItems(FTItems.BLU_WEE_BUCKET.get(), 1, 4, 1));
-    }
+        list.add(new BasicItemListing(new ItemStack(Items.EMERALD, 3), new ItemStack(FTItems.HIGH_FINNED_BLUE_BUCKET.get(), 1), 3, 5, 1.5f));
+        list.add(new BasicItemListing(new ItemStack(Items.EMERALD, 3), new ItemStack(FTItems.PEA_WEE_BUCKET.get(), 1), 3, 5, 1.5f));
+        list.add(new BasicItemListing(new ItemStack(Items.EMERALD, 3), new ItemStack(FTItems.BLU_WEE_BUCKET.get(), 1), 3, 5, 1.5f));
 
-    private static VillagerTrades.ItemListing cdForItems(ItemStack selling, int maxUses, int xp) {
-        return new ItemsForItemsTrade(new ItemStack(Items.EMERALD, 5), selling, maxUses, xp, 0);
-    }
-
-    private static VillagerTrades.ItemListing cdForItems(Item item, int count, int maxUses, int xp) {
-        return cdForItems(new ItemStack(item, count), maxUses, xp);
-    }
-
-    private static class ItemsForItemsTrade implements VillagerTrades.ItemListing {
-        private final ItemStack buying1, buying2, selling;
-        private final int maxUses, xp;
-        private final float priceMultiplier;
-
-        public ItemsForItemsTrade(ItemStack buying1, ItemStack buying2, ItemStack selling, int maxUses, int xp, float priceMultiplier) {
-            this.buying1 = buying1;
-            this.buying2 = buying2;
-            this.selling = selling;
-            this.maxUses = maxUses;
-            this.xp = xp;
-            this.priceMultiplier = priceMultiplier;
-        }
-
-        public ItemsForItemsTrade(ItemStack buying1, ItemStack selling, int maxUses, int xp, float priceMultiplier) {
-            this(buying1, ItemStack.EMPTY, selling, maxUses, xp, priceMultiplier);
-        }
-
-        @Nullable
-        @Override
-        public MerchantOffer getOffer(Entity trader, Random rand) {
-            return new MerchantOffer(buying1, buying2, selling, maxUses, xp, priceMultiplier);
-        }
-    }
+    }*/
 }
