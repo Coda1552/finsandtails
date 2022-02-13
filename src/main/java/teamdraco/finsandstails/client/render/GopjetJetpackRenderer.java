@@ -13,6 +13,6 @@ public class GopjetJetpackRenderer extends GeoArmorRenderer<GopjetJetpackItem> {
         // make sure to do this.headBone = "bone545";
 
         // The default values are the ones that come with the default armor template in the geckolib blockbench plugin.
-        this.headBone = "armorHead";
+        this.bodyBone = "armorBody";
     }
 }

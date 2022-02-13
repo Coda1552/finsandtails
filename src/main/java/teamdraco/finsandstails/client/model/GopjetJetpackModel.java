@@ -19,6 +19,6 @@ public class GopjetJetpackModel extends AnimatedGeoModel<GopjetJetpackItem> {
 
 	@Override
 	public ResourceLocation getAnimationFileLocation(GopjetJetpackItem object) {
-		return null;
+		return new ResourceLocation(FinsAndTails.MOD_ID, "animations/armor/gopjet_jetpack.animation.json");
 	}
 }

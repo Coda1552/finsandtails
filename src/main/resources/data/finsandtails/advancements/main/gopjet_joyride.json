@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "finsandtails:gopjet_jetpack"
+    },
+    "title": {
+      "translate": "advancements.finsandtails.gopjet_joyride.title"
+    },
+    "description": {
+      "translate": "advancements.finsandtails.gopjet_joyride.desc"
+    },
+    "background": "minecraft:textures/block/sand.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "finsandtails:main/root",
+  "criteria": {
+    "jetpack": {
+      "trigger": "minecraft:item_durability_changed",
+      "conditions": {
+        "delta": 1,
+        "durability": {
+          "min": 1,
+          "max": 128
+        },
+        "item": {
+          "item": "finsandtails:gopjet_jetpack"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "jetpack"
+    ]
+  ]
+}
