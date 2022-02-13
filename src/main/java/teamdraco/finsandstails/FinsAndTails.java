@@ -132,7 +132,7 @@ public class FinsAndTails {
         event.put(FTEntities.PAPA_WEE.get(), PapaWeeEntity.createAttributes().build());
         event.put(FTEntities.WHERBLE.get(), WherbleEntity.createAttributes().build());
         event.put(FTEntities.WANDERING_SAILOR.get(), WanderingSailorEntity.createAttributes().build());
-        event.put(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
+        //event.put(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
     }
 
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<FriendlyByteBuf, T> reader, LogicalSide side) {

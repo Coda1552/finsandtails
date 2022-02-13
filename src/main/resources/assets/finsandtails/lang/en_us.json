@@ -32,7 +32,7 @@
   "item.finsandtails.sapphire_spindly_gem_crab": "Sapphire Spindly Gem Crab",
   "item.finsandtails.emerald_spindly_gem_crab": "Emerald Spindly Gem Crab",
   "item.finsandtails.amber_spindly_gem_crab": "Amber Spindly Gem Crab",
-  "item.finsandtails.spindly_gem_crab_gem": "Spindly Gem",
+  "item.finsandtails.spindly_gem": "Spindly Gem",
   "item.finsandtails.bugfish_mandibles": "Bugfish Mandibles",
   "item.finsandtails.gem_crab_amulet": "Spindly Gem Charm",
   "item.finsandtails.flatback_leaf_snail_shell": "Flatback Shell",
@@ -152,7 +152,7 @@
   "entity.finsandtails.goliath_garden_crab": "Goliath Garden Crab",
 
   "block.finsandtails.crab_cruncher": "Crab Cruncher",
-  "block.finsandtails.spindly_gem_crab_gem_block": "Block of Spindly Gem",
+  "block.finsandtails.spindly_gem_block": "Block of Spindly Gem",
   "block.finsandtails.pebble_shell_bricks": "Pebble Shell Bricks",
   "block.finsandtails.flatback_shell_bricks": "Flatback Shell Bricks",
   "block.finsandtails.flatback_shell_brick_stairs": "Flatback Shell Brick Stairs",

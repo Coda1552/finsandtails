@@ -121,10 +121,10 @@ public class GoliathGardenCrabEntity extends WaterAnimal {
         return SoundEvents.TROPICAL_FISH_FLOP;
     }
 
-    @Override
+/*    @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.GOLIATH_GARDEN_CRAB_SPAWN_EGG.get());
-    }
+    }*/
 
     @Override
     protected void handleAirSupply(int p_209207_1_) {
