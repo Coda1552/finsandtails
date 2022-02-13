@@ -133,7 +133,7 @@ public class FTItems {
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_BUCKET = ITEMS.register("night_light_squid_bucket", () -> new FinsBucketItem(FTEntities.NIGHT_LIGHT_SQUID, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> GOPJET_BUCKET = ITEMS.register("gopjet_bucket", () -> new FinsBucketItem(FTEntities.GOPJET, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> PAPA_WEE_BUCKET = ITEMS.register("papa_wee_bucket", () -> new FinsBucketItem(FTEntities.PAPA_WEE, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
-    public static final RegistryObject<Item> WHERBLING_POT = ITEMS.register("wherbling_pot", () -> new BabyWherblePotItem(FTEntities.WHERBLE, () -> Fluids.EMPTY, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
+    public static final RegistryObject<Item> WHERBLING_POT = ITEMS.register("wherbling_pot", () -> new WherblingPotItem(FTEntities.WHERBLE, () -> Fluids.EMPTY, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
 
     //Spawn Eggs
     public static final RegistryObject<Item> PEA_WEE_SPAWN_EGG = ITEMS.register("pea_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PEA_WEE, 0x5ca430, 0x2a6e18, new Item.Properties().tab(FinsAndTails.GROUP)));
