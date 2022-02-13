@@ -42,7 +42,12 @@ public class FTItems {
         }
     });
     public static final RegistryObject<Item> ORNATE_BUGFISH = ITEMS.register("ornate_bugfish", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build())));
-    public static final RegistryObject<Item> WEE_WEE = ITEMS.register("wee_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F).fast().build())));
+    public static final RegistryObject<Item> WEE_WEE = ITEMS.register("wee_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F).fast().build())) {
+        @Override
+        public int getUseDuration(ItemStack p_41454_) {
+            return 5;
+        }
+    });
     public static final RegistryObject<Item> VIBRA_WEE = ITEMS.register("vibra_wee", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).fast().build())));
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID = ITEMS.register("night_light_squid", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> EMERALD_SPINDLY_GEM_CRAB = ITEMS.register("emerald_spindly_gem_crab", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));

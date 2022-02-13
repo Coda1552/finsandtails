@@ -41,6 +41,9 @@ import teamdraco.finsandstails.common.entities.WherbleEntity;
 import teamdraco.finsandstails.registry.*;
 
 import javax.annotation.Nullable;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -192,12 +195,12 @@ public class CommonEvents {
     }
 
     // TODO - fix loot table injections
-    private static void addEntry(LootPool pool, LootPoolEntryContainer entry) throws IllegalAccessException {
-        List<LootPoolEntryContainer> lootEntries = (List<LootPoolEntryContainer>) ObfuscationReflectionHelper.findField(LootPool.class, "field_953").get(pool);
-        if (lootEntries.stream().anyMatch(e -> e == entry)) {
-            throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);
-        }
-        lootEntries.add(entry);
+    private static void addEntry(LootPool pool, LootPoolEntryContainer entry) {
+        LootPoolEntryContainer[] newEntries = new LootPoolEntryContainer[pool.entries.length + 1];
+        System.arraycopy(pool.entries, 0, newEntries, 0, pool.entries.length);
+        newEntries[pool.entries.length] = entry;
+
+        pool.entries = newEntries;
     }
     
     // Thanks to WolfShotz for helping with the trade code
