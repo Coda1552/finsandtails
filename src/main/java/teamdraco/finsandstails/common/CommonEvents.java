@@ -192,7 +192,6 @@ public class CommonEvents {
     }
 
     // TODO - fix loot table injections
-
     private static void addEntry(LootPool pool, LootPoolEntryContainer entry) throws IllegalAccessException {
         List<LootPoolEntryContainer> lootEntries = (List<LootPoolEntryContainer>) ObfuscationReflectionHelper.findField(LootPool.class, "field_186453_a").get(pool);
         if (lootEntries.stream().anyMatch(e -> e == entry)) {

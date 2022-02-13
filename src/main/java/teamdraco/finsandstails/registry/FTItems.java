@@ -106,7 +106,6 @@ public class FTItems {
     public static final RegistryObject<Item> MUSIC_DISC_WHISTLING_WYVERNS = ITEMS.register("music_disc_whistling_wyverns", () -> new RecordItem(1, FtSounds.WHISTLING_WYVERNS, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
 
     //Buckets
-    //TODO: update to WCBucketItem & add callbacks for needed buckets
     public static final RegistryObject<Item> BLU_WEE_BUCKET = ITEMS.register("blu_wee_bucket", () -> new MobBucketItem(FTEntities.BLU_WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> PEA_WEE_BUCKET = ITEMS.register("pea_wee_bucket", () -> new MobBucketItem(FTEntities.PEA_WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> BANDED_REDBACK_SHRIMP_BUCKET = ITEMS.register("banded_redback_shrimp_bucket", () -> new MobBucketItem(FTEntities.BANDED_REDBACK_SHRIMP, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
