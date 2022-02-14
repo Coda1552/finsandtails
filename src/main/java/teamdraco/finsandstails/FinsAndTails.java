@@ -23,7 +23,6 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkDirection;
@@ -32,7 +31,6 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.finsandtails.geckolib3.GeckoLib;
-import teamdraco.finsandstails.client.ClientEvents;
 import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.registry.*;
 import teamdraco.finsandstails.network.INetworkPacket;
@@ -66,7 +64,7 @@ public class FinsAndTails {
         FTBlocks.BLOCKS.register(bus);
         FTContainers.REGISTER.register(bus);
         FTEntities.REGISTER.register(bus);
-        FtSounds.REGISTER.register(bus);
+        FTSounds.REGISTER.register(bus);
         FTRecipes.SERIALIZERS.register(bus);
         //FTStructures.REGISTER.register(bus);
 

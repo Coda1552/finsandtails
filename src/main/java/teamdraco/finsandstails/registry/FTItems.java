@@ -107,8 +107,8 @@ public class FTItems {
     public static final RegistryObject<Item> SPINDLY_AMBER_CHARM = ITEMS.register("spindly_amber_charm", SpindlyAmberCharm::new);
     public static final RegistryObject<Item> SPINDLY_SAPPHIRE_CHARM = ITEMS.register("spindly_sapphire_charm", SpindlySapphireCharm::new);
     public static final RegistryObject<Item> SPINDLY_EMERALD_CHARM = ITEMS.register("spindly_emerald_charm", SpindlyEmeraldCharm::new);
-    public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = ITEMS.register("music_disc_crashing_tides", () -> new RecordItem(1, FtSounds.CRASHING_TIDES, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
-    public static final RegistryObject<Item> MUSIC_DISC_WHISTLING_WYVERNS = ITEMS.register("music_disc_whistling_wyverns", () -> new RecordItem(1, FtSounds.WHISTLING_WYVERNS, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = ITEMS.register("music_disc_crashing_tides", () -> new RecordItem(1, FTSounds.CRASHING_TIDES, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_WHISTLING_WYVERNS = ITEMS.register("music_disc_whistling_wyverns", () -> new RecordItem(1, FTSounds.WHISTLING_WYVERNS, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
 
     //Buckets
     public static final RegistryObject<Item> BLU_WEE_BUCKET = ITEMS.register("blu_wee_bucket", () -> new MobBucketItem(FTEntities.BLU_WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));

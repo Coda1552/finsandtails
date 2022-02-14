@@ -297,5 +297,9 @@
   "advancements.finsandtails.root.title": "Fins and Tails",
   "advancements.finsandtails.root.desc": "Bucket any creature from Fins and Tails",
   "advancements.finsandtails.gopjet_joyride.title": "Gopjet Joyride",
-  "advancements.finsandtails.gopjet_joyride.desc": "Fly with the Gopjet Jetpack"
+  "advancements.finsandtails.gopjet_joyride.desc": "Equip a Gopjet Jetpack",
+  "advancements.finsandtails.ko.title": "K.O.",
+  "advancements.finsandtails.ko.desc": "Kill an entity with claw gauntlets in both hands",
+  "advancements.finsandtails.smallest_fish.title": "Smallest Fish in the World",
+  "advancements.finsandtails.smallest_fish.desc": "Bucket a Wee Wee"
 }

@@ -38,7 +38,7 @@ import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEven
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 
@@ -89,7 +89,7 @@ public class WhiteBullCrabEntity extends WaterAnimal implements IAnimatable, IAn
     }
 
     protected SoundEvent getDeathSound() {
-        return FtSounds.CRAB_DEATH.get();
+        return FTSounds.CRAB_DEATH.get();
     }
 
     protected SoundEvent getFlopSound() {

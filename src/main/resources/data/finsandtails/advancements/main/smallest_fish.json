@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "finsandtails:gopjet_jetpack"
+      "item": "finsandtails:wee_wee_bucket"
     },
     "title": {
-      "translate": "advancements.finsandtails.gopjet_joyride.title"
+      "translate": "advancements.finsandtails.smallest_fish.title"
     },
     "description": {
-      "translate": "advancements.finsandtails.gopjet_joyride.desc"
+      "translate": "advancements.finsandtails.smallest_fish.desc"
     },
     "background": "minecraft:textures/block/sand.png",
     "frame": "task",
@@ -17,20 +17,20 @@
   },
   "parent": "finsandtails:main/root",
   "criteria": {
-    "jetpack": {
-      "trigger": "minecraft:inventory_changed",
+    "bucket": {
+      "trigger": "minecraft:filled_bucket",
       "conditions": {
-        "items": [
-          {
-            "tag": "finsandtails:gopjet_jetpack"
-          }
-        ]
+        "item": {
+          "items": [
+            "finsandtails:wee_wee_bucket"
+          ]
+        }
       }
     }
   },
   "requirements": [
     [
-      "jetpack"
+      "bucket"
     ]
   ]
 }

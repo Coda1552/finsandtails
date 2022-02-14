@@ -21,13 +21,10 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 
@@ -114,7 +111,7 @@ public class GoliathGardenCrabEntity extends WaterAnimal {
     }
 
     protected SoundEvent getDeathSound() {
-        return FtSounds.CRAB_DEATH.get();
+        return FTSounds.CRAB_DEATH.get();
     }
 
     protected SoundEvent getFlopSound() {

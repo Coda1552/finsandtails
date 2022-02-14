@@ -41,7 +41,7 @@ import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.Random;
 
@@ -152,17 +152,17 @@ public class WherbleEntity extends Animal implements IAnimatable, IAnimationTick
 
     @Override
     public SoundEvent getAmbientSound() {
-        return FtSounds.WHERBLE_AMBIENT.get();
+        return FTSounds.WHERBLE_AMBIENT.get();
     }
 
     @Override
     public SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FtSounds.WHERBLE_HURT.get();
+        return FTSounds.WHERBLE_HURT.get();
     }
 
     @Override
     public SoundEvent getDeathSound() {
-        return FtSounds.WHERBLE_DEATH.get();
+        return FTSounds.WHERBLE_DEATH.get();
     }
 
     @Override

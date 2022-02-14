@@ -39,7 +39,7 @@ import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.util.goals.MudhorseForageGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.EnumSet;
 
@@ -130,17 +130,17 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return FtSounds.MUDHORSE_AMBIENT.get();
+        return FTSounds.MUDHORSE_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FtSounds.MUDHORSE_HURT.get();
+        return FTSounds.MUDHORSE_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FtSounds.MUDHORSE_DEATH.get();
+        return FTSounds.MUDHORSE_DEATH.get();
     }
 
     @Override

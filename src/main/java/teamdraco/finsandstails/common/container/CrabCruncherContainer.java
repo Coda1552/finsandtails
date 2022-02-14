@@ -15,7 +15,7 @@ import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTRecipes;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.Optional;
 
@@ -90,7 +90,7 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
             if (optional.isPresent()) {
                 itemstack = optional.get().assemble(inventory);
             }
-            world.playSound(player, player.blockPosition(), FtSounds.CRAB_CRUNCH.get(), SoundSource.BLOCKS, 0.6F, 1.0F);
+            world.playSound(player, player.blockPosition(), FTSounds.CRAB_CRUNCH.get(), SoundSource.BLOCKS, 0.6F, 1.0F);
 
             craftResult.setItem(0, itemstack);
             serverplayerentity.connection.send(new ClientboundContainerSetSlotPacket(containerId, 0, 0, itemstack));

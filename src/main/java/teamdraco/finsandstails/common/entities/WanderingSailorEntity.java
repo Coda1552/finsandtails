@@ -32,7 +32,7 @@ import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEven
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -137,27 +137,27 @@ public class WanderingSailorEntity extends AbstractVillager implements Merchant,
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isTrading() ? FtSounds.WANDERING_SAILOR_TRADE.get() : FtSounds.WANDERING_SAILOR_AMBIENT.get();
+        return this.isTrading() ? FTSounds.WANDERING_SAILOR_TRADE.get() : FTSounds.WANDERING_SAILOR_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FtSounds.WANDERING_SAILOR_HURT.get();
+        return FTSounds.WANDERING_SAILOR_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FtSounds.WANDERING_SAILOR_DEATH.get();
+        return FTSounds.WANDERING_SAILOR_DEATH.get();
     }
 
     @Override
     protected SoundEvent getTradeUpdatedSound(boolean p_213721_1_) {
-        return p_213721_1_ ? FtSounds.WANDERING_SAILOR_YES.get() : FtSounds.WANDERING_SAILOR_NO.get();
+        return p_213721_1_ ? FTSounds.WANDERING_SAILOR_YES.get() : FTSounds.WANDERING_SAILOR_NO.get();
     }
 
     @Override
     public SoundEvent getNotifyTradeSound() {
-        return FtSounds.WANDERING_SAILOR_YES.get();
+        return FTSounds.WANDERING_SAILOR_YES.get();
     }
 
     @Nullable

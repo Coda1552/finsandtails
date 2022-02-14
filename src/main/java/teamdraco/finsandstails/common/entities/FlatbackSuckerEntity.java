@@ -6,8 +6,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
@@ -25,7 +23,7 @@ import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEven
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class FlatbackSuckerEntity extends AbstractFish implements IAnimatable, I
         super.tick();
         List<FlatbackSuckerEntity> list = this.level.getEntitiesOfClass(FlatbackSuckerEntity.class, this.getBoundingBox().inflate(2.0D));
         if (this.isAlive() && list.size() >= 3 && random.nextFloat() > 0.99F) {
-            this.playSound(FtSounds.FLATBACK_SUCKER_CLICK.get(), 0.4F, 1.0F);
+            this.playSound(FTSounds.FLATBACK_SUCKER_CLICK.get(), 0.4F, 1.0F);
         }
     }
 

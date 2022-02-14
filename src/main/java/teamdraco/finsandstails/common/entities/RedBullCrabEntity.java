@@ -46,7 +46,7 @@ import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEven
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -142,7 +142,7 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
     }
 
     public SoundEvent getDeathSound() {
-        return FtSounds.CRAB_DEATH.get();
+        return FTSounds.CRAB_DEATH.get();
     }
 
     public SoundEvent getFlopSound() {

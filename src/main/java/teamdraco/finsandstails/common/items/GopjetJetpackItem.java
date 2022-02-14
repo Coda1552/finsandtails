@@ -2,7 +2,6 @@ package teamdraco.finsandstails.common.items;
 
 import coda.dracoshoard.common.items.DHArmorMaterial;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,7 +11,6 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -26,15 +24,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.finsandtails.geckolib3.core.IAnimatable;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import software.bernie.finsandtails.geckolib3.item.GeoArmorItem;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -106,7 +102,7 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
                     if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
                         if (random.nextInt(100) < this.bubbleSoundTime++) {
                             this.bubbleSoundTime = 0;
-                            world.playSound(player, player.blockPosition(), FtSounds.JETPACK_USE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                            world.playSound(player, player.blockPosition(), FTSounds.JETPACK_USE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                         }
 
                         if (world.isClientSide) {

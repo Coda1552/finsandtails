@@ -39,7 +39,7 @@ import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.function.Predicate;
 
@@ -219,17 +219,17 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return FtSounds.RUBBER_BELLY_GLIDER_AMBIENT.get();
+        return FTSounds.RUBBER_BELLY_GLIDER_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return FtSounds.RUBBER_BELLY_GLIDER_DEATH.get();
+        return FTSounds.RUBBER_BELLY_GLIDER_DEATH.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FtSounds.RUBBER_BELLY_GLIDER_HURT.get();
+        return FTSounds.RUBBER_BELLY_GLIDER_HURT.get();
     }
 
     @Override

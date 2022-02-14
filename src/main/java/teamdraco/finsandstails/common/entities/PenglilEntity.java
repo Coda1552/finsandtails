@@ -52,7 +52,7 @@ import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEven
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
 import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FtSounds;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -274,15 +274,15 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
     }
 
     protected SoundEvent getAmbientSound() {
-        return FtSounds.PENGLIL_AMBIENT.get();
+        return FTSounds.PENGLIL_AMBIENT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return FtSounds.PENGLIL_DEATH.get();
+        return FTSounds.PENGLIL_DEATH.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return FtSounds.PENGLIL_HURT.get();
+        return FTSounds.PENGLIL_HURT.get();
     }
 
     @Override
