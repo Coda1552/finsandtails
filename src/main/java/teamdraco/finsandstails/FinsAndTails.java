@@ -148,69 +148,10 @@ public class FinsAndTails {
         return Minecraft.getInstance().player;
     }
 
-/*    public void setup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            FinsStructures.setupStructures();
-            FinsConfiguredStructures.registerConfiguredStructures();
-
-            WorldGenRegistries.NOISE_GENERATOR_SETTINGS.entrySet().forEach(settings -> {
-                Map<Structure<?>, StructureSeparationSettings> structureMap = settings.getValue().structureSettings().structureConfig();
-
-                if (structureMap instanceof ImmutableMap) {
-                    Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(structureMap);
-                    tempMap.put(FinsStructures.SAILORS_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(FinsStructures.SAILORS_SHIP.get()));
-                    settings.getValue().structureSettings().structureConfig = tempMap;
-                }
-                else {
-                    structureMap.put(FinsStructures.SAILORS_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(FinsStructures.SAILORS_SHIP.get()));
-                }
-            });
-        });
-    }
-
-    private static Method GETCODEC_METHOD;
-    public void addDimensionalSpacing(final WorldEvent.Load event) {
-        if(event.getWorld() instanceof ServerWorld){
-            ServerWorld serverWorld = (ServerWorld)event.getWorld();
-
-            try {
-                if(GETCODEC_METHOD == null) GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "getCodec");
-                ResourceLocation cgRL = Registry.CHUNK_GENERATOR.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
-                if(cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
-            }
-            catch(Exception e){
-                FinsAndTails.LOGGER.error("Was unable to check if " + serverWorld.dimension().location() + " is using Terraforged's ChunkGenerator.");
-            }
-
-            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
-                    serverWorld.dimension().equals(World.OVERWORLD)){
-                return;
-            }
-
-
-            Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-            tempMap.putIfAbsent(FinsStructures.SAILORS_SHIP.get(), DimensionStructuresSettings.DEFAULTS.get(FinsStructures.SAILORS_SHIP.get()));
-            serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
-        }
-    }*/
-
     public final static CreativeModeTab GROUP = new CreativeModeTab(MOD_ID) {
-
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(FTItems.BLU_WEE.get());
         }
-
-        /* @Override
-        public void fill(NonNullList<ItemStack> items) {
-            for (int i = 0; i <= 4; i++) {
-                ItemStack stack = new ItemStack(FinsItems.SPINDLY_GEM_CRAB.get());
-                CompoundNBT tag = stack.getOrCreateTag();
-                tag.putInt("Crab", i);
-                items.add(stack);
-            }
-
-            super.fill(items);
-        }*/
     };
 }
