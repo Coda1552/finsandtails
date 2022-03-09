@@ -65,7 +65,7 @@ public class FinsAndTails {
         FTContainers.REGISTER.register(bus);
         FTEntities.REGISTER.register(bus);
         FTSounds.REGISTER.register(bus);
-        FTRecipes.SERIALIZERS.register(bus);
+        //FTRecipes.SERIALIZERS.register(bus);
         //FTStructures.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
