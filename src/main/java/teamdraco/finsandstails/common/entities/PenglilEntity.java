@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.common.entities;
 
-import coda.dracoshoard.common.entities.ai.GroundAndSwimmerNavigator;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -44,13 +43,14 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.finsandtails.geckolib3.core.IAnimatable;
-import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
-import software.bernie.finsandtails.geckolib3.core.PlayState;
-import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
-import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.IAnimationTickable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import teamdraco.finsandstails.common.entities.util.ai.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 

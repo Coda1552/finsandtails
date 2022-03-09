@@ -2,7 +2,7 @@
 package teamdraco.finsandstails.client.render;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.finsandtails.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.NightLightSquidModel;
 import teamdraco.finsandstails.client.render.layer.NightLightSquidGlowLayer;
 import teamdraco.finsandstails.common.entities.NightLightSquidEntity;

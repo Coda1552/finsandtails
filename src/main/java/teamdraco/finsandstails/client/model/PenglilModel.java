@@ -3,7 +3,7 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.finsandtails.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.BluWeeEntity;
 import teamdraco.finsandstails.common.entities.PenglilEntity;

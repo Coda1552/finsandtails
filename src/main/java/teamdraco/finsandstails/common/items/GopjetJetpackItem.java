@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.common.items;
 
-import coda.dracoshoard.common.items.DHArmorMaterial;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,10 +23,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import software.bernie.finsandtails.geckolib3.core.IAnimatable;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
-import software.bernie.finsandtails.geckolib3.item.GeoArmorItem;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.item.GeoArmorItem;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
@@ -37,7 +36,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
-    public static final ArmorMaterial MATERIAL = new DHArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.GOPJET_JET.get()));
+    public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.GOPJET_JET.get()));
     private final AnimationFactory factory = new AnimationFactory(this);
     private final Random random = new Random();
     private int bubbleSoundTime;

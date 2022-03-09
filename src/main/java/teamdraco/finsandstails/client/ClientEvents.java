@@ -16,7 +16,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import software.bernie.finsandtails.geckolib3.renderers.geo.GeoArmorRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.render.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;

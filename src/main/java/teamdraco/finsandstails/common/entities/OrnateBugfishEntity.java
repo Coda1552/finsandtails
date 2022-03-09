@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.common.entities;
 
-import coda.dracoshoard.common.entities.ai.FancySwimmingMoveHelperController;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -9,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -17,14 +17,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.finsandtails.geckolib3.core.IAnimatable;
-import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
-import software.bernie.finsandtails.geckolib3.core.PlayState;
-import software.bernie.finsandtails.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
-import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.IAnimationTickable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.function.Predicate;
@@ -48,7 +48,7 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish implements IAnima
 
     public OrnateBugfishEntity(EntityType<? extends OrnateBugfishEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new FancySwimmingMoveHelperController(this);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, true);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 

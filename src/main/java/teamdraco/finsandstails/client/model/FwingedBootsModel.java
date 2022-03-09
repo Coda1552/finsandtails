@@ -1,7 +1,7 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.finsandtails.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 

@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.common.entities;
 
-import coda.dracoshoard.common.entities.ai.FancySwimmingMoveHelperController;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,7 +17,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -29,13 +27,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.finsandtails.geckolib3.core.IAnimatable;
-import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
-import software.bernie.finsandtails.geckolib3.core.PlayState;
-import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
-import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.IAnimationTickable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 
 import javax.annotation.Nullable;

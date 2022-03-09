@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.finsandtails.geckolib3.renderers.geo.GeoLayerRenderer;
-import software.bernie.finsandtails.geckolib3.renderers.geo.IGeoRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
 

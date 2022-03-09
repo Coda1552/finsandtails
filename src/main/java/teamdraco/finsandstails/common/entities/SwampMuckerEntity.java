@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.common.entities;
 
-import coda.dracoshoard.common.entities.goals.WaterJumpGoal;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,13 +11,14 @@ import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.finsandtails.geckolib3.core.IAnimatable;
-import software.bernie.finsandtails.geckolib3.core.IAnimationTickable;
-import software.bernie.finsandtails.geckolib3.core.PlayState;
-import software.bernie.finsandtails.geckolib3.core.controller.AnimationController;
-import software.bernie.finsandtails.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.IAnimationTickable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import teamdraco.finsandstails.common.entities.util.ai.WaterJumpGoal;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class SwampMuckerEntity  extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {

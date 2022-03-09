@@ -30,7 +30,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.finsandtails.geckolib3.GeckoLib;
+import software.bernie.geckolib3.GeckoLib;
 import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.registry.*;
 import teamdraco.finsandstails.network.INetworkPacket;

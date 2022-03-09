@@ -6,7 +6,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
-import software.bernie.finsandtails.geckolib3.renderers.geo.GeoProjectilesRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoProjectilesRenderer;
 import teamdraco.finsandstails.client.model.TealArrowfishArrowModel;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 

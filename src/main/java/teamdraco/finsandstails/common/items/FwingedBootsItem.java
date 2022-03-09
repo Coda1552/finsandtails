@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.common.items;
 
-import coda.dracoshoard.common.items.DHArmorMaterial;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.sounds.SoundEvents;
@@ -24,15 +23,15 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
-import software.bernie.finsandtails.geckolib3.core.IAnimatable;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationData;
-import software.bernie.finsandtails.geckolib3.core.manager.AnimationFactory;
-import software.bernie.finsandtails.geckolib3.item.GeoArmorItem;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.item.GeoArmorItem;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTEnchantments;
 
 public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
-    public static final ArmorMaterial MATERIAL = new DHArmorMaterial(FinsAndTails.MOD_ID + ":fwinged", 3, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(Items.LEATHER));
+    public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":fwinged", 3, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(Items.LEATHER));
     public static final Lazy<Multimap<Attribute, AttributeModifier>> SWIM_MODIFIER = Lazy.of(() -> ImmutableMultimap.of(ForgeMod.SWIM_SPEED.get(), new AttributeModifier("Swim modifier", 1.25, AttributeModifier.Operation.ADDITION)));
     //public static final Lazy<Multimap<Attribute, AttributeModifier>> MOVEMENT_MODIFIER = Lazy.of(() -> ImmutableMultimap.of(Attributes.MOVEMENT_SPEED, new AttributeModifier("Movement modifier", 0.85, AttributeModifier.Operation.MULTIPLY_BASE)));
     private final AnimationFactory factory = new AnimationFactory(this);

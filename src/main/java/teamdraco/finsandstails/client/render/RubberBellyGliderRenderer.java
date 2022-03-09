@@ -4,7 +4,7 @@ package teamdraco.finsandstails.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.finsandtails.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.RubberBellyGliderModel;
 import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
 
