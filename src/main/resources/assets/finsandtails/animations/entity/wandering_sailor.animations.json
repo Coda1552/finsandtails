@@ -1,0 +1,117 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.sailor.idle": {
+			"loop": true,
+			"animation_length": 3,
+			"bones": {
+				"head": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.24) * 120) * 3.5", 0, 0]
+					}
+				},
+				"tentacles": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.3) * 120) * 5", 0, 0]
+					},
+					"position": {
+						"1.4583": {
+							"vector": [0, 0, 0]
+						},
+						"1.75": {
+							"vector": [0, "0.2 + Math.cos((query.anim_time - 0.0) * 2120) * 0.1", 0],
+							"easing": "easeInSine"
+						},
+						"2.2083": {
+							"vector": [0, 0.4, 0]
+						},
+						"2.5417": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
+						}
+					}
+				},
+				"hat": {
+					"rotation": {
+						"vector": [-5, 0, -2.5]
+					}
+				},
+				"arms2": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time - 0.2) * 120) * 5", 0, 0]
+					}
+				},
+				"body": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.0) * 120) * 1", 0, 0]
+					}
+				}
+			}
+		},
+		"animation.sailor.walk": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"root": {
+					"rotation": {
+						"vector": [0, "Math.cos((query.anim_time - 0.0)  * 180) * 2", 0]
+					}
+				},
+				"legRight": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.0) * 180) * 12", 0, 0]
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 1]
+						},
+						"0.5": {
+							"vector": [0, 1, -1]
+						},
+						"1.0": {
+							"vector": [0, 0, -1]
+						},
+						"2.0": {
+							"vector": [0, 0, 1]
+						}
+					}
+				},
+				"legLeft": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.0) * 180) * -12", 0, 0]
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, -1]
+						},
+						"1.0": {
+							"vector": [0, 0, 1]
+						},
+						"1.5": {
+							"vector": [0, 1, -1]
+						},
+						"2.0": {
+							"vector": [0, 0, -1]
+						}
+					}
+				},
+				"body": {
+					"rotation": {
+						"vector": [2.5, 0, "Math.cos((query.anim_time - 0.0)  * 180) * 2"]
+					}
+				},
+				"head": {
+					"rotation": {
+						"vector": [-5, 0, "Math.cos((query.anim_time - 0.2)  * 180) * 3"]
+					}
+				},
+				"hat": {
+					"rotation": {
+						"vector": [0, 0, "Math.cos((query.anim_time - 0.3)  * 180) * 3"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

@@ -19,7 +19,6 @@ public class WanderingSailorModel extends AnimatedGeoModel<WanderingSailorEntity
 
     @Override
     public ResourceLocation getAnimationFileLocation(WanderingSailorEntity entity) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wandering_sailor.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wandering_sailor.animations.json");
     }
 }

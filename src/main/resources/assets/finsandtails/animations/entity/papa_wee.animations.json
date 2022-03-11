@@ -1,0 +1,99 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.papa_wee.swim": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"root": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.2) * 180) * -2", "Math.sin((query.anim_time - 0.15) * 360) * 5", 0]
+					},
+					"position": {
+						"vector": [0, "Math.sin((query.anim_time - 0.0) * 180) * 0.2", 0]
+					}
+				},
+				"lips": {
+					"rotation": {
+						"vector": ["2+Math.sin((query.anim_time - 0.3) * 180) * 1", 0, 0]
+					}
+				},
+				"tail": {
+					"rotation": {
+						"vector": [0, "Math.sin((query.anim_time - 0.25) * 360) * 7", 0]
+					}
+				},
+				"caudal_fin": {
+					"rotation": {
+						"vector": [0, "Math.sin((query.anim_time - 0.4) * 360) * 9", 0]
+					}
+				},
+				"secondary_dorsal_fin": {
+					"rotation": {
+						"vector": [0, 0, "Math.sin((query.anim_time - 0.32) * 360) * 8"]
+					}
+				},
+				"dorsal_fin": {
+					"rotation": {
+						"vector": [0, 0, "Math.sin((query.anim_time - 0.25) * 360) * 8"]
+					}
+				},
+				"anal_fin": {
+					"rotation": {
+						"vector": [0, 0, "Math.sin((query.anim_time - 0.37) * 360) * -8"]
+					}
+				},
+				"right_pectoral_fin": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time - 0.0) * 720) * 12", 0, "-42.5 + Math.cos((query.anim_time - 0.0) * 720) * 25"]
+					}
+				},
+				"left_pectoral_fin": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time - 0.0) * 720) * 12", 0, "42.5 + Math.cos((query.anim_time - 0.0) * 720) * -25"]
+					}
+				}
+			}
+		},
+		"animation.papa_wee.idle": {
+			"loop": true,
+			"animation_length": 3,
+			"bones": {
+				"root": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.2) * 120) * -3", 0, 0]
+					},
+					"position": {
+						"vector": [0, "Math.sin((query.anim_time - 0.0) * 120) * 0.25", 0]
+					}
+				},
+				"lips": {
+					"rotation": {
+						"vector": ["2.5+Math.cos((query.anim_time - 0.0) * 120) * 1", 0, 0]
+					}
+				},
+				"tail": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.2) * 120) * -3", 0, 0]
+					}
+				},
+				"caudal_fin": {
+					"rotation": {
+						"vector": ["Math.cos((query.anim_time - 0.3) * 120) * -4", 0, 0]
+					}
+				},
+				"right_pectoral_fin": {
+					"rotation": {
+						"vector": [0, 0, "-60 + Math.cos((query.anim_time - 0.15) * 960) * 14"]
+					}
+				},
+				"left_pectoral_fin": {
+					"rotation": {
+						"vector": [0, 0, "60 + Math.cos((query.anim_time - 0.15) * 960) * -14"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

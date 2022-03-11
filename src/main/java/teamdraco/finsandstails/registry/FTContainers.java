@@ -7,10 +7,11 @@ import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.container.CrabCruncherContainer;
+import teamdraco.finsandstails.common.container.MudhorsePouchContainer;
 
 public class FTContainers {
     public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, FinsAndTails.MOD_ID);
 
-    //public static final RegistryObject<MenuType<MudhorsePouchContainer>> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", () -> IForgeMenuType.<MudhorsePouchContainer>create(MudhorsePouchContainer::new));
+    public static final RegistryObject<MenuType<MudhorsePouchContainer>> MUDHORSE_POUCH = REGISTER.register("mudhorse_pouch", () -> IForgeMenuType.create((windowId, playerInventory, data) -> new MudhorsePouchContainer(windowId, playerInventory)));
     public static final RegistryObject<MenuType<CrabCruncherContainer>> CRAB_CRUNCHER = REGISTER.register("crab_cruncher", () -> IForgeMenuType.create((windowId, playerInventory, data) -> new CrabCruncherContainer(windowId, playerInventory)));
 }

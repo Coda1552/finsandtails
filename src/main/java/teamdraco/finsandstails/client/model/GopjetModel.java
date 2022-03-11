@@ -21,7 +21,6 @@ public class GopjetModel extends AnimatedGeoModel<GopjetEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(GopjetEntity gopjet) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/gopjet.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/gopjet.animations.json");
     }
 }

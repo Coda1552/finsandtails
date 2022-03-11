@@ -19,7 +19,6 @@ public class PapaWeeModel extends AnimatedGeoModel<PapaWeeEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(PapaWeeEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/papa_wee.animations.json");
     }
 }

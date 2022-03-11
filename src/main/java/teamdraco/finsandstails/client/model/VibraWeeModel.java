@@ -44,8 +44,7 @@ public class VibraWeeModel extends AnimatedGeoModel<VibraWeeEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(VibraWeeEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/vibra_wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/vibra_wee.animations.json");
     }
 
     @Override

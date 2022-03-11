@@ -25,7 +25,6 @@ public class SpindlyGauntletItem extends CrabGauntletItem {
             float headRot = player.yHeadRot;
 
 
-
         }
         super.releaseUsing(stack, level, entity, time);
     }

@@ -1,4 +1,3 @@
-/*
 package teamdraco.finsandstails.common.container;
 
 import net.minecraft.nbt.CompoundTag;
@@ -8,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTItems;
 
@@ -32,7 +32,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
                 this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return super.mayPlace(stack) && stack.getItem() != FTItems.MUDHORSE_POUCH.get();
+                        return super.mayPlace(stack) && stack.getItem() != FTItems.MUDHORSE_POUCH.get() && stack.getItem() != Items.SHULKER_BOX;
                     }
                 });
             }
@@ -52,7 +52,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
     private static MudhorsePouchInventory getStackInventory(ItemStack stack) {
         MudhorsePouchInventory inventory = new MudhorsePouchInventory();
         if (!stack.isEmpty() && stack.hasTag()) {
-            ListTag items = stack.getTag().getList("Items", 10);
+            ListTag items = stack.getOrCreateTag().getList("Items", 10);
             for (int i = 0; i < items.size(); i++) {
                 CompoundTag item = items.getCompound(i);
                 inventory.setItem(item.getByte("Slot"), ItemStack.of(item));
@@ -123,4 +123,3 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
         }
     }
 }
-*/

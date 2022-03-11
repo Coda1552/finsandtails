@@ -93,7 +93,7 @@ public class FTItems {
     public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = ITEMS.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).fast().build())));
 
     //Gear
-    //public static final RegistryObject<Item> MUDHORSE_POUCH = ITEMS.register("mudhorse_pouch", MudhorsePouchItem::new);
+    public static final RegistryObject<Item> MUDHORSE_POUCH = ITEMS.register("mudhorse_pouch", MudhorsePouchItem::new);
     public static final RegistryObject<Item> FWINGED_BOOTS = ITEMS.register("fwinged_boots", FwingedBootsItem::new);
     public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = ITEMS.register("white_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 2, -0.6F, new Item.Properties().tab(FinsAndTails.GROUP).durability(200)));
     public static final RegistryObject<Item> RED_CLAW_GAUNTLET = ITEMS.register("red_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 3, -1.4F, new Item.Properties().tab(FinsAndTails.GROUP).durability(130)));
