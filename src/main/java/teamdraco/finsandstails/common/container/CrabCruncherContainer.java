@@ -22,7 +22,7 @@ import java.util.Optional;
 public class CrabCruncherContainer extends AbstractContainerMenu {
     private final CraftingContainer inventory = new CraftingContainer(this, 2, 1);
     private final ResultContainer craftResult = new ResultContainer();
-    private final ContainerLevelAccess canInteractWithCallable;
+    private final ContainerLevelAccess access;
     private final Player player;
 
     public CrabCruncherContainer(int windowId, Inventory playerInventory) {
@@ -32,7 +32,7 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
     public CrabCruncherContainer(int windowId, Inventory playerInventory, ContainerLevelAccess access, ContainerData data) {
         super(FTContainers.CRAB_CRUNCHER.get(), windowId);
         this.player = playerInventory.player;
-        this.canInteractWithCallable = access;
+        this.access = access;
 
         // Result Slot
         this.addSlot(new CrabCruncherResultSlot(player, inventory, craftResult, 2, 134, 47));
@@ -99,18 +99,18 @@ public class CrabCruncherContainer extends AbstractContainerMenu {
 
     @Override
     public void slotsChanged(Container inventoryIn) {
-        this.canInteractWithCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
+        this.access.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
     }
 
     @Override
     public void removed(Player playerIn) {
         super.removed(playerIn);
-        this.canInteractWithCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, inventory));
+        this.access.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, inventory));
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(this.canInteractWithCallable, player, FTBlocks.CRAB_CRUNCHER.get());
+        return stillValid(this.access, player, FTBlocks.CRAB_CRUNCHER.get());
     }
 }
 

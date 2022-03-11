@@ -48,8 +48,6 @@ public class FinsAndTails {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
     public static final List<Runnable> CALLBACKS = new ArrayList<>();
-    //public static final RecipeSerializer<GunTableRecipe> GUN_TABLE_RECIPE_SERIALIZER = Registry
-    //        .register(Registry.RECIPE_SERIALIZER, new Identifier(MOD_ID, "gun_table"), new GunTableRecipe.Serializer());
     private static int currentNetworkId;
 
     public FinsAndTails() {
