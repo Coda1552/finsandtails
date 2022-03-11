@@ -50,7 +50,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import teamdraco.finsandstails.common.entities.util.ai.GroundAndSwimmerNavigator;
+import teamdraco.finsandstails.common.entities.ai.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 

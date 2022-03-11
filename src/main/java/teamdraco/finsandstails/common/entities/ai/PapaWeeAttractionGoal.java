@@ -1,4 +1,4 @@
-package teamdraco.finsandstails.common.entities.util.ai;
+package teamdraco.finsandstails.common.entities.ai;
 
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;

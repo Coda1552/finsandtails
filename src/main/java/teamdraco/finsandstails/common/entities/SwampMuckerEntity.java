@@ -18,7 +18,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import teamdraco.finsandstails.common.entities.util.ai.WaterJumpGoal;
+import teamdraco.finsandstails.common.entities.ai.WaterJumpGoal;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class SwampMuckerEntity  extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {

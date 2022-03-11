@@ -20,7 +20,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import teamdraco.finsandstails.common.entities.util.ai.WeeHurtByEntityGoal;
+import teamdraco.finsandstails.common.entities.ai.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
