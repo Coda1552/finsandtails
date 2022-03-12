@@ -22,15 +22,15 @@ public class TealArrowfishArrowRenderer extends GeoProjectilesRenderer<TealArrow
         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(Mth.lerp(partialTicks, entityIn.yRotO, entityIn.yRot) - 90.0F));
         matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(Mth.lerp(partialTicks, entityIn.xRotO, entityIn.xRot) + 90.0F));
         matrixStackIn.translate(0.0, -1.3f, 0);
-        float f9 = (float) entityIn.shakeTime - partialTicks;
-        if (f9 > 0.0F) {
-            float f10 = -Mth.sin(f9 * 3.0F) * f9;
-            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(f10));
+        float f = (float) entityIn.shakeTime - partialTicks;
+        if (f > 0.0F) {
+            float f1 = -Mth.sin(f * 3.0F) * f;
+            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(f1));
         }
 
         matrixStackIn.scale(0.05625F, 0.05625F, 0.05625F);
-
         matrixStackIn.popPose();
+
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 }
