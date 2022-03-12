@@ -65,17 +65,12 @@ public class FinsAndTails {
         bus.addListener(this::registerEntityAttributes);
         bus.addGenericListener(RecipeSerializer.class, this::registerRecipeSerializers);
 
-        //bus.addListener(this::setup);
-        //forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
-
         FTEnchantments.REGISTER.register(bus);
         FTItems.ITEMS.register(bus);
         FTBlocks.BLOCKS.register(bus);
         FTContainers.REGISTER.register(bus);
         FTEntities.REGISTER.register(bus);
         FTSounds.REGISTER.register(bus);
-        //FTRecipes.SERIALIZERS.register(bus);
-        //FTStructures.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);

@@ -1,10 +1,12 @@
 package teamdraco.finsandstails.common.entities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -44,11 +46,11 @@ import teamdraco.finsandstails.registry.FTSounds;
 import java.util.EnumSet;
 
 public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTickable {
+    public static final EntityDataAccessor<Boolean> FORAGING = SynchedEntityData.defineId(MudhorseEntity.class, EntityDataSerializers.BOOLEAN);
     private final AnimationFactory factory = new AnimationFactory(this);
     private LivingEntity commander;
     private int commanderSetTime;
     private int attackTimer;
-    public int eatAnimationTick;
     private MudhorseForageGoal eatBlockGoal;
 
     public MudhorseEntity(EntityType<? extends MudhorseEntity> type, Level worldIn) {
@@ -79,6 +81,20 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30).add(Attributes.ATTACK_DAMAGE, 2).add(Attributes.MOVEMENT_SPEED, 0.2);
     }
 
+    public boolean isForaging() {
+        return this.entityData.get(FORAGING);
+    }
+
+    public void setForaging(boolean p_213419_1_) {
+        this.entityData.set(FORAGING, p_213419_1_);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(FORAGING, false);
+    }
+
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
@@ -107,23 +123,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         return flag;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public float getHeadEatAngleScale(float p_70890_1_) {
-        if (this.eatAnimationTick > 4 && this.eatAnimationTick <= 36) {
-            float f = ((float)(this.eatAnimationTick - 4) - p_70890_1_) / 32.0F;
-            return ((float)Math.PI / 5F) + 0.21991149F * Mth.sin(f * 28.7F);
-        } else {
-            return this.eatAnimationTick > 0 ? ((float)Math.PI / 5F) : this.xRot * ((float)Math.PI / 180F);
-        }
-    }
-
-    @Override
-    protected void customServerAiStep() {
-        this.eatAnimationTick = this.eatBlockGoal.getEatAnimationTick();
-        super.customServerAiStep();
-    }
-
-    @Override
+        @Override
     public boolean isFood(ItemStack stack) {
         return stack.getItem() == FTItems.SWAMP_MUCKER.get();
     }
@@ -164,9 +164,6 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
             commander = null;
         }
 
-        if (this.level.isClientSide) {
-            this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
-        }
         super.aiStep();
     }
 
@@ -176,9 +173,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
             this.attackTimer = 10;
             this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
         }
-        if (id == 10) {
-            this.eatAnimationTick = 40;
-        } else {
+        else {
             super.handleEntityEvent(id);
         }
     }
@@ -227,13 +222,13 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", true));
         }
-        else if (eatAnimationTick < 40) {
+        else if (isForaging()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.grazing", true));
         }
         else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.idle", true));
         }
-        return PlayState.STOP;
+        return PlayState.CONTINUE;
     }
 
     @Override
