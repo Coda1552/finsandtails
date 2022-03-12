@@ -1,15 +1,25 @@
 package teamdraco.finsandstails.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +40,7 @@ import teamdraco.finsandstails.registry.FTItems;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
+    private static ResourceLocation HEARTS_TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/icons.png");
 
     @SubscribeEvent
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
@@ -100,5 +111,208 @@ public class ClientEvents {
                 }
             }
         }
+
+        @SubscribeEvent
+        public static void playerHeartRender(RenderGameOverlayEvent.Post event) {
+            Minecraft minecraft = Minecraft.getInstance();
+            LocalPlayer player = minecraft.player;
+            ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
+
+            if (chest.isEmpty()) return;
+
+            if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && !player.isCreative()) {
+                PoseStack poseStack = event.getMatrixStack();
+
+                float absorb = Mth.ceil(player.getAbsorptionAmount());
+                float maxHealth = (float) player.getAttribute(Attributes.MAX_HEALTH).getValue();
+
+                int left = event.getWindow().getGuiScaledWidth() / 2 - 91;
+                int top = event.getWindow().getGuiScaledHeight() - ((ForgeIngameGui) Minecraft.getInstance().gui).left_height;
+
+                int healthRows = Mth.ceil((maxHealth + absorb) / 2.0F / 10.0F);
+                int rowHeight = Math.max(10 - (healthRows - 2), 3);
+
+                poseStack.pushPose();
+                RenderSystem.depthMask(false);
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+                RenderSystem.setShaderTexture(0, HEARTS_TEXTURE);
+                RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+
+                for (int i = 0; i < 4; i++) {
+                    int row = (int) (Math.ceil(i) / 10f);
+                    int x = left + i % 10 * 8;
+                    int y = top - row * 3 + rowHeight * 2 - 5;
+
+                    int u = 0;
+                    int v = 0;
+
+                    // Some of these values are being assigned to what they already are, but I'm keeping it because otherwise it annoys me :)
+                    if (chest.is(FTItems.SPINDLY_RUBY_CHARM.get())) {
+                        if (i * 2 > player.getHealth()) {
+                            // half heart
+                            u = 9;
+                            v = 0;
+                        } else {
+                            // full heart
+                            u = 0;
+                            v = 0;
+                        }
+                    }
+                    if (chest.is(FTItems.SPINDLY_EMERALD_CHARM.get())) {
+                        if (i * 2 > player.getHealth()) {
+                            u = 9;
+                            v = 9;
+                        } else {
+                            u = 0;
+                            v = 9;
+                        }
+                    }
+                    if (chest.is(FTItems.SPINDLY_AMBER_CHARM.get())) {
+                        if (i * 2 > player.getHealth()) {
+                            u = 9;
+                            v = 18;
+                        } else {
+                            u = 0;
+                            v = 18;
+                        }
+                    }
+                    if (chest.is(FTItems.SPINDLY_PEARL_CHARM.get())) {
+                        if (i * 2 > player.getHealth()) {
+                            u = 9;
+                            v = 27;
+                        } else {
+                            u = 0;
+                            v = 27;
+                        }
+                    }
+                    if (chest.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) {
+                        if (i * 2 > player.getHealth()) {
+                            u = 9;
+                            v = 36;
+                        } else {
+                            u = 0;
+                            v = 36;
+                        }
+                    }
+
+                    int regen = -1;
+                    if (player.hasEffect(MobEffects.REGENERATION)) {
+                        regen = minecraft.gui.tickCount % Mth.ceil(player.getMaxHealth() + 5.0F);
+                    }
+
+                    int health = (int) Math.ceil(player.getHealth());
+                    boolean highlight = minecraft.gui.healthBlinkTime > (long)minecraft.gui.tickCount && (minecraft.gui.healthBlinkTime - (long)minecraft.gui.tickCount) / 3L %2L == 1L;
+                    int healthLast = minecraft.gui.displayHealth;
+                    int absorption = Mth.ceil(player.getAbsorptionAmount());
+
+                    minecraft.gui.renderHearts(poseStack, player, left, top, rowHeight, regen, player.getMaxHealth(), health, healthLast, absorption, highlight);
+
+                    double health0 = Math.ceil(player.getHealth());
+
+                    if (health0 <= 8) {
+                        // 1 heart
+                        if (health0 >= 2 && i == 0) {
+
+                            Screen.blit(poseStack, x, y + 3, u, v, 9, 9, 256, 256);
+                        }
+                       else if (health0 >= 1 && health0 < 2 && i == 0) {
+                            Screen.blit(poseStack, x, y + 3, u + 9, v, 9, 9, 256, 256);
+                       }
+                       else if (health0 < 1 && i == 0) {
+                            Screen.blit(poseStack, x, y + 3, u + 18, v, 9, 9, 256, 256);
+                        }
+
+                        // 2 hearts
+                        if (health0 >= 4 && i == 1) {
+                            Screen.blit(poseStack, x, y + 3, u, v, 9, 9, 256, 256);
+                        }
+                        else if (health0 >= 3 && health0 < 4 && i == 1) {
+                            Screen.blit(poseStack, x, y + 3, u + 9, v, 9, 9, 256, 256);
+                        }
+                        else if (health0 < 3 && i == 1) {
+                            Screen.blit(poseStack, x, y + 3, u + 18, v, 9, 9, 256, 256);
+                        }
+
+                        // 3 hearts
+                        if (health0 >= 6 && i == 2) {
+                            Screen.blit(poseStack, x, y + 3, u, v, 9, 9, 256, 256);
+                        }
+                        else if (health0 >= 5 && health0 < 6 && i == 2) {
+                            Screen.blit(poseStack, x, y + 3, u + 9, v, 9, 9, 256, 256);
+                        }
+                        else if (health0 < 5 && i == 2) {
+                            Screen.blit(poseStack, x, y + 3, u + 18, v, 9, 9, 256, 256);
+                        }
+
+                        // 4 hearts
+                        if (health0 >= 8 && i == 3) {
+                            Screen.blit(poseStack, x, y + 3, u, v, 9, 9, 256, 256);
+                        }
+                        else if (health0 >= 7 && health0 < 8 && i == 3) {
+                            Screen.blit(poseStack, x, y + 3, u + 9, v, 9, 9, 256, 256);
+                        }
+                        else if (health0 < 7 && i == 3) {
+                            Screen.blit(poseStack, x, y + 3, u + 18, v, 9, 9, 256, 256);
+                        }
+                    }
+                    else {
+                        Screen.blit(poseStack, x, y + 3, u, v, 9, 9, 256, 256);
+                    }
+
+                }
+                RenderSystem.depthMask(true);
+                RenderSystem.disableBlend();
+                poseStack.popPose();
+            }
+        }
     }
+
+    private static int getHeartsToDisplay(Player player) {
+        float health = player.getHealth();
+
+        // less than or equal to 4 hearts
+        if (health <= 8) {
+            if (health > 7) {
+                return 8;
+            }
+            else if (health > 6) {
+                return 7;
+            }
+            else if (health > 5) {
+                return 6;
+            }
+            else if (health > 4) {
+                return 5;
+            }
+            else if (health > 3) {
+                return 4;
+            }
+            else if (health > 2) {
+                return 3;
+            }
+            else if (health > 1) {
+                return 2;
+            }
+            else {
+                return 1;
+            }
+        }
+        else {
+            return 8;
+        }
+    }
+
+/*    public int getU(boolean halfHeart, boolean blinking) {
+        int i;
+        if (this == CONTAINER) {
+            i = blinking ? 1 : 0;
+        } else {
+            int j = halfHeart ? 1 : 0;
+            int k = this.hasBlinkingTexture && blinking ? 2 : 0;
+            i = j + k;
+        }
+
+        return 16 + (this.textureIndex * 2 + i) * 9;
+    }*/
 }

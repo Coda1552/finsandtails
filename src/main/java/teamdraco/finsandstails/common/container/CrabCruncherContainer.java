@@ -71,9 +71,6 @@ public class CrabCruncherContainer extends ItemCombinerMenu {
 
     public void removed(Player p_39790_) {
         super.removed(p_39790_);
-        this.access.execute((p_39796_, p_39797_) -> {
-            this.clearContainer(p_39790_, this.inputSlots);
-        });
     }
 
     protected boolean shouldQuickMoveToAdditionalSlot(ItemStack p_40255_) {
