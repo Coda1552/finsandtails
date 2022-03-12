@@ -196,18 +196,6 @@ public class ClientEvents {
                         }
                     }
 
-                    int regen = -1;
-                    if (player.hasEffect(MobEffects.REGENERATION)) {
-                        regen = minecraft.gui.tickCount % Mth.ceil(player.getMaxHealth() + 5.0F);
-                    }
-
-                    int health = (int) Math.ceil(player.getHealth());
-                    boolean highlight = minecraft.gui.healthBlinkTime > (long)minecraft.gui.tickCount && (minecraft.gui.healthBlinkTime - (long)minecraft.gui.tickCount) / 3L %2L == 1L;
-                    int healthLast = minecraft.gui.displayHealth;
-                    int absorption = Mth.ceil(player.getAbsorptionAmount());
-
-                    minecraft.gui.renderHearts(poseStack, player, left, top, rowHeight, regen, player.getMaxHealth(), health, healthLast, absorption, highlight);
-
                     double health0 = Math.ceil(player.getHealth());
 
                     if (health0 <= 8) {
