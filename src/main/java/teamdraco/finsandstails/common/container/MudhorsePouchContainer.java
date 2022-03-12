@@ -37,7 +37,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
                 this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return super.mayPlace(stack) && stack.is(FTTags.MUDHORSE_POUCH_BLACKLIST);
+                        return super.mayPlace(stack) && !stack.is(FTTags.MUDHORSE_POUCH_BLACKLIST);
                     }
                 });
             }
