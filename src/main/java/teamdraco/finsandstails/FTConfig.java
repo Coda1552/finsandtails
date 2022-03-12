@@ -8,7 +8,7 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class FinsConfig {
+public class FTConfig {
     public static boolean finsFishingLoot;
     public static int peaWeeSpawnWeight;
     public static int vibraWeeSpawnWeight;
@@ -152,32 +152,32 @@ public class FinsConfig {
         }
 
         public static void reload() {
-            FinsConfig.finsFishingLoot = INSTANCE.finsFishingLoot.get();
-            FinsConfig.peaWeeSpawnWeight = INSTANCE.peaWeeSpawnWeight.get();
-            FinsConfig.vibraWeeSpawnWeight = INSTANCE.vibraWeeSpawnWeight.get();
-            FinsConfig.flatbackSuckerSpawnWeight = INSTANCE.flatbackSuckerSpawnWeight.get();
-            FinsConfig.swampMuckerSpawnWeight = INSTANCE.swampMuckerSpawnWeight.get();
-            FinsConfig.mudhorseSpawnWeight = INSTANCE.mudhorseSpawnWeight.get();
-            FinsConfig.siderolWhiskeredSnailSpawnWeight = INSTANCE.siderolWhiskeredSnailSpawnWeight.get();
-            FinsConfig.penglilSpawnWeight = INSTANCE.penglilSpawnWeight.get();
-            FinsConfig.flatbackLeafSnailSpawnWeight = INSTANCE.flatbackLeafSnailSpawnWeight.get();
-            FinsConfig.bluWeeSpawnWeight = INSTANCE.bluWeeSpawnWeight.get();
-            FinsConfig.tealArrowfishSpawnWeight = INSTANCE.tealArrowfishSpawnWeight.get();
-            FinsConfig.phantomNudibranchSpawnWeight = INSTANCE.phantomNudibranchSpawnWeight.get();
-            FinsConfig.bandedRedbackShrimpSpawnWeight = INSTANCE.bandedRedbackShrimpSpawnWeight.get();
-            FinsConfig.ornateBugfishSpawnWeight = INSTANCE.ornateBugfishSpawnWeight.get();
-            FinsConfig.spindlyGemCrabSpawnWeight = INSTANCE.spindlyGemCrabSpawnWeight.get();
-            FinsConfig.highFinnedBlueSpawnWeight = INSTANCE.highFinnedBlueSpawnWeight.get();
-            FinsConfig.whiteBullCrabSpawnWeight = INSTANCE.whiteBullCrabSpawnWeight.get();
-            FinsConfig.redBullCrabSpawnWeight = INSTANCE.redBullCrabSpawnWeight.get();
-            FinsConfig.nightLightSquidSpawnWeight = INSTANCE.nightLightSquidSpawnWeight.get();
-            FinsConfig.weeWeeSpawnWeight = INSTANCE.weeWeeSpawnWeight.get();
-            FinsConfig.riverPebbleSnailSpawnWeight = INSTANCE.riverPebbleSnailSpawnWeight.get();
-            FinsConfig.goldenRiverRaySpawnWeight = INSTANCE.goldenRiverRaySpawnWeight.get();
-            FinsConfig.rubberBellyGliderSpawnWeight = INSTANCE.rubberBellyGliderSpawnWeight.get();
-            FinsConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
-            FinsConfig.wherbleSpawnWeight = INSTANCE.wherbleSpawnWeight.get();
-            FinsConfig.glassSkipperSpawnWeight = INSTANCE.glassSkipperSpawnWeight.get();
+            FTConfig.finsFishingLoot = INSTANCE.finsFishingLoot.get();
+            FTConfig.peaWeeSpawnWeight = INSTANCE.peaWeeSpawnWeight.get();
+            FTConfig.vibraWeeSpawnWeight = INSTANCE.vibraWeeSpawnWeight.get();
+            FTConfig.flatbackSuckerSpawnWeight = INSTANCE.flatbackSuckerSpawnWeight.get();
+            FTConfig.swampMuckerSpawnWeight = INSTANCE.swampMuckerSpawnWeight.get();
+            FTConfig.mudhorseSpawnWeight = INSTANCE.mudhorseSpawnWeight.get();
+            FTConfig.siderolWhiskeredSnailSpawnWeight = INSTANCE.siderolWhiskeredSnailSpawnWeight.get();
+            FTConfig.penglilSpawnWeight = INSTANCE.penglilSpawnWeight.get();
+            FTConfig.flatbackLeafSnailSpawnWeight = INSTANCE.flatbackLeafSnailSpawnWeight.get();
+            FTConfig.bluWeeSpawnWeight = INSTANCE.bluWeeSpawnWeight.get();
+            FTConfig.tealArrowfishSpawnWeight = INSTANCE.tealArrowfishSpawnWeight.get();
+            FTConfig.phantomNudibranchSpawnWeight = INSTANCE.phantomNudibranchSpawnWeight.get();
+            FTConfig.bandedRedbackShrimpSpawnWeight = INSTANCE.bandedRedbackShrimpSpawnWeight.get();
+            FTConfig.ornateBugfishSpawnWeight = INSTANCE.ornateBugfishSpawnWeight.get();
+            FTConfig.spindlyGemCrabSpawnWeight = INSTANCE.spindlyGemCrabSpawnWeight.get();
+            FTConfig.highFinnedBlueSpawnWeight = INSTANCE.highFinnedBlueSpawnWeight.get();
+            FTConfig.whiteBullCrabSpawnWeight = INSTANCE.whiteBullCrabSpawnWeight.get();
+            FTConfig.redBullCrabSpawnWeight = INSTANCE.redBullCrabSpawnWeight.get();
+            FTConfig.nightLightSquidSpawnWeight = INSTANCE.nightLightSquidSpawnWeight.get();
+            FTConfig.weeWeeSpawnWeight = INSTANCE.weeWeeSpawnWeight.get();
+            FTConfig.riverPebbleSnailSpawnWeight = INSTANCE.riverPebbleSnailSpawnWeight.get();
+            FTConfig.goldenRiverRaySpawnWeight = INSTANCE.goldenRiverRaySpawnWeight.get();
+            FTConfig.rubberBellyGliderSpawnWeight = INSTANCE.rubberBellyGliderSpawnWeight.get();
+            FTConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
+            FTConfig.wherbleSpawnWeight = INSTANCE.wherbleSpawnWeight.get();
+            FTConfig.glassSkipperSpawnWeight = INSTANCE.glassSkipperSpawnWeight.get();
         }
     }
 }

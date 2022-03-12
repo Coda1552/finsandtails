@@ -5,16 +5,19 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTRecipes;
 
-public class CrunchingRecipe implements Recipe<CraftingContainer> {
+public class CrunchingRecipe implements Recipe<Container> {
+    public static final Serializer SERIALIZER = new Serializer();
     private final Ingredient base;
     private final Ingredient addition;
     private final ItemStack result;
@@ -28,12 +31,12 @@ public class CrunchingRecipe implements Recipe<CraftingContainer> {
     }
 
     @Override
-    public boolean matches(CraftingContainer inv, Level level) {
+    public boolean matches(Container inv, Level level) {
         return this.base.test(inv.getItem(0)) && this.addition.test(inv.getItem(1));
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(Container inv) {
         return this.result.copy();
     }
 
@@ -61,6 +64,10 @@ public class CrunchingRecipe implements Recipe<CraftingContainer> {
         return FTRecipes.CRUNCHING_TYPE;
     }
 
+    public boolean isAdditionIngredient(ItemStack p_44536_) {
+        return this.addition.test(p_44536_);
+    }
+
     @Override
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> i = NonNullList.create();
@@ -73,6 +80,10 @@ public class CrunchingRecipe implements Recipe<CraftingContainer> {
     }
 
     public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<CrunchingRecipe> {
+
+        public Serializer() {
+            this.setRegistryName(new ResourceLocation(FinsAndTails.MOD_ID, "crunching"));
+        }
 
         @Override
         public CrunchingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {

@@ -3,6 +3,7 @@ package teamdraco.finsandstails;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
@@ -13,11 +14,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
@@ -32,6 +36,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
+import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
+import teamdraco.finsandstails.common.crafting.CrunchingRecipeType;
 import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.registry.*;
 import teamdraco.finsandstails.network.INetworkPacket;
@@ -48,6 +54,7 @@ public class FinsAndTails {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
     public static final List<Runnable> CALLBACKS = new ArrayList<>();
+    public static final RecipeType<CrunchingRecipe> CRUNCHING = new CrunchingRecipeType();
     private static int currentNetworkId;
 
     public FinsAndTails() {
@@ -56,6 +63,7 @@ public class FinsAndTails {
 
         bus.addListener(this::registerCommon);
         bus.addListener(this::registerEntityAttributes);
+        bus.addGenericListener(RecipeSerializer.class, this::registerRecipeSerializers);
 
         //bus.addListener(this::setup);
         //forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
@@ -69,10 +77,16 @@ public class FinsAndTails {
         //FTRecipes.SERIALIZERS.register(bus);
         //FTStructures.REGISTER.register(bus);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FinsConfig.Common.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
 
         GeckoLib.initialize();
+    }
+
+    private void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(CRUNCHING.toString()), CRUNCHING);
+
+        event.getRegistry().register(CrunchingRecipe.SERIALIZER);
     }
 
     private void registerCommon(FMLCommonSetupEvent event) {

@@ -1,116 +1,86 @@
 package teamdraco.finsandstails.common.container;
 
-import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import teamdraco.finsandstails.common.container.slot.CrabCruncherResultSlot;
-import teamdraco.finsandstails.common.container.slot.CrabCruncherSlot;
+import net.minecraft.world.level.block.state.BlockState;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTRecipes;
-import teamdraco.finsandstails.registry.FTSounds;
 
-import java.util.Optional;
+import java.util.List;
 
-public class CrabCruncherContainer extends AbstractContainerMenu {
-    private final CraftingContainer inventory = new CraftingContainer(this, 2, 1);
-    private final ResultContainer craftResult = new ResultContainer();
+public class CrabCruncherContainer extends ItemCombinerMenu {
+    private final List<CrunchingRecipe> recipes;
     private final ContainerLevelAccess access;
     private final Player player;
+    private CrunchingRecipe selectedRecipe;
 
     public CrabCruncherContainer(int windowId, Inventory playerInventory) {
-        this(windowId, playerInventory, ContainerLevelAccess.NULL, new SimpleContainerData(3));
+        this(windowId, playerInventory, ContainerLevelAccess.NULL);
     }
 
-    public CrabCruncherContainer(int windowId, Inventory playerInventory, ContainerLevelAccess access, ContainerData data) {
-        super(FTContainers.CRAB_CRUNCHER.get(), windowId);
+    public CrabCruncherContainer(int windowId, Inventory playerInventory, ContainerLevelAccess access) {
+        super(FTContainers.CRAB_CRUNCHER.get(), windowId, playerInventory, access);
         this.player = playerInventory.player;
         this.access = access;
+        this.recipes = player.level.getRecipeManager().getAllRecipesFor(FTRecipes.CRUNCHING_TYPE);
+    }
 
-        // Result Slot
-        this.addSlot(new CrabCruncherResultSlot(player, inventory, craftResult, 2, 134, 47));
+    protected boolean isValidBlock(BlockState p_40266_) {
+        return p_40266_.is(FTBlocks.CRAB_CRUNCHER.get());
+    }
 
-        // Input Slots
-        this.addSlot(new CrabCruncherSlot(inventory, 0, 27, 47));
-        this.addSlot(new CrabCruncherSlot(inventory, 1, 76, 47));
+    protected boolean mayPickup(Player p_40268_, boolean p_40269_) {
+        return this.selectedRecipe != null && this.selectedRecipe.matches(this.inputSlots, player.level);
+    }
 
-        // Main Player Inv
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 9; col++) {
-                this.addSlot(new Slot(playerInventory, col + row * 9 + 9, 8 + col * 18, 166 - (4 - row) * 18 - 10));
-            }
+    protected void onTake(Player p_150663_, ItemStack p_150664_) {
+        p_150664_.onCraftedBy(p_150663_.level, p_150663_, p_150664_.getCount());
+        this.resultSlots.awardUsedRecipes(p_150663_);
+        this.shrinkStackInSlot(0);
+        this.shrinkStackInSlot(1);
+        this.access.execute((p_40263_, p_40264_) -> {
+            p_40263_.levelEvent(1044, p_40264_, 0);
+        });
+    }
+
+    private void shrinkStackInSlot(int p_40271_) {
+        ItemStack itemstack = this.inputSlots.getItem(p_40271_);
+        itemstack.shrink(1);
+        this.inputSlots.setItem(p_40271_, itemstack);
+    }
+
+    public void createResult() {
+        List<CrunchingRecipe> list = player.level.getRecipeManager().getRecipesFor(FTRecipes.CRUNCHING_TYPE, this.inputSlots, player.level);
+        if (list.isEmpty()) {
+            this.resultSlots.setItem(0, ItemStack.EMPTY);
+        } else {
+            this.selectedRecipe = list.get(0);
+            ItemStack itemstack = this.selectedRecipe.assemble(this.inputSlots);
+            this.resultSlots.setRecipeUsed(this.selectedRecipe);
+            this.resultSlots.setItem(0, itemstack);
         }
 
-        // Player Hotbar
-        for (int col = 0; col < 9; col++) {
-            this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
-        }
     }
 
-    @Override
-    public ItemStack quickMoveStack(Player playerIn, int index) {
-        ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-        if (slot.hasItem()) {
-            ItemStack stack1 = slot.getItem();
-            stack = stack1.copy();
-
-            if (index < 2) {
-                if (!this.moveItemStackTo(stack1, 0, this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (!this.moveItemStackTo(stack1, 0, 10, true)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (stack1.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
-        }
-
-        return stack;
+    public void removed(Player p_39790_) {
+        super.removed(p_39790_);
+        this.access.execute((p_39796_, p_39797_) -> {
+            this.clearContainer(p_39790_, this.inputSlots);
+        });
     }
 
-    protected void updateCraftingResult(Level world) {
-        if (!world.isClientSide) {
-            ServerPlayer serverplayerentity = (ServerPlayer)player;
-            ItemStack itemstack = ItemStack.EMPTY;
-            Optional<CrunchingRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(FTRecipes.CRUNCHING_TYPE, inventory, world);
-            if (optional.isPresent()) {
-                itemstack = optional.get().assemble(inventory);
-            }
-            world.playSound(player, player.blockPosition(), FTSounds.CRAB_CRUNCH.get(), SoundSource.BLOCKS, 0.6F, 1.0F);
-
-            craftResult.setItem(0, itemstack);
-            serverplayerentity.connection.send(new ClientboundContainerSetSlotPacket(containerId, 0, 0, itemstack));
-        }
+    protected boolean shouldQuickMoveToAdditionalSlot(ItemStack p_40255_) {
+        return this.recipes.stream().anyMatch((p_40261_) -> p_40261_.isAdditionIngredient(p_40255_));
     }
 
-    @Override
-    public void slotsChanged(Container inventoryIn) {
-        this.access.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(p_217069_1_));
-    }
-
-    @Override
-    public void removed(Player playerIn) {
-        super.removed(playerIn);
-        this.access.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(playerIn, inventory));
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return stillValid(this.access, player, FTBlocks.CRAB_CRUNCHER.get());
+    public boolean canTakeItemForPickAll(ItemStack p_40257_, Slot p_40258_) {
+        return p_40258_.container != this.resultSlots && super.canTakeItemForPickAll(p_40257_, p_40258_);
     }
 }
 

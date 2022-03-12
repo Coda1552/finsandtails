@@ -1,13 +1,17 @@
 package teamdraco.finsandstails.common.container;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTItems;
 
@@ -32,7 +36,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
                 this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return super.mayPlace(stack) && stack.getItem() != FTItems.MUDHORSE_POUCH.get() && stack.getItem() != Items.SHULKER_BOX;
+                        return super.mayPlace(stack) && stack.getItem() != FTItems.MUDHORSE_POUCH.get() && BlockTags.SHULKER_BOXES.cast(Registry.ITEM_REGISTRY).isPresent() && !stack.is(BlockTags.SHULKER_BOXES.cast(Registry.ITEM_REGISTRY).get());
                     }
                 });
             }
