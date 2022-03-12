@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTTags;
 
 public class MudhorsePouchContainer extends AbstractContainerMenu {
     private final MudhorsePouchInventory stackInventory;
@@ -36,7 +37,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
                 this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        return super.mayPlace(stack) && stack.getItem() != FTItems.MUDHORSE_POUCH.get() && BlockTags.SHULKER_BOXES.cast(Registry.ITEM_REGISTRY).isPresent() && !stack.is(BlockTags.SHULKER_BOXES.cast(Registry.ITEM_REGISTRY).get());
+                        return super.mayPlace(stack) && stack.is(FTTags.MUDHORSE_POUCH_BLACKLIST);
                     }
                 });
             }

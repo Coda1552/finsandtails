@@ -11,6 +11,7 @@ public class FTTags {
     public static final TagKey<Item> CLAW_GAUNTLETS = itemTag("claw_gauntlets");
     public static final TagKey<Item> FISH_BUCKETS = itemTag("fish_buckets");
     public static final TagKey<Item> WEES = itemTag("wees");
+    public static final TagKey<Item> MUDHORSE_POUCH_BLACKLIST = itemTag("mudhorse_pouch_blacklist");
 
     private static TagKey<Item> itemTag(String path) {
         return ItemTags.create(new ResourceLocation(FinsAndTails.MOD_ID, path));
