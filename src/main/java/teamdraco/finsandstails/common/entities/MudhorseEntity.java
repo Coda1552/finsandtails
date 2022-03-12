@@ -51,7 +51,6 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     private LivingEntity commander;
     private int commanderSetTime;
     private int attackTimer;
-    private MudhorseForageGoal eatBlockGoal;
 
     public MudhorseEntity(EntityType<? extends MudhorseEntity> type, Level worldIn) {
         super(type, worldIn);
@@ -59,15 +58,14 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
 
     @Override
     protected void registerGoals() {
-        this.eatBlockGoal = new MudhorseForageGoal(this);
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(4, new TemptGoal(this, 1.25D, Ingredient.of(FTItems.SWAMP_MUCKER.get()), false));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
-        this.goalSelector.addGoal(5, this.eatBlockGoal);
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(FTItems.SWAMP_MUCKER.get()), false));
+        this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.25D));
+        this.goalSelector.addGoal(4, new MudhorseForageGoal(this));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new CommanderHurt(this));
     }
@@ -254,9 +252,8 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
                 int i = livingentity.getLastHurtMobTimestamp();
                 if (i != this.timestamp && this.canAttack(this.attacker, TargetingConditions.DEFAULT)) {
                     if (!(targetMob instanceof Creeper) && !(targetMob instanceof Ghast)) {
-                        if (targetMob instanceof Wolf) {
-                            Wolf wolfentity = (Wolf) targetMob;
-                            return !wolfentity.isTame() || wolfentity.getOwner() != livingentity;
+                        if (targetMob instanceof TamableAnimal tamable) {
+                            return !tamable.isTame() || tamable.getOwner() != livingentity;
                         } else if (targetMob instanceof Player && livingentity instanceof Player && !((Player) livingentity).canHarmPlayer((Player) targetMob)) {
                             return false;
                         } else if (targetMob instanceof AbstractHorse && ((AbstractHorse) targetMob).isTamed()) {
