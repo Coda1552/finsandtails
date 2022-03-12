@@ -16,7 +16,7 @@ import teamdraco.finsandstails.common.items.FinsArmorMaterial;
 
 import java.util.List;
 
-public class SpindlyEmeraldCharm extends ArmorItem implements ISpindlyCharmItem {
+public class SpindlyEmeraldCharm extends ArmorItem {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":spindly_emerald_charm", 1, new int[]{1, 2, 3, 1}, 8, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
 
     public SpindlyEmeraldCharm() {

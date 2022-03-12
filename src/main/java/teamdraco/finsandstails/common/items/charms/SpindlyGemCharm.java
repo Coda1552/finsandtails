@@ -16,7 +16,7 @@ import teamdraco.finsandstails.common.items.FinsArmorMaterial;
 
 import java.util.List;
 
-public class SpindlyGemCharm extends ArmorItem implements ISpindlyCharmItem {
+public class SpindlyGemCharm extends ArmorItem {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gem_crab_amulet", 1, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
 
     public SpindlyGemCharm() {
