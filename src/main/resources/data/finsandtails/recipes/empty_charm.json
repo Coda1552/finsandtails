@@ -1,12 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#g#",
-    "g g",
-    "#O#"
+    "###",
+    "GgG",
+    "gOg"
   ],
   "key": {
     "#": {
+      "item": "minecraft:string"
+    },
+    "G": {
       "item": "minecraft:gold_nugget"
     },
     "g": {
