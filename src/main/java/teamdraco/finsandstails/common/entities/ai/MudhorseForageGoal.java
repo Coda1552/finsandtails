@@ -44,23 +44,20 @@ public class MudhorseForageGoal extends Goal {
 
     @Override
     public void tick() {
-        System.out.println("Timer: " + timer);
-        System.out.println("Cooldown Timer: " + cooldownTimer);
         if (canUse()) {
-            if (this.cooldownTimer < cooldown) {
+            if (this.cooldownTimer < (cooldown + mudhorse.getRandom().nextInt(250))) {
                 this.cooldownTimer++;
             } else {
-                if (this.timer <= 40) {
+                if (this.timer <= 20) {
                     this.timer++;
                     this.mudhorse.setForaging(true);
                     this.mudhorse.getNavigation().stop();
-                    if (this.timer == 40) {
+                    if (this.timer == 20) {
                         BlockPos pos = mudhorse.blockPosition();
                         if (this.level.getBlockState(pos.below()).is(Blocks.SAND) && this.level.getBlockState(pos).is(Blocks.WATER)) {
                             if (ForgeEventFactory.getMobGriefingEvent(this.level, this.mudhorse)) {
                                 this.level.levelEvent(2001, pos, Block.getId(Blocks.SAND.defaultBlockState()));
                             }
-                            System.out.println("big ones");
                         }
                     }
                 } else {

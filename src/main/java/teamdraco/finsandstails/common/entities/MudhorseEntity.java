@@ -27,6 +27,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
@@ -114,7 +115,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         this.level.broadcastEntityEvent(this, (byte) 4);
         boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
-            entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(0.0D, (double) 0.3F, 0.0D));
+            entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(0.0D, 0.3F, 0.0D));
             this.doEnchantDamageEffects(this, entityIn);
         }
 
@@ -165,17 +166,6 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         super.aiStep();
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void handleEntityEvent(byte id) {
-        if (id == 4) {
-            this.attackTimer = 10;
-            this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-        }
-        else {
-            super.handleEntityEvent(id);
-        }
-    }
-
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
@@ -217,7 +207,13 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (event.isMoving()) {
+        double x = getDeltaMovement().x();
+        boolean xGreaterThan = x > 0.005 || x < -0.005;
+        double z = getDeltaMovement().z();
+        boolean zGreaterThan = z > 0.005 || z < -0.005;
+        if (event.isMoving() || (isInWater() && (xGreaterThan || zGreaterThan))) {
+            System.out.println(xGreaterThan);
+            System.out.println(zGreaterThan);
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", true));
         }
         else if (isForaging()) {
@@ -232,6 +228,17 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     @Override
     public int tickTimer() {
         return tickCount;
+    }
+
+    @Override
+    public void travel(Vec3 p_21280_) {
+        super.travel(p_21280_);
+        if (isInWater()) {
+            setSpeed(0.2F);
+        }
+        if (isInWater() && getTarget() != null) {
+            setSpeed(0.5F);
+        }
     }
 
     private static class CommanderHurt extends TargetGoal {
