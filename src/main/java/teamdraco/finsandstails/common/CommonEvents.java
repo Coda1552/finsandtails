@@ -19,6 +19,7 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -30,18 +31,36 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import teamdraco.finsandstails.FTConfig;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.common.entities.PenglilEntity;
 import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
+import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 import teamdraco.finsandstails.registry.*;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
 
     @SubscribeEvent
     public static void livingDamage(LivingDamageEvent event) {
-        if (event.getEntityLiving().getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get()) {
-            if (event.getSource() == DamageSource.FALL) {
+        LivingEntity entity = event.getEntityLiving();
+        DamageSource source = event.getSource();
+
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get()) {
+            if (source == DamageSource.FALL) {
                 event.setAmount(event.getAmount() / 2f);
+            }
+        }
+
+        if (source.isProjectile() && source.getDirectEntity() instanceof TealArrowfishArrowEntity) {
+            List<PenglilEntity> penglils = entity.level.getEntitiesOfClass(PenglilEntity.class, entity.getBoundingBox().inflate(25));
+
+            for (PenglilEntity penglil : penglils) {
+
+                if (penglil.isTame() && !penglil.getOwner().equals(entity)) return;
+
+                penglil.setTarget(entity);
             }
         }
     }

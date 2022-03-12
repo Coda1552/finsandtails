@@ -209,6 +209,10 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
 
     @Override
     public void travel(Vec3 travelVector) {
+        if (this.isEffectiveAi() && !this.isInWater() && this.getTarget() != null) {
+            this.setSpeed(0.4F);
+        }
+
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
