@@ -200,7 +200,6 @@ public class CommonEvents {
         return LootTableReference.lootTableReference(location).setWeight(weight).setQuality(quality).build();
     }
 
-    // TODO - fix loot table injections
     private static void addEntry(LootPool pool, LootPoolEntryContainer entry) {
         LootPoolEntryContainer[] newEntries = new LootPoolEntryContainer[pool.entries.length + 1];
         System.arraycopy(pool.entries, 0, newEntries, 0, pool.entries.length);
@@ -208,15 +207,4 @@ public class CommonEvents {
 
         pool.entries = newEntries;
     }
-
-    // Thanks to WolfShotz for helping with the trade code
-/*    @SubscribeEvent
-    public static void addWandererTrades(WandererTradesEvent event) {
-        List<VillagerTrades.ItemListing> list = event.getGenericTrades();
-
-        list.add(new BasicItemListing(new ItemStack(Items.EMERALD, 3), new ItemStack(FTItems.HIGH_FINNED_BLUE_BUCKET.get(), 1), 3, 5, 1.5f));
-        list.add(new BasicItemListing(new ItemStack(Items.EMERALD, 3), new ItemStack(FTItems.PEA_WEE_BUCKET.get(), 1), 3, 5, 1.5f));
-        list.add(new BasicItemListing(new ItemStack(Items.EMERALD, 3), new ItemStack(FTItems.BLU_WEE_BUCKET.get(), 1), 3, 5, 1.5f));
-
-    }*/
 }
