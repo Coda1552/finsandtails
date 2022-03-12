@@ -19,7 +19,6 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
-import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -35,7 +34,10 @@ import teamdraco.finsandstails.common.entities.PenglilEntity;
 import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
-import teamdraco.finsandstails.registry.*;
+import teamdraco.finsandstails.registry.FTEnchantments;
+import teamdraco.finsandstails.registry.FTEntities;
+import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTTags;
 
 import java.util.List;
 
@@ -183,7 +185,7 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onLootLoad(LootTableLoadEvent event) throws IllegalAccessException {
+    public static void onLootLoad(LootTableLoadEvent event) {
         ResourceLocation name = event.getName();
         LootPool pool = event.getTable().getPool("main");
         if (name.equals(BuiltInLootTables.FISHING_FISH)) {
