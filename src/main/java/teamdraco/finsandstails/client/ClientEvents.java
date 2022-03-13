@@ -120,7 +120,7 @@ public class ClientEvents {
 
             if (chest.isEmpty()) return;
 
-            if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && !player.isCreative()) {
+            if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && !player.isCreative() && !player.isSpectator()) {
                 PoseStack poseStack = event.getMatrixStack();
 
                 float absorb = Mth.ceil(player.getAbsorptionAmount());
@@ -255,52 +255,4 @@ public class ClientEvents {
             }
         }
     }
-
-    private static int getHeartsToDisplay(Player player) {
-        float health = player.getHealth();
-
-        // less than or equal to 4 hearts
-        if (health <= 8) {
-            if (health > 7) {
-                return 8;
-            }
-            else if (health > 6) {
-                return 7;
-            }
-            else if (health > 5) {
-                return 6;
-            }
-            else if (health > 4) {
-                return 5;
-            }
-            else if (health > 3) {
-                return 4;
-            }
-            else if (health > 2) {
-                return 3;
-            }
-            else if (health > 1) {
-                return 2;
-            }
-            else {
-                return 1;
-            }
-        }
-        else {
-            return 8;
-        }
-    }
-
-/*    public int getU(boolean halfHeart, boolean blinking) {
-        int i;
-        if (this == CONTAINER) {
-            i = blinking ? 1 : 0;
-        } else {
-            int j = halfHeart ? 1 : 0;
-            int k = this.hasBlinkingTexture && blinking ? 2 : 0;
-            i = j + k;
-        }
-
-        return 16 + (this.textureIndex * 2 + i) * 9;
-    }*/
 }
