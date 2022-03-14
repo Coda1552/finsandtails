@@ -14,7 +14,6 @@ import teamdraco.finsandstails.registry.FTRecipes;
 
 import java.util.List;
 
-// TODO - fix items being voided when the container is closed and items are still in there
 public class CrabCruncherContainer extends ItemCombinerMenu {
     private final List<CrunchingRecipe> recipes;
     private final ContainerLevelAccess access;
