@@ -6,26 +6,20 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.boss.enderdragon.phases.DragonSittingAttackingPhase;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -46,6 +40,7 @@ import teamdraco.finsandstails.registry.FTItems;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
+    // TODO - make final
     private static ResourceLocation HEARTS_TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/icons.png");
 
     @SubscribeEvent
@@ -129,15 +124,6 @@ public class ClientEvents {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && !player.isCreative() && !player.isSpectator()) {
                 PoseStack poseStack = event.getMatrixStack();
 
-                float absorb = Mth.ceil(player.getAbsorptionAmount());
-                float maxHealth = (float) player.getAttribute(Attributes.MAX_HEALTH).getValue();
-
-                int left = event.getWindow().getGuiScaledWidth() / 2 - 91;
-                int top = event.getWindow().getGuiScaledHeight() - ((ForgeIngameGui) Minecraft.getInstance().gui).left_height;
-
-                int healthRows = Mth.ceil((maxHealth + absorb) / 2.0F / 10.0F);
-                int rowHeight = Math.max(10 - (healthRows - 2), 3);
-
                 poseStack.pushPose();
                 RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
@@ -145,9 +131,9 @@ public class ClientEvents {
                 RenderSystem.setShaderTexture(0, HEARTS_TEXTURE);
                 RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-                for (int i = 0; i < 4; i++) {
-                    renderPlayerHealth(poseStack, player);
-                }
+                renderPlayerHealth(poseStack, player);
+                player.setHealth(20);
+
                 RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
                 poseStack.popPose();
@@ -177,7 +163,8 @@ public class ClientEvents {
 
                 gui.lastHealth = i;
                 int k = gui.displayHealth;
-                player.getRandom().setSeed((gui.tickCount * 312871L));
+                gui.random.setSeed(21L);
+
                 int i1 = gui.screenWidth / 2 - 91;
                 int k1 = gui.screenHeight - 39;
                 float f = Math.max((float)player.getAttributeValue(Attributes.MAX_HEALTH), (float)Math.max(k, i));
@@ -185,51 +172,47 @@ public class ClientEvents {
                 int i2 = Mth.ceil((f + (float)l1) / 2.0F / 10.0F);
                 int j2 = Math.max(10 - (i2 - 2), 3);
                 int k2 = k1 - (i2 - 1);
-                int j3 = -1;
+                int regen = -1;
                 if (player.hasEffect(MobEffects.REGENERATION)) {
-                    j3 = gui.tickCount % Mth.ceil(f + 5.0F);
-                }
-
-                for(int k3 = 0; k3 < 4; ++k3) {
-                    int l3 = i1 + k3 * 8;
-                    gui.blit(stack, l3, k2, 34, 9, 9, 9);
-
-                    // last 2 unneeded?
-                    gui.blit(stack, l3, k2, 25, 9, 9, 9);
-
-                    gui.blit(stack, l3, k2, 16, 9, 9, 9);
+                    regen = gui.tickCount % Mth.ceil(f + 5.0F);
                 }
 
                 gui.minecraft.getProfiler().popPush("health");
-                renderHearts(stack, player, i1, k1, j2, j3, f, i, k, l1, flag);
+                renderHearts(stack, player, i1, k1, j2, regen, f, i, l1, flag);
             }
         }
 
-        public static void renderHearts(PoseStack stack, Player player, int p_168691_, int p_168692_, int p_168693_, int p_168694_, float p_168695_, int p_168696_, int p_168697_, int p_168698_, boolean p_168699_) {
+        public static void renderHearts(PoseStack stack, Player player, int p_168691_, int p_168692_, int p_168693_, int p_168694_, float p_168695_, int p_168696_, int p_168698_, boolean p_168699_) {
+            Gui gui = Minecraft.getInstance().gui;
             CharmType charm = CharmType.getCharm(player);
+
             int i = 9 * (player.level.getLevelData().isHardcore() ? 5 : 0);
             int j = Mth.ceil((double) p_168695_ / 2.0D);
             int k = Mth.ceil((double) p_168698_ / 2.0D);
 
-            for (int i1 = j + k - 1; i1 >= 0; --i1) {
+            for(int i1 = j + k - 1; i1 >= 0; --i1) {
                 int j1 = i1 / 10;
-                int k1 = i1 % 2;
+                int k1 = i1 % 10;
                 int l1 = p_168691_ + k1 * 8;
                 int i2 = p_168692_ - j1 * p_168693_;
-                if (p_168696_ + p_168698_ <= 4) {
-                    i2 += player.getRandom().nextInt(2);
-                }
 
+                // Check 1
+                //System.out.println("First check passed? " + (p_168696_ + p_168698_ <= 4 ? "Yes." : "No."));
+                if (p_168696_ + p_168698_ <= 4) {
+                    i2 += gui.random.nextInt(2);
+                }
+                //System.out.println("var1 = " + p_168696_);
+                //System.out.println("var2 = " + p_168698_);
+
+                // Check 2
+                //System.out.println("Second check passed? " + (i1 < j && i1 == p_168694_ ? "Yes." : "No."));
+                //System.out.println("i1: " + i1);
+                //System.out.println("p_168694_: " + p_168694_);
                 if (i1 < j && i1 == p_168694_) {
                     i2 -= 2;
                 }
 
-                int j2 = i1 * 2;
-
-                if (p_168699_ && j2 < p_168697_) {
-                    boolean flag2 = j2 + 1 == p_168697_;
-                    renderHeart(stack, charm, l1, i2, i, true, flag2);
-                }
+                renderHeart(stack, CharmType.RUBY, l1, i2, i, p_168699_, false); // last param is half heart or not
             }
         }
 
@@ -266,16 +249,16 @@ public class ClientEvents {
                 if (stack.is(FTItems.SPINDLY_RUBY_CHARM.get())) {
                     type = RUBY;
                 }
-                if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) {
+                else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) {
                     type = EMERALD;
                 }
-                if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) {
+                else  if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) {
                     type = AMBER;
                 }
-                if (stack.is(FTItems.SPINDLY_PEARL_CHARM.get())) {
+                else    if (stack.is(FTItems.SPINDLY_PEARL_CHARM.get())) {
                     type = PEARL;
                 }
-                if (stack.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) {
+                else    if (stack.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) {
                     type = SAPPHIRE;
                 }
                 else {
