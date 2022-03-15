@@ -55,6 +55,7 @@ public class CommonEvents {
             }
         }
 
+        // todo - fix penglils attacking their owners
         if (source.isProjectile() && source.getDirectEntity() instanceof TealArrowfishArrowEntity) {
             List<PenglilEntity> penglils = entity.level.getEntitiesOfClass(PenglilEntity.class, entity.getBoundingBox().inflate(25));
 
