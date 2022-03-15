@@ -36,13 +36,22 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.IAnimationTickable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 
-public class SpindlyGemCrabEntity extends AbstractFish {
+public class SpindlyGemCrabEntity extends AbstractFish implements IAnimationTickable, IAnimatable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(SpindlyGemCrabEntity.class, EntityDataSerializers.INT);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public SpindlyGemCrabEntity(EntityType<? extends SpindlyGemCrabEntity> type, Level world) {
         super(type, world);
@@ -156,6 +165,25 @@ public class SpindlyGemCrabEntity extends AbstractFish {
     public void tick() {
         super.tick();
         level.broadcastEntityEvent(this, (byte)38);
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    }
+
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 
     static class MoveHelperController extends MoveControl {
