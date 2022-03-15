@@ -19,7 +19,6 @@ public class PhantomNudibranchModel extends AnimatedGeoModel<PhantomNudibranchEn
 
     @Override
     public ResourceLocation getAnimationFileLocation(PhantomNudibranchEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/phantom_nudibranch.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/phantom_nudibranch.animations.json");
     }
 }

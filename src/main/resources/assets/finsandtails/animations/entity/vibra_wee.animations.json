@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.vibrawee.swim": {
+		"animation.vibra_wee.swim": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
@@ -40,7 +40,7 @@
 				}
 			}
 		},
-		"animation.vibrawee.idle": {
+		"animation.vibra_wee.idle": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
