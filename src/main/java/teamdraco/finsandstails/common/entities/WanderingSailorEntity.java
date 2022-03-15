@@ -86,7 +86,7 @@ public class WanderingSailorEntity extends AbstractVillager implements Merchant,
     @Override
     public InteractionResult mobInteract(Player p_230254_1_, InteractionHand p_230254_2_) {
         ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
-        if (itemstack.getItem() != FTItems.WANDERING_SAILOR_SPAWN_EGG.get() && this.isAlive() && !this.isTrading() && !this.isBaby()) {
+        if (/*itemstack.getItem() != FTItems.WANDERING_SAILOR_SPAWN_EGG.get() && */this.isAlive() && !this.isTrading() && !this.isBaby()) {
             if (p_230254_2_ == InteractionHand.MAIN_HAND) {
                 p_230254_1_.awardStat(Stats.TALKED_TO_VILLAGER);
             }
@@ -108,7 +108,7 @@ public class WanderingSailorEntity extends AbstractVillager implements Merchant,
 
     @Override
     public ItemStack getPickedResult(HitResult target) {
-        return new ItemStack(FTItems.WANDERING_SAILOR_SPAWN_EGG.get());
+        return /*new ItemStack(FTItems.WANDERING_SAILOR_SPAWN_EGG.get())*/ null;
     }
 
     @Override
