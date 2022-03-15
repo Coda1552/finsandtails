@@ -3,7 +3,11 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.model.provider.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.BluWeeEntity;
 import teamdraco.finsandstails.common.entities.PenglilEntity;
@@ -46,5 +50,17 @@ public class PenglilModel extends AnimatedGeoModel<PenglilEntity> {
     public ResourceLocation getAnimationFileLocation(PenglilEntity entity) {
         return null;
         //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+    }
+
+    @Override
+    public void setLivingAnimations(PenglilEntity entity, Integer uniqueID, @Nullable AnimationEvent customPredicate) {
+        super.setLivingAnimations(entity, uniqueID, customPredicate);
+        IBone body = this.getAnimationProcessor().getBone("body");
+        EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
+
+        if (entity.isInWater()) {
+            body.setRotationX(extraData.netHeadYaw * (float)Math.PI / 180F);
+            body.setRotationY(extraData.headPitch * (float)Math.PI / 180F);
+        }
     }
 }

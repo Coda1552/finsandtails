@@ -26,6 +26,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -151,7 +152,16 @@ public class GopjetEntity extends AbstractFish implements IAnimatable, IAnimatio
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        return PlayState.STOP;
+        if (isBoosting()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gopjet.boost", true));
+        }
+        else if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gopjet.swim", true));
+        }
+        else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gopjet.idle", true));
+        }
+        return PlayState.CONTINUE;
     }
 
     @Override

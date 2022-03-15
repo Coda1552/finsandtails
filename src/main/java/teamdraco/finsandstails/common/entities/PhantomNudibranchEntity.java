@@ -12,6 +12,7 @@ import net.minecraft.world.phys.HitResult;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -62,11 +63,18 @@ public class PhantomNudibranchEntity extends AbstractFish implements IAnimatable
         data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
     }
 
+
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.nudibranch.swim", true));
+        }
+        else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.nudibranch.idle", true));
+        }
         return PlayState.CONTINUE;
     }
 
-        @Override
+    @Override
     public AnimationFactory getFactory() {
         return factory;
     }
