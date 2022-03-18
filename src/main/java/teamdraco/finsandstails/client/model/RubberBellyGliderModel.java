@@ -6,11 +6,9 @@ import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
-import teamdraco.finsandstails.common.entities.WherbleEntity;
 
 public class RubberBellyGliderModel extends AnimatedGeoModel<RubberBellyGliderEntity> {
-    private static final ResourceLocation TEXTURE_NORMAL = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/rubber_belly_glider/normal.png");
-    private static final ResourceLocation TEXTURE_PUFFED = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/rubber_belly_glider/puffed.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/rubber_belly_glider.png");
 
     @Override
     public ResourceLocation getModelLocation(RubberBellyGliderEntity wee) {
@@ -19,13 +17,12 @@ public class RubberBellyGliderModel extends AnimatedGeoModel<RubberBellyGliderEn
 
     @Override
     public ResourceLocation getTextureLocation(RubberBellyGliderEntity wee) {
-        return wee.isPuffed() ? TEXTURE_PUFFED : TEXTURE_NORMAL;
+        return TEXTURE;
     }
 
     @Override
     public ResourceLocation getAnimationFileLocation(RubberBellyGliderEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/rubber_belly_glider.animations.json");
     }
 
     @Override

@@ -31,6 +31,7 @@ import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -258,6 +259,22 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (event.isMoving() && isInWater()) {
+            if (isPuffed()) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.swim_puffed", true));
+            }
+            else {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.swim", true));
+            }
+        }
+        else if (!event.isMoving() && isInWater()) {
+            if (isPuffed()) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.idle_puffed", true));
+            }
+            else {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.idle", true));
+            }
+        }
         return PlayState.CONTINUE;
     }
 
