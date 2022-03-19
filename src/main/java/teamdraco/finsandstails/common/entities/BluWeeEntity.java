@@ -81,12 +81,7 @@ public class BluWeeEntity extends AbstractSchoolingFish implements IAnimatable, 
     private boolean shouldSpawnPapaWee() {
         List<BluWeeEntity> weeList = this.level.getEntitiesOfClass(BluWeeEntity.class, this.getBoundingBox().inflate(8.0D));
         List<PapaWeeEntity> papaWeeList = this.level.getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
-        if (weeList.size() >= 10 && papaWeeList.isEmpty()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return weeList.size() >= 10 && papaWeeList.isEmpty();
     }
 
     @Override
