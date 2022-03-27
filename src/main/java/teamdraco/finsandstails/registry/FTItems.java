@@ -19,7 +19,6 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.items.*;
-import teamdraco.finsandstails.common.items.charms.*;
 
 import java.util.List;
 
@@ -102,11 +101,11 @@ public class FTItems {
     public static final RegistryObject<Item> SWAMP_DIDGERIDOO = ITEMS.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(64)));
     public static final RegistryObject<Item> EMPTY_CHARM = ITEMS.register("empty_charm", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> GEM_CRAB_AMULET = ITEMS.register("gem_crab_amulet", SpindlyGemCharm::new);
-    public static final RegistryObject<Item> SPINDLY_PEARL_CHARM = ITEMS.register("spindly_pearl_charm", SpindlyPearlCharm::new);
-    public static final RegistryObject<Item> SPINDLY_RUBY_CHARM = ITEMS.register("spindly_ruby_charm", SpindlyRubyCharm::new);
-    public static final RegistryObject<Item> SPINDLY_AMBER_CHARM = ITEMS.register("spindly_amber_charm", SpindlyAmberCharm::new);
-    public static final RegistryObject<Item> SPINDLY_SAPPHIRE_CHARM = ITEMS.register("spindly_sapphire_charm", SpindlySapphireCharm::new);
-    public static final RegistryObject<Item> SPINDLY_EMERALD_CHARM = ITEMS.register("spindly_emerald_charm", SpindlyEmeraldCharm::new);
+    public static final RegistryObject<Item> SPINDLY_PEARL_CHARM = ITEMS.register("spindly_pearl_charm", () -> new SpindlyCharmItem("pearl", MobEffects.REGENERATION));
+    public static final RegistryObject<Item> SPINDLY_RUBY_CHARM = ITEMS.register("spindly_ruby_charm", () -> new SpindlyCharmItem("ruby", MobEffects.FIRE_RESISTANCE));
+    public static final RegistryObject<Item> SPINDLY_AMBER_CHARM = ITEMS.register("spindly_amber_charm", () -> new SpindlyCharmItem("amber", MobEffects.MOVEMENT_SPEED));
+    public static final RegistryObject<Item> SPINDLY_SAPPHIRE_CHARM = ITEMS.register("spindly_sapphire_charm", () -> new SpindlyCharmItem("sapphire", MobEffects.WATER_BREATHING));
+    public static final RegistryObject<Item> SPINDLY_EMERALD_CHARM = ITEMS.register("spindly_emerald_charm", () -> new SpindlyCharmItem("emerald", MobEffects.DAMAGE_BOOST));
 
     //Buckets
     public static final RegistryObject<Item> BLU_WEE_BUCKET = ITEMS.register("blu_wee_bucket", () -> new MobBucketItem(FTEntities.BLU_WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));

@@ -26,13 +26,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.client.model.armor.*;
 import teamdraco.finsandstails.client.render.*;
-import teamdraco.finsandstails.client.render.armor.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 import teamdraco.finsandstails.common.items.GopjetJetpackItem;
-import teamdraco.finsandstails.common.items.charms.*;
+import teamdraco.finsandstails.common.items.SpindlyCharmItem;
+import teamdraco.finsandstails.common.items.SpindlyGemCharm;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTContainers;
@@ -76,14 +77,10 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void registerArmorRenders(EntityRenderersEvent.AddLayers event) {
-        GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, new FwingedBootsRenderer());
-        GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, new GopjetJetpackRenderer());
-        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharm.class, new SpindlyGemRenderer());
-        GeoArmorRenderer.registerArmorRenderer(SpindlyAmberCharm.class, new SpindlyAmberRenderer());
-        GeoArmorRenderer.registerArmorRenderer(SpindlyEmeraldCharm.class, new SpindlyEmeraldRenderer());
-        GeoArmorRenderer.registerArmorRenderer(SpindlyPearlCharm.class, new SpindlyPearlRenderer());
-        GeoArmorRenderer.registerArmorRenderer(SpindlyRubyCharm.class, new SpindlyRubyRenderer());
-        GeoArmorRenderer.registerArmorRenderer(SpindlySapphireCharm.class, new SpindlySapphireRenderer());
+        GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, new ArmorItemRenderer<>(new FwingedBootsModel()));
+        GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, new ArmorItemRenderer<>(new GopjetJetpackModel()));
+        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharm.class, new ArmorItemRenderer<>(new SpindlyGemModel()));
+        GeoArmorRenderer.registerArmorRenderer(SpindlyCharmItem.class, new ArmorItemRenderer<>(new SpindlyCharmModel()));
     }
 
     @SubscribeEvent
@@ -129,6 +126,9 @@ public class ClientEvents {
             if (chest.isEmpty()) return;
 
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && !player.isCreative() && !player.isSpectator()) {
+                CharmType charm = CharmType.getCharm(player);
+                if (charm == null) return;
+
                 PoseStack poseStack = event.getMatrixStack();
 
                 poseStack.pushPose();
@@ -138,7 +138,7 @@ public class ClientEvents {
                 RenderSystem.setShaderTexture(0, HEARTS_TEXTURE);
                 RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-                renderPlayerHealth(poseStack, player);
+                renderPlayerHealth(poseStack, player, charm);
 
                 RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
@@ -146,7 +146,7 @@ public class ClientEvents {
             }
         }
 
-        private static void renderPlayerHealth(PoseStack stack, Player player) {
+        private static void renderPlayerHealth(PoseStack stack, Player player, CharmType charm) {
             Gui gui = Minecraft.getInstance().gui;
 
             if (player != null) {
@@ -182,13 +182,12 @@ public class ClientEvents {
                 }
 
                 gui.minecraft.getProfiler().popPush("health");
-                renderHearts(stack, player, x, y, rowHeight, regen, healthMax, health, absorption, highlight);
+                renderHearts(stack, charm, x, y, rowHeight, regen, healthMax, health, absorption, highlight);
             }
         }
 
-        public static void renderHearts(PoseStack stack, Player player, int x, int y, int rowHeight, int regen, float healthMax, int health, int absorption, boolean highlight) {
+        public static void renderHearts(PoseStack stack, CharmType charm, int x, int y, int rowHeight, int regen, float healthMax, int health, int absorption, boolean highlight) {
             Gui gui = Minecraft.getInstance().gui;
-            CharmType charm = CharmType.getCharm(player);
 
             int heartCount = Mth.ceil((double) healthMax / 2.0D);
             int absorptionHeartCount = Mth.ceil((double) absorption / 2.0D);
@@ -218,8 +217,8 @@ public class ClientEvents {
             }
         }
 
-        public static void renderHeart(PoseStack stack, CharmType type, int x, int y, boolean p_168706_, boolean halfHeart) {
-            Minecraft.getInstance().gui.blit(stack, x, y, type.getX(halfHeart, p_168706_), 0, 9, 9);
+        public static void renderHeart(PoseStack stack, CharmType type, int x, int y, boolean highlight, boolean halfHeart) {
+            Minecraft.getInstance().gui.blit(stack, x, y, type.getX(halfHeart, highlight), 0, 9, 9);
         }
 
         public enum CharmType {
@@ -227,27 +226,24 @@ public class ClientEvents {
             EMERALD,
             AMBER,
             PEARL,
-            SAPPHIRE,
-            NORMAL;
+            SAPPHIRE;
 
-            public int getX(boolean halfHeart, boolean p_168706_) {
-                int j = halfHeart ? 1 : 0;
-                int k = p_168706_ ? 2 : 0;
-                int i = j + k;
-
-                return ((ordinal() + 1) * 4 + i) * 9;
+            public int getX(boolean halfHeart, boolean highlight) {
+                // todo use highlight to change texture?
+                if (halfHeart) return ordinal() * 18 + 9;
+                return ordinal() * 18;
             }
 
             static CharmType getCharm(Player player) {
                 ItemStack stack = player.getItemBySlot(EquipmentSlot.CHEST);
 
                 if (stack.is(FTItems.SPINDLY_RUBY_CHARM.get())) return RUBY;
-                else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) return EMERALD;
+                else if (stack.is(FTItems.EMERALD_SPINDLY_GEM_CRAB.get())) return EMERALD;
                 else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) return AMBER;
                 else if (stack.is(FTItems.SPINDLY_PEARL_CHARM.get())) return PEARL;
                 else if (stack.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) return SAPPHIRE;
 
-                return NORMAL;
+                return null;
             }
         }
     }
