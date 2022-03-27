@@ -132,7 +132,6 @@ public class ClientEvents {
                 RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
                 renderPlayerHealth(poseStack, player);
-                player.setHealth(20);
 
                 RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
@@ -144,128 +143,104 @@ public class ClientEvents {
             Gui gui = Minecraft.getInstance().gui;
 
             if (player != null) {
-                int i = Mth.ceil(player.getHealth());
-                boolean flag = gui.healthBlinkTime > (long)gui.tickCount && (gui.healthBlinkTime - (long)gui.tickCount) / 3L % 2L == 1L;
-                long j = Util.getMillis();
-                if (i < gui.lastHealth && player.invulnerableTime > 0) {
-                    gui.lastHealthTime = j;
+                int health = Mth.ceil(player.getHealth());
+                boolean highlight = gui.healthBlinkTime > (long) gui.tickCount && (gui.healthBlinkTime - (long) gui.tickCount) / 3L % 2L == 1L;
+                if (health < gui.lastHealth && player.invulnerableTime > 0) {
+                    gui.lastHealthTime = Util.getMillis();
                     gui.healthBlinkTime = (gui.tickCount + 20);
-                } else if (i > gui.lastHealth && player.invulnerableTime > 0) {
-                    gui.lastHealthTime = j;
+                } else if (health > gui.lastHealth && player.invulnerableTime > 0) {
+                    gui.lastHealthTime = Util.getMillis();
                     gui.healthBlinkTime = gui.tickCount + 10;
                 }
 
-                if (j - gui.lastHealthTime > 1000L) {
-                    gui.lastHealth = i;
-                    gui.displayHealth = i;
-                    gui.lastHealthTime = j;
+                if (Util.getMillis() - gui.lastHealthTime > 1000L) {
+                    gui.displayHealth = health;
+                    gui.lastHealthTime = Util.getMillis();
                 }
 
-                gui.lastHealth = i;
-                int k = gui.displayHealth;
-                gui.random.setSeed(21L);
+                gui.lastHealth = health;
+                int healthLast = gui.displayHealth;
 
-                int i1 = gui.screenWidth / 2 - 91;
-                int k1 = gui.screenHeight - 39;
-                float f = Math.max((float)player.getAttributeValue(Attributes.MAX_HEALTH), (float)Math.max(k, i));
-                int l1 = Mth.ceil(player.getAbsorptionAmount());
-                int i2 = Mth.ceil((f + (float)l1) / 2.0F / 10.0F);
-                int j2 = Math.max(10 - (i2 - 2), 3);
-                int k2 = k1 - (i2 - 1);
+                int x = gui.screenWidth / 2 - 91;
+                int y = gui.screenHeight - 39;
+                float healthMax = Math.max((float) player.getAttributeValue(Attributes.MAX_HEALTH), (float) Math.max(healthLast, health));
+                int absorption = Mth.ceil(player.getAbsorptionAmount());
+                int healthRows = Mth.ceil((healthMax + (float) absorption) / 20.0F);
+                int rowHeight = Math.max(10 - (healthRows - 2), 3);
                 int regen = -1;
+
+                gui.random.setSeed(gui.tickCount * 312871L);
                 if (player.hasEffect(MobEffects.REGENERATION)) {
-                    regen = gui.tickCount % Mth.ceil(f + 5.0F);
+                    regen = gui.tickCount % Mth.ceil(healthMax + 5.0F);
                 }
 
                 gui.minecraft.getProfiler().popPush("health");
-                renderHearts(stack, player, i1, k1, j2, regen, f, i, l1, flag);
+                renderHearts(stack, player, x, y, rowHeight, regen, healthMax, health, absorption, highlight);
             }
         }
 
-        public static void renderHearts(PoseStack stack, Player player, int p_168691_, int p_168692_, int p_168693_, int p_168694_, float p_168695_, int p_168696_, int p_168698_, boolean p_168699_) {
+        public static void renderHearts(PoseStack stack, Player player, int x, int y, int rowHeight, int regen, float healthMax, int health, int absorption, boolean highlight) {
             Gui gui = Minecraft.getInstance().gui;
             CharmType charm = CharmType.getCharm(player);
 
-            int i = 9 * (player.level.getLevelData().isHardcore() ? 5 : 0);
-            int j = Mth.ceil((double) p_168695_ / 2.0D);
-            int k = Mth.ceil((double) p_168698_ / 2.0D);
+            int heartCount = Mth.ceil((double) healthMax / 2.0D);
+            int absorptionHeartCount = Mth.ceil((double) absorption / 2.0D);
 
-            for(int i1 = j + k - 1; i1 >= 0; --i1) {
-                int j1 = i1 / 10;
-                int k1 = i1 % 10;
-                int l1 = p_168691_ + k1 * 8;
-                int i2 = p_168692_ - j1 * p_168693_;
+            for (int heart = heartCount + absorptionHeartCount - 1; heart >= 0; --heart) {
+                int level = heart / 10;
+                int index = heart % 10;
+                int heartX = x + index * 8;
+                int heartY = y - level * rowHeight;
 
-                // Check 1
-                //System.out.println("First check passed? " + (p_168696_ + p_168698_ <= 4 ? "Yes." : "No."));
-                if (p_168696_ + p_168698_ <= 4) {
-                    i2 += gui.random.nextInt(2);
-                }
-                //System.out.println("var1 = " + p_168696_);
-                //System.out.println("var2 = " + p_168698_);
-
-                // Check 2
-                //System.out.println("Second check passed? " + (i1 < j && i1 == p_168694_ ? "Yes." : "No."));
-                //System.out.println("i1: " + i1);
-                //System.out.println("p_168694_: " + p_168694_);
-                if (i1 < j && i1 == p_168694_) {
-                    i2 -= 2;
+                if (health + absorption <= 4) {
+                    heartY += gui.random.nextInt(2);
                 }
 
-                renderHeart(stack, CharmType.RUBY, l1, i2, i, p_168699_, false); // last param is half heart or not
+                if (heart < heartCount && heart == regen) {
+                    heartY -= 2;
+                }
+
+                int halfHeartIndex = heart * 2;
+                if (highlight && halfHeartIndex < absorption) {
+                    renderHeart(stack, charm, heartX, heartY, true, halfHeartIndex + 1 == absorption);
+                }
+
+                if (halfHeartIndex < health) {
+                    renderHeart(stack, charm, heartX, heartY, false, halfHeartIndex + 1 == health);
+                }
             }
         }
 
-        public static void renderHeart(PoseStack p_168701_, CharmType type, int p_168703_, int p_168704_, int p_168705_, boolean p_168706_, boolean p_168707_) {
-            Minecraft.getInstance().gui.blit(p_168701_, p_168703_, p_168704_, type.getX(p_168707_, p_168706_), p_168705_, 9, 9);
+        public static void renderHeart(PoseStack stack, CharmType type, int x, int y, boolean p_168706_, boolean halfHeart) {
+            Minecraft.getInstance().gui.blit(stack, x, y, type.getX(halfHeart, p_168706_), 0, 9, 9);
         }
 
         public enum CharmType {
-            RUBY(2),
-            EMERALD(4),
-            AMBER(6),
-            PEARL(8),
-            SAPPHIRE(10),
-            NORMAL(12);
+            RUBY,
+            EMERALD,
+            AMBER,
+            PEARL,
+            SAPPHIRE,
+            NORMAL;
 
-            private final int index;
-
-            CharmType(int p_168729_) {
-                this.index = p_168729_;
-            }
-
-            public int getX(boolean p_168735_, boolean p_168736_) {
-                int j = p_168735_ ? 1 : 0;
-                int k = p_168736_ ? 2 : 0;
+            public int getX(boolean halfHeart, boolean p_168706_) {
+                int j = halfHeart ? 1 : 0;
+                int k = p_168706_ ? 2 : 0;
                 int i = j + k;
 
-                return (index * 2 + i) * 9;
+                return ((ordinal() + 1) * 4 + i) * 9;
             }
 
-            static CharmType getCharm(Player p_168733_) {
-                ItemStack stack = p_168733_.getItemBySlot(EquipmentSlot.CHEST);
-                CharmType type;
+            static CharmType getCharm(Player player) {
+                ItemStack stack = player.getItemBySlot(EquipmentSlot.CHEST);
 
-                if (stack.is(FTItems.SPINDLY_RUBY_CHARM.get())) {
-                    type = RUBY;
-                }
-                else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) {
-                    type = EMERALD;
-                }
-                else  if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) {
-                    type = AMBER;
-                }
-                else    if (stack.is(FTItems.SPINDLY_PEARL_CHARM.get())) {
-                    type = PEARL;
-                }
-                else    if (stack.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) {
-                    type = SAPPHIRE;
-                }
-                else {
-                    type = NORMAL;
-                }
+                if (stack.is(FTItems.SPINDLY_RUBY_CHARM.get())) return RUBY;
+                else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) return EMERALD;
+                else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) return AMBER;
+                else if (stack.is(FTItems.SPINDLY_PEARL_CHARM.get())) return PEARL;
+                else if (stack.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) return SAPPHIRE;
 
-                return type;
+                return NORMAL;
             }
         }
     }
