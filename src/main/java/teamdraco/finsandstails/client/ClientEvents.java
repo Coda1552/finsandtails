@@ -176,7 +176,7 @@ public class ClientEvents {
                 int rowHeight = Math.max(10 - (healthRows - 2), 3);
                 int regen = -1;
 
-                gui.random.setSeed(gui.tickCount * 312871L);
+                gui.random.setSeed(gui.tickCount * 312871);
                 if (player.hasEffect(MobEffects.REGENERATION)) {
                     regen = gui.tickCount % Mth.ceil(healthMax + 5.0F);
                 }
