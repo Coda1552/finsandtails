@@ -11,13 +11,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.item.GeoArmorItem;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.items.FinsArmorMaterial;
 
 import java.util.List;
 
-public class SpindlyEmeraldCharm extends ArmorItem {
+public class SpindlyEmeraldCharm extends GeoArmorItem implements IAnimatable {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":spindly_emerald_charm", 1, new int[]{1, 2, 3, 1}, 8, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public SpindlyEmeraldCharm() {
         super(MATERIAL, EquipmentSlot.CHEST, new Properties().tab(FinsAndTails.GROUP).durability(25).rarity(Rarity.UNCOMMON));
@@ -36,5 +41,13 @@ public class SpindlyEmeraldCharm extends ArmorItem {
             stack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(EquipmentSlot.CHEST));
             player.getCooldowns().addCooldown(this, 200);
         }
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {}
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
     }
 }

@@ -1,13 +1,13 @@
-package teamdraco.finsandstails.client.render;
+package teamdraco.finsandstails.client.render.armor;
 
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
-import teamdraco.finsandstails.client.model.GopjetJetpackModel;
-import teamdraco.finsandstails.common.items.GopjetJetpackItem;
+import teamdraco.finsandstails.client.model.armor.SpindlyRubyModel;
+import teamdraco.finsandstails.common.items.charms.SpindlyRubyCharm;
 
-public class GopjetJetpackRenderer extends GeoArmorRenderer<GopjetJetpackItem> {
+public class SpindlyRubyRenderer extends GeoArmorRenderer<SpindlyRubyCharm> {
 
-    public GopjetJetpackRenderer() {
-        super(new GopjetJetpackModel());
+    public SpindlyRubyRenderer() {
+        super(new SpindlyRubyModel());
 
         //These values are what each bone name is in blockbench. So if your head bone is named "bone545",
         // make sure to do this.headBone = "bone545";

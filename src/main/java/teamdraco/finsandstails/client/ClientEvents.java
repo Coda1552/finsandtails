@@ -27,11 +27,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.render.*;
+import teamdraco.finsandstails.client.render.armor.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 import teamdraco.finsandstails.common.items.GopjetJetpackItem;
-import teamdraco.finsandstails.common.items.charms.SpindlyGemCharm;
+import teamdraco.finsandstails.common.items.charms.*;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTContainers;
@@ -77,6 +78,12 @@ public class ClientEvents {
     public static void registerArmorRenders(EntityRenderersEvent.AddLayers event) {
         GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, new FwingedBootsRenderer());
         GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, new GopjetJetpackRenderer());
+        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharm.class, new SpindlyGemRenderer());
+        GeoArmorRenderer.registerArmorRenderer(SpindlyAmberCharm.class, new SpindlyAmberRenderer());
+        GeoArmorRenderer.registerArmorRenderer(SpindlyEmeraldCharm.class, new SpindlyEmeraldRenderer());
+        GeoArmorRenderer.registerArmorRenderer(SpindlyPearlCharm.class, new SpindlyPearlRenderer());
+        GeoArmorRenderer.registerArmorRenderer(SpindlyRubyCharm.class, new SpindlyRubyRenderer());
+        GeoArmorRenderer.registerArmorRenderer(SpindlySapphireCharm.class, new SpindlySapphireRenderer());
     }
 
     @SubscribeEvent

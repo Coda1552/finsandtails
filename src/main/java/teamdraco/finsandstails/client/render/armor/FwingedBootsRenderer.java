@@ -1,7 +1,7 @@
-package teamdraco.finsandstails.client.render;
+package teamdraco.finsandstails.client.render.armor;
 
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
-import teamdraco.finsandstails.client.model.FwingedBootsModel;
+import teamdraco.finsandstails.client.model.armor.FwingedBootsModel;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 
 public class FwingedBootsRenderer extends GeoArmorRenderer<FwingedBootsItem> {

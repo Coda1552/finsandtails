@@ -1,4 +1,4 @@
-package teamdraco.finsandstails.client.model;
+package teamdraco.finsandstails.client.model.armor;
 
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
