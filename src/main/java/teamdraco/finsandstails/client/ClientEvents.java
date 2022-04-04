@@ -151,6 +151,8 @@ public class ClientEvents {
 
             if (player != null) {
                 int health = Mth.ceil(player.getHealth());
+
+                health = Mth.clamp(health, 0, 8);
                 boolean highlight = gui.healthBlinkTime > (long) gui.tickCount && (gui.healthBlinkTime - (long) gui.tickCount) / 3L % 2L == 1L;
                 if (health < gui.lastHealth && player.invulnerableTime > 0) {
                     gui.lastHealthTime = Util.getMillis();
@@ -172,7 +174,7 @@ public class ClientEvents {
                 int y = gui.screenHeight - 39;
                 float healthMax = Math.max((float) player.getAttributeValue(Attributes.MAX_HEALTH), (float) Math.max(healthLast, health));
                 int absorption = Mth.ceil(player.getAbsorptionAmount());
-                int healthRows = Mth.ceil((healthMax + (float) absorption) / 20.0F);
+                int healthRows = Mth.ceil(healthMax / 20.0F);
                 int rowHeight = Math.max(10 - (healthRows - 2), 3);
                 int regen = -1;
 
@@ -238,7 +240,7 @@ public class ClientEvents {
                 ItemStack stack = player.getItemBySlot(EquipmentSlot.CHEST);
 
                 if (stack.is(FTItems.SPINDLY_RUBY_CHARM.get())) return RUBY;
-                else if (stack.is(FTItems.EMERALD_SPINDLY_GEM_CRAB.get())) return EMERALD;
+                else if (stack.is(FTItems.SPINDLY_EMERALD_CHARM.get())) return EMERALD;
                 else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) return AMBER;
                 else if (stack.is(FTItems.SPINDLY_PEARL_CHARM.get())) return PEARL;
                 else if (stack.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) return SAPPHIRE;
