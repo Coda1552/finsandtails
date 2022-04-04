@@ -20,11 +20,11 @@ import teamdraco.finsandstails.common.items.FinsArmorMaterial;
 
 import java.util.List;
 
-public class SpindlyGemCharm extends GeoArmorItem implements IAnimatable {
+public class SpindlyGemCharmItem extends GeoArmorItem implements IAnimatable {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gem_crab_amulet", 1, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, null);
     private final AnimationFactory factory = new AnimationFactory(this);
 
-    public SpindlyGemCharm() {
+    public SpindlyGemCharmItem() {
         super(MATERIAL, EquipmentSlot.CHEST, new Properties().tab(FinsAndTails.GROUP).durability(2).rarity(Rarity.RARE));
     }
 
@@ -36,7 +36,7 @@ public class SpindlyGemCharm extends GeoArmorItem implements IAnimatable {
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
-        if (player.isAlive() && isUsable(stack) && player.getHealth() <= 4.0F) {
+        if (player.isAlive() && isUsable(stack) && player.getHealth() <= 8.0F) {
             player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200, 0, false, false, true));
             player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0, false, false, true));
             player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 1200, 0, false, false, true));

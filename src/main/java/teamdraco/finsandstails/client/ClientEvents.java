@@ -33,7 +33,7 @@ import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 import teamdraco.finsandstails.common.items.GopjetJetpackItem;
 import teamdraco.finsandstails.common.items.SpindlyCharmItem;
-import teamdraco.finsandstails.common.items.SpindlyGemCharm;
+import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTContainers;
@@ -79,7 +79,7 @@ public class ClientEvents {
     public static void registerArmorRenders(EntityRenderersEvent.AddLayers event) {
         GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, new ArmorItemRenderer<>(new FwingedBootsModel()));
         GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, new ArmorItemRenderer<>(new GopjetJetpackModel()));
-        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharm.class, new ArmorItemRenderer<>(new SpindlyGemModel()));
+        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharmItem.class, new ArmorItemRenderer<>(new SpindlyGemModel()));
         GeoArmorRenderer.registerArmorRenderer(SpindlyCharmItem.class, new ArmorItemRenderer<>(new SpindlyCharmModel()));
     }
 
@@ -90,7 +90,7 @@ public class ClientEvents {
         MenuScreens.register(FTContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
         MenuScreens.register(FTContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
 
-        ItemProperties.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player, i) -> SpindlyGemCharm.isUsable(stack) ? 0.0F : 1.0F);
+        ItemProperties.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player, i) -> SpindlyGemCharmItem.isUsable(stack) ? 0.0F : 1.0F);
 
         FinsAndTails.CALLBACKS.forEach(Runnable::run);
         FinsAndTails.CALLBACKS.clear();
@@ -228,7 +228,8 @@ public class ClientEvents {
             EMERALD,
             AMBER,
             PEARL,
-            SAPPHIRE;
+            SAPPHIRE,
+            GEM;
 
             public int getX(boolean halfHeart, boolean highlight) {
                 // todo use highlight to change texture?
@@ -244,6 +245,7 @@ public class ClientEvents {
                 else if (stack.is(FTItems.SPINDLY_AMBER_CHARM.get())) return AMBER;
                 else if (stack.is(FTItems.SPINDLY_PEARL_CHARM.get())) return PEARL;
                 else if (stack.is(FTItems.SPINDLY_SAPPHIRE_CHARM.get())) return SAPPHIRE;
+                else if (stack.is(FTItems.GEM_CRAB_AMULET.get())) return GEM;
 
                 return null;
             }
