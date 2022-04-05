@@ -22,8 +22,7 @@ public class BluWeeModel extends AnimatedGeoModel<BluWeeEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(BluWeeEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animations.json");
     }
 
     @Override

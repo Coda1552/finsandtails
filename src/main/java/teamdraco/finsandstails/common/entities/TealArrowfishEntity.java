@@ -17,6 +17,7 @@ import net.minecraft.world.phys.HitResult;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -81,6 +82,12 @@ public class TealArrowfishEntity extends AbstractSchoolingFish implements IAnima
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.arrowfish.swim"));
+        }
+        else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.arrowfish.idle"));
+        }
         return PlayState.CONTINUE;
     }
 

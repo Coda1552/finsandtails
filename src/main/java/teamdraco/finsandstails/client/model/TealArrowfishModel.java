@@ -21,8 +21,7 @@ public class TealArrowfishModel extends AnimatedGeoModel<TealArrowfishEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(TealArrowfishEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/teal_arrowfish.animations.json");
     }
 
     @Override

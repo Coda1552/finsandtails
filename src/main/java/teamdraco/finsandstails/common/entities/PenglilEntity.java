@@ -21,6 +21,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -46,6 +47,7 @@ import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -66,6 +68,7 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
     public PenglilEntity(EntityType<? extends PenglilEntity> type, Level world) {
         super(type, world);
         this.moveControl = new MoveHelperController(this);
+        this.lookControl = new SmoothSwimmingLookControl(this, 45);
         this.maxUpStep = 1;
     }
 
@@ -316,6 +319,16 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (!isInWater()) {
+            if (event.isMoving()) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.walk", true));
+            } else {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.idle", true));
+            }
+        }
+        else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.swim", true));
+        }
         return PlayState.CONTINUE;
     }
 

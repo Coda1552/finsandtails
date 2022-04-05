@@ -48,19 +48,6 @@ public class PenglilModel extends AnimatedGeoModel<PenglilEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(PenglilEntity entity) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
-    }
-
-    @Override
-    public void setLivingAnimations(PenglilEntity entity, Integer uniqueID, @Nullable AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
-        EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
-
-        if (entity.isInWater()) {
-            body.setRotationX(extraData.netHeadYaw * (float)Math.PI / 180F);
-            body.setRotationY(extraData.headPitch * (float)Math.PI / 180F);
-        }
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/penglil.animations.json");
     }
 }
