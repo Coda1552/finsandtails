@@ -106,7 +106,13 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish implements IAnima
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        return PlayState.STOP;
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ornate_bugfish.swim", true));
+        }
+        else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ornate_bugfish.idle", true));
+        }
+        return PlayState.CONTINUE;
     }
 
     @Override

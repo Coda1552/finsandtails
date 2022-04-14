@@ -21,7 +21,7 @@ public class OrnateBugfishModel extends AnimatedGeoModel<OrnateBugfishEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(OrnateBugfishEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/ornate_bugfish.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/ornate_bugfish.animations.json");
     }
 
     @Override
