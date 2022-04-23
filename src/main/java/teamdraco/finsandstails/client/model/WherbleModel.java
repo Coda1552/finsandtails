@@ -33,8 +33,7 @@ public class WherbleModel extends AnimatedGeoModel<WherbleEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(WherbleEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wherble.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wherble.animations.json");
     }
 
     @Override

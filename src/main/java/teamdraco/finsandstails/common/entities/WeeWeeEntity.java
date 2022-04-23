@@ -105,10 +105,10 @@ public class WeeWeeEntity extends AbstractSchoolingFish implements IAnimatable, 
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wee.swim", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.weewee.swim", true));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wee.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.weewee.idle", true));
         }
         return PlayState.CONTINUE;
     }

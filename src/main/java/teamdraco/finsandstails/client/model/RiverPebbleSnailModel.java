@@ -33,8 +33,7 @@ public class RiverPebbleSnailModel extends AnimatedGeoModel<RiverPebbleSnailEnti
 
     @Override
     public ResourceLocation getAnimationFileLocation(RiverPebbleSnailEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/river_pebble_snail.animations.json");
     }
 
     @Override

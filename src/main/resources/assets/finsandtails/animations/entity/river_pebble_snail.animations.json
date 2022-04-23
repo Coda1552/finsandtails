@@ -1,0 +1,78 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.snail.walk": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"root": {
+					"position": {
+						"vector": [0, 0, "Math.cos(query.anim_time * 360) * 0.09"]
+					}
+				},
+				"shell": {
+					"rotation": {
+						"vector": ["Math.sin(query.anim_time * 360) * 2", 0, 0]
+					}
+				},
+				"stalks": {
+					"rotation": {
+						"vector": ["Math.cos(query.anim_time * 360) * 2", 0, 0]
+					}
+				},
+				"body": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.25": {
+							"vector": [0.9, 1, 1.075],
+							"easing": "linear"
+						},
+						"0.5": {
+							"vector": [1.05, 1, 0.95]
+						},
+						"0.75": {
+							"vector": [1.025, 1, 0.975],
+							"easing": "easeInOutQuad"
+						},
+						"1.0": {
+							"vector": [1, 1, 1]
+						},
+						"1.25": {
+							"vector": [0.9, 1, 1.075],
+							"easing": "linear"
+						},
+						"1.5": {
+							"vector": [1.05, 1, 0.95]
+						},
+						"1.75": {
+							"vector": [1.025, 1, 0.975],
+							"easing": "easeInOutQuad"
+						},
+						"2.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
+		},
+		"animation.snail.idle": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"shell": {
+					"rotation": {
+						"vector": ["Math.sin(query.anim_time * 360) * 1", 0, 0]
+					}
+				},
+				"stalks": {
+					"rotation": {
+						"vector": ["Math.cos(query.anim_time * 360) * 1", 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

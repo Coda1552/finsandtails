@@ -35,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -194,6 +195,12 @@ public class WherbleEntity extends Animal implements IAnimatable, IAnimationTick
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wherble.walk", true));
+        }
+        else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wherble.idle", true));
+        }
         return PlayState.CONTINUE;
     }
 

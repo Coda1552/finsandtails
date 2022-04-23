@@ -19,7 +19,6 @@ public class SwampMuckerModel extends AnimatedGeoModel<SwampMuckerEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(SwampMuckerEntity swampMucker) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/swamp_mucker.animations.json");
     }
 }

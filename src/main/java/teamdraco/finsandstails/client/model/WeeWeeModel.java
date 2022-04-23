@@ -22,13 +22,13 @@ public class WeeWeeModel extends AnimatedGeoModel<WeeWeeEntity> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(WeeWeeEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animations.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee_wee.animations.json");
     }
 
     @Override
     public void setLivingAnimations(WeeWeeEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
+        IBone body = this.getAnimationProcessor().getBone("root");
 
         if (!entity.isInWater()) {
             body.setRotationZ(1.5708f);
