@@ -203,7 +203,7 @@ public class RiverPebbleSnailEntity extends Animal implements IAnimatable, IAnim
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.swim", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.walk", true));
         }
         else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.idle", true));
