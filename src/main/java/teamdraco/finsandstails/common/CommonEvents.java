@@ -61,7 +61,7 @@ public class CommonEvents {
 
             for (PenglilEntity penglil : penglils) {
 
-                if (penglil.isTame() && !penglil.getOwner().equals(entity)) return;
+                if (penglil.isTame() && penglil.getOwner().equals(entity)) return;
 
                 penglil.setTarget(entity);
             }
