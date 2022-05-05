@@ -85,7 +85,7 @@ public class WhiteBullCrabEntity extends WaterAnimal implements IAnimatable, IAn
     @Override
     public void tick() {
         super.tick();
-        List<WhiteBullCrabEntity> list = level.getEntitiesOfClass(WhiteBullCrabEntity.class, getBoundingBox().inflate(30D));
+        List<WhiteBullCrabEntity> list = level.getEntitiesOfClass(WhiteBullCrabEntity.class, getBoundingBox().inflate(20D));
 
         if (list.size() >= 8) {
             for (WhiteBullCrabEntity crab : list) {
