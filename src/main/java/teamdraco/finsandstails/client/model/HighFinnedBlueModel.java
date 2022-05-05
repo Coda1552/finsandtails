@@ -22,8 +22,7 @@ public class HighFinnedBlueModel extends AnimatedGeoModel<HighFinnedBlueEntity> 
 
     @Override
     public ResourceLocation getAnimationFileLocation(HighFinnedBlueEntity entity) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/high_finned_blue.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/high_finned_blue.animations.json");
     }
 
     @Override
