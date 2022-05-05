@@ -60,11 +60,11 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, true));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(FTItems.SWAMP_MUCKER.get()), false));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(4, new MudhorseForageGoal(this));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -219,10 +219,10 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
 
     @Override
     public void travel(Vec3 p_21280_) {
-        super.travel(p_21280_);
         if (isInWater() && getTarget() != null) {
             setSpeed(1.5F);
         }
+        super.travel(p_21280_);
     }
 
     private static class CommanderHurt extends TargetGoal {
