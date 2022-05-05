@@ -28,7 +28,6 @@ public class GoldenRiverRayModel extends AnimatedGeoModel<GoldenRiverRayEntity> 
 
     @Override
     public ResourceLocation getAnimationFileLocation(GoldenRiverRayEntity entity) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/golden_river_ray.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/golden_river_ray.animations.json");
     }
 }
