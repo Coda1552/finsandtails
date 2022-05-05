@@ -47,7 +47,7 @@ public class SpindlyCharmItem extends GeoArmorItem implements IAnimatable {
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
-        if (player.isAlive() && player.getHealth() <= 4.0F && !player.getCooldowns().isOnCooldown(this)) {
+        if (player.isAlive() && player.getHealth() <= 8.0F && !player.getCooldowns().isOnCooldown(this)) {
             player.addEffect(new MobEffectInstance(effect, 100, 0, false, false, true));
             stack.hurtAndBreak(1, player, e -> e.broadcastBreakEvent(EquipmentSlot.CHEST));
             player.getCooldowns().addCooldown(this, 200);
