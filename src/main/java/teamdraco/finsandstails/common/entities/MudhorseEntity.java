@@ -50,7 +50,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     public static final EntityDataAccessor<Boolean> FORAGING = SynchedEntityData.defineId(MudhorseEntity.class, EntityDataSerializers.BOOLEAN);
     private final AnimationFactory factory = new AnimationFactory(this);
     private LivingEntity commander;
-    private int commanderSetTime;
+    public int commanderSetTime;
     private int attackTimer;
 
     public MudhorseEntity(EntityType<? extends MudhorseEntity> type, Level worldIn) {
@@ -199,6 +199,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+        data.addAnimationController(new AnimationController<>(this, "miscController", 0, this::miscPredicate));
     }
 
     @Override
@@ -207,13 +208,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        double x = getDeltaMovement().x();
-        boolean xGreaterThan = x > 0.005 || x < -0.005;
-        double z = getDeltaMovement().z();
-        boolean zGreaterThan = z > 0.005 || z < -0.005;
-        if (event.isMoving() || (isInWater() && (xGreaterThan || zGreaterThan))) {
-            //System.out.println(xGreaterThan);
-            //System.out.println(zGreaterThan);
+        if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", true));
         }
         else if (isForaging()) {
@@ -221,6 +216,13 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         }
         else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.idle", true));
+        }
+        return PlayState.CONTINUE;
+    }
+
+    private <E extends IAnimatable> PlayState miscPredicate(AnimationEvent<E> event) {
+        if (commanderSetTime > 0) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.entranced", true));
         }
         return PlayState.CONTINUE;
     }

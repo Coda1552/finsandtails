@@ -17,7 +17,7 @@ public class MudhorseModel extends AnimatedGeoModel<MudhorseEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(MudhorseEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/mudhorse.png");
+        return wee.commanderSetTime > 0 ? new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/mudhorse/entranced.png") : new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/mudhorse/mudhorse.png");
     }
 
     @Override
