@@ -1,6 +1,7 @@
 package teamdraco.finsandstails.common;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -12,17 +13,22 @@ import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -64,6 +70,22 @@ public class CommonEvents {
 
                 penglil.setTarget(entity);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerFished(ItemFishedEvent event) {
+        Player player = event.getPlayer();
+        InteractionHand hand = player.getUsedItemHand();
+
+        if (player.getItemInHand(hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND).is(FTTags.SPINDLY_GEM_CRABS)) {
+            List<ItemStack> drops = event.getDrops();
+
+            drops.clear();
+
+            List<ItemStack> items = player.getServer().getLootTables().get(BuiltInLootTables.FISHING_TREASURE).getRandomItems(new LootContext.Builder((ServerLevel) player.level).withRandom(player.getRandom()).create(LootContextParamSets.EMPTY));
+
+            drops.addAll(0, items);
         }
     }
 
