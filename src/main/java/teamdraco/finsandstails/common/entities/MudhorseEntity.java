@@ -212,8 +212,8 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         double z = getDeltaMovement().z();
         boolean zGreaterThan = z > 0.005 || z < -0.005;
         if (event.isMoving() || (isInWater() && (xGreaterThan || zGreaterThan))) {
-            System.out.println(xGreaterThan);
-            System.out.println(zGreaterThan);
+            //System.out.println(xGreaterThan);
+            //System.out.println(zGreaterThan);
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", true));
         }
         else if (isForaging()) {
