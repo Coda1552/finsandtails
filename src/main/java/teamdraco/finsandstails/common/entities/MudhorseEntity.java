@@ -77,7 +77,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30).add(Attributes.ATTACK_DAMAGE, 2).add(Attributes.MOVEMENT_SPEED, 0.2);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30).add(Attributes.ATTACK_DAMAGE, 2).add(Attributes.MOVEMENT_SPEED, 0.27);
     }
 
     public boolean isForaging() {
@@ -95,21 +95,6 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getEntity();
-
-            if (entity != null && !(entity instanceof AbstractArrow)) {
-                amount = (amount + 1.0F) / 2.0F;
-            }
-
-            return super.hurt(source, amount);
-        }
-    }
-
-    @Override
     public boolean doHurtTarget(Entity entityIn) {
         this.attackTimer = 10;
         this.level.broadcastEntityEvent(this, (byte) 4);
@@ -122,7 +107,7 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
         return flag;
     }
 
-        @Override
+    @Override
     public boolean isFood(ItemStack stack) {
         return stack.getItem() == FTItems.SWAMP_MUCKER.get();
     }
@@ -235,11 +220,8 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     @Override
     public void travel(Vec3 p_21280_) {
         super.travel(p_21280_);
-        if (isInWater()) {
-            setSpeed(0.2F);
-        }
         if (isInWater() && getTarget() != null) {
-            setSpeed(0.5F);
+            setSpeed(1.5F);
         }
     }
 

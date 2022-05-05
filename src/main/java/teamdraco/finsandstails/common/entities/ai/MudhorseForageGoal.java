@@ -28,7 +28,7 @@ public class MudhorseForageGoal extends Goal {
     @Override
     public boolean canUse() {
         BlockPos pos = this.mudhorse.blockPosition();
-        return this.level.getFluidState(pos).is(Fluids.WATER) && this.level.getBlockState(pos.below()).is(Blocks.SAND) ;
+        return this.level.getFluidState(pos).is(Fluids.WATER) && this.level.getBlockState(pos.below()).is(Blocks.SAND) && mudhorse.getTarget() == null;
     }
 
     @Override
