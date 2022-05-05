@@ -31,7 +31,7 @@ public class CrabGauntletItem extends Item {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return attributeModifiers;
+        return slot.equals(EquipmentSlot.MAINHAND) || slot.equals(EquipmentSlot.OFFHAND) ? attributeModifiers : getDefaultAttributeModifiers(slot);
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state) {
