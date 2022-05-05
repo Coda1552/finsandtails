@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -73,19 +74,22 @@ public class CommonEvents {
         }
     }
 
+    // todo - use global loot modifiers and remove this
     @SubscribeEvent
     public static void onPlayerFished(ItemFishedEvent event) {
         Player player = event.getPlayer();
-        InteractionHand hand = player.getUsedItemHand();
+        InteractionHand mainHand = InteractionHand.MAIN_HAND;
+        InteractionHand offHand = InteractionHand.OFF_HAND;
 
-        if (player.getItemInHand(hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND).is(FTTags.SPINDLY_GEM_CRABS)) {
+        if ((player.getItemInHand(mainHand).is(Items.FISHING_ROD) && player.getItemInHand(offHand).is(FTTags.SPINDLY_GEM_CRABS)) || (player.getItemInHand(offHand).is(Items.FISHING_ROD) && player.getItemInHand(mainHand).is(FTTags.SPINDLY_GEM_CRABS))) {
             List<ItemStack> drops = event.getDrops();
-
-            drops.clear();
-
             List<ItemStack> items = player.getServer().getLootTables().get(BuiltInLootTables.FISHING_TREASURE).getRandomItems(new LootContext.Builder((ServerLevel) player.level).withRandom(player.getRandom()).create(LootContextParamSets.EMPTY));
 
-            drops.addAll(0, items);
+            if (drops.get(0).getEntityRepresentation() instanceof ItemEntity entity) {
+                entity.setItem(items.get(0));
+                System.out.println(items.get(0));
+            }
+
         }
     }
 
