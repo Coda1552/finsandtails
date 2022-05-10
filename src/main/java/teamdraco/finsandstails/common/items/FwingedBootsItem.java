@@ -47,9 +47,9 @@ public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
     @Override
     public void onArmorTick(ItemStack stack, Level worldIn, Player player) {
         int j = EnchantmentHelper.getItemEnchantmentLevel(FTEnchantments.FLUKED_EDGE.get(), stack);
+
         if (EnchantmentHelper.getEnchantments(stack).containsKey(FTEnchantments.FLUKED_EDGE.get())) {
             if (j <= 0 || worldIn.getBlockState(player.blockPosition().below()).is(Blocks.WATER) && worldIn.getBlockState(player.blockPosition()).isAir() && player.getDeltaMovement().y > 0.25) {
-
                 if (j > 0) {
                     float f7 = player.yRot;
                     float f = player.xRot;
@@ -64,6 +64,7 @@ public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
                     if (j > 1) player.push((double) f1 / 3.5, (double) f2 / 2, (double) f3 / 3.5);
                     else player.push((double) f1 / 1.5, (double) f2 / 2, (double) f3 / 1.5);
                     player.startAutoSpinAttack(1);
+
                     if (player.isOnGround()) {
                         player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
                     }
