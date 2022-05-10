@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -32,8 +33,11 @@ import teamdraco.finsandstails.registry.FTEnchantments;
 
 public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":fwinged", 3, new int[]{1, 2, 3, 1}, 3, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(Items.LEATHER));
-    public static final Lazy<Multimap<Attribute, AttributeModifier>> SWIM_MODIFIER = Lazy.of(() -> ImmutableMultimap.of(ForgeMod.SWIM_SPEED.get(), new AttributeModifier("Swim modifier", 1.25, AttributeModifier.Operation.ADDITION)));
-    //public static final Lazy<Multimap<Attribute, AttributeModifier>> MOVEMENT_MODIFIER = Lazy.of(() -> ImmutableMultimap.of(Attributes.MOVEMENT_SPEED, new AttributeModifier("Movement modifier", 0.85, AttributeModifier.Operation.MULTIPLY_BASE)));
+    public static final Lazy<Multimap<Attribute, AttributeModifier>> MODIFIERS = Lazy.of(() ->
+            ImmutableMultimap.of(
+                    ForgeMod.SWIM_SPEED.get(), new AttributeModifier("Swim modifier", 1.25D, AttributeModifier.Operation.ADDITION),
+                    Attributes.MOVEMENT_SPEED, new AttributeModifier("Movement modifier", -0.15D, AttributeModifier.Operation.MULTIPLY_BASE)
+            ));
     private final AnimationFactory factory = new AnimationFactory(this);
 
     public FwingedBootsItem() {
@@ -42,13 +46,9 @@ public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
 
     @Override
     public void onArmorTick(ItemStack stack, Level worldIn, Player player) {
-        if (!player.isInWater()) {
-            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1, 0));
-        }
-
         int j = EnchantmentHelper.getItemEnchantmentLevel(FTEnchantments.FLUKED_EDGE.get(), stack);
         if (EnchantmentHelper.getEnchantments(stack).containsKey(FTEnchantments.FLUKED_EDGE.get())) {
-            if (j <= 0 || worldIn.getBlockState(player.blockPosition().below()).is(Blocks.WATER) && worldIn.getBlockState(player.blockPosition()).isAir() /*&& player.isSwimming()*/ && player.getDeltaMovement().y > 0.25) {
+            if (j <= 0 || worldIn.getBlockState(player.blockPosition().below()).is(Blocks.WATER) && worldIn.getBlockState(player.blockPosition()).isAir() && player.getDeltaMovement().y > 0.25) {
 
                 if (j > 0) {
                     float f7 = player.yRot;
@@ -65,8 +65,7 @@ public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
                     else player.push((double) f1 / 1.5, (double) f2 / 2, (double) f3 / 1.5);
                     player.startAutoSpinAttack(1);
                     if (player.isOnGround()) {
-                        float f6 = 1.1999999F;
-                        player.move(MoverType.SELF, new Vec3(0.0D, (double) 1.1999999F, 0.0D));
+                        player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
                     }
                 }
             }
@@ -75,7 +74,7 @@ public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.FEET ? SWIM_MODIFIER.get() : super.getAttributeModifiers(slot, stack);
+        return slot == EquipmentSlot.FEET ? MODIFIERS.get() : super.getAttributeModifiers(slot, stack);
     }
 
     @Override
