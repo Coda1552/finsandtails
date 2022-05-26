@@ -261,18 +261,28 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving() && isInWater()) {
             if (isPuffed()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.swim_puffed", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim_puffed", true));
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.swim", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim", true));
             }
         }
         else if (!event.isMoving() && isInWater()) {
             if (isPuffed()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.idle_puffed", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_puffed", true));
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_berry_glider.idle", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle", true));
+            }
+        }
+        else if (!isInWater()) {
+            boolean walking = !(event.getLimbSwingAmount() > -0.1F && event.getLimbSwingAmount() < 0.1F);
+            if (walking) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.walk", true));
+                event.getController().setAnimationSpeed(1.45F);
+            }
+            else {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_land", true));
             }
         }
         return PlayState.CONTINUE;

@@ -23,8 +23,7 @@ public class SiderolWhiskeredSnailModel extends AnimatedGeoModel<SiderolWhiskere
 
     @Override
     public ResourceLocation getAnimationFileLocation(SiderolWhiskeredSnailEntity wee) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/siderol_whiskered_snail.animations.json");
     }
 
     @Override
