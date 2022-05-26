@@ -50,10 +50,10 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
     private final AnimationFactory factory = new AnimationFactory(this);
     private int puffTimer;
     private static final Predicate<Entity> ENEMY_MATCHER = (entity) -> {
-        if (entity instanceof Player) {
-            return !((Player) entity).isCreative() && !entity.isSpectator();
+        if (entity instanceof Player player) {
+            return !player.isCreative() && !player.isSpectator();
         } else {
-            return entity instanceof OrnateBugfishEntity || isEntityPrey(entity);
+            return entity instanceof OrnateBugfishEntity;
         }
     };
 
