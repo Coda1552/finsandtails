@@ -18,6 +18,7 @@ import net.minecraft.world.phys.HitResult;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -85,7 +86,13 @@ public class FlatbackSuckerEntity extends AbstractFish implements IAnimatable, I
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        return PlayState.STOP;
+        boolean walking = !(event.getLimbSwingAmount() > -0.01F && event.getLimbSwingAmount() < 0.01F);
+        if (walking){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.flatbacksucker.swim", true));
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.flatbacksucker.idle", true));
+        }
+        return PlayState.CONTINUE;
     }
 
     @Override

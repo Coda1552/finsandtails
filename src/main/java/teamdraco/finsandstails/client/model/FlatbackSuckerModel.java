@@ -19,7 +19,6 @@ public class FlatbackSuckerModel extends AnimatedGeoModel<FlatbackSuckerEntity> 
 
     @Override
     public ResourceLocation getAnimationFileLocation(FlatbackSuckerEntity entity) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/flatback_sucker.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/flatback_sucker.animations.json");
     }
 }

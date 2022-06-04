@@ -12,7 +12,7 @@
 			},
 			"bones": [
 				{
-					"name": "body",
+					"name": "root",
 					"pivot": [0, 1, 0],
 					"cubes": [
 						{"origin": [-2, 0, -4.5], "size": [4, 2, 9], "uv": [0, 0]}
@@ -20,7 +20,7 @@
 				},
 				{
 					"name": "finBackLeft",
-					"parent": "body",
+					"parent": "root",
 					"pivot": [-2, 0.5, 3.5],
 					"cubes": [
 						{"origin": [-3, 0, 2.5], "size": [1, 1, 2], "uv": [0, 16], "mirror": true}
@@ -28,7 +28,7 @@
 				},
 				{
 					"name": "finFrontLeft",
-					"parent": "body",
+					"parent": "root",
 					"pivot": [-2, 0.5, -1.5],
 					"cubes": [
 						{"origin": [-4, 0, -3.5], "size": [2, 1, 4], "uv": [0, 11], "mirror": true}
@@ -36,7 +36,7 @@
 				},
 				{
 					"name": "whiskers",
-					"parent": "body",
+					"parent": "root",
 					"pivot": [0, 1, -4.5],
 					"cubes": [
 						{"origin": [-3, 1, -5.5], "size": [6, 0, 1], "uv": [16, 0]}
@@ -44,7 +44,7 @@
 				},
 				{
 					"name": "tail",
-					"parent": "body",
+					"parent": "root",
 					"pivot": [0, 0.5, 4.5],
 					"cubes": [
 						{"origin": [-1, 0, 4.5], "size": [2, 1, 2], "uv": [16, 16]}
@@ -60,7 +60,7 @@
 				},
 				{
 					"name": "finBackRight",
-					"parent": "body",
+					"parent": "root",
 					"pivot": [2, 0.5, 3.5],
 					"cubes": [
 						{"origin": [2, 0, 2.5], "size": [1, 1, 2], "uv": [0, 16]}
@@ -68,7 +68,7 @@
 				},
 				{
 					"name": "finFrontRight",
-					"parent": "body",
+					"parent": "root",
 					"pivot": [2, 0.5, -1.5],
 					"cubes": [
 						{"origin": [2, 0, -3.5], "size": [2, 1, 4], "uv": [0, 11]}
