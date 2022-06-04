@@ -28,13 +28,13 @@ public class FlatbackLeafSnailModel extends AnimatedGeoModel<FlatbackLeafSnailEn
     @Override
     public void setLivingAnimations(FlatbackLeafSnailEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
+        IBone body = this.getAnimationProcessor().getBone("root");
 
         if (entity.isBaby()) {
             body.setScaleX(0.5F);
             body.setScaleY(0.5F);
             body.setScaleZ(0.5F);
-            body.setPositionY(-1F);
+            body.setPositionY(-1.5F);
         }
     }
 }

@@ -40,12 +40,18 @@ public class RiverPebbleSnailModel extends AnimatedGeoModel<RiverPebbleSnailEnti
     public void setLivingAnimations(RiverPebbleSnailEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
+        IBone shell = this.getAnimationProcessor().getBone("shell");
 
         if (entity.isBaby()) {
             body.setScaleX(0.5F);
             body.setScaleY(0.5F);
             body.setScaleZ(0.5F);
             body.setPositionY(-1F);
+
+            shell.setScaleX(0.65F);
+            shell.setScaleY(0.65F);
+            shell.setScaleZ(0.65F);
+            shell.setPositionY(-0.25F);
         }
     }
 }
