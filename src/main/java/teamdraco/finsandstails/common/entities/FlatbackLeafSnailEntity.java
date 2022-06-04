@@ -141,12 +141,13 @@ public class FlatbackLeafSnailEntity extends Animal implements IAnimatable, IAni
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         boolean walking = !(event.getLimbSwingAmount() > -0.01F && event.getLimbSwingAmount() < 0.01F);
-        if (walking){
+        if (walking) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.walk", true));
-        }/* else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.idle", true));
-        }*/
-        return PlayState.CONTINUE;
+            return PlayState.CONTINUE;
+        } else {
+            //event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.idle", true));
+            return PlayState.STOP;
+        }
     }
 
     @Override
