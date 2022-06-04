@@ -22,8 +22,7 @@ public class FlatbackLeafSnailModel extends AnimatedGeoModel<FlatbackLeafSnailEn
 
     @Override
     public ResourceLocation getAnimationFileLocation(FlatbackLeafSnailEntity entity) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/flatback_leaf_snail.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/flatback_leaf_snail.animations.json");
     }
 
     @Override
