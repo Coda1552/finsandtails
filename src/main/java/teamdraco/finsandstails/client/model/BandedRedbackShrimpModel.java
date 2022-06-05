@@ -29,15 +29,15 @@ public class BandedRedbackShrimpModel extends AnimatedGeoModel<BandedRedbackShri
     @Override
     public void setLivingAnimations(BandedRedbackShrimpEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
+        IBone body = this.getAnimationProcessor().getBone("root");
         EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 
         if (!entity.isInWater()) {
             body.setRotationZ(1.5708f);
         }
         else {
-            body.setRotationX(extraData.netHeadYaw * (float)Math.PI / 180F);
-            body.setRotationY(extraData.headPitch * (float)Math.PI / 180F);
+            body.setRotationX(extraData.headPitch * (float)Math.PI / 180F);
+            body.setRotationY(extraData.netHeadYaw * (float)Math.PI / 180F);
         }
     }
 }
