@@ -210,10 +210,10 @@ public class NightLightSquidEntity extends AbstractSchoolingFish implements IAni
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animations.nightlight_squid.swim", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.nightlight_squid.swim", true));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animations.nightlight_squid.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.nightlight_squid.idle", true));
         }
         return PlayState.CONTINUE;
     }
