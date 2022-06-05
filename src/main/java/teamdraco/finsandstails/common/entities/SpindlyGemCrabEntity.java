@@ -178,9 +178,14 @@ public class SpindlyGemCrabEntity extends AbstractFish implements IAnimationTick
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        boolean walking = !(event.getLimbSwingAmount() > -0.01F && event.getLimbSwingAmount() < 0.01F);
+        if (walking){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.spindly_crab.swim", true));
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.spindly_crab.idle", true));
+        }
         return PlayState.CONTINUE;
     }
-
     @Override
     public int tickTimer() {
         return tickCount;

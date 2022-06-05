@@ -30,7 +30,6 @@ public class SpindlyGemCrabModel extends AnimatedGeoModel<SpindlyGemCrabEntity> 
 
     @Override
     public ResourceLocation getAnimationFileLocation(SpindlyGemCrabEntity wee) {
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/spindly_gem_crab.animations.json");
-        return null;
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/spindly_gem_crab.animations.json");
     }
 }
