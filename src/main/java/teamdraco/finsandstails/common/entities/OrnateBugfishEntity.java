@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
@@ -58,6 +59,14 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish implements IAnima
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PapaWeeEntity.class, 8.0F, 1.6D, 1.4D));
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, AbstractFish.class, 10, true, false, IS_PREY));
+    }
+
+    @Override
+    public void travel(Vec3 vec3) {
+        if (isInWater() && isEffectiveAi() && getTarget() != null) {
+            this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+        }
+        super.travel(vec3);
     }
 
     @Override
