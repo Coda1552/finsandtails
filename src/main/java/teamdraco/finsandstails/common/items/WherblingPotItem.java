@@ -85,7 +85,7 @@ public class WherblingPotItem extends FinsBucketItem {
     }
 
     private ItemStack getEmptyItem(ItemStack stack, Player player) {
-        if (entityTypeSupplier == FTEntities.FLATBACK_LEAF_SNAIL || entityTypeSupplier == FTEntities.SIDEROL_WHISKERED_SNAIL || entityTypeSupplier == FTEntities.RIVER_PEBBLE_SNAIL) {
+        if (entityTypeSupplier == FTEntities.WHERBLE) {
             return !player.isCreative() ? new ItemStack(Items.FLOWER_POT) : stack;
         }
         else {
