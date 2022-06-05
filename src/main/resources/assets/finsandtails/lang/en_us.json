@@ -208,6 +208,9 @@
   "finsandtails.wandering_sailor.death": "Wandering Sailor death",
   "finsandtails.wandering_sailor.yes": "Wandering Sailor agrees",
   "finsandtails.wandering_sailor.no": "Wandering Sailor disagrees",
+  "finsandtails.wherble.ambient": "Wherble chirps",
+  "finsandtails.wherble.hurt": "Wherble hurt",
+  "finsandtails.wherble.death": "Wherble dies",
 
   "entity.finsandtails.penglil.0": "Striped Cream",
   "entity.finsandtails.penglil.1": "Viridus",

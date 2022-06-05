@@ -3,6 +3,7 @@ package teamdraco.finsandstails.common.items;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -22,9 +24,11 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.ForgeEventFactory;
+import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
 import teamdraco.finsandstails.registry.FTEntities;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class WherblingPotItem extends FinsBucketItem {
@@ -66,6 +70,10 @@ public class WherblingPotItem extends FinsBucketItem {
                 return InteractionResultHolder.fail(itemstack);
             }
         }
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
     }
 
     private void placeEntity(ServerLevel worldIn, ItemStack stack, BlockPos pos) {
