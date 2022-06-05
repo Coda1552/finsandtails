@@ -62,7 +62,7 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish implements IAnima
 
     @Override
     public int getMaxSchoolSize() {
-        return 6;
+        return 5;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
