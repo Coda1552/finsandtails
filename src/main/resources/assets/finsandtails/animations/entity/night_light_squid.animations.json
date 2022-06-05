@@ -1,0 +1,73 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.nightlight_squid.idle": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"tentacles": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0) * 180) * -3", 0, 0]
+					}
+				},
+				"tentacleright": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0.4) * 180) * -1", 0, 0]
+					}
+				},
+				"tentacleleft": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0.2) * 180) * -3", 0, 0]
+					}
+				},
+				"finright": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0.2) * 180) * -3", 0, 0]
+					}
+				},
+				"finleft": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0) * 180) * -3", 0, 0]
+					}
+				}
+			}
+		},
+		"animation.nightlight_squid.swim": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"tentacles": {
+					"rotation": {
+						"vector": ["-15+Math.sin((query.anim_time + 0) * 180) * 3", 0, 0]
+					}
+				},
+				"tentacleright": {
+					"rotation": {
+						"vector": ["-15+Math.sin((query.anim_time + 0.4) * 180) * 1", 10, 0]
+					}
+				},
+				"tentacleleft": {
+					"rotation": {
+						"vector": ["-15+Math.sin((query.anim_time + 0.2) * 180) * 3", -10, 0]
+					}
+				},
+				"finright": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0.2) * 360) * 5", 0, "Math.sin((query.anim_time + 0.2) * 360) * 3"]
+					}
+				},
+				"finleft": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0.4) * 360) * 5", 0, "Math.sin((query.anim_time + 0.4) * 360) * 3"]
+					}
+				},
+				"body": {
+					"rotation": {
+						"vector": ["Math.sin((query.anim_time + 0.2) * 180) * -2", 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

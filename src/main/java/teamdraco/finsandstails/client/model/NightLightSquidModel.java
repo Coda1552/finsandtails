@@ -30,7 +30,6 @@ public class NightLightSquidModel extends AnimatedGeoModel<NightLightSquidEntity
 
     @Override
     public ResourceLocation getAnimationFileLocation(NightLightSquidEntity squid) {
-        return null;
-        //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/squid.animation.json");
+        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/night_light_squid.animations.json");
     }
 }

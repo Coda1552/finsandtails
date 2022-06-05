@@ -51,7 +51,7 @@
 					"parent": "body",
 					"pivot": [0, 2, 3.5],
 					"cubes": [
-						{"origin": [0, 2, -0.5], "size": [4, 0, 7], "uv": [15, 0], "mirror": true}
+						{"origin": [0, 2, -0.5], "size": [4, 0, 7], "uv": [15, 0]}
 					]
 				},
 				{
@@ -59,7 +59,7 @@
 					"parent": "body",
 					"pivot": [0, 2, 3.5],
 					"cubes": [
-						{"origin": [-4, 2, -0.5], "size": [4, 0, 7], "uv": [15, 0]}
+						{"origin": [-4, 2, -0.5], "size": [4, 0, 7], "uv": [15, 0], "mirror": true}
 					]
 				}
 			]
