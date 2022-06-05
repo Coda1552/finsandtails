@@ -39,7 +39,7 @@ public class WherbleModel extends AnimatedGeoModel<WherbleEntity> {
     @Override
     public void setLivingAnimations(WherbleEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
+        IBone body = this.getAnimationProcessor().getBone("root");
 
         if (entity.isBaby()) {
             body.setScaleX(0.5F);
