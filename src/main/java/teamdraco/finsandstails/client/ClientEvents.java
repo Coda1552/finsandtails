@@ -77,10 +77,10 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void registerArmorRenders(EntityRenderersEvent.AddLayers event) {
-        GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, new ArmorItemRenderer<>(new FwingedBootsModel()));
-        GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, new ArmorItemRenderer<>(new GopjetJetpackModel()));
-        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharmItem.class, new ArmorItemRenderer<>(new SpindlyGemModel()));
-        GeoArmorRenderer.registerArmorRenderer(SpindlyCharmItem.class, new ArmorItemRenderer<>(new SpindlyCharmModel()));
+        GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, () -> new ArmorItemRenderer<>(new FwingedBootsModel()));
+        GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, () -> new ArmorItemRenderer<>(new GopjetJetpackModel()));
+        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharmItem.class, () -> new ArmorItemRenderer<>(new SpindlyGemModel()));
+        GeoArmorRenderer.registerArmorRenderer(SpindlyCharmItem.class, () -> new ArmorItemRenderer<>(new SpindlyCharmModel()));
     }
 
     @SubscribeEvent
