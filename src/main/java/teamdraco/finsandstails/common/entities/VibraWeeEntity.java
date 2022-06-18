@@ -8,12 +8,14 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.FollowFlockLeaderGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -31,7 +33,9 @@ import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(VibraWeeEntity.class, EntityDataSerializers.INT);
@@ -44,11 +48,32 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6, 1.0D, 1.5D));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(1, new WeeHurtByEntityGoal(this));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, EntitySelector.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6, 1.0D, 1.5D));
+        this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 40));
+        this.goalSelector.addGoal(3, new FollowFlockLeaderGoal(this) {
+
+            /*@Override
+            public void tick() {
+                super.tick();
+
+                int i = getVariant();
+                List<VibraWeeEntity> nearbyWees = level.getEntitiesOfClass(VibraWeeEntity.class, getBoundingBox().inflate(25));
+                List<VibraWeeEntity> sameVariantWees = new java.util.ArrayList<>(Collections.emptyList());
+
+                for (VibraWeeEntity wee : nearbyWees) {
+                    if (mob.canBeFollowed() && wee.isFollower() && wee.getVariant() == i) {
+                        sameVariantWees.add(wee);
+                        mob.addFollowers(sameVariantWees.stream());
+                    }
+                }
+            }*/
+        });
     }
+
+
 
     @Override
     public int getMaxSchoolSize() {
