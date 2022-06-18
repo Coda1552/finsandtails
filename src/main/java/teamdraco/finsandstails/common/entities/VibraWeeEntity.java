@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+// todo - fix schooling crash
 public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(VibraWeeEntity.class, EntityDataSerializers.INT);
     private final AnimationFactory factory = new AnimationFactory(this);
@@ -72,8 +73,6 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable
             }*/
         });
     }
-
-
 
     @Override
     public int getMaxSchoolSize() {
