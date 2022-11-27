@@ -5,14 +5,14 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 
-public class SmoothWalkingAndSwimWaterMoveControl extends MoveControl {
+public class SmoothWalkGroundAndSwimMoveControl extends MoveControl {
 	private final int maxTurnX;
 	private final int maxTurnY;
 	private final float inWaterSpeedModifier;
 	private final float groundSpeedModifier;
 	private final boolean applyGravity;
 
-	public SmoothWalkingAndSwimWaterMoveControl(Mob p_148070_, int p_148071_, int p_148072_, float p_148073_, float p_148074_, boolean p_148075_) {
+	public SmoothWalkGroundAndSwimMoveControl(Mob p_148070_, int p_148071_, int p_148072_, float p_148073_, float p_148074_, boolean p_148075_) {
 		super(p_148070_);
 		this.maxTurnX = p_148071_;
 		this.maxTurnY = p_148072_;

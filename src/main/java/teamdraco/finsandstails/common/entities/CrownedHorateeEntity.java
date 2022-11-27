@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
@@ -53,7 +52,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.ai.CrownedHorateeNavigator;
 import teamdraco.finsandstails.common.entities.ai.SwimWithoutGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.WalkWithGroundGoal;
-import teamdraco.finsandstails.common.entities.ai.control.SmoothWalkingAndSwimWaterMoveControl;
+import teamdraco.finsandstails.common.entities.ai.control.SmoothWalkGroundAndSwimMoveControl;
 import teamdraco.finsandstails.registry.FTEntities;
 
 import java.util.EnumSet;
@@ -67,7 +66,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	public CrownedHorateeEntity(EntityType<? extends CrownedHorateeEntity> p_27523_, Level p_27524_) {
 		super(p_27523_, p_27524_);
-		this.moveControl = new SmoothWalkingAndSwimWaterMoveControl(this, 85, 10, 0.1F, 1.0F, false);
+		this.moveControl = new SmoothWalkGroundAndSwimMoveControl(this, 85, 10, 0.5F, 1.0F, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 		this.setCanPickUpLoot(true);
 		this.maxUpStep = 1.0F;
@@ -151,9 +150,6 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	}
 
 	public float getWalkTargetValue(BlockPos p_30159_, LevelReader p_30160_) {
-		if (p_30160_.getFluidState(p_30159_).is(FluidTags.WATER)) {
-			return 10.0F + p_30160_.getBrightness(p_30159_) - 0.5F;
-		}
 		return CrownedHorateeEntity.onSandOrGravel(p_30160_, p_30159_) ? 10.0F + p_30160_.getBrightness(p_30159_) - 0.5F : p_30160_.getBrightness(p_30159_) - 0.5F;
 	}
 
@@ -172,11 +168,11 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	public void travel(Vec3 p_27490_) {
 		if (this.isEffectiveAi() && this.isInWater() && !this.isOnGround()) {
-			this.moveRelative(0.01F, p_27490_);
+			this.moveRelative(0.05F, p_27490_);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
 			if (this.getTarget() == null) {
-				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.0075D, 0.0D));
+				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.006D, 0.0D));
 			}
 		} else {
 			super.travel(p_27490_);
@@ -244,7 +240,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.swim", true));
 				}
 			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", true));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.crawl", true));
 			}
 		} else {
 			if (this.isInWater()) {
