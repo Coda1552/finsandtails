@@ -38,10 +38,40 @@ import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipeType;
-import teamdraco.finsandstails.common.entities.*;
-import teamdraco.finsandstails.registry.*;
+import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
+import teamdraco.finsandstails.common.entities.BluWeeEntity;
+import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
+import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
+import teamdraco.finsandstails.common.entities.FlatbackSuckerEntity;
+import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
+import teamdraco.finsandstails.common.entities.GopjetEntity;
+import teamdraco.finsandstails.common.entities.HighFinnedBlueEntity;
+import teamdraco.finsandstails.common.entities.MudhorseEntity;
+import teamdraco.finsandstails.common.entities.NightLightSquidEntity;
+import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
+import teamdraco.finsandstails.common.entities.PapaWeeEntity;
+import teamdraco.finsandstails.common.entities.PeaWeeEntity;
+import teamdraco.finsandstails.common.entities.PenglilEntity;
+import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
+import teamdraco.finsandstails.common.entities.RedBullCrabEntity;
+import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
+import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
+import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
+import teamdraco.finsandstails.common.entities.SpindlyGemCrabEntity;
+import teamdraco.finsandstails.common.entities.SwampMuckerEntity;
+import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
+import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
+import teamdraco.finsandstails.common.entities.WeeWeeEntity;
+import teamdraco.finsandstails.common.entities.WherbleEntity;
+import teamdraco.finsandstails.common.entities.WhiteBullCrabEntity;
 import teamdraco.finsandstails.network.INetworkPacket;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
+import teamdraco.finsandstails.registry.FTBlocks;
+import teamdraco.finsandstails.registry.FTContainers;
+import teamdraco.finsandstails.registry.FTEnchantments;
+import teamdraco.finsandstails.registry.FTEntities;
+import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +139,7 @@ public class FinsAndTails {
         SpawnPlacements.register(FTEntities.GOPJET.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFish::checkSurfaceWaterAnimalSpawnRules);
         SpawnPlacements.register(FTEntities.PAPA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFish::checkSurfaceWaterAnimalSpawnRules);
         SpawnPlacements.register(FTEntities.WHERBLE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WherbleEntity::checkWherbleSpawnRules);
+        SpawnPlacements.register(FTEntities.CROWNED_HORATTE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrownedHorateeEntity::checkCrownedSpawnRules);
 
         BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FTItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
     }
@@ -140,6 +171,7 @@ public class FinsAndTails {
         event.put(FTEntities.PAPA_WEE.get(), PapaWeeEntity.createAttributes().build());
         event.put(FTEntities.WHERBLE.get(), WherbleEntity.createAttributes().build());
         event.put(FTEntities.WANDERING_SAILOR.get(), WanderingSailorEntity.createAttributes().build());
+        event.put(FTEntities.CROWNED_HORATTE.get(), CrownedHorateeEntity.createAttributes().build());
         //event.put(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
     }
 

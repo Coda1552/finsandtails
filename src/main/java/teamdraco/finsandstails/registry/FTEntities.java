@@ -7,7 +7,33 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.entities.*;
+import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
+import teamdraco.finsandstails.common.entities.BluWeeEntity;
+import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
+import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
+import teamdraco.finsandstails.common.entities.FlatbackSuckerEntity;
+import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
+import teamdraco.finsandstails.common.entities.GopjetEntity;
+import teamdraco.finsandstails.common.entities.HighFinnedBlueEntity;
+import teamdraco.finsandstails.common.entities.MudhorseEntity;
+import teamdraco.finsandstails.common.entities.NightLightSquidEntity;
+import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
+import teamdraco.finsandstails.common.entities.PapaWeeEntity;
+import teamdraco.finsandstails.common.entities.PeaWeeEntity;
+import teamdraco.finsandstails.common.entities.PenglilEntity;
+import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
+import teamdraco.finsandstails.common.entities.RedBullCrabEntity;
+import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
+import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
+import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
+import teamdraco.finsandstails.common.entities.SpindlyGemCrabEntity;
+import teamdraco.finsandstails.common.entities.SwampMuckerEntity;
+import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
+import teamdraco.finsandstails.common.entities.VibraWeeEntity;
+import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
+import teamdraco.finsandstails.common.entities.WeeWeeEntity;
+import teamdraco.finsandstails.common.entities.WherbleEntity;
+import teamdraco.finsandstails.common.entities.WhiteBullCrabEntity;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 
 public class FTEntities {
@@ -41,6 +67,8 @@ public class FTEntities {
     public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, MobCategory.CREATURE).sized(0.6f, 0.4f));
     public static final RegistryObject<EntityType<WanderingSailorEntity>> WANDERING_SAILOR = create("wandering_sailor", EntityType.Builder.of(WanderingSailorEntity::new, MobCategory.CREATURE).sized(0.6f, 1.65f));
     //public static final RegistryObject<EntityType<GoliathGardenCrabEntity>> GOLIATH_GARDEN_CRAB = create("goliath_garden_crab", EntityType.Builder.of(GoliathGardenCrabEntity::new, MobCategory.WATER_AMBIENT).sized(3.5f, 2.5f));
+    public static final RegistryObject<EntityType<CrownedHorateeEntity>> CROWNED_HORATTE = create("crowned_horatee", EntityType.Builder.of(CrownedHorateeEntity::new, MobCategory.CREATURE).sized(0.8f, 0.6f));
+
 
     private static <T extends Entity> RegistryObject<EntityType<T>> create(String name, EntityType.Builder<T> builder) {
         return REGISTER.register(name, () -> builder.build(FinsAndTails.MOD_ID + "." + name));

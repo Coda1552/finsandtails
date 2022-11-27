@@ -7,7 +7,16 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BannerPatternItem;
+import net.minecraft.world.item.BowlFoodItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.material.Fluids;
@@ -18,7 +27,17 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.items.*;
+import teamdraco.finsandstails.common.items.CrabGauntletItem;
+import teamdraco.finsandstails.common.items.FinsBucketItem;
+import teamdraco.finsandstails.common.items.FwingedBootsItem;
+import teamdraco.finsandstails.common.items.GopjetJetpackItem;
+import teamdraco.finsandstails.common.items.MudhorsePouchItem;
+import teamdraco.finsandstails.common.items.PapaWeeItem;
+import teamdraco.finsandstails.common.items.SpindlyCharmItem;
+import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
+import teamdraco.finsandstails.common.items.SwampDidgeridooItem;
+import teamdraco.finsandstails.common.items.TealArrowfishItem;
+import teamdraco.finsandstails.common.items.WherblingPotItem;
 
 import java.util.List;
 
@@ -158,6 +177,8 @@ public class FTItems {
     public static final RegistryObject<Item> GOPJET_SPAWN_EGG = ITEMS.register("gopjet_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOPJET, 0xcfe0ff, 0x403c70, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> PAPA_WEE_SPAWN_EGG = ITEMS.register("papa_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PAPA_WEE, 0x8b5a3d, 0xebc454, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WHERBLE_SPAWN_EGG = ITEMS.register("wherble_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WHERBLE, 0xd5e2e9, 0x2684b4, new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> CROWNED_HORATEE_SPAWN_EGG = ITEMS.register("crowned_horatee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.CROWNED_HORATTE, 0xF7A53D, 0xB34B1B, new Item.Properties().tab(FinsAndTails.GROUP)));
+
     //public static final RegistryObject<Item> WANDERING_SAILOR_SPAWN_EGG = ITEMS.register("wandering_sailor_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WANDERING_SAILOR, 0x31a7cf, 0xd3904c, new Item.Properties().tab(FinsAndTails.GROUP)));
     //public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = ITEMS.register("goliath_garden_crab_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties().tab(FinsAndTails.GROUP)));
 
