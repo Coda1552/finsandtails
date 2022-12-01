@@ -83,7 +83,7 @@ public class FollowOwnerWaterMobGoal extends Goal {
 		if (--this.timeToRecalcPath <= 0) {
 			this.timeToRecalcPath = this.adjustedTickDelay(10);
 			if (!this.tamable.isLeashed() && !this.tamable.isPassenger()) {
-				if (this.tamable.distanceToSqr(this.owner) >= 144.0D) {
+				if (this.tamable.distanceToSqr(this.owner) >= 164.0D) {
 					this.teleportToOwner();
 				} else {
 					this.navigation.moveTo(this.owner, this.speedModifier);
@@ -122,7 +122,7 @@ public class FollowOwnerWaterMobGoal extends Goal {
 
 	private boolean canTeleportTo(BlockPos p_25308_) {
 		BlockPathTypes blockpathtypes = WalkNodeEvaluator.getBlockPathTypeStatic(this.level, p_25308_.mutable());
-		if (blockpathtypes != BlockPathTypes.WALKABLE && blockpathtypes != BlockPathTypes.WATER) {
+		if (blockpathtypes != BlockPathTypes.WATER) {
 			return false;
 		} else {
 			BlockState blockstate = this.level.getBlockState(p_25308_.below());
