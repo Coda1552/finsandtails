@@ -110,9 +110,14 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 		super.aiStep();
 		if (this.level.isClientSide()) {
 			if (this.isBubbleCharge()) {
-				for (int i = 0; i < 3; ++i) {
-					Vec3 vec3 = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
-					this.level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3.x, vec3.y + 0.05D, vec3.z);
+				if (this.getOwner() != null) {
+					this.level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, this.getOwner().getX() - this.getX(), this.getOwner().getEyeY() - this.getEyeY(), this.getOwner().getZ() - this.getZ());
+
+				} else {
+					for (int i = 0; i < 3; ++i) {
+						Vec3 vec3 = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
+						this.level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3.x, vec3.y + 0.05D, vec3.z);
+					}
 				}
 			}
 		}

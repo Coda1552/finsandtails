@@ -53,7 +53,6 @@ public class ShareTheBubbleGoal extends Goal {
 		this.timeToRecalcPath = 0;
 		this.oldWaterCost = this.tamable.getPathfindingMalus(BlockPathTypes.WATER);
 		this.tamable.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-		this.tamable.setBubbleCharge(true);
 	}
 
 	public void stop() {
@@ -73,6 +72,9 @@ public class ShareTheBubbleGoal extends Goal {
 
 			if (this.tamable.distanceToSqr(this.owner) <= 16.0D) {
 				this.owner.setAirSupply(this.owner.getAirSupply() + 20);
+				this.tamable.setBubbleCharge(true);
+			} else {
+				this.tamable.setBubbleCharge(false);
 			}
 		}
 	}
