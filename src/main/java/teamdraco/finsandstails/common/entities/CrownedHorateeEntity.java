@@ -1,10 +1,12 @@
 package teamdraco.finsandstails.common.entities;
 
+import com.google.common.collect.Lists;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,6 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +26,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -33,10 +35,9 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Ghast;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -61,24 +62,33 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import teamdraco.finsandstails.common.entities.ai.CrownedHorateeNavigator;
-import teamdraco.finsandstails.common.entities.ai.FollowOwnerWaterMobGoal;
 import teamdraco.finsandstails.common.entities.ai.ShareTheBubbleGoal;
-import teamdraco.finsandstails.common.entities.ai.SitEvenWaterWhenOrderedToGoal;
 import teamdraco.finsandstails.common.entities.ai.SwimWithoutGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.WalkWithGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.control.SmoothWalkGroundAndSwimMoveControl;
 import teamdraco.finsandstails.registry.FTEntities;
+import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 
-public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, IAnimationTickable, IHydrate {
+public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimationTickable, IHydrate {
 	private static final EntityDataAccessor<String> DATA_TYPE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<Boolean> HAS_BABY = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> BUBBLE_CHARGE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 
+	private static final EntityDataAccessor<Optional<UUID>> DATA_TRUSTED_ID_0 = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Optional<UUID>> DATA_TRUSTED_ID_1 = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+
+	private static final EntityDataAccessor<Integer> BUBBLE_TARGET = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.INT);
+
+
 	private final AnimationFactory factory = new AnimationFactory(this);
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.SEA_PICKLE);
+	private static final Ingredient TEMPT_ITEMS = Ingredient.of(FTItems.RED_BULL_CRAB_CLAW.get(), FTItems.WHITE_BULL_CRAB_CLAW.get());
 
 	public CrownedHorateeEntity(EntityType<? extends CrownedHorateeEntity> p_27523_, Level p_27524_) {
 		super(p_27523_, p_27524_);
@@ -105,24 +115,6 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 		return 1 + this.level.random.nextInt(3);
 	}
 
-	@Override
-	public void aiStep() {
-		super.aiStep();
-		if (this.level.isClientSide()) {
-			if (this.isBubbleCharge()) {
-				if (this.getOwner() != null) {
-					this.level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, this.getOwner().getX() - this.getX(), this.getOwner().getEyeY() - this.getEyeY(), this.getOwner().getZ() - this.getZ());
-
-				} else {
-					for (int i = 0; i < 3; ++i) {
-						Vec3 vec3 = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
-						this.level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3.x, vec3.y + 0.05D, vec3.z);
-					}
-				}
-			}
-		}
-	}
-
 	public void baseTick() {
 		int i = this.getAirSupply();
 		super.baseTick();
@@ -139,52 +131,60 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 
 	protected void registerGoals() {
 		super.registerGoals();
-		this.goalSelector.addGoal(0, new SitEvenWaterWhenOrderedToGoal(this));
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.15D, true));
 		this.goalSelector.addGoal(2, new CrownedBreedGoal(this, 1.0D));
 		this.goalSelector.addGoal(3, new LayBabyGoal(this, 1.0D));
-		this.goalSelector.addGoal(4, new TemptGoal(this, 0.85F, FOOD_ITEMS, false));
-		this.goalSelector.addGoal(5, new FollowOwnerWaterMobGoal(this, 1.0D, 10.0F, 5.0F, false) {
-			@Override
-			public boolean canUse() {
-				return getCommandType() == CommandType.FOLLOW && super.canUse();
-			}
-
-			@Override
-			public boolean canContinueToUse() {
-				return getCommandType() == CommandType.FOLLOW && super.canContinueToUse();
-			}
-		});
-		this.goalSelector.addGoal(6, new ShareTheBubbleGoal(this, 1.0D));
-
+		this.goalSelector.addGoal(4, new TemptGoal(this, 0.85F, TEMPT_ITEMS, false));
+		this.goalSelector.addGoal(6, new ShareTheBubbleGoal(this, 1.0D, 10));
 		this.goalSelector.addGoal(7, new GoToWaterGoal(this, 1.0F));
 		this.goalSelector.addGoal(8, new SwimWithoutGroundGoal(this));
 		this.goalSelector.addGoal(9, new WalkWithGroundGoal(this));
 		this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
-	}
-
-	@Override
-	public boolean isOrderedToSit() {
-		return this.getCommandType() == CrownedHorateeEntity.CommandType.SIT;
-	}
-
-	public void setOrderedToSit(boolean p_21840_) {
-		this.setCommandType(p_21840_ ? CrownedHorateeEntity.CommandType.SIT : CommandType.FOLLOW);
+		this.targetSelector.addGoal(1, new BabyTargetGoal<>(this, RedBullCrabEntity.class));
+		this.targetSelector.addGoal(1, new BabyTargetGoal<>(this, SpindlyGemCrabEntity.class));
+		this.targetSelector.addGoal(1, new BabyTargetGoal<>(this, WhiteBullCrabEntity.class));
 	}
 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(HAS_BABY, false);
 		this.entityData.define(BUBBLE_CHARGE, false);
-		this.entityData.define(DATA_TYPE, CommandType.WANDER.type);
+		this.entityData.define(DATA_TRUSTED_ID_0, Optional.empty());
+		this.entityData.define(DATA_TRUSTED_ID_1, Optional.empty());
+		this.entityData.define(BUBBLE_TARGET, 0);
 	}
 
-	public void setCommandType(CommandType p_28929_) {
-		this.entityData.set(DATA_TYPE, p_28929_.type);
+	public void setBubbleTarget(int p_32818_) {
+		this.entityData.set(BUBBLE_TARGET, p_32818_);
 	}
 
-	public CommandType getCommandType() {
-		return CommandType.byType(this.entityData.get(DATA_TYPE));
+	public boolean hasBubbleTarget() {
+		return this.entityData.get(BUBBLE_TARGET) != 0;
+	}
+
+	@javax.annotation.Nullable
+	public Entity getBubbleTarget() {
+		Entity entity = this.level.getEntity(this.entityData.get(BUBBLE_TARGET));
+		return entity;
+	}
+
+	public List<UUID> getTrustedUUIDs() {
+		List<UUID> list = Lists.newArrayList();
+		list.add(this.entityData.get(DATA_TRUSTED_ID_0).orElse((UUID) null));
+		list.add(this.entityData.get(DATA_TRUSTED_ID_1).orElse((UUID) null));
+		return list;
+	}
+
+	public void addTrustedUUID(@javax.annotation.Nullable UUID p_28516_) {
+		if (this.entityData.get(DATA_TRUSTED_ID_0).isPresent()) {
+			this.entityData.set(DATA_TRUSTED_ID_1, Optional.ofNullable(p_28516_));
+		} else {
+			this.entityData.set(DATA_TRUSTED_ID_0, Optional.ofNullable(p_28516_));
+		}
+	}
+
+	public boolean trusts(UUID p_28530_) {
+		return this.getTrustedUUIDs().contains(p_28530_);
 	}
 
 	public boolean hasBaby() {
@@ -204,6 +204,23 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 	}
 
 	@Override
+	public boolean canAttack(LivingEntity p_21171_) {
+		return !this.trusts(p_21171_.getUUID()) && super.canAttack(p_21171_);
+	}
+
+	@Override
+	public void aiStep() {
+		super.aiStep();
+		if (this.isBubbleCharge() && this.hasBubbleTarget()) {
+			if (this.getBubbleTarget() != null) {
+				for (int i = 0; i < 3; ++i) {
+					this.level.addParticle(ParticleTypes.BUBBLE, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, (this.getBubbleTarget().getX() - (this.getX() + this.getLookAngle().x / 2.0D)) * 0.95F, (this.getBubbleTarget().getEyeY() - this.getEyeY()) * 0.95F, (this.getBubbleTarget().getZ() - (this.getZ() + this.getLookAngle().z / 2.0D)) * 0.95F);
+				}
+			}
+		}
+	}
+
+	@Override
 	public boolean isFood(ItemStack p_27600_) {
 		return FOOD_ITEMS.test(p_27600_);
 	}
@@ -212,39 +229,18 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 		ItemStack itemstack = p_28153_.getItemInHand(p_28154_);
 		Item item = itemstack.getItem();
 		if (this.level.isClientSide) {
-			if (this.isTame() && this.isOwnedBy(p_28153_)) {
+			if (this.trusts(p_28153_.getUUID()) && this.isFood(itemstack)) {
 				return InteractionResult.SUCCESS;
 			} else {
-				return !this.isFood(itemstack) || !(this.getHealth() < this.getMaxHealth()) && this.isTame() ? InteractionResult.PASS : InteractionResult.SUCCESS;
+				return InteractionResult.PASS;
 			}
 		} else {
-			if (this.isTame()) {
-				if (this.isOwnedBy(p_28153_)) {
-					if (item.isEdible() && this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
-						this.usePlayerItem(p_28153_, p_28154_, itemstack);
-						this.heal(2);
-						return InteractionResult.CONSUME;
-					}
-
-					InteractionResult interactionresult = super.mobInteract(p_28153_, p_28154_);
-					if (!interactionresult.consumesAction() || this.isBaby()) {
-						int command = (getCommandType().ordinal() + 1) % 3;
-						this.setCommandType(CommandType.values()[command]);
-
-						p_28153_.displayClientMessage(new TextComponent(this.getCommandType().type), true);
-
-						return InteractionResult.SUCCESS;
-					}
-
-					return interactionresult;
-				}
-
+			if (this.trusts(p_28153_.getUUID()) && this.isFood(itemstack)) {
+				heal(2);
+				itemstack.shrink(1);
 			}
 
 			InteractionResult interactionresult1 = super.mobInteract(p_28153_, p_28154_);
-			if (interactionresult1.consumesAction()) {
-				this.setPersistenceRequired();
-			}
 
 			return interactionresult1;
 		}
@@ -254,14 +250,27 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 	public void addAdditionalSaveData(CompoundTag p_30176_) {
 		super.addAdditionalSaveData(p_30176_);
 		p_30176_.putBoolean("HasBaby", this.hasBaby());
-		p_30176_.putString("CommandType", this.getCommandType().type);
+		List<UUID> list = this.getTrustedUUIDs();
+		ListTag listtag = new ListTag();
+
+		for (UUID uuid : list) {
+			if (uuid != null) {
+				listtag.add(NbtUtils.createUUID(uuid));
+			}
+		}
+
+		p_30176_.put("Trusted", listtag);
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag p_30162_) {
 		super.readAdditionalSaveData(p_30162_);
 		this.setHasBaby(p_30162_.getBoolean("HasBaby"));
-		this.setCommandType(CommandType.byType(p_30162_.getString("CommandType")));
+		ListTag listtag = p_30162_.getList("Trusted", 11);
+
+		for (int i = 0; i < listtag.size(); ++i) {
+			this.addTrustedUUID(NbtUtils.loadUUID(listtag.get(i)));
+		}
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -390,32 +399,15 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 	@Override
 	public CrownedHorateeEntity getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
 		CrownedHorateeEntity crownedHoratee = FTEntities.CROWNED_HORATTE.get().create(p_146743_);
-		if (this.isTame()) {
-			crownedHoratee.setOwnerUUID(this.getOwnerUUID());
-			crownedHoratee.setTame(true);
-		}
 		return crownedHoratee;
+	}
+
+	protected void onOffspringSpawnedFromEgg(Player p_28481_, Mob p_28482_) {
+		((CrownedHorateeEntity) p_28482_).addTrustedUUID(p_28481_.getUUID());
 	}
 
 	public boolean canFallInLove() {
 		return super.canFallInLove() && !this.hasBaby();
-	}
-
-	public boolean wantsToAttack(LivingEntity p_30389_, LivingEntity p_30390_) {
-		if (!(p_30389_ instanceof Creeper) && !(p_30389_ instanceof Ghast)) {
-			if (p_30389_ instanceof CrownedHorateeEntity) {
-				CrownedHorateeEntity crowned = (CrownedHorateeEntity) p_30389_;
-				return !crowned.isTame() || crowned.getOwner() != p_30390_;
-			} else if (p_30389_ instanceof Player && p_30390_ instanceof Player && !((Player) p_30390_).canHarmPlayer((Player) p_30389_)) {
-				return false;
-			} else if (p_30389_ instanceof AbstractHorse && ((AbstractHorse) p_30389_).isTamed()) {
-				return false;
-			} else {
-				return !(p_30389_ instanceof TamableAnimal) || !((TamableAnimal) p_30389_).isTame();
-			}
-		} else {
-			return false;
-		}
 	}
 
 	static class CrownedBreedGoal extends BreedGoal {
@@ -486,7 +478,7 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 					ageablemob.setBaby(true);
 					ServerPlayer serverplayer = this.crownedHorateeEntity.getLoveCause();
 					if (serverplayer != null) {
-						ageablemob.tame(serverplayer);
+						ageablemob.addTrustedUUID(serverplayer.getUUID());
 					}
 					ageablemob.moveTo(this.crownedHorateeEntity.getX(), this.crownedHorateeEntity.getY(), this.crownedHorateeEntity.getZ(), 0.0F, 0.0F);
 					serverLevel.addFreshEntityWithPassengers(ageablemob);
@@ -562,25 +554,14 @@ public class CrownedHorateeEntity extends TamableAnimal implements IAnimatable, 
 		}
 	}
 
-	public enum CommandType {
-		WANDER("wander"),
-		SIT("sit"),
-		FOLLOW("follow");
+	static class BabyTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
 
-		final String type;
-
-		CommandType(String p_28967_) {
-			this.type = p_28967_;
+		public BabyTargetGoal(Mob p_26060_, Class<T> p_26061_) {
+			super(p_26060_, p_26061_, true);
 		}
 
-		static CommandType byType(String p_28977_) {
-			for (CommandType command : values()) {
-				if (command.type.equals(p_28977_)) {
-					return command;
-				}
-			}
-
-			return WANDER;
+		public boolean canUse() {
+			return !this.mob.isBaby() ? false : super.canUse();
 		}
 	}
 }

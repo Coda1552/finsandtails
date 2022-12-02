@@ -1,9 +1,10 @@
 package teamdraco.finsandstails.common.entities.ai;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
 
@@ -12,47 +13,50 @@ import java.util.EnumSet;
 public class ShareTheBubbleGoal extends Goal {
 	private final CrownedHorateeEntity tamable;
 	private LivingEntity owner;
-	private final LevelReader level;
+	private final Level level;
 	private final double speedModifier;
 	private int timeToRecalcPath;
 	private float oldWaterCost;
 
 	private final PathNavigation navigation;
+	private int randomInterval;
 
-	public ShareTheBubbleGoal(CrownedHorateeEntity p_25294_, double p_25295_) {
+	public ShareTheBubbleGoal(CrownedHorateeEntity p_25294_, double p_25295_, int randomInterval) {
 		this.tamable = p_25294_;
 		this.level = p_25294_.level;
 		this.speedModifier = p_25295_;
 		this.navigation = p_25294_.getNavigation();
+		this.randomInterval = randomInterval;
 		this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
 	}
 
 	public boolean canUse() {
-		LivingEntity livingentity = this.tamable.getOwner();
-		if (livingentity == null) {
-			return false;
-		} else if (livingentity.isSpectator()) {
-			return false;
-		} else if (this.tamable.isOrderedToSit()) {
+		if (this.randomInterval > 0 && this.tamable.getRandom().nextInt(this.randomInterval) != 0) {
 			return false;
 		} else {
-			this.owner = livingentity;
-			return this.owner.getAirSupply() <= 0;
+			for (Entity entity : this.level.getEntities(this.tamable, this.tamable.getBoundingBox().inflate(32D), Entity::isAlive)) {
+				if (entity instanceof LivingEntity) {
+					LivingEntity livingentity = (LivingEntity) entity;
+					if (livingentity.getAirSupply() <= 40 && this.tamable.getTarget() == null) {
+						this.owner = livingentity;
+						break;
+					}
+				}
+			}
+
 		}
+		return this.owner != null;
 	}
 
 	public boolean canContinueToUse() {
-		if (this.tamable.isOrderedToSit()) {
-			return false;
-		} else {
-			return this.owner.getAirSupply() <= this.owner.getMaxAirSupply();
-		}
+		return this.owner != null && this.owner.getAirSupply() <= (this.tamable.trusts(this.owner.getUUID()) ? this.owner.getMaxAirSupply() : 100);
 	}
 
 	public void start() {
 		this.timeToRecalcPath = 0;
 		this.oldWaterCost = this.tamable.getPathfindingMalus(BlockPathTypes.WATER);
 		this.tamable.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+		this.tamable.setBubbleTarget(this.owner.getId());
 	}
 
 	public void stop() {
@@ -60,6 +64,7 @@ public class ShareTheBubbleGoal extends Goal {
 		this.navigation.stop();
 		this.tamable.setPathfindingMalus(BlockPathTypes.WATER, this.oldWaterCost);
 		this.tamable.setBubbleCharge(false);
+		this.tamable.setBubbleTarget(0);
 	}
 
 	public void tick() {
@@ -71,7 +76,7 @@ public class ShareTheBubbleGoal extends Goal {
 			}
 
 			if (this.tamable.distanceToSqr(this.owner) <= 16.0D) {
-				this.owner.setAirSupply(this.owner.getAirSupply() + 20);
+				this.owner.setAirSupply(this.owner.getAirSupply() + (this.tamable.trusts(this.owner.getUUID()) ? 18 : 14));
 				this.tamable.setBubbleCharge(true);
 			} else {
 				this.tamable.setBubbleCharge(false);
