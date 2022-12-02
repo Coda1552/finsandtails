@@ -78,7 +78,7 @@ public class ShareTheBubbleGoal extends Goal {
 			}
 
 			if (this.tamable.distanceToSqr(this.owner) <= 16.0D) {
-				this.owner.setAirSupply(Mth.clamp(-20, this.owner.getAirSupply() + (this.tamable.trusts(this.owner.getUUID()) ? 20 : 5) + 2 * EnchantmentHelper.getRespiration(this.owner), this.owner.getMaxAirSupply()));
+				this.owner.setAirSupply(Mth.clamp(-20, this.owner.getAirSupply() + (this.tamable.trusts(this.owner.getUUID()) ? 20 : 8) + 2 * EnchantmentHelper.getRespiration(this.owner), this.owner.getMaxAirSupply()));
 				this.tamable.setBubbleCharge(true);
 			} else {
 				this.tamable.setBubbleCharge(false);
