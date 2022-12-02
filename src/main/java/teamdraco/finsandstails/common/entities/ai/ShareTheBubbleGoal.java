@@ -4,6 +4,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
@@ -76,7 +77,7 @@ public class ShareTheBubbleGoal extends Goal {
 			}
 
 			if (this.tamable.distanceToSqr(this.owner) <= 16.0D) {
-				this.owner.setAirSupply(this.owner.getAirSupply() + (this.tamable.trusts(this.owner.getUUID()) ? 18 : 14));
+				this.owner.setAirSupply(Math.max(this.owner.getMaxAirSupply(), this.owner.getAirSupply() + (this.tamable.trusts(this.owner.getUUID()) ? 20 : 10) + 2 * EnchantmentHelper.getRespiration(this.owner)));
 				this.tamable.setBubbleCharge(true);
 			} else {
 				this.tamable.setBubbleCharge(false);
