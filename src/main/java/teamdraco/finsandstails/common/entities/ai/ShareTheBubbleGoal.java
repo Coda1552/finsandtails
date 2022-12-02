@@ -1,5 +1,6 @@
 package teamdraco.finsandstails.common.entities.ai;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -38,7 +39,7 @@ public class ShareTheBubbleGoal extends Goal {
 			for (Entity entity : this.level.getEntities(this.tamable, this.tamable.getBoundingBox().inflate(32D), Entity::isAlive)) {
 				if (entity instanceof LivingEntity) {
 					LivingEntity livingentity = (LivingEntity) entity;
-					if (livingentity.getAirSupply() <= 50 && this.tamable.getTarget() == null && this.tamable.hasLineOfSight(livingentity)) {
+					if (livingentity.getAirSupply() <= 60 && this.tamable.getTarget() == null && this.tamable.hasLineOfSight(livingentity)) {
 						this.owner = livingentity;
 						break;
 					}
@@ -77,7 +78,7 @@ public class ShareTheBubbleGoal extends Goal {
 			}
 
 			if (this.tamable.distanceToSqr(this.owner) <= 16.0D) {
-				this.owner.setAirSupply(Math.max(this.owner.getMaxAirSupply(), this.owner.getAirSupply() + (this.tamable.trusts(this.owner.getUUID()) ? 20 : 10) + 2 * EnchantmentHelper.getRespiration(this.owner)));
+				this.owner.setAirSupply(Mth.clamp(-20, this.owner.getAirSupply() + (this.tamable.trusts(this.owner.getUUID()) ? 20 : 5) + 2 * EnchantmentHelper.getRespiration(this.owner), this.owner.getMaxAirSupply()));
 				this.tamable.setBubbleCharge(true);
 			} else {
 				this.tamable.setBubbleCharge(false);
