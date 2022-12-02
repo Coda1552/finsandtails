@@ -37,7 +37,7 @@ public class ShareTheBubbleGoal extends Goal {
 			for (Entity entity : this.level.getEntities(this.tamable, this.tamable.getBoundingBox().inflate(32D), Entity::isAlive)) {
 				if (entity instanceof LivingEntity) {
 					LivingEntity livingentity = (LivingEntity) entity;
-					if (livingentity.getAirSupply() <= 40 && this.tamable.getTarget() == null) {
+					if (livingentity.getAirSupply() <= 50 && this.tamable.getTarget() == null && this.tamable.hasLineOfSight(livingentity)) {
 						this.owner = livingentity;
 						break;
 					}
