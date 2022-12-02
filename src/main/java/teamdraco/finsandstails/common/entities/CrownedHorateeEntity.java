@@ -402,10 +402,6 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		return crownedHoratee;
 	}
 
-	protected void onOffspringSpawnedFromEgg(Player p_28481_, Mob p_28482_) {
-		((CrownedHorateeEntity) p_28482_).addTrustedUUID(p_28481_.getUUID());
-	}
-
 	public boolean canFallInLove() {
 		return super.canFallInLove() && !this.hasBaby();
 	}
