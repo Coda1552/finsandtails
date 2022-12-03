@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
@@ -38,6 +39,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -75,7 +77,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
-public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimationTickable, IHydrate {
+public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimationTickable, IHydrate, Bucketable {
 	private static final EntityDataAccessor<String> DATA_TYPE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<Boolean> HAS_BABY = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> BUBBLE_CHARGE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
@@ -84,6 +86,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	private static final EntityDataAccessor<Optional<UUID>> DATA_TRUSTED_ID_1 = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
 	private static final EntityDataAccessor<Integer> BUBBLE_TARGET = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 
 
 	private final AnimationFactory factory = new AnimationFactory(this);
@@ -152,6 +155,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		this.entityData.define(DATA_TRUSTED_ID_0, Optional.empty());
 		this.entityData.define(DATA_TRUSTED_ID_1, Optional.empty());
 		this.entityData.define(BUBBLE_TARGET, 0);
+		this.entityData.define(FROM_BUCKET, false);
 	}
 
 	public void setBubbleTarget(int p_32818_) {
@@ -228,22 +232,13 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	public InteractionResult mobInteract(Player p_28153_, InteractionHand p_28154_) {
 		ItemStack itemstack = p_28153_.getItemInHand(p_28154_);
 		Item item = itemstack.getItem();
-		if (this.level.isClientSide) {
-			if (this.trusts(p_28153_.getUUID()) && this.isFood(itemstack)) {
-				return InteractionResult.SUCCESS;
-			} else {
-				return InteractionResult.PASS;
-			}
-		} else {
-			if (this.trusts(p_28153_.getUUID()) && this.isFood(itemstack)) {
-				heal(2);
-				itemstack.shrink(1);
-			}
 
-			InteractionResult interactionresult1 = super.mobInteract(p_28153_, p_28154_);
-
-			return interactionresult1;
+		if (this.trusts(p_28153_.getUUID()) && this.isFood(itemstack)) {
+			heal(2);
+			itemstack.shrink(1);
+			return InteractionResult.SUCCESS;
 		}
+		return Bucketable.bucketMobPickup(p_28153_, p_28154_, this).orElse(super.mobInteract(p_28153_, p_28154_));
 	}
 
 	@Override
@@ -404,6 +399,58 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	public boolean canFallInLove() {
 		return super.canFallInLove() && !this.hasBaby();
+	}
+
+	@Override
+	public boolean fromBucket() {
+		return this.entityData.get(FROM_BUCKET);
+	}
+
+	@Override
+	public void setFromBucket(boolean p_149196_) {
+		this.entityData.set(FROM_BUCKET, p_149196_);
+	}
+
+
+	@Override
+	public void saveToBucketTag(ItemStack p_27494_) {
+		Bucketable.saveDefaultDataToBucketTag(this, p_27494_);
+		CompoundTag compoundtag = p_27494_.getOrCreateTag();
+		compoundtag.putInt("Age", this.getAge());
+		List<UUID> list = this.getTrustedUUIDs();
+		ListTag listtag = new ListTag();
+
+		for (UUID uuid : list) {
+			if (uuid != null) {
+				listtag.add(NbtUtils.createUUID(uuid));
+			}
+		}
+
+		compoundtag.put("Trusted", listtag);
+	}
+
+	public void loadFromBucketTag(CompoundTag p_148708_) {
+		Bucketable.loadDefaultDataFromBucketTag(this, p_148708_);
+		if (p_148708_.contains("Age")) {
+			this.setAge(p_148708_.getInt("Age"));
+		}
+		if (p_148708_.contains("Trusted")) {
+			ListTag listtag = p_148708_.getList("Trusted", 11);
+
+			for (int i = 0; i < listtag.size(); ++i) {
+				this.addTrustedUUID(NbtUtils.loadUUID(listtag.get(i)));
+			}
+		}
+	}
+
+	@Override
+	public ItemStack getBucketItemStack() {
+		return FTItems.BUCKET_HORATEE.get().getDefaultInstance();
+	}
+
+	@Override
+	public SoundEvent getPickupSound() {
+		return null;
 	}
 
 	static class CrownedBreedGoal extends BreedGoal {
