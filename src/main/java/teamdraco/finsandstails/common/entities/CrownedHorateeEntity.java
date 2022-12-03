@@ -366,6 +366,12 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	}
 
 	private <E extends IAnimatable> PlayState predicrownedHorateee(AnimationEvent<E> event) {
+		if (this.isBaby()) {
+			event.getController().setAnimationSpeed(1.5F);
+		} else {
+			event.getController().setAnimationSpeed(1.0F);
+		}
+
 		if (this.isMoving()) {
 			if (this.isInWater()) {
 				if (this.isOnGround()) {
