@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
@@ -450,7 +451,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	@Override
 	public SoundEvent getPickupSound() {
-		return null;
+		return SoundEvents.BUCKET_FILL_FISH;
 	}
 
 	static class CrownedBreedGoal extends BreedGoal {
