@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "#J#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "finsandtails:horatee_hide"
+    },
+    "J": {
+      "item": "finsandtails:gopjet_jetpack"
+    }
+  },
+  "result": {
+    "item": "finsandtails:horatee_jetpack",
+    "count": 1
+  }
+}

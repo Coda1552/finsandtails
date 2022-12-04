@@ -28,6 +28,7 @@ import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.armor.FwingedBootsModel;
 import teamdraco.finsandstails.client.model.armor.GopjetJetpackModel;
+import teamdraco.finsandstails.client.model.armor.HorateeJetpackModel;
 import teamdraco.finsandstails.client.model.armor.SpindlyCharmModel;
 import teamdraco.finsandstails.client.model.armor.SpindlyGemModel;
 import teamdraco.finsandstails.client.render.ArmorItemRenderer;
@@ -128,6 +129,11 @@ public class ClientEvents {
         FinsAndTails.CALLBACKS.clear();
     }
 
+    @SubscribeEvent
+    public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(ModModelLayers.HORATEE_ARMOR, HorateeJetpackModel::createBodyLayer);
+    }
+
     @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
     public static class ForgeBus {
         private static boolean wasJumping;
@@ -137,7 +143,7 @@ public class ClientEvents {
             if (event.phase == TickEvent.Phase.END) {
                 Minecraft minecraft = Minecraft.getInstance();
                 final LocalPlayer player = minecraft.player;
-                if (player != null && player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get()) {
+                if (player != null && (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get() || player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.HORATEE_JETPACK.get())) {
                     boolean jumping = minecraft.options.keyJump.isDown();
                     if (jumping != wasJumping) {
                         TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
