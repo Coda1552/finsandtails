@@ -1,24 +1,16 @@
 package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,20 +27,23 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.client.IItemRenderProperties;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.item.GeoArmorItem;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.ModModelLayers;
-import teamdraco.finsandstails.client.model.armor.HorateeJetpackModel;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 
-public class HorateeJetpackItem extends ArmorItem {
+public class HorateeJetpackItem extends GeoArmorItem implements IAnimatable {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":horatee_jet_jetpack", 0, new int[]{2, 5, 6, 2}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.HORATEE_JETPACK.get()));
+
+    private final AnimationFactory factory = new AnimationFactory(this);
+
     private final Random random = new Random();
     private int bubbleSoundTime;
 
@@ -177,26 +172,11 @@ public class HorateeJetpackItem extends ArmorItem {
     }
 
     @Override
-    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
-        consumer.accept(ArmorRender.INSTANCE);
+    public void registerControllers(AnimationData animationData) {
     }
 
-    private static final class ArmorRender implements IItemRenderProperties {
-        private static final ArmorRender INSTANCE = new ArmorRender();
-
-
-        @Nullable
-        @Override
-        public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = models.bakeLayer(ModModelLayers.HORATEE_ARMOR);
-            return new HorateeJetpackModel<>(root);
-        }
-    }
-
-    @org.jetbrains.annotations.Nullable
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "textures/armor/horatee_jetpack.png").toString();
+    public AnimationFactory getFactory() {
+        return factory;
     }
 }
