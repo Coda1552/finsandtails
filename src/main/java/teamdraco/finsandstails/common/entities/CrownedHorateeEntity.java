@@ -129,10 +129,6 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		return false;
 	}
 
-	public boolean canBeLeashed(Player p_30346_) {
-		return false;
-	}
-
 	protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.15D, true));
@@ -316,6 +312,11 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	@Override
 	public boolean canBreatheUnderwater() {
 		return true;
+	}
+
+	@Override
+	protected void tickLeash() {
+		super.tickLeash();
 	}
 
 	protected void handleAirSupply(int p_149194_) {
