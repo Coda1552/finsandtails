@@ -239,7 +239,11 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 			itemstack.shrink(1);
 			return InteractionResult.SUCCESS;
 		}
-		return Bucketable.bucketMobPickup(p_28153_, p_28154_, this).orElse(super.mobInteract(p_28153_, p_28154_));
+
+		if (this.isBaby()) {
+			return Bucketable.bucketMobPickup(p_28153_, p_28154_, this).orElse(super.mobInteract(p_28153_, p_28154_));
+		}
+		return super.mobInteract(p_28153_, p_28154_);
 	}
 
 	@Override
@@ -452,7 +456,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	@Override
 	public ItemStack getBucketItemStack() {
-		return FTItems.BUCKET_HORATEE.get().getDefaultInstance();
+		return FTItems.BABY_HORATEE_BUCKET.get().getDefaultInstance();
 	}
 
 	@Override
