@@ -119,7 +119,7 @@ public class FTItems {
 	public static final RegistryObject<Item> GOPJET_JETPACK = ITEMS.register("gopjet_jetpack", GopjetJetpackItem::new);
 
 	public static final RegistryObject<Item> HORATEE_HIDE = ITEMS.register("horatee_hide", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
-	public static final RegistryObject<Item> HORATEE_JETPACK = ITEMS.register("horatee_jetpack", HorateeJetpackItem::new);
+    public static final RegistryObject<Item> ARMORED_GOPJET_JETPACK = ITEMS.register("armored_gopjet_jetpack", HorateeJetpackItem::new);
 
 	public static final RegistryObject<Item> BUGFISH_MANDIBLES = ITEMS.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().tab(FinsAndTails.GROUP).durability(232)));
 	public static final RegistryObject<Item> SWAMP_DIDGERIDOO = ITEMS.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(64)));

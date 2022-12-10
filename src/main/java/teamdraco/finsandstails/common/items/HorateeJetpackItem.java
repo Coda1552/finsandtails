@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Random;
 
 public class HorateeJetpackItem extends GeoArmorItem implements IAnimatable {
-    public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":horatee_jet_jetpack", 0, new int[]{2, 5, 6, 2}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.HORATEE_JETPACK.get()));
+    public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":horatee_jet_jetpack", 0, new int[]{2, 5, 6, 2}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.ARMORED_GOPJET_JETPACK.get()));
 
     private final AnimationFactory factory = new AnimationFactory(this);
 

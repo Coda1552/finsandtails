@@ -68,11 +68,11 @@ public class CommonEvents {
         LivingEntity entity = event.getEntityLiving();
         DamageSource source = event.getSource();
 
-        if (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get() || entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.HORATEE_JETPACK.get()) {
-			if (source == DamageSource.FALL) {
-				event.setAmount(event.getAmount() / 2f);
-			}
-		}
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get() || entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.ARMORED_GOPJET_JETPACK.get()) {
+            if (source == DamageSource.FALL) {
+                event.setAmount(event.getAmount() / 2f);
+            }
+        }
 
         if (source.isProjectile() && source.getDirectEntity() instanceof TealArrowfishArrowEntity) {
             List<PenglilEntity> penglils = entity.level.getEntitiesOfClass(PenglilEntity.class, entity.getBoundingBox().inflate(25));

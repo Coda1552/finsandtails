@@ -140,7 +140,7 @@ public class ClientEvents {
             if (event.phase == TickEvent.Phase.END) {
                 Minecraft minecraft = Minecraft.getInstance();
                 final LocalPlayer player = minecraft.player;
-                if (player != null && (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get() || player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.HORATEE_JETPACK.get())) {
+                if (player != null && (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get() || player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.ARMORED_GOPJET_JETPACK.get())) {
                     boolean jumping = minecraft.options.keyJump.isDown();
                     if (jumping != wasJumping) {
                         TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
