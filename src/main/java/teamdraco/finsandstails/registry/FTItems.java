@@ -27,11 +27,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.common.items.ArmoredGopjetJetpackItem;
 import teamdraco.finsandstails.common.items.CrabGauntletItem;
 import teamdraco.finsandstails.common.items.FinsBucketItem;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 import teamdraco.finsandstails.common.items.GopjetJetpackItem;
-import teamdraco.finsandstails.common.items.HorateeJetpackItem;
 import teamdraco.finsandstails.common.items.MudhorsePouchItem;
 import teamdraco.finsandstails.common.items.PapaWeeItem;
 import teamdraco.finsandstails.common.items.SpindlyCharmItem;
@@ -118,8 +118,8 @@ public class FTItems {
 	public static final RegistryObject<Item> RED_CLAW_GAUNTLET = ITEMS.register("red_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 3, -1.4F, new Item.Properties().tab(FinsAndTails.GROUP).durability(130)));
 	public static final RegistryObject<Item> GOPJET_JETPACK = ITEMS.register("gopjet_jetpack", GopjetJetpackItem::new);
 
-	public static final RegistryObject<Item> HORATEE_HIDE = ITEMS.register("horatee_hide", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> ARMORED_GOPJET_JETPACK = ITEMS.register("armored_gopjet_jetpack", HorateeJetpackItem::new);
+    public static final RegistryObject<Item> HORATEE_HIDE = ITEMS.register("horatee_hide", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> ARMORED_GOPJET_JETPACK = ITEMS.register("armored_gopjet_jetpack", ArmoredGopjetJetpackItem::new);
 
 	public static final RegistryObject<Item> BUGFISH_MANDIBLES = ITEMS.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().tab(FinsAndTails.GROUP).durability(232)));
 	public static final RegistryObject<Item> SWAMP_DIDGERIDOO = ITEMS.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(64)));

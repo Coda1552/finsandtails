@@ -62,9 +62,9 @@ import teamdraco.finsandstails.client.render.WherbleRenderer;
 import teamdraco.finsandstails.client.render.WhiteBullCrabRenderer;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
+import teamdraco.finsandstails.common.items.ArmoredGopjetJetpackItem;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 import teamdraco.finsandstails.common.items.GopjetJetpackItem;
-import teamdraco.finsandstails.common.items.HorateeJetpackItem;
 import teamdraco.finsandstails.common.items.SpindlyCharmItem;
 import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
@@ -113,7 +113,7 @@ public class ClientEvents {
     public static void registerArmorRenders(EntityRenderersEvent.AddLayers event) {
         GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, () -> new ArmorItemRenderer<>(new FwingedBootsModel()));
         GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, () -> new ArmorItemRenderer<>(new GopjetJetpackModel()));
-        GeoArmorRenderer.registerArmorRenderer(HorateeJetpackItem.class, () -> new ArmorItemRenderer<>(new HorateeJetpackModel()));
+        GeoArmorRenderer.registerArmorRenderer(ArmoredGopjetJetpackItem.class, () -> new ArmorItemRenderer<>(new HorateeJetpackModel()));
         GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharmItem.class, () -> new ArmorItemRenderer<>(new SpindlyGemModel()));
         GeoArmorRenderer.registerArmorRenderer(SpindlyCharmItem.class, () -> new ArmorItemRenderer<>(new SpindlyCharmModel()));
     }
