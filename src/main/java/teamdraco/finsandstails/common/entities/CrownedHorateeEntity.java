@@ -16,6 +16,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -38,6 +40,7 @@ import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bucketable;
@@ -51,6 +54,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
@@ -64,7 +68,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import teamdraco.finsandstails.common.entities.ai.CrownedHorateeNavigator;
 import teamdraco.finsandstails.common.entities.ai.ShareTheBubbleGoal;
 import teamdraco.finsandstails.common.entities.ai.SwimWithoutGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.WalkWithGroundGoal;
@@ -296,7 +299,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
 			if (this.getTarget() == null) {
-				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.006D, 0.0D));
+				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
 			}
 		} else {
 			super.travel(p_27490_);
@@ -306,7 +309,9 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	@Override
 	protected PathNavigation createNavigation(Level worldIn) {
-		return new CrownedHorateeNavigator(this, level);
+		GroundPathNavigation groundPathNavigation = new GroundPathNavigation(this, level);
+		groundPathNavigation.setCanFloat(false);
+		return groundPathNavigation;
 	}
 
 	@Override
@@ -452,6 +457,21 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 			for (int i = 0; i < listtag.size(); ++i) {
 				this.addTrustedUUID(NbtUtils.loadUUID(listtag.get(i)));
 			}
+		}
+	}
+
+	@Override
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_, MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_, @Nullable CompoundTag p_146750_) {
+		boolean flag = false;
+		if (p_146748_ == MobSpawnType.BUCKET && p_146750_ != null && p_146750_.contains("Age", 3)) {
+			this.setAge(p_146750_.getInt("Age"));
+			return p_146749_;
+		} else if (p_146748_ == MobSpawnType.BUCKET) {
+			this.setBaby(true);
+			return p_146749_;
+		} else {
+
+			return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
 		}
 	}
 
