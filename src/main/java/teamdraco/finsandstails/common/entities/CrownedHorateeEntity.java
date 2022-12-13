@@ -298,9 +298,6 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 			this.moveRelative(0.05F, p_27490_);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-			if (this.getTarget() == null) {
-				this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
-			}
 		} else {
 			super.travel(p_27490_);
 		}
@@ -363,7 +360,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	}
 
 	private boolean isMoving() {
-		return this.getDeltaMovement().horizontalDistanceSqr() > 0D;
+		return this.getDeltaMovement().lengthSqr() > 1.0E-7D;
 	}
 
 	private <E extends IAnimatable> PlayState miscPredicate(AnimationEvent<E> event) {

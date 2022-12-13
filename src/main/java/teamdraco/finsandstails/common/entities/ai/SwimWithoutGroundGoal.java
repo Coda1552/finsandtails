@@ -7,7 +7,7 @@ public class SwimWithoutGroundGoal extends RandomSwimmingGoal {
 	private final PathfinderMob fish;
 
 	public SwimWithoutGroundGoal(PathfinderMob p_27505_) {
-		super(p_27505_, 1.0D, 40);
+		super(p_27505_, 1.0D, 10);
 		this.fish = p_27505_;
 	}
 
