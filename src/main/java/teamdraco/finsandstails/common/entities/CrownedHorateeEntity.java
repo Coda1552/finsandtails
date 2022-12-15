@@ -74,6 +74,7 @@ import teamdraco.finsandstails.common.entities.ai.WalkWithGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.control.SmoothWalkGroundAndSwimMoveControl;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -357,6 +358,24 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	@Override
 	public boolean removeWhenFarAway(double p_21542_) {
 		return false;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return FTSounds.HORATEE_AMBIENT.get();
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound(DamageSource p_21239_) {
+		return FTSounds.HORATEE_HURT.get();
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getDeathSound() {
+		return FTSounds.HORATEE_DEATH.get();
 	}
 
 	private boolean isMoving() {

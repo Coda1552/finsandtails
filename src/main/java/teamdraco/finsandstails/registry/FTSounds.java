@@ -22,6 +22,12 @@ public class FTSounds {
     public static final RegistryObject<SoundEvent> PENGLIL_AMBIENT = REGISTER.register("penglil.ambient", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "penglil.ambient")));
     public static final RegistryObject<SoundEvent> CRAB_DEATH = REGISTER.register("crab.death", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "crab.death")));
     public static final RegistryObject<SoundEvent> CRAB_CRUNCH = REGISTER.register("crab.crunch", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "crab.crunch")));
+
+    public static final RegistryObject<SoundEvent> HORATEE_AMBIENT = REGISTER.register("horatee.ambient", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "horatee.ambient")));
+    public static final RegistryObject<SoundEvent> HORATEE_HURT = REGISTER.register("horatee.hurt", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "horatee.hurt")));
+    public static final RegistryObject<SoundEvent> HORATEE_DEATH = REGISTER.register("horatee.death", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "horatee.death")));
+
+
     public static final RegistryObject<SoundEvent> DIDGERIDOO_PLAY = REGISTER.register("didgeridoo.play", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "didgeridoo.play")));
     public static final RegistryObject<SoundEvent> CRASHING_TIDES = REGISTER.register("music_disc.crashing_tides", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "music_disc.crashing_tides")));
     public static final RegistryObject<SoundEvent> WHISTLING_WYVERNS = REGISTER.register("music_disc.whistling_wyverns", () -> new SoundEvent(new ResourceLocation(FinsAndTails.MOD_ID, "music_disc.whistling_wyverns")));
