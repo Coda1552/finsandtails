@@ -368,20 +368,22 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.bubble", true));
 		} else {
 			event.getController().setAnimation(new AnimationBuilder());
+			return PlayState.STOP;
 		}
 		return PlayState.CONTINUE;
 	}
 
 	private <E extends IAnimatable> PlayState predicrownedHorateee(AnimationEvent<E> event) {
+		float f = 1.0F;
+
 		if (this.isBaby()) {
-			event.getController().setAnimationSpeed(1.5F);
-		} else {
-			event.getController().setAnimationSpeed(1.0F);
+			f += 0.5F;
 		}
 
-		if (this.isMoving()) {
+		if (event.getLimbSwingAmount() > 0.01F) {
 			if (this.isInWater()) {
 				if (this.isOnGround()) {
+					f += 0.25F;
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", true));
 				} else {
 					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.swim", true));
@@ -396,6 +398,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle_land", true));
 			}
 		}
+		event.getController().setAnimationSpeed(f);
 		return PlayState.CONTINUE;
 	}
 
