@@ -2,6 +2,7 @@ package teamdraco.finsandstails.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -16,6 +17,16 @@ public class CrownedHorateeRenderer extends GeoEntityRenderer<CrownedHorateeEnti
 	public CrownedHorateeRenderer(EntityRendererProvider.Context context) {
 		super(context, new CrownedHorateeModel());
 		this.shadowRadius = 0.5F;
+	}
+
+	@Override
+	protected void applyRotations(CrownedHorateeEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+		super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+		if (entityLiving.isInWater()) {
+			if (!entityLiving.isOnGround()) {
+				matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-entityLiving.getXRot()));
+			}
+		}
 	}
 
 	@Override

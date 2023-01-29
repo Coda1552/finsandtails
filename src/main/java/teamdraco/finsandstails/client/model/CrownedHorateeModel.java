@@ -2,7 +2,6 @@ package teamdraco.finsandstails.client.model;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -47,14 +46,7 @@ public class CrownedHorateeModel extends AnimatedGeoModel<CrownedHorateeEntity> 
 		}
 		if (entity.getDeltaMovement().lengthSqr() > 1.0E-7D) {
 			if (entity.isInWater()) {
-				if (!entity.isOnGround()) {
-					body.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
-					body.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
-					body.setRotationX(body.getRotationX() + -0.05F - 0.05F * Mth.cos(f7 * 0.3F));
-					//tail.setRotationZ(-0.1F * Mth.cos(f7 * 0.3F));
-					//tailFin.setRotationZ(-0.2F * Mth.cos(f7 * 0.3F));
-
-				} else {
+				if (entity.isOnGround()) {
 					head.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
 					head.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
 				}
