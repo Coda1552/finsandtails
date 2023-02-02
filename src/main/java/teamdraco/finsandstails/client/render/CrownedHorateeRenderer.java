@@ -22,10 +22,8 @@ public class CrownedHorateeRenderer extends GeoEntityRenderer<CrownedHorateeEnti
 	@Override
 	protected void applyRotations(CrownedHorateeEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
 		super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-		if (entityLiving.isInWater()) {
-			if (!entityLiving.isOnGround()) {
-				matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-entityLiving.getXRot()));
-			}
+		if (entityLiving.isInWater() && !entityLiving.isOnGround()) {
+			matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-entityLiving.getXRot()));
 		}
 	}
 

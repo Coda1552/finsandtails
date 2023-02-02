@@ -23,11 +23,11 @@ public class ShareTheBubbleGoal extends Goal {
 	private final PathNavigation navigation;
 	private int randomInterval;
 
-	public ShareTheBubbleGoal(CrownedHorateeEntity p_25294_, double p_25295_, int randomInterval) {
-		this.tamable = p_25294_;
-		this.level = p_25294_.level;
-		this.speedModifier = p_25295_;
-		this.navigation = p_25294_.getNavigation();
+	public ShareTheBubbleGoal(CrownedHorateeEntity crownedHoratee, double speed, int randomInterval) {
+		this.tamable = crownedHoratee;
+		this.level = crownedHoratee.level;
+		this.speedModifier = speed;
+		this.navigation = crownedHoratee.getNavigation();
 		this.randomInterval = randomInterval;
 		this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
 	}

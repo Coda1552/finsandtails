@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.client.model;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
@@ -11,10 +10,12 @@ import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
 
 public class CrownedHorateeModel extends AnimatedGeoModel<CrownedHorateeEntity> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/crowned_horatee.png");
+	public static final ResourceLocation ANIMATION = new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/crowned_horatee.animations.json");
+	public static final ResourceLocation MODEL = new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/crowned_horatee.geo.json");
 
 	@Override
 	public ResourceLocation getModelLocation(CrownedHorateeEntity entity) {
-		return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/crowned_horatee.geo.json");
+		return MODEL;
 	}
 
 	@Override
@@ -24,7 +25,7 @@ public class CrownedHorateeModel extends AnimatedGeoModel<CrownedHorateeEntity> 
 
 	@Override
 	public ResourceLocation getAnimationFileLocation(CrownedHorateeEntity entity) {
-		return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/crowned_horatee.animations.json");
+		return ANIMATION;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class CrownedHorateeModel extends AnimatedGeoModel<CrownedHorateeEntity> 
 		IBone tail = this.getAnimationProcessor().getBone("tail");
 		IBone tailFin = this.getAnimationProcessor().getBone("tailFin");
 		IBone head = this.getAnimationProcessor().getBone("head");
-		float f7 = entity.tickCount + Minecraft.getInstance().getFrameTime();
+		float f7 = entity.tickCount + customPredicate.getPartialTick();
 		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 
 		if (entity.isBaby()) {
@@ -45,11 +46,9 @@ public class CrownedHorateeModel extends AnimatedGeoModel<CrownedHorateeEntity> 
 			root.setPositionY(-13F);
 		}
 		if (entity.getDeltaMovement().lengthSqr() > 1.0E-7D) {
-			if (entity.isInWater()) {
-				if (entity.isOnGround()) {
-					head.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
-					head.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
-				}
+			if (!entity.isInWater() || entity.isOnGround()) {
+				head.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
+				head.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
 			} else {
 				head.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
 				head.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
