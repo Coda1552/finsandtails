@@ -45,14 +45,7 @@ public class CrownedHorateeModel extends AnimatedGeoModel<CrownedHorateeEntity> 
 			root.setScaleZ(0.5F);
 			root.setPositionY(-13F);
 		}
-		if (entity.getDeltaMovement().lengthSqr() > 1.0E-7D) {
-			if (!entity.isInWater() || entity.isOnGround()) {
-				head.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
-				head.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
-			} else {
-				head.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
-				head.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
-			}
-		}
+		head.setRotationX(extraData.headPitch * (float) Math.PI / 180F);
+		head.setRotationY(extraData.netHeadYaw * (float) Math.PI / 180F);
 	}
 }
