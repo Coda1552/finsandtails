@@ -7,7 +7,16 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BannerPatternItem;
+import net.minecraft.world.item.BowlFoodItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.material.Fluids;
@@ -18,7 +27,18 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.items.*;
+import teamdraco.finsandstails.common.items.ArmoredGopjetJetpackItem;
+import teamdraco.finsandstails.common.items.CrabGauntletItem;
+import teamdraco.finsandstails.common.items.FinsBucketItem;
+import teamdraco.finsandstails.common.items.FwingedBootsItem;
+import teamdraco.finsandstails.common.items.GopjetJetpackItem;
+import teamdraco.finsandstails.common.items.MudhorsePouchItem;
+import teamdraco.finsandstails.common.items.PapaWeeItem;
+import teamdraco.finsandstails.common.items.SpindlyCharmItem;
+import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
+import teamdraco.finsandstails.common.items.SwampDidgeridooItem;
+import teamdraco.finsandstails.common.items.TealArrowfishItem;
+import teamdraco.finsandstails.common.items.WherblingPotItem;
 
 import java.util.List;
 
@@ -87,25 +107,29 @@ public class FTItems {
     public static final RegistryObject<Item> REEF_COCKTAIL = ITEMS.register("reef_cocktail", () -> new BowlFoodItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.5f).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100), 1.0F).effect(() -> new MobEffectInstance(MobEffects.WATER_BREATHING, 200), 0.75F).build()).stacksTo(1)));
     public static final RegistryObject<Item> WEE_DELIGHT = ITEMS.register("wee_delight", () -> new BowlFoodItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(8).saturationMod(0.4f).fast().build()).stacksTo(1)));
     public static final RegistryObject<Item> COOKED_PAPA_WEE = ITEMS.register("cooked_papa_wee", () -> new PapaWeeItem(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(7).saturationMod(0.6f).build())));
-    public static final RegistryObject<Item> WHERBLE_FIN = ITEMS.register("wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).meat().fast().build())));
-    public static final RegistryObject<Item> COOKED_WHERBLE_FIN = ITEMS.register("cooked_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.3F).meat().fast().build())));
-    public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = ITEMS.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).fast().build())));
+	public static final RegistryObject<Item> WHERBLE_FIN = ITEMS.register("wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).meat().fast().build())));
+	public static final RegistryObject<Item> COOKED_WHERBLE_FIN = ITEMS.register("cooked_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.3F).meat().fast().build())));
+	public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = ITEMS.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).fast().build())));
 
-    //Gear
-    public static final RegistryObject<Item> MUDHORSE_POUCH = ITEMS.register("mudhorse_pouch", MudhorsePouchItem::new);
-    public static final RegistryObject<Item> FWINGED_BOOTS = ITEMS.register("fwinged_boots", FwingedBootsItem::new);
-    public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = ITEMS.register("white_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 2, -0.6F, new Item.Properties().tab(FinsAndTails.GROUP).durability(200)));
-    public static final RegistryObject<Item> RED_CLAW_GAUNTLET = ITEMS.register("red_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 3, -1.4F, new Item.Properties().tab(FinsAndTails.GROUP).durability(130)));
-    public static final RegistryObject<Item> GOPJET_JETPACK = ITEMS.register("gopjet_jetpack", GopjetJetpackItem::new);
-    public static final RegistryObject<Item> BUGFISH_MANDIBLES = ITEMS.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().tab(FinsAndTails.GROUP).durability(232)));
-    public static final RegistryObject<Item> SWAMP_DIDGERIDOO = ITEMS.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(64)));
-    public static final RegistryObject<Item> EMPTY_CHARM = ITEMS.register("empty_charm", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> GEM_CRAB_AMULET = ITEMS.register("gem_crab_amulet", SpindlyGemCharmItem::new);
-    public static final RegistryObject<Item> SPINDLY_PEARL_CHARM = ITEMS.register("spindly_pearl_charm", () -> new SpindlyCharmItem("pearl", MobEffects.REGENERATION));
-    public static final RegistryObject<Item> SPINDLY_RUBY_CHARM = ITEMS.register("spindly_ruby_charm", () -> new SpindlyCharmItem("ruby", MobEffects.FIRE_RESISTANCE));
-    public static final RegistryObject<Item> SPINDLY_AMBER_CHARM = ITEMS.register("spindly_amber_charm", () -> new SpindlyCharmItem("amber", MobEffects.MOVEMENT_SPEED));
-    public static final RegistryObject<Item> SPINDLY_SAPPHIRE_CHARM = ITEMS.register("spindly_sapphire_charm", () -> new SpindlyCharmItem("sapphire", MobEffects.WATER_BREATHING));
-    public static final RegistryObject<Item> SPINDLY_EMERALD_CHARM = ITEMS.register("spindly_emerald_charm", () -> new SpindlyCharmItem("emerald", MobEffects.DAMAGE_BOOST));
+	//Gear
+	public static final RegistryObject<Item> MUDHORSE_POUCH = ITEMS.register("mudhorse_pouch", MudhorsePouchItem::new);
+	public static final RegistryObject<Item> FWINGED_BOOTS = ITEMS.register("fwinged_boots", FwingedBootsItem::new);
+	public static final RegistryObject<Item> WHITE_CLAW_GAUNTLET = ITEMS.register("white_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 2, -0.6F, new Item.Properties().tab(FinsAndTails.GROUP).durability(200)));
+	public static final RegistryObject<Item> RED_CLAW_GAUNTLET = ITEMS.register("red_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 3, -1.4F, new Item.Properties().tab(FinsAndTails.GROUP).durability(130)));
+	public static final RegistryObject<Item> GOPJET_JETPACK = ITEMS.register("gopjet_jetpack", GopjetJetpackItem::new);
+
+    public static final RegistryObject<Item> HORATEE_HIDE = ITEMS.register("horatee_hide", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> ARMORED_GOPJET_JETPACK = ITEMS.register("armored_gopjet_jetpack", ArmoredGopjetJetpackItem::new);
+
+	public static final RegistryObject<Item> BUGFISH_MANDIBLES = ITEMS.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().tab(FinsAndTails.GROUP).durability(232)));
+	public static final RegistryObject<Item> SWAMP_DIDGERIDOO = ITEMS.register("swamp_didgeridoo", () -> new SwampDidgeridooItem(new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(64)));
+	public static final RegistryObject<Item> EMPTY_CHARM = ITEMS.register("empty_charm", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP)));
+	public static final RegistryObject<Item> GEM_CRAB_AMULET = ITEMS.register("gem_crab_amulet", SpindlyGemCharmItem::new);
+	public static final RegistryObject<Item> SPINDLY_PEARL_CHARM = ITEMS.register("spindly_pearl_charm", () -> new SpindlyCharmItem("pearl", MobEffects.REGENERATION));
+	public static final RegistryObject<Item> SPINDLY_RUBY_CHARM = ITEMS.register("spindly_ruby_charm", () -> new SpindlyCharmItem("ruby", MobEffects.FIRE_RESISTANCE));
+	public static final RegistryObject<Item> SPINDLY_AMBER_CHARM = ITEMS.register("spindly_amber_charm", () -> new SpindlyCharmItem("amber", MobEffects.MOVEMENT_SPEED));
+	public static final RegistryObject<Item> SPINDLY_SAPPHIRE_CHARM = ITEMS.register("spindly_sapphire_charm", () -> new SpindlyCharmItem("sapphire", MobEffects.WATER_BREATHING));
+	public static final RegistryObject<Item> SPINDLY_EMERALD_CHARM = ITEMS.register("spindly_emerald_charm", () -> new SpindlyCharmItem("emerald", MobEffects.DAMAGE_BOOST));
 
     //Buckets
     public static final RegistryObject<Item> BLU_WEE_BUCKET = ITEMS.register("blu_wee_bucket", () -> new MobBucketItem(FTEntities.BLU_WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
@@ -130,6 +154,9 @@ public class FTItems {
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_BUCKET = ITEMS.register("night_light_squid_bucket", () -> new FinsBucketItem(FTEntities.NIGHT_LIGHT_SQUID, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> GOPJET_BUCKET = ITEMS.register("gopjet_bucket", () -> new FinsBucketItem(FTEntities.GOPJET, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
     public static final RegistryObject<Item> PAPA_WEE_BUCKET = ITEMS.register("papa_wee_bucket", () -> new FinsBucketItem(FTEntities.PAPA_WEE, () -> Fluids.WATER, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
+    public static final RegistryObject<Item> BABY_HORATEE_BUCKET = ITEMS.register("baby_horatee_bucket", () -> new MobBucketItem(FTEntities.CROWNED_HORATTE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
+
+
     public static final RegistryObject<Item> WHERBLING_POT = ITEMS.register("wherbling_pot", () -> new WherblingPotItem(FTEntities.WHERBLE, () -> Fluids.EMPTY, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1)));
 
     //Spawn Eggs
@@ -158,6 +185,8 @@ public class FTItems {
     public static final RegistryObject<Item> GOPJET_SPAWN_EGG = ITEMS.register("gopjet_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOPJET, 0xcfe0ff, 0x403c70, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> PAPA_WEE_SPAWN_EGG = ITEMS.register("papa_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PAPA_WEE, 0x8b5a3d, 0xebc454, new Item.Properties().tab(FinsAndTails.GROUP)));
     public static final RegistryObject<Item> WHERBLE_SPAWN_EGG = ITEMS.register("wherble_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WHERBLE, 0xd5e2e9, 0x2684b4, new Item.Properties().tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> CROWNED_HORATEE_SPAWN_EGG = ITEMS.register("crowned_horatee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.CROWNED_HORATTE, 0xF7A53D, 0xB34B1B, new Item.Properties().tab(FinsAndTails.GROUP)));
+
     //public static final RegistryObject<Item> WANDERING_SAILOR_SPAWN_EGG = ITEMS.register("wandering_sailor_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WANDERING_SAILOR, 0x31a7cf, 0xd3904c, new Item.Properties().tab(FinsAndTails.GROUP)));
     //public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = ITEMS.register("goliath_garden_crab_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties().tab(FinsAndTails.GROUP)));
 

@@ -102,6 +102,30 @@
       }
     ]
   },
+  "horatee.ambient": {
+    "subtitle": "finsandtails.horatee.ambient",
+    "sounds": [
+      {
+        "name": "finsandtails:horatee/ambient"
+      }
+    ]
+  },
+  "horatee.hurt": {
+    "subtitle": "finsandtails.horatee.hurt",
+    "sounds": [
+      {
+        "name": "finsandtails:horatee/hurt"
+      }
+    ]
+  },
+  "horatee.death": {
+    "subtitle": "finsandtails.horatee.death",
+    "sounds": [
+      {
+        "name": "finsandtails:horatee/death"
+      }
+    ]
+  },
   "didgeridoo.play": {
     "subtitle": "finsandtails.didgeridoo.play",
     "sounds": [
