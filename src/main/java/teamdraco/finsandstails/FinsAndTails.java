@@ -60,6 +60,7 @@ public class FinsAndTails {
         bus.addListener(this::registerCommon);
         bus.addListener(this::registerEntityAttributes);
 
+        FTBannerPatterns.BANNER_PATTERNS.register(bus);
         FTRecipes.RECIPE_TYPE.register(bus);
         FTRecipes.SERIALIZERS.register(bus);
         FTEnchantments.REGISTER.register(bus);

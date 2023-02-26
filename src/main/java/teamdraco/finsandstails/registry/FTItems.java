@@ -1,16 +1,13 @@
 package teamdraco.finsandstails.registry;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.fml.common.Mod;
@@ -177,8 +174,4 @@ public class FTItems {
     public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = ITEMS.register("music_disc_crashing_tides", () -> new RecordItem(1, FTSounds.CRASHING_TIDES, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE), 200));
     //public static final RegistryObject<Item> MUSIC_DISC_WHISTLING_WYVERNS = ITEMS.register("music_disc_whistling_wyverns", () -> new RecordItem(1, FTSounds.WHISTLING_WYVERNS, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
 
-
-    private static BannerPattern registerPattern(String name) {
-        return Registry.register(Registry.BANNER_PATTERN, new ResourceLocation(FinsAndTails.MOD_ID, name), new BannerPattern(name));
-    }
 }
