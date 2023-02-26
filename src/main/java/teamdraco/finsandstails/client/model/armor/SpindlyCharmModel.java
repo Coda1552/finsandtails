@@ -8,17 +8,17 @@ import teamdraco.finsandstails.common.items.SpindlyCharmItem;
 public class SpindlyCharmModel extends AnimatedGeoModel<SpindlyCharmItem> {
 
     @Override
-    public ResourceLocation getModelLocation(SpindlyCharmItem object) {
+    public ResourceLocation getModelResource(SpindlyCharmItem object) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/armor/spindly_charm.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SpindlyCharmItem object) {
+    public ResourceLocation getTextureResource(SpindlyCharmItem object) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/armor/spindly_" + object.getTypeName() + "_charm.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(SpindlyCharmItem object) {
+    public ResourceLocation getAnimationResource(SpindlyCharmItem object) {
         return null;
     }
 }

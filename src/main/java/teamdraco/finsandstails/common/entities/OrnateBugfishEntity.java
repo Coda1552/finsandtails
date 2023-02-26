@@ -22,10 +22,12 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.function.Predicate;
@@ -33,19 +35,19 @@ import java.util.function.Predicate;
 public class OrnateBugfishEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
     public static final Predicate<LivingEntity> IS_PREY = (entity) -> entity.isAlive() && (
             entity instanceof TropicalFish
-            || entity instanceof Cod
-            || entity instanceof Salmon
-            || entity instanceof HighFinnedBlueEntity
-            || entity instanceof FlatbackSuckerEntity
-            || entity instanceof BluWeeEntity
-            || entity instanceof PeaWeeEntity
-            || entity instanceof PhantomNudibranchEntity
-            || entity instanceof TealArrowfishEntity
-            || entity instanceof BandedRedbackShrimpEntity
-            || entity instanceof SwampMuckerEntity
-            || entity instanceof WeeWeeEntity
-            || entity instanceof VibraWeeEntity);
-    private final AnimationFactory factory = new AnimationFactory(this);
+                    || entity instanceof Cod
+                    || entity instanceof Salmon
+                    || entity instanceof HighFinnedBlueEntity
+                    || entity instanceof FlatbackSuckerEntity
+                    || entity instanceof BluWeeEntity
+                    || entity instanceof PeaWeeEntity
+                    || entity instanceof PhantomNudibranchEntity
+                    || entity instanceof TealArrowfishEntity
+                    || entity instanceof BandedRedbackShrimpEntity
+                    || entity instanceof SwampMuckerEntity
+                    || entity instanceof WeeWeeEntity
+                    || entity instanceof VibraWeeEntity);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public OrnateBugfishEntity(EntityType<? extends OrnateBugfishEntity> type, Level world) {
         super(type, world);
@@ -116,10 +118,10 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish implements IAnima
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ornate_bugfish.swim", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ornate_bugfish.swim", ILoopType.EDefaultLoopTypes.LOOP));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ornate_bugfish.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ornate_bugfish.idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }

@@ -1,22 +1,14 @@
 package teamdraco.finsandstails.registry;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BannerPatternItem;
-import net.minecraft.world.item.BowlFoodItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.MobBucketItem;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.RecordItem;
-import net.minecraft.world.item.ShearsItem;
-import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.material.Fluids;
@@ -27,18 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.items.ArmoredGopjetJetpackItem;
-import teamdraco.finsandstails.common.items.CrabGauntletItem;
-import teamdraco.finsandstails.common.items.FinsBucketItem;
-import teamdraco.finsandstails.common.items.FwingedBootsItem;
-import teamdraco.finsandstails.common.items.GopjetJetpackItem;
-import teamdraco.finsandstails.common.items.MudhorsePouchItem;
-import teamdraco.finsandstails.common.items.PapaWeeItem;
-import teamdraco.finsandstails.common.items.SpindlyCharmItem;
-import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
-import teamdraco.finsandstails.common.items.SwampDidgeridooItem;
-import teamdraco.finsandstails.common.items.TealArrowfishItem;
-import teamdraco.finsandstails.common.items.WherblingPotItem;
+import teamdraco.finsandstails.common.items.*;
 
 import java.util.List;
 
@@ -57,7 +38,7 @@ public class FTItems {
         @Override
         public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
             super.appendHoverText(stack, level, components, flag);
-            components.add(new TranslatableComponent("finsandtails.high_finned_blue.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+            components.add(Component.translatable("finsandtails.high_finned_blue.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
     });
     public static final RegistryObject<Item> ORNATE_BUGFISH = ITEMS.register("ornate_bugfish", () -> new Item(new Item.Properties().tab(FinsAndTails.GROUP).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build())));
@@ -191,12 +172,13 @@ public class FTItems {
     //public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = ITEMS.register("goliath_garden_crab_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties().tab(FinsAndTails.GROUP)));
 
     //Misc.
-    public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = ITEMS.register("banner_pattern_mandibles", () -> new BannerPatternItem(registerPattern("mandibles"), new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> BANNER_PATTERN_SHELL = ITEMS.register("banner_pattern_shell", () -> new BannerPatternItem(registerPattern("shell"), new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));
-    public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = ITEMS.register("music_disc_crashing_tides", () -> new RecordItem(1, FTSounds.CRASHING_TIDES, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = ITEMS.register("banner_pattern_mandibles", () -> new BannerPatternItem(FTTags.PATTERN_ITEM_MANDIBLES, new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> BANNER_PATTERN_SHELL = ITEMS.register("banner_pattern_shell", () -> new BannerPatternItem(FTTags.PATTERN_ITEM_SHELL, new Item.Properties().stacksTo(1).tab(FinsAndTails.GROUP)));
+    public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = ITEMS.register("music_disc_crashing_tides", () -> new RecordItem(1, FTSounds.CRASHING_TIDES, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE), 200));
     //public static final RegistryObject<Item> MUSIC_DISC_WHISTLING_WYVERNS = ITEMS.register("music_disc_whistling_wyverns", () -> new RecordItem(1, FTSounds.WHISTLING_WYVERNS, new Item.Properties().tab(FinsAndTails.GROUP).stacksTo(1).rarity(Rarity.RARE)));
 
+
     private static BannerPattern registerPattern(String name) {
-        return BannerPattern.create(name.toUpperCase(), name, name, true);
+        return Registry.register(Registry.BANNER_PATTERN, new ResourceLocation(FinsAndTails.MOD_ID, name), new BannerPattern(name));
     }
 }

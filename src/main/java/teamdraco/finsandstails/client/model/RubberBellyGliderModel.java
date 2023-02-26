@@ -12,30 +12,30 @@ public class RubberBellyGliderModel extends AnimatedGeoModel<RubberBellyGliderEn
     private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/rubber_belly_glider.png");
 
     @Override
-    public ResourceLocation getModelLocation(RubberBellyGliderEntity wee) {
+    public ResourceLocation getModelResource(RubberBellyGliderEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/rubber_belly_glider.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(RubberBellyGliderEntity wee) {
+    public ResourceLocation getTextureResource(RubberBellyGliderEntity wee) {
         return TEXTURE;
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(RubberBellyGliderEntity wee) {
+    public ResourceLocation getAnimationResource(RubberBellyGliderEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/rubber_belly_glider.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(RubberBellyGliderEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(RubberBellyGliderEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
 
         EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 
         if (entity.isInWater()) {
-            body.setRotationX(extraData.headPitch * ((float)Math.PI / 180F));
-            body.setRotationY(extraData.netHeadYaw * ((float)Math.PI / 180F));
+            body.setRotationX(extraData.headPitch * ((float) Math.PI / 180F));
+            body.setRotationY(extraData.netHeadYaw * ((float) Math.PI / 180F));
         }
 
         if (entity.isBaby()) {

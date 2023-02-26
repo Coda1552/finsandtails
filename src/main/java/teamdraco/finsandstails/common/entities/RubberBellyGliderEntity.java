@@ -17,7 +17,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -33,10 +32,12 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.common.entities.ai.WaterJumpGoal;
 import teamdraco.finsandstails.registry.FTEntities;
@@ -48,7 +49,7 @@ import java.util.function.Predicate;
 public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Boolean> PUFFED = SynchedEntityData.defineId(RubberBellyGliderEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDimensions PUFFED_SIZE = EntityDimensions.scalable(0.7f, 0.5f);
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private int puffTimer;
     private static final Predicate<Entity> ENEMY_MATCHER = (entity) -> {
         if (entity instanceof Player player) {
@@ -262,28 +263,28 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving() && isInWater()) {
             if (isPuffed()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim_puffed", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim_puffed", ILoopType.EDefaultLoopTypes.LOOP));
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim", ILoopType.EDefaultLoopTypes.LOOP));
             }
         }
         else if (!event.isMoving() && isInWater()) {
             if (isPuffed()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_puffed", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_puffed", ILoopType.EDefaultLoopTypes.LOOP));
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle", ILoopType.EDefaultLoopTypes.LOOP));
             }
         }
         else if (!isInWater()) {
             boolean walking = !(event.getLimbSwingAmount() > -0.1F && event.getLimbSwingAmount() < 0.1F);
             if (walking) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.walk", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.walk", ILoopType.EDefaultLoopTypes.LOOP));
                 event.getController().setAnimationSpeed(1.45F);
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_land", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_land", ILoopType.EDefaultLoopTypes.LOOP));
             }
         }
         return PlayState.CONTINUE;

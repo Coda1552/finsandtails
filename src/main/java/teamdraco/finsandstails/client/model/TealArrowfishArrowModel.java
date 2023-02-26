@@ -8,17 +8,17 @@ import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 public class TealArrowfishArrowModel extends AnimatedGeoModel<TealArrowfishArrowEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(TealArrowfishArrowEntity wee) {
+    public ResourceLocation getModelResource(TealArrowfishArrowEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/projectile/teal_arrowfish_arrow.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TealArrowfishArrowEntity wee) {
+    public ResourceLocation getTextureResource(TealArrowfishArrowEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/teal_arrowfish.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(TealArrowfishArrowEntity wee) {
+    public ResourceLocation getAnimationResource(TealArrowfishArrowEntity wee) {
         return null;
         //return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animation.json");
     }

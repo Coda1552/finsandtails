@@ -2,13 +2,11 @@ package teamdraco.finsandstails.client.model;
 
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
 import teamdraco.finsandstails.common.entities.VibraWeeEntity;
 
 import java.util.Map;
@@ -33,23 +31,23 @@ public class VibraWeeModel extends AnimatedGeoModel<VibraWeeEntity> {
     });
 
     @Override
-    public ResourceLocation getModelLocation(VibraWeeEntity wee) {
+    public ResourceLocation getModelResource(VibraWeeEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/vibra_wee.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(VibraWeeEntity wee) {
+    public ResourceLocation getTextureResource(VibraWeeEntity wee) {
         return TEXTURES.getOrDefault(wee.getVariant(), TEXTURES.get(0));
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(VibraWeeEntity wee) {
+    public ResourceLocation getAnimationResource(VibraWeeEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/vibra_wee.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(VibraWeeEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(VibraWeeEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
 
         if (!entity.isInWater()) {

@@ -3,13 +3,8 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.entities.BluWeeEntity;
 import teamdraco.finsandstails.common.entities.PenglilEntity;
 
 import java.util.Map;
@@ -30,12 +25,12 @@ public class PenglilModel extends AnimatedGeoModel<PenglilEntity> {
     });
 
     @Override
-    public ResourceLocation getModelLocation(PenglilEntity entity) {
+    public ResourceLocation getModelResource(PenglilEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/penglil.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(PenglilEntity entity) {
+    public ResourceLocation getTextureResource(PenglilEntity entity) {
         String s = entity.getName().getString();
 
         return switch (s) {
@@ -47,7 +42,7 @@ public class PenglilModel extends AnimatedGeoModel<PenglilEntity> {
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(PenglilEntity entity) {
+    public ResourceLocation getAnimationResource(PenglilEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/penglil.animations.json");
     }
 }

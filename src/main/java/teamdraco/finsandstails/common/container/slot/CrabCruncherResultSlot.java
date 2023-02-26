@@ -1,7 +1,6 @@
 package teamdraco.finsandstails.common.container.slot;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.RecipeHolder;
@@ -58,7 +57,7 @@ public class CrabCruncherResultSlot extends Slot {
    public void onTake(Player thePlayer, ItemStack stack) {
       this.checkTakeAchievements(stack);
       ForgeHooks.setCraftingPlayer(thePlayer);
-      NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE, craftMatrix, thePlayer.level);
+      NonNullList<ItemStack> nonnulllist = thePlayer.level.getRecipeManager().getRemainingItemsFor(FTRecipes.CRUNCHING_TYPE.get(), craftMatrix, thePlayer.level);
       ForgeHooks.setCraftingPlayer(null);
       for(int i = 0; i < nonnulllist.size(); ++i) {
          ItemStack itemstack = this.craftMatrix.getItem(i);

@@ -4,8 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,7 +33,7 @@ public class CrabCruncherScreen extends AbstractContainerScreen<CrabCruncherCont
 
     @Override
     protected void renderLabels(PoseStack matrixStack, int x, int y) {
-        TranslatableComponent textCompontent = new TranslatableComponent("container.finsandtails.crab_cruncher");
+        Component textCompontent = Component.translatable("container.finsandtails.crab_cruncher");
 
         this.font.draw(matrixStack, this.playerInventoryTitle, (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
         this.font.draw(matrixStack, textCompontent, ((float) imageWidth / 2 - font.width(textCompontent) / 2), 6f, 4210752);

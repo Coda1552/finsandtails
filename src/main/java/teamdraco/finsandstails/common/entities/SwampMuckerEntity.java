@@ -15,15 +15,17 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.WaterJumpGoal;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class SwampMuckerEntity  extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public SwampMuckerEntity(EntityType<? extends SwampMuckerEntity> type, Level world) {
         super(type, world);
@@ -86,10 +88,10 @@ public class SwampMuckerEntity  extends AbstractSchoolingFish implements IAnimat
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mucker.swim", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mucker.swim", ILoopType.EDefaultLoopTypes.LOOP));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mucker.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mucker.idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }

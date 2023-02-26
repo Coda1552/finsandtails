@@ -8,17 +8,17 @@ import teamdraco.finsandstails.common.entities.WhiteBullCrabEntity;
 public class WhiteBullCrabModel extends AnimatedGeoModel<WhiteBullCrabEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(WhiteBullCrabEntity entity) {
+    public ResourceLocation getModelResource(WhiteBullCrabEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/bull_crab.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(WhiteBullCrabEntity entity) {
+    public ResourceLocation getTextureResource(WhiteBullCrabEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/white_bull_crab.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(WhiteBullCrabEntity entity) {
+    public ResourceLocation getAnimationResource(WhiteBullCrabEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/bull_crab.animations.json");
     }
 }

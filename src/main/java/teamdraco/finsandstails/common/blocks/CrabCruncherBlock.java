@@ -2,11 +2,9 @@ package teamdraco.finsandstails.common.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +18,7 @@ import teamdraco.finsandstails.common.container.CrabCruncherContainer;
 import javax.annotation.Nullable;
 
 public class CrabCruncherBlock extends Block {
-    private static final Component CONTAINER_NAME = new TranslatableComponent("container." + FinsAndTails.MOD_ID + "crab_cruncher");
+    private static final Component CONTAINER_NAME = Component.translatable("container." + FinsAndTails.MOD_ID + "crab_cruncher");
 
     public CrabCruncherBlock(Properties properties) {
         super(properties);
@@ -29,7 +27,7 @@ public class CrabCruncherBlock extends Block {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide) {
-            NetworkHooks.openGui((ServerPlayer) player, state.getMenuProvider(worldIn, pos));
+            NetworkHooks.openScreen((ServerPlayer) player, state.getMenuProvider(worldIn, pos));
             return InteractionResult.CONSUME;
         } else {
             return InteractionResult.SUCCESS;

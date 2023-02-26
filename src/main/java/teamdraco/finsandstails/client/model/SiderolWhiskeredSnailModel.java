@@ -5,30 +5,28 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.entities.BluWeeEntity;
 import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
-import teamdraco.finsandstails.common.entities.WherbleEntity;
 
 public class SiderolWhiskeredSnailModel extends AnimatedGeoModel<SiderolWhiskeredSnailEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(SiderolWhiskeredSnailEntity wee) {
+    public ResourceLocation getModelResource(SiderolWhiskeredSnailEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/siderol_whiskered_snail.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SiderolWhiskeredSnailEntity wee) {
+    public ResourceLocation getTextureResource(SiderolWhiskeredSnailEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/siderol_whiskered_snail.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(SiderolWhiskeredSnailEntity wee) {
+    public ResourceLocation getAnimationResource(SiderolWhiskeredSnailEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/siderol_whiskered_snail.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(SiderolWhiskeredSnailEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(SiderolWhiskeredSnailEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
 
         if (entity.isBaby()) {

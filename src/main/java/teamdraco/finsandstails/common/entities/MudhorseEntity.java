@@ -16,29 +16,27 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.MudhorseForageGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
@@ -48,7 +46,7 @@ import java.util.EnumSet;
 
 public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTickable {
     public static final EntityDataAccessor<Boolean> FORAGING = SynchedEntityData.defineId(MudhorseEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private LivingEntity commander;
     public int commanderSetTime;
     private int attackTimer;
@@ -194,20 +192,20 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", ILoopType.EDefaultLoopTypes.LOOP));
         }
         else if (isForaging()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.grazing", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.grazing", ILoopType.EDefaultLoopTypes.LOOP));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }
 
     private <E extends IAnimatable> PlayState miscPredicate(AnimationEvent<E> event) {
         if (commanderSetTime > 0) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.entranced", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.entranced", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }

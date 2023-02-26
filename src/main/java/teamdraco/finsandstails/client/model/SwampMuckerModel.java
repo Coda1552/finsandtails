@@ -8,17 +8,17 @@ import teamdraco.finsandstails.common.entities.SwampMuckerEntity;
 public class SwampMuckerModel extends AnimatedGeoModel<SwampMuckerEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(SwampMuckerEntity swampMucker) {
+    public ResourceLocation getModelResource(SwampMuckerEntity swampMucker) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/swamp_mucker.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SwampMuckerEntity swampMucker) {
+    public ResourceLocation getTextureResource(SwampMuckerEntity swampMucker) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/swamp_mucker.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(SwampMuckerEntity swampMucker) {
+    public ResourceLocation getAnimationResource(SwampMuckerEntity swampMucker) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/swamp_mucker.animations.json");
     }
 }

@@ -8,17 +8,17 @@ import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
 public class WanderingSailorModel extends AnimatedGeoModel<WanderingSailorEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(WanderingSailorEntity entity) {
+    public ResourceLocation getModelResource(WanderingSailorEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/wandering_sailor.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(WanderingSailorEntity entity) {
+    public ResourceLocation getTextureResource(WanderingSailorEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/wandering_sailor/wandering_sailor.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(WanderingSailorEntity entity) {
+    public ResourceLocation getAnimationResource(WanderingSailorEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wandering_sailor.animations.json");
     }
 }

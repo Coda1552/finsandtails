@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -42,19 +43,20 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(RedBullCrabEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public RedBullCrabEntity(EntityType<? extends RedBullCrabEntity> type, Level world) {
         super(type, world);
@@ -159,7 +161,7 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
     public void handleAirSupply(int p_209207_1_) {
     }
 
-    public static boolean canCrabSpawn(EntityType<? extends WaterAnimal> type, LevelAccessor worldIn, MobSpawnType reason, BlockPos p_223363_3_, Random randomIn) {
+    public static boolean canCrabSpawn(EntityType<? extends WaterAnimal> type, LevelAccessor worldIn, MobSpawnType reason, BlockPos p_223363_3_, RandomSource randomIn) {
         return worldIn.getBlockState(p_223363_3_).is(Blocks.WATER) && worldIn.getBlockState(p_223363_3_.above()).is(Blocks.WATER);
     }
 
@@ -216,10 +218,10 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.walk", ILoopType.EDefaultLoopTypes.LOOP));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }

@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -50,7 +49,7 @@ public class SwampDidgeridooItem extends Item {
     @Override
     public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {
         super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
-        p_77624_3_.add(new TranslatableComponent("finsandtails.swamp_didgeridoo.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+        p_77624_3_.add(Component.translatable("finsandtails.swamp_didgeridoo.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
     }
 
     private void addParticleEffect(SimpleParticleType particleData, Level world, double x, double y, double z) {

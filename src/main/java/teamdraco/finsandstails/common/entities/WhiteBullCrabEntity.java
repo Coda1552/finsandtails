@@ -31,10 +31,12 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
@@ -43,7 +45,7 @@ import java.util.List;
 
 public class WhiteBullCrabEntity extends WaterAnimal implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(WhiteBullCrabEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public WhiteBullCrabEntity(EntityType<? extends WhiteBullCrabEntity> type, Level world) {
         super(type, world);
@@ -191,10 +193,10 @@ public class WhiteBullCrabEntity extends WaterAnimal implements IAnimatable, IAn
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.walk", ILoopType.EDefaultLoopTypes.LOOP));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }

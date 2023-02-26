@@ -10,23 +10,23 @@ import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
 public class TealArrowfishModel extends AnimatedGeoModel<TealArrowfishEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(TealArrowfishEntity wee) {
+    public ResourceLocation getModelResource(TealArrowfishEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/teal_arrowfish.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TealArrowfishEntity wee) {
+    public ResourceLocation getTextureResource(TealArrowfishEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/teal_arrowfish.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(TealArrowfishEntity wee) {
+    public ResourceLocation getAnimationResource(TealArrowfishEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/teal_arrowfish.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(TealArrowfishEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(TealArrowfishEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
 
         if (!entity.isInWater()) {
