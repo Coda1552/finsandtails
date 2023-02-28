@@ -67,6 +67,7 @@ public class FinsAndTailsBiomeModifier implements BiomeModifier {
                     builder.getMobSpawnSettings().getSpawner(MobCategory.WATER_AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.ORNATE_BUGFISH.get(), FTConfig.Common.INSTANCE.ornateBugfishSpawnWeight.get(), 5, 5));
                     builder.getMobSpawnSettings().getSpawner(MobCategory.WATER_AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.SPINDLY_GEM_CRAB.get(), FTConfig.Common.INSTANCE.spindlyGemCrabSpawnWeight.get(), 1, 3));
                     builder.getMobSpawnSettings().getSpawner(MobCategory.WATER_CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.RUBBER_BELLY_GLIDER.get(), FTConfig.Common.INSTANCE.rubberBellyGliderSpawnWeight.get(), 1, 2));
+                    builder.getMobSpawnSettings().getSpawner(MobCategory.WATER_CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.CROWNED_HORATTE.get(), FTConfig.Common.INSTANCE.crownedHorateeWeight.get(), 2, 4));
                 }
 
                 if (name.equals("ocean") || name.equals("deep_ocean")) {
