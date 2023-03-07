@@ -5,11 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -207,6 +203,7 @@ public class CommonEvents {
                 event.getSpawns().getSpawner(MobCategory.WATER_AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.ORNATE_BUGFISH.get(), FTConfig.Common.INSTANCE.ornateBugfishSpawnWeight.get(), 5, 5));
                 event.getSpawns().getSpawner(MobCategory.WATER_AMBIENT).add(new MobSpawnSettings.SpawnerData(FTEntities.SPINDLY_GEM_CRAB.get(), FTConfig.Common.INSTANCE.spindlyGemCrabSpawnWeight.get(), 1, 3));
                 event.getSpawns().getSpawner(MobCategory.WATER_CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.RUBBER_BELLY_GLIDER.get(), FTConfig.Common.INSTANCE.rubberBellyGliderSpawnWeight.get(), 1, 2));
+                event.getSpawns().getSpawner(MobCategory.WATER_CREATURE).add(new MobSpawnSettings.SpawnerData(FTEntities.CROWNED_HORATTE.get(), FTConfig.Common.INSTANCE.crownedHorateeWeight.get(), 2, 4));
             }
 
             if (name.equals("ocean") || name.equals("deep_ocean")) {
