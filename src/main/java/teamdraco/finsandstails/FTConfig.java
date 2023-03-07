@@ -35,6 +35,7 @@ public class FTConfig {
     public static int gopjetSpawnWeight;
     public static int wherbleSpawnWeight;
     public static int glassSkipperSpawnWeight;
+    public static int crownedHorateeWeight;
 
     @SubscribeEvent
     public static void configLoad(ModConfigEvent.Reloading event) {
@@ -83,6 +84,7 @@ public class FTConfig {
         public final ForgeConfigSpec.IntValue gopjetSpawnWeight;
         public final ForgeConfigSpec.IntValue wherbleSpawnWeight;
         public final ForgeConfigSpec.IntValue glassSkipperSpawnWeight;
+        public final ForgeConfigSpec.IntValue crownedHorateeWeight;
 
         Common(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -124,6 +126,7 @@ public class FTConfig {
             ornateBugfishSpawnWeight = builder.comment("Spawn weight of Ornate Bugfish").defineInRange("orante_bugfish_spawn_weight", 1, 1, 1000);
             spindlyGemCrabSpawnWeight = builder.comment("Spawn weight of Spindly Gem Crabs").defineInRange("spindly_gem_crab_spawn_weight", 7, 1, 1000);
             rubberBellyGliderSpawnWeight = builder.comment("Spawn weight of Rubber Belly Gliders").defineInRange("rubber_belly_glider_spawn_weight", 3, 1, 1000);
+            crownedHorateeWeight = builder.comment("Spawn weight of Crowned Horatee").defineInRange("crowned_horatee_spawn_weight", 4, 1, 1000);
             builder.pop();
 
             builder.push("Ocean Creature Spawn Weight");
@@ -178,6 +181,7 @@ public class FTConfig {
             FTConfig.gopjetSpawnWeight = INSTANCE.gopjetSpawnWeight.get();
             FTConfig.wherbleSpawnWeight = INSTANCE.wherbleSpawnWeight.get();
             FTConfig.glassSkipperSpawnWeight = INSTANCE.glassSkipperSpawnWeight.get();
+            FTConfig.crownedHorateeWeight = INSTANCE.crownedHorateeWeight.get();
         }
     }
 }
