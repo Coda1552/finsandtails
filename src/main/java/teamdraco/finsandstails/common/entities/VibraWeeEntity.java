@@ -8,12 +8,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FollowFlockLeaderGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,23 +24,23 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 
 // todo - fix schooling crash
 public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(VibraWeeEntity.class, EntityDataSerializers.INT);
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public VibraWeeEntity(EntityType<? extends VibraWeeEntity> type, Level world) {
         super(type, world);
@@ -54,24 +54,6 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, TealArrowfishEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, OrnateBugfishEntity.class, 6, 1.0D, 1.5D));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 40));
-        this.goalSelector.addGoal(3, new FollowFlockLeaderGoal(this) {
-
-            /*@Override
-            public void tick() {
-                super.tick();
-
-                int i = getVariant();
-                List<VibraWeeEntity> nearbyWees = level.getEntitiesOfClass(VibraWeeEntity.class, getBoundingBox().inflate(25));
-                List<VibraWeeEntity> sameVariantWees = new java.util.ArrayList<>(Collections.emptyList());
-
-                for (VibraWeeEntity wee : nearbyWees) {
-                    if (mob.canBeFollowed() && wee.isFollower() && wee.getVariant() == i) {
-                        sameVariantWees.add(wee);
-                        mob.addFollowers(sameVariantWees.stream());
-                    }
-                }
-            }*/
-        });
     }
 
     @Override
@@ -152,11 +134,13 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable
     @Override
     public void tick() {
         super.tick();
-        if (random.nextInt(2500) == 0 && shouldSpawnPapaWee()) {
-            PapaWeeEntity papaWee = FTEntities.PAPA_WEE.get().create(level);
-            papaWee.setPos(this.getX(), this.getY(), this.getZ());
+        if (!this.level.isClientSide()) {
+            if (random.nextInt(2500) == 0 && shouldSpawnPapaWee()) {
+                PapaWeeEntity papaWee = FTEntities.PAPA_WEE.get().create(level);
+                papaWee.setPos(this.getX(), this.getY(), this.getZ());
 
-            level.addFreshEntity(papaWee);
+                level.addFreshEntity(papaWee);
+            }
         }
     }
 
@@ -184,10 +168,10 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.vibra_wee.swim", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.vibra_wee.swim", ILoopType.EDefaultLoopTypes.LOOP));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.vibra_wee.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.vibra_wee.idle", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }

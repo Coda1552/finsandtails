@@ -8,17 +8,17 @@ import teamdraco.finsandstails.common.entities.FlatbackSuckerEntity;
 public class FlatbackSuckerModel extends AnimatedGeoModel<FlatbackSuckerEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(FlatbackSuckerEntity entity) {
+    public ResourceLocation getModelResource(FlatbackSuckerEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/flatback_sucker.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(FlatbackSuckerEntity entity) {
+    public ResourceLocation getTextureResource(FlatbackSuckerEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/flatback_sucker.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(FlatbackSuckerEntity entity) {
+    public ResourceLocation getAnimationResource(FlatbackSuckerEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/flatback_sucker.animations.json");
     }
 }

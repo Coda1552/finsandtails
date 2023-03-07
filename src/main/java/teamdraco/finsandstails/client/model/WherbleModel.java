@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
 
@@ -22,23 +21,23 @@ public class WherbleModel extends AnimatedGeoModel<WherbleEntity> {
     });
 
     @Override
-    public ResourceLocation getModelLocation(WherbleEntity wee) {
+    public ResourceLocation getModelResource(WherbleEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/wherble.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(WherbleEntity wee) {
+    public ResourceLocation getTextureResource(WherbleEntity wee) {
         return wee.isBaby() ? TEXTURES.get(4) : TEXTURES.getOrDefault(wee.getVariant(), TEXTURES.get(0));
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(WherbleEntity wee) {
+    public ResourceLocation getAnimationResource(WherbleEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wherble.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(WherbleEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(WherbleEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("root");
 
         if (entity.isBaby()) {

@@ -5,29 +5,28 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
 import teamdraco.finsandstails.common.entities.BluWeeEntity;
 
 public class BluWeeModel extends AnimatedGeoModel<BluWeeEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(BluWeeEntity wee) {
+    public ResourceLocation getModelResource(BluWeeEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/wee.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BluWeeEntity wee) {
+    public ResourceLocation getTextureResource(BluWeeEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/blu_wee.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(BluWeeEntity wee) {
+    public ResourceLocation getAnimationResource(BluWeeEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(BluWeeEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(BluWeeEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
 
         if (!entity.isInWater()) {

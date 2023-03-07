@@ -6,28 +6,27 @@ import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
-import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
 
 public class FlatbackLeafSnailModel extends AnimatedGeoModel<FlatbackLeafSnailEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(FlatbackLeafSnailEntity entity) {
+    public ResourceLocation getModelResource(FlatbackLeafSnailEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/flatback_leaf_snail.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(FlatbackLeafSnailEntity entity) {
+    public ResourceLocation getTextureResource(FlatbackLeafSnailEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/flatback_leaf_snail.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(FlatbackLeafSnailEntity entity) {
+    public ResourceLocation getAnimationResource(FlatbackLeafSnailEntity entity) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/flatback_leaf_snail.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(FlatbackLeafSnailEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(FlatbackLeafSnailEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("root");
 
         if (entity.isBaby()) {

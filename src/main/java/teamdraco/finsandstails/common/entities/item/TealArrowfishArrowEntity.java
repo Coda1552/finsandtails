@@ -13,12 +13,13 @@ import net.minecraftforge.network.NetworkHooks;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.items.TealArrowfishItem;
-import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTEntities;
+import teamdraco.finsandstails.registry.FTItems;
 
 public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAdditionalSpawnData, IAnimatable {
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private final TealArrowfishItem arrow;
 
     public TealArrowfishArrowEntity(EntityType<? extends AbstractArrow> type, Level worldIn) {

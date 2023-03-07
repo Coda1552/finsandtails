@@ -19,17 +19,17 @@ public class SpindlyGemCrabModel extends AnimatedGeoModel<SpindlyGemCrabEntity> 
     });
 
     @Override
-    public ResourceLocation getModelLocation(SpindlyGemCrabEntity wee) {
+    public ResourceLocation getModelResource(SpindlyGemCrabEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/spindly_gem_crab.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SpindlyGemCrabEntity wee) {
+    public ResourceLocation getTextureResource(SpindlyGemCrabEntity wee) {
         return TEXTURES.getOrDefault(wee.getVariant(), TEXTURES.get(0));
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(SpindlyGemCrabEntity wee) {
+    public ResourceLocation getAnimationResource(SpindlyGemCrabEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/spindly_gem_crab.animations.json");
     }
 }

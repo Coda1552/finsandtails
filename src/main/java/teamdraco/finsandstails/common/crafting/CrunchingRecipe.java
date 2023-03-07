@@ -6,13 +6,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTBlocks;
 import teamdraco.finsandstails.registry.FTRecipes;
 
@@ -61,7 +58,7 @@ public class CrunchingRecipe implements Recipe<Container> {
     }
 
     public RecipeType<?> getType() {
-        return FTRecipes.CRUNCHING_TYPE;
+        return FTRecipes.CRUNCHING_TYPE.get();
     }
 
     public boolean isAdditionIngredient(ItemStack p_44536_) {
@@ -79,10 +76,9 @@ public class CrunchingRecipe implements Recipe<Container> {
         return i;
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<CrunchingRecipe> {
+    public static class Serializer implements RecipeSerializer<CrunchingRecipe> {
 
         public Serializer() {
-            this.setRegistryName(new ResourceLocation(FinsAndTails.MOD_ID, "crunching"));
         }
 
         @Override

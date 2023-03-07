@@ -16,28 +16,16 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
@@ -49,12 +37,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
@@ -64,10 +47,12 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.ShareTheBubbleGoal;
 import teamdraco.finsandstails.common.entities.ai.SwimWithoutGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.WalkWithGroundGoal;
@@ -79,7 +64,6 @@ import teamdraco.finsandstails.registry.FTSounds;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimationTickable, IHydrate, Bucketable {
@@ -94,7 +78,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 
 
-	private final AnimationFactory factory = new AnimationFactory(this);
+	private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.SEA_PICKLE);
 	private static final Ingredient TEMPT_ITEMS = Ingredient.of(FTItems.RED_BULL_CRAB_CLAW.get(), FTItems.WHITE_BULL_CRAB_CLAW.get());
 
@@ -278,10 +262,10 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	}
 
 	public float getWalkTargetValue(BlockPos p_30159_, LevelReader p_30160_) {
-		return CrownedHorateeEntity.onSandOrGravel(p_30160_, p_30159_) ? 10.0F + p_30160_.getBrightness(p_30159_) - 0.5F : p_30160_.getBrightness(p_30159_) - 0.5F;
+		return CrownedHorateeEntity.onSandOrGravel(p_30160_, p_30159_) ? 10.0F + p_30160_.getLightLevelDependentMagicValue(p_30159_) - 0.5F : p_30160_.getLightLevelDependentMagicValue(p_30159_) - 0.5F;
 	}
 
-	public static boolean checkCrownedSpawnRules(EntityType<? extends CrownedHorateeEntity> p_30179_, LevelAccessor p_30180_, MobSpawnType p_30181_, BlockPos p_30182_, Random p_30183_) {
+	public static boolean checkCrownedSpawnRules(EntityType<? extends CrownedHorateeEntity> p_30179_, LevelAccessor p_30180_, MobSpawnType p_30181_, BlockPos p_30182_, RandomSource p_30183_) {
 		return p_30182_.getY() < p_30180_.getSeaLevel() + 4 && CrownedHorateeEntity.onSandOrGravel(p_30180_, p_30182_) && isBrightEnoughToSpawn(p_30180_, p_30182_);
 	}
 
@@ -384,7 +368,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	private <E extends IAnimatable> PlayState miscPredicate(AnimationEvent<E> event) {
 		if (this.isBubbleCharge()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.bubble", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.bubble", ILoopType.EDefaultLoopTypes.LOOP));
 		} else {
 			return PlayState.STOP;
 		}
@@ -402,18 +386,18 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 			if (this.isInWater()) {
 				if (this.isOnGround()) {
 					f += 0.25F;
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", true));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", ILoopType.EDefaultLoopTypes.LOOP));
 				} else {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.swim", true));
+					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.swim", ILoopType.EDefaultLoopTypes.LOOP));
 				}
 			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.crawl", true));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.crawl", ILoopType.EDefaultLoopTypes.LOOP));
 			}
 		} else {
 			if (this.isInWater()) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle_water", true));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle_water", ILoopType.EDefaultLoopTypes.LOOP));
 			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle_land", true));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle_land", ILoopType.EDefaultLoopTypes.LOOP));
 			}
 		}
 		event.getController().setAnimationSpeed(f);
@@ -633,7 +617,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 		@javax.annotation.Nullable
 		private Vec3 getWaterPos() {
-			Random random = this.mob.getRandom();
+			RandomSource random = this.mob.getRandom();
 			BlockPos blockpos = this.mob.blockPosition();
 
 			for (int i = 0; i < 10; ++i) {

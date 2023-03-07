@@ -27,15 +27,17 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class FlatbackLeafSnailEntity extends Animal implements IAnimatable, IAnimationTickable {
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public FlatbackLeafSnailEntity(EntityType<? extends FlatbackLeafSnailEntity> type, Level worldIn) {
         super(type, worldIn);
@@ -142,7 +144,7 @@ public class FlatbackLeafSnailEntity extends Animal implements IAnimatable, IAni
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         boolean walking = !(event.getLimbSwingAmount() > -0.01F && event.getLimbSwingAmount() < 0.01F);
         if (walking) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.walk", ILoopType.EDefaultLoopTypes.LOOP));
             return PlayState.CONTINUE;
         } else {
             //event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snail.idle", true));

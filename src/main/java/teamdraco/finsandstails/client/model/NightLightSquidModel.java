@@ -19,17 +19,17 @@ public class NightLightSquidModel extends AnimatedGeoModel<NightLightSquidEntity
     });
 
     @Override
-    public ResourceLocation getModelLocation(NightLightSquidEntity squid) {
+    public ResourceLocation getModelResource(NightLightSquidEntity squid) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/night_light_squid.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NightLightSquidEntity squid) {
+    public ResourceLocation getTextureResource(NightLightSquidEntity squid) {
         return TEXTURES.getOrDefault(squid.getVariant(), TEXTURES.get(0));
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(NightLightSquidEntity squid) {
+    public ResourceLocation getAnimationResource(NightLightSquidEntity squid) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/night_light_squid.animations.json");
     }
 }

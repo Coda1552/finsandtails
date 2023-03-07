@@ -10,23 +10,23 @@ import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
 public class OrnateBugfishModel extends AnimatedGeoModel<OrnateBugfishEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(OrnateBugfishEntity wee) {
+    public ResourceLocation getModelResource(OrnateBugfishEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/ornate_bugfish.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(OrnateBugfishEntity wee) {
+    public ResourceLocation getTextureResource(OrnateBugfishEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/ornate_bugfish.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(OrnateBugfishEntity wee) {
+    public ResourceLocation getAnimationResource(OrnateBugfishEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/ornate_bugfish.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(OrnateBugfishEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(OrnateBugfishEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
 
         if (!entity.isInWater()) {

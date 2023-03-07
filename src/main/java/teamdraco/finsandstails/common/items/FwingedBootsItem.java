@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -28,6 +26,7 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.item.GeoArmorItem;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTEnchantments;
 
@@ -38,7 +37,7 @@ public class FwingedBootsItem extends GeoArmorItem implements IAnimatable {
                     ForgeMod.SWIM_SPEED.get(), new AttributeModifier("Swim modifier", 1.25D, AttributeModifier.Operation.ADDITION),
                     Attributes.MOVEMENT_SPEED, new AttributeModifier("Movement modifier", -0.15D, AttributeModifier.Operation.MULTIPLY_BASE)
             ));
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public FwingedBootsItem() {
         super(MATERIAL, EquipmentSlot.FEET, new Properties().tab(FinsAndTails.GROUP));

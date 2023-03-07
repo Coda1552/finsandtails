@@ -10,17 +10,17 @@ public class GopjetModel extends AnimatedGeoModel<GopjetEntity> {
     private static final ResourceLocation BOOSTING = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/gopjet/boosting.png");
 
     @Override
-    public ResourceLocation getModelLocation(GopjetEntity gopjet) {
+    public ResourceLocation getModelResource(GopjetEntity gopjet) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/gopjet.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GopjetEntity gopjet) {
+    public ResourceLocation getTextureResource(GopjetEntity gopjet) {
         return gopjet.isBoosting() ? BOOSTING : GOPJET;
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(GopjetEntity gopjet) {
+    public ResourceLocation getAnimationResource(GopjetEntity gopjet) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/gopjet.animations.json");
     }
 }

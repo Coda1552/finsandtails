@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -48,22 +49,23 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_LYING = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> RELAX_STATE_ONE = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     public PenglilEntity(EntityType<? extends PenglilEntity> type, Level world) {
         super(type, world);
@@ -118,7 +120,7 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
         return false;
     }
 
-    public static boolean canPenglilSpawn(EntityType<? extends TamableAnimal> penglil, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
+    public static boolean canPenglilSpawn(EntityType<? extends TamableAnimal> penglil, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource random) {
         return worldIn.getBlockState(pos.below()).getBlock() == Blocks.SAND && worldIn.getRawBrightness(pos, 0) > 8;
     }
 
@@ -321,13 +323,13 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (!isInWater()) {
             if (event.isMoving()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.walk", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.walk", ILoopType.EDefaultLoopTypes.LOOP));
             } else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.idle", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.idle", ILoopType.EDefaultLoopTypes.LOOP));
             }
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.swim", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.penglil.swim", ILoopType.EDefaultLoopTypes.LOOP));
         }
         return PlayState.CONTINUE;
     }
@@ -416,7 +418,7 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
         }
 
         private void giveMorningGift() {
-            Random random = this.penglil.getRandom();
+            RandomSource random = this.penglil.getRandom();
             BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
             mutable.set(this.penglil.blockPosition());
             this.penglil.randomTeleport((double)(mutable.getX() + random.nextInt(11) - 5), (double)(mutable.getY() + random.nextInt(5) - 2), (double)(mutable.getZ() + random.nextInt(11) - 5), false);

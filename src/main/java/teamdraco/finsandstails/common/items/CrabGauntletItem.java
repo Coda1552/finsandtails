@@ -61,7 +61,7 @@ public class CrabGauntletItem extends Item {
     }
 
     @Override
-    public int getItemEnchantability(ItemStack stack) {
+    public int getEnchantmentValue() {
         return 1;
     }
 }

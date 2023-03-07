@@ -14,23 +14,23 @@ public class CrownedHorateeModel extends AnimatedGeoModel<CrownedHorateeEntity> 
 	public static final ResourceLocation MODEL = new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/crowned_horatee.geo.json");
 
 	@Override
-	public ResourceLocation getModelLocation(CrownedHorateeEntity entity) {
+	public ResourceLocation getModelResource(CrownedHorateeEntity entity) {
 		return MODEL;
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(CrownedHorateeEntity entity) {
+	public ResourceLocation getTextureResource(CrownedHorateeEntity entity) {
 		return TEXTURE;
 	}
 
 	@Override
-	public ResourceLocation getAnimationFileLocation(CrownedHorateeEntity entity) {
+	public ResourceLocation getAnimationResource(CrownedHorateeEntity entity) {
 		return ANIMATION;
 	}
 
 	@Override
-	public void setLivingAnimations(CrownedHorateeEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-		super.setLivingAnimations(entity, uniqueID, customPredicate);
+	public void setCustomAnimations(CrownedHorateeEntity entity, int uniqueID, AnimationEvent customPredicate) {
+		super.setCustomAnimations(entity, uniqueID, customPredicate);
 		IBone root = this.getAnimationProcessor().getBone("root");
 		IBone body = this.getAnimationProcessor().getBone("body");
 		IBone tail = this.getAnimationProcessor().getBone("tail");

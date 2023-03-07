@@ -6,28 +6,27 @@ import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.MudhorseEntity;
-import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
 
 public class MudhorseModel extends AnimatedGeoModel<MudhorseEntity> {
 
     @Override
-    public ResourceLocation getModelLocation(MudhorseEntity wee) {
+    public ResourceLocation getModelResource(MudhorseEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/mudhorse.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MudhorseEntity wee) {
+    public ResourceLocation getTextureResource(MudhorseEntity wee) {
         return wee.commanderSetTime > 0 ? new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/mudhorse/entranced.png") : new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/mudhorse/mudhorse.png");
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(MudhorseEntity wee) {
+    public ResourceLocation getAnimationResource(MudhorseEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/mudhorse.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(MudhorseEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(MudhorseEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("root");
 
         if (entity.isBaby()) {

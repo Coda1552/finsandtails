@@ -8,7 +8,6 @@ import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
-import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
 
 import java.util.Map;
 
@@ -22,23 +21,23 @@ public class RiverPebbleSnailModel extends AnimatedGeoModel<RiverPebbleSnailEnti
     });
 
     @Override
-    public ResourceLocation getModelLocation(RiverPebbleSnailEntity wee) {
+    public ResourceLocation getModelResource(RiverPebbleSnailEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/river_pebble_snail.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(RiverPebbleSnailEntity wee) {
+    public ResourceLocation getTextureResource(RiverPebbleSnailEntity wee) {
         return TEXTURES.getOrDefault(wee.getVariant(), TEXTURES.get(0));
     }
 
     @Override
-    public ResourceLocation getAnimationFileLocation(RiverPebbleSnailEntity wee) {
+    public ResourceLocation getAnimationResource(RiverPebbleSnailEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/river_pebble_snail.animations.json");
     }
 
     @Override
-    public void setLivingAnimations(RiverPebbleSnailEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(RiverPebbleSnailEntity entity, int uniqueID, AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
         IBone body = this.getAnimationProcessor().getBone("body");
         IBone shell = this.getAnimationProcessor().getBone("shell");
 

@@ -7,12 +7,15 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.registry.FTRecipes;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @JeiPlugin
@@ -28,7 +31,11 @@ public class FinsJEIPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
 
-        registration.addRecipes(getRecipes(manager, FTRecipes.CRUNCHING_TYPE), CrunchingRecipeCategory.ID);
+        findRecipesByType(FTRecipes.CRUNCHING_TYPE.get(), manager);
+    }
+
+    private static <C extends Container, T extends Recipe<C>> List<T> findRecipesByType(RecipeType<T> type, RecipeManager recipeManager) {
+        return recipeManager.getAllRecipesFor(type);
     }
 
     @Override

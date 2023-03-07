@@ -1,9 +1,7 @@
 package teamdraco.finsandstails;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
@@ -14,14 +12,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
@@ -38,40 +34,10 @@ import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipeType;
-import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
-import teamdraco.finsandstails.common.entities.BluWeeEntity;
-import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
-import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
-import teamdraco.finsandstails.common.entities.FlatbackSuckerEntity;
-import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
-import teamdraco.finsandstails.common.entities.GopjetEntity;
-import teamdraco.finsandstails.common.entities.HighFinnedBlueEntity;
-import teamdraco.finsandstails.common.entities.MudhorseEntity;
-import teamdraco.finsandstails.common.entities.NightLightSquidEntity;
-import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
-import teamdraco.finsandstails.common.entities.PapaWeeEntity;
-import teamdraco.finsandstails.common.entities.PeaWeeEntity;
-import teamdraco.finsandstails.common.entities.PenglilEntity;
-import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
-import teamdraco.finsandstails.common.entities.RedBullCrabEntity;
-import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
-import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
-import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
-import teamdraco.finsandstails.common.entities.SpindlyGemCrabEntity;
-import teamdraco.finsandstails.common.entities.SwampMuckerEntity;
-import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
-import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
-import teamdraco.finsandstails.common.entities.WeeWeeEntity;
-import teamdraco.finsandstails.common.entities.WherbleEntity;
-import teamdraco.finsandstails.common.entities.WhiteBullCrabEntity;
+import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.network.INetworkPacket;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
-import teamdraco.finsandstails.registry.FTBlocks;
-import teamdraco.finsandstails.registry.FTContainers;
-import teamdraco.finsandstails.registry.FTEnchantments;
-import teamdraco.finsandstails.registry.FTEntities;
-import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FTSounds;
+import teamdraco.finsandstails.registry.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,25 +59,22 @@ public class FinsAndTails {
 
         bus.addListener(this::registerCommon);
         bus.addListener(this::registerEntityAttributes);
-        bus.addGenericListener(RecipeSerializer.class, this::registerRecipeSerializers);
 
+        FTBannerPatterns.BANNER_PATTERNS.register(bus);
+        FTRecipes.RECIPE_TYPE.register(bus);
+        FTRecipes.SERIALIZERS.register(bus);
         FTEnchantments.REGISTER.register(bus);
         FTItems.ITEMS.register(bus);
         FTBlocks.BLOCKS.register(bus);
         FTContainers.REGISTER.register(bus);
         FTEntities.REGISTER.register(bus);
+        FTBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(bus);
         FTSounds.REGISTER.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
 
         GeckoLib.initialize();
-    }
-
-    private void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(CRUNCHING.toString()), CRUNCHING);
-
-        event.getRegistry().register(CrunchingRecipe.SERIALIZER);
     }
 
     private void registerCommon(FMLCommonSetupEvent event) {
