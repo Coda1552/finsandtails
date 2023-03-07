@@ -15,6 +15,8 @@ public class FTTags {
     public static final TagKey<Item> MUDHORSE_POUCH_BLACKLIST = itemTag("mudhorse_pouch_blacklist");
     public static final TagKey<Item> SPINDLY_GEM_CRABS = itemTag("spindly_gem_crabs");
 
+    public static final TagKey<Item> GOPJET = itemTag("gopjet");
+
     private static TagKey<Item> itemTag(String path) {
         return ItemTags.create(new ResourceLocation(FinsAndTails.MOD_ID, path));
     }

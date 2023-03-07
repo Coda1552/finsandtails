@@ -35,7 +35,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -44,41 +43,15 @@ import net.minecraftforge.fml.common.Mod;
 import teamdraco.finsandstails.FTConfig;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.IHydrate;
-import teamdraco.finsandstails.common.entities.PenglilEntity;
 import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
-import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 import teamdraco.finsandstails.registry.FTEnchantments;
-import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTTags;
 
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
-
-    @SubscribeEvent
-    public static void livingDamage(LivingDamageEvent event) {
-        LivingEntity entity = event.getEntity();
-        DamageSource source = event.getSource();
-
-        if (entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get() || entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.ARMORED_GOPJET_JETPACK.get()) {
-            if (source == DamageSource.FALL) {
-                event.setAmount(event.getAmount() / 2f);
-            }
-        }
-
-        if (source.isProjectile() && source.getDirectEntity() instanceof TealArrowfishArrowEntity) {
-            List<PenglilEntity> penglils = entity.level.getEntitiesOfClass(PenglilEntity.class, entity.getBoundingBox().inflate(25));
-
-            for (PenglilEntity penglil : penglils) {
-
-                if (penglil.isTame() && penglil.getOwner().equals(entity)) return;
-
-                penglil.setTarget(entity);
-            }
-        }
-    }
 
     // todo - use global loot modifiers and remove this
     @SubscribeEvent
