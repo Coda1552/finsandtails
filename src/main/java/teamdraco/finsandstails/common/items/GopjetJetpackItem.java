@@ -99,7 +99,7 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
                             stack.hurtAndBreak(1, player, Player -> Player.broadcastBreakEvent(EquipmentSlot.CHEST));
                         }
                         persistentData.putInt("FinsFlyingTicks", ticksJumping);
-                        Vec3 d3 = player.getViewVector(1.0F);
+                        Vec3 d3 = player.getViewVector(1.0F).scale(0.35F);
                         if (!player.isOnGround()) {
                             Vec3 vec31 = Vec3.ZERO;
                             player.setDeltaMovement(vec31.add(d3));
