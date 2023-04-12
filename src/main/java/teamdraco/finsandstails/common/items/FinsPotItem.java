@@ -1,18 +1,21 @@
 package teamdraco.finsandstails.common.items;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,23 +25,35 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
-import teamdraco.finsandstails.common.entities.WherbleEntity;
-import teamdraco.finsandstails.registry.FTEntities;
+import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
+import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
+import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class WherblingPotItem extends FinsPotItem {
+public class FinsPotItem extends BucketItem {
     private final Supplier<? extends EntityType<?>> entityTypeSupplier;
     private final Supplier<? extends Fluid> fluid;
+    private final boolean hasTooltip;
 
-    public WherblingPotItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Properties builder) {
-        super(entityType, fluid, builder);
-        this.entityTypeSupplier = entityType;
+    public FinsPotItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Properties builder) {
+        this(entityType, fluid, builder, true);
+    }
+
+    public FinsPotItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Properties builder, boolean hasTooltip) {
+        super(fluid, builder);
         this.fluid = fluid;
+        this.hasTooltip = hasTooltip;
+        this.entityTypeSupplier = entityType;
+        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> FinsAndTails.CALLBACKS.add(() -> ItemProperties.register(this, new ResourceLocation(FinsAndTails.MOD_ID, "variant"), (stack, world, player, i) -> stack.hasTag() ? stack.getTag().getInt("Variant") : 0)));
     }
 
     @Override
@@ -47,9 +62,9 @@ public class WherblingPotItem extends FinsPotItem {
         BlockHitResult result = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.NONE);
         InteractionResultHolder<ItemStack> ret = ForgeEventFactory.onBucketUse(playerIn, worldIn, itemstack, result);
         if (ret != null) return ret;
-        if (result.getType() == HitResult.Type.MISS) {
+        if (result.getType() == BlockHitResult.Type.MISS) {
             return InteractionResultHolder.pass(itemstack);
-        } else if (result.getType() != HitResult.Type.BLOCK) {
+        } else if (result.getType() != BlockHitResult.Type.BLOCK) {
             return InteractionResultHolder.pass(itemstack);
         } else {
             BlockPos blockpos = result.getBlockPos();
@@ -62,6 +77,10 @@ public class WherblingPotItem extends FinsPotItem {
                 if (worldIn instanceof ServerLevel) this.placeEntity((ServerLevel)worldIn, itemstack, blockpos2);
                 if (playerIn instanceof ServerPlayer) {
                     CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) playerIn, blockpos2, itemstack);
+
+                    if (entityTypeSupplier instanceof FlatbackLeafSnailEntity || entityTypeSupplier instanceof RiverPebbleSnailEntity || entityTypeSupplier instanceof SiderolWhiskeredSnailEntity) {
+
+                    }
                 }
 
                 playerIn.awardStat(Stats.ITEM_USED.get(this));
@@ -72,32 +91,24 @@ public class WherblingPotItem extends FinsPotItem {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, world, tooltip, flag);
+        if (hasTooltip && stack.hasTag()) {
+            tooltip.add(Component.translatable(getEntityType().getDescriptionId() + "." + stack.getTag().getInt("Variant")).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+        }
     }
 
     private void placeEntity(ServerLevel worldIn, ItemStack stack, BlockPos pos) {
-        Entity entity = this.entityTypeSupplier.get().spawn(worldIn, stack, null, pos, MobSpawnType.BUCKET, true, false);
-        if (entity != null) {
-            if (entity instanceof WherbleEntity) {
-                if (!stack.hasTag()) {
-                    ((WherbleEntity)entity).setAge(-24000);
-                    ((WherbleEntity)entity).setVariant(worldIn.random.nextInt(4));
-                }
-                else {
-                    ((WherbleEntity)entity).setAge(stack.getTag().getInt("Age"));
-                    ((WherbleEntity)entity).setVariant(stack.getTag().getInt("Variant"));
-                }
-            }
-        }
+        this.entityTypeSupplier.get().spawn(worldIn, stack, null, pos, MobSpawnType.BUCKET, true, false);
+    }
+
+    private EntityType<?> getEntityType() {
+        return entityTypeSupplier.get();
     }
 
     private ItemStack getEmptyItem(ItemStack stack, Player player) {
-        if (entityTypeSupplier == FTEntities.WHERBLE) {
-            return !player.isCreative() ? new ItemStack(Items.FLOWER_POT) : stack;
-        }
-        else {
-            return !player.isCreative() ? new ItemStack(Items.BUCKET) : stack;
-        }
+        return !player.isCreative() ? new ItemStack(Items.FLOWER_POT) : stack;
     }
 }
