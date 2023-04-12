@@ -1,7 +1,8 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/golden_river_ray_bucket_1"
+    "layer0": "finsandtails:item/lower_bucket",
+    "layer1": "finsandtails:item/bucket_content/golden_river_ray"
   },
   "overrides": [
     {
