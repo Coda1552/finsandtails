@@ -2,6 +2,6 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "finsandtails:item/lower_bucket",
-    "layer0": "finsandtails:item/bucket_content/crowned_horatee"
+    "layer1": "finsandtails:item/bucket_content/crowned_horatee"
   }
 }
