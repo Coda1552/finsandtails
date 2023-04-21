@@ -31,7 +31,7 @@ import teamdraco.finsandstails.registry.FTEntities;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class WherblingPotItem extends FinsBucketItem {
+public class WherblingPotItem extends FinsPotItem {
     private final Supplier<? extends EntityType<?>> entityTypeSupplier;
     private final Supplier<? extends Fluid> fluid;
 
