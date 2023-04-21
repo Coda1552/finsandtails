@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/phantom_nudibranch_bucket"
+    "layer0": "finsandtails:item/lower_bucket",
+    "layer1": "finsandtails:item/bucket_content/phantom_nudibranch"
   }
 }

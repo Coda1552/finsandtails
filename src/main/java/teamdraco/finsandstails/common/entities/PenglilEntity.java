@@ -25,6 +25,7 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -56,13 +57,15 @@ import teamdraco.finsandstails.common.entities.ai.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimationTickable {
+public class PenglilEntity extends TamableAnimal implements Bucketable, IAnimatable, IAnimationTickable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_LYING = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> RELAX_STATE_ONE = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
     private final AnimationFactory factory = new AnimationFactory(this);
 
     public PenglilEntity(EntityType<? extends PenglilEntity> type, Level world) {
@@ -133,6 +136,28 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
     }
 
     @Override
+    public boolean fromBucket() {
+        return this.entityData.get(FROM_BUCKET);
+    }
+
+    @Override
+    public void setFromBucket(boolean fromBucket) {
+        this.entityData.set(FROM_BUCKET, fromBucket);
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack getBucketItemStack() {
+        return new ItemStack(FTItems.PENGLIL_BUCKET.get());
+    }
+
+    @Override
+    @Nonnull
+    public SoundEvent getPickupSound() {
+        return SoundEvents.ITEM_FRAME_ADD_ITEM;
+    }
+
+    @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
         Item item = heldItem.getItem();
@@ -140,9 +165,9 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
         InteractionResult actionresulttype = super.mobInteract(player, hand);
 
         if (heldItem.getItem() == Items.BUCKET && this.isAlive() && !this.isOrderedToSit()) {
-            playSound(SoundEvents.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
+            playSound(this.getPickupSound(), 1.0F, 1.0F);
             heldItem.shrink(1);
-            this.setBucketData(itemstack1);
+            this.saveToBucketTag(itemstack1);
             if (!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
             }
@@ -199,7 +224,8 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
         return 480;
     }
 
-    private void setBucketData(ItemStack bucket) {
+    @Override
+    public void saveToBucketTag(ItemStack bucket) {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         compoundnbt.putInt("Variant", this.getVariant());
         if (isTame()) {
@@ -207,6 +233,14 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
         }
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
+        }
+    }
+
+    @Override
+    public void loadFromBucketTag(CompoundTag compoundTag) {
+        this.setVariant(compoundTag.getInt("Variant"));
+        if (compoundTag.contains("Owner")) {
+            this.setOwnerUUID(compoundTag.getUUID("Owner"));
         }
     }
 
@@ -234,6 +268,7 @@ public class PenglilEntity extends TamableAnimal implements IAnimatable, IAnimat
         this.entityData.define(VARIANT, 0);
         this.entityData.define(IS_LYING, false);
         this.entityData.define(RELAX_STATE_ONE, false);
+        this.entityData.define(FROM_BUCKET, false);
     }
 
     public int getVariant() {

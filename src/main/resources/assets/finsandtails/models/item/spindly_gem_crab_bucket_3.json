@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/spindly_gem_crab_bucket_3"
+    "layer0": "finsandtails:item/lower_bucket",
+    "layer1": "finsandtails:item/bucket_content/spindly_gem_crab_3"
   }
 }

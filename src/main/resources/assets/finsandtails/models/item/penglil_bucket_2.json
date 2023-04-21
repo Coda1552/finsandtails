@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/penglil_bucket_2"
+    "layer0": "finsandtails:item/lower_bucket",
+    "layer1": "finsandtails:item/bucket_content/penglil_2"
   }
 }
