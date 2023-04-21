@@ -10,6 +10,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
@@ -65,7 +67,7 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
 
             if (!canFly) {
                 if (pos != null)
-                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                    if (player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
                         canFly = true;
                     } else {
                         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -85,18 +87,28 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
                         }
                     }
             }
+
             CompoundTag persistentData = player.getPersistentData();
             if (persistentData.getBoolean("FinsFlying")) {
                 if (pos != null) {
-
                     if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+
                         player.fallDistance = 0;
                         int ticksJumping = persistentData.getInt("FinsFlyingTicks") + 1;
                         if (ticksJumping % 10 == 0) {
                             stack.hurtAndBreak(1, player, Player -> Player.broadcastBreakEvent(EquipmentSlot.CHEST));
                         }
                         persistentData.putInt("FinsFlyingTicks", ticksJumping);
-                        player.setDeltaMovement(player.getDeltaMovement().add(0, 0.1, 0));
+                        Vec3 d3 = player.getViewVector(1.0F).scale(0.35F);
+                        if (!player.isOnGround()) {
+                            Vec3 vec31 = Vec3.ZERO;
+                            player.setDeltaMovement(vec31.add(d3));
+                            player.setPose(Pose.SWIMMING);
+                            player.setSwimming(true);
+                            player.startFallFlying();
+                            player.resetFallDistance();
+                        }
+                        player.stopFallFlying();
                     }
                     if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
                         if (random.nextInt(100) < this.bubbleSoundTime++) {
@@ -153,7 +165,6 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
             }
         }
     }
-
     @Override
     public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {
         super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
