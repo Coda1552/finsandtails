@@ -67,7 +67,7 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
 
             if (!canFly) {
                 if (pos != null)
-                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                    if (player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
                         canFly = true;
                     } else {
                         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
