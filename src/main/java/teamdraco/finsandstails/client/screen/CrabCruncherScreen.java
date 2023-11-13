@@ -36,7 +36,7 @@ public class CrabCruncherScreen extends AbstractContainerScreen<CrabCruncherCont
         Component textCompontent = Component.translatable("container.finsandtails.crab_cruncher");
 
         this.font.draw(matrixStack, this.playerInventoryTitle, (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
-        this.font.draw(matrixStack, textCompontent, ((float) imageWidth / 2 - font.width(textCompontent) / 2), 6f, 4210752);
+        this.font.draw(matrixStack, textCompontent, ((float) imageWidth / 2F - font.width(textCompontent) / 2F), 18F, 4210752);
     }
 
     @Override
