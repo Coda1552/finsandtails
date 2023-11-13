@@ -15,7 +15,7 @@ import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 import teamdraco.finsandstails.registry.FTBlocks;
 
 public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe> {
-    public static final Component ID = Component.translatable(FinsAndTails.MOD_ID + ".crunching_recipe_category");
+    public static final RecipeType<CrunchingRecipe> CRUNCHING = RecipeType.create(FinsAndTails.MOD_ID, "crunching", CrunchingRecipe.class);
     private final IDrawable background;
     private final IDrawable icon;
 
@@ -26,7 +26,7 @@ public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe>
 
     @Override
     public RecipeType<CrunchingRecipe> getRecipeType() {
-        return null;
+        return CRUNCHING;
     }
 
     @Override

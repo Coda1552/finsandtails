@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [ 
+    "minecraft:warm_ocean"  
+  ],
+  "spawners":
+  {
+    "type": "finsandtails:crowned_horatee",
+    "weight": 4,
+    "minCount": 2,
+    "maxCount": 4
+  }
+}

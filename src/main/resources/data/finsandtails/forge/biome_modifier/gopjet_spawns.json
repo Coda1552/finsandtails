@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:deep_ocean", 
+    "minecraft:ocean"  
+  ],
+  "spawners":
+  {
+    "type": "finsandtails:gopjet",
+    "weight": 1,
+    "minCount": 2,
+    "maxCount": 3
+  }
+}

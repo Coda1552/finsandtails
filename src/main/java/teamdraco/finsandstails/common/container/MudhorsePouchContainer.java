@@ -68,7 +68,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player playerIn) {
-        return this.stackInventory.stillValid(playerIn);
+        return playerIn.getItemInHand(playerIn.getUsedItemHand()).is(FTItems.MUDHORSE_POUCH.get());
     }
 
     @Override

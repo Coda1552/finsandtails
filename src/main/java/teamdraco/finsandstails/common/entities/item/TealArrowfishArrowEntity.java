@@ -32,6 +32,11 @@ public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAd
         this.arrow = (TealArrowfishItem) item;
     }
 
+    public TealArrowfishArrowEntity(Level worldIn, double x, double y, double z) {
+        this(FTEntities.TEAL_ARROWFISH_ARROW.get(), worldIn);
+        setPos(x, y, z);
+    }
+
     @Override
     protected ItemStack getPickupItem() {
         return new ItemStack(arrow);

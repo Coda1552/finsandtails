@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:warm_ocean"
+  ],
+  "spawners":
+  {
+    "type": "finsandtails:spindly_gem_crab",
+    "weight": 7,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

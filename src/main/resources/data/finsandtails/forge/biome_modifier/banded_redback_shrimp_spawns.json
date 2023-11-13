@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:warm_ocean"  
+  ],
+  "spawners":
+  {
+    "type": "finsandtails:banded_redback_shrimp",
+    "weight": 6,
+    "minCount": 3,
+    "maxCount": 3
+  }
+}

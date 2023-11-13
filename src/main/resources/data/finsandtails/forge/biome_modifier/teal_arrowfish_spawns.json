@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:cold_ocean", 
+    "minecraft:deep_cold_ocean" 
+  ],
+  "spawners":
+  {
+    "type": "finsandtails:teal_arrowfish",
+    "weight": 4,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}

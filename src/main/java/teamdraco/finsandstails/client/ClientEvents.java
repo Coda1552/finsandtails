@@ -121,7 +121,7 @@ public class ClientEvents {
 
             if (chest.isEmpty()) return;
 
-            if (event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type()) {
+            if (event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type() && !player.isCreative() && !player.isSpectator()) {
                 CharmType charm = CharmType.getCharm(player);
                 if (charm == null) return;
 

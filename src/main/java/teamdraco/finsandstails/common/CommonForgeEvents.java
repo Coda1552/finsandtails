@@ -51,9 +51,8 @@ import teamdraco.finsandstails.registry.FTTags;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class CommonEvents {
+public class CommonForgeEvents {
 
-    // todo - use global loot modifiers and remove this
     @SubscribeEvent
     public static void onPlayerFished(ItemFishedEvent event) {
         Player player = event.getEntity();
@@ -131,19 +130,13 @@ public class CommonEvents {
 
     }
 
-    /*@SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void registerBiomes(BiomeLoadingEvent event) {
-
-    }*/
-
     @SubscribeEvent
     public static void crabsFavorXPDrops(LivingExperienceDropEvent event) {
-        Entity attacker = event.getAttackingPlayer();
+        LivingEntity attacker = event.getAttackingPlayer();
 
         if (attacker != null) {
-            LivingEntity livingEntity = (LivingEntity) attacker;
-            ItemStack heldItem = livingEntity.getMainHandItem();
-            ItemStack heldItemOffhand = livingEntity.getOffhandItem();
+            ItemStack heldItem = attacker.getMainHandItem();
+            ItemStack heldItemOffhand = attacker.getOffhandItem();
             if (EnchantmentHelper.getEnchantments(heldItem).containsKey(FTEnchantments.CRABS_FAVOR.get()) && EnchantmentHelper.getEnchantments(heldItemOffhand).containsKey(FTEnchantments.CRABS_FAVOR.get())) {
                 int i = EnchantmentHelper.getItemEnchantmentLevel(FTEnchantments.CRABS_FAVOR.get(), event.getAttackingPlayer().getItemInHand(InteractionHand.MAIN_HAND));
                 event.setDroppedExperience(event.getOriginalExperience() * i + attacker.getCommandSenderWorld().random.nextInt(3));

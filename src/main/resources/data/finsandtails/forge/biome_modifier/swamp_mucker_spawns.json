@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "#minecraft:is_swamp",
+  "spawners":
+  {
+    "type": "finsandtails:swamp_mucker",
+    "weight": 1,
+    "minCount": 2,
+    "maxCount": 4
+  }
+}

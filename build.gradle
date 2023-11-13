@@ -99,7 +99,6 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.19.2-43.2.0'
 
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.19:3.1.40')
-    //implementation fg.deobf('software.bernie.geckolib:geckolib-1.19.2-forge:3.1.40')
 
     // JEI
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
