@@ -5,13 +5,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -32,6 +30,8 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -43,8 +43,10 @@ import net.minecraftforge.fml.common.Mod;
 import teamdraco.finsandstails.FTConfig;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.IHydrate;
+import teamdraco.finsandstails.common.entities.PenglilEntity;
 import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
+import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 import teamdraco.finsandstails.registry.FTEnchantments;
 import teamdraco.finsandstails.registry.FTTags;
 
@@ -52,6 +54,42 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonForgeEvents {
+
+    @SubscribeEvent
+    public static void onArrowfishHit(ProjectileImpactEvent e) {
+        Projectile proj = e.getProjectile();
+        HitResult result = e.getRayTraceResult();
+
+        if (result instanceof EntityHitResult hitResult && hitResult.getEntity() instanceof LivingEntity target && proj instanceof TealArrowfishArrowEntity fishArrow) {
+            Entity owner = fishArrow.getOwner();
+
+            if (owner instanceof Player player) {
+                List<PenglilEntity> penglils = player.getLevel().getNearbyEntities(PenglilEntity.class, TargetingConditions.forNonCombat(), player, player.getBoundingBox().inflate(16.0D));
+
+                for (PenglilEntity penglil : penglils) {
+
+                    if (penglil.isTame() && penglil.getOwner() != null && !penglil.getOwner().equals(target)) {
+
+                        if (target instanceof TamableAnimal tamable) {
+                            boolean flag = tamable.isTame() && tamable.getOwner() != null && !tamable.getOwner().equals(owner);
+
+                            if (flag) {
+                                penglil.setTarget(target);
+                            }
+                            else {
+                                return;
+                            }
+                        }
+                        else {
+                            penglil.setTarget(target);
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
 
     @SubscribeEvent
     public static void onPlayerFished(ItemFishedEvent event) {
