@@ -12,7 +12,12 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -27,23 +32,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 
 import javax.annotation.Nullable;
 
-public class GoldenRiverRayEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
+public class GoldenRiverRayEntity extends AbstractFish implements GeoEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(GoldenRiverRayEntity.class, EntityDataSerializers.INT);
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, Level world) {
         super(type, world);
@@ -74,7 +77,7 @@ public class GoldenRiverRayEntity extends AbstractFish implements IAnimatable, I
     }
 
     public void playerTouch(Player entityIn) {
-        if (entityIn instanceof ServerPlayer && entityIn.hurt(DamageSource.mobAttack(this), 1)) {
+        if (entityIn instanceof ServerPlayer && entityIn.hurt(this.level().damageSources().mobAttack(this), 1)) {
             ((ServerPlayer)entityIn).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.PUFFER_FISH_STING, 0.0F));
             entityIn.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0));
         }
@@ -85,7 +88,7 @@ public class GoldenRiverRayEntity extends AbstractFish implements IAnimatable, I
         Entity attacker = source.getDirectEntity();
         if (attacker instanceof LivingEntity) {
             ((LivingEntity) attacker).addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0));
-            attacker.hurt(DamageSource.mobAttack(this), 1);
+            attacker.hurt(this.level().damageSources().mobAttack(this), 1);
         }
         return super.hurt(source, amount);
     }
@@ -166,27 +169,23 @@ public class GoldenRiverRayEntity extends AbstractFish implements IAnimatable, I
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.golden_river_ray.swim", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.golden_river_ray.swim"));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.golden_river_ray.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.golden_river_ray.idle"));
         }
         return PlayState.CONTINUE;
     }
 
-    @Override
-    public int tickTimer() {
-        return tickCount;
-    }
 }

@@ -18,7 +18,7 @@ import teamdraco.finsandstails.common.container.CrabCruncherContainer;
 import javax.annotation.Nullable;
 
 public class CrabCruncherBlock extends Block {
-    private static final Component CONTAINER_NAME = Component.translatable("container." + FinsAndTails.MOD_ID + "crab_cruncher");
+    private static final Component CONTAINER_NAME = Component.translatable("container." + FinsAndTails.MOD_ID + ".crab_cruncher");
 
     public CrabCruncherBlock(Properties properties) {
         super(properties);

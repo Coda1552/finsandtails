@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.PapaWeeEntity;
 
-public class PapaWeeModel extends AnimatedGeoModel<PapaWeeEntity> {
+public class PapaWeeModel extends GeoModel<PapaWeeEntity> {
 
     @Override
     public ResourceLocation getModelResource(PapaWeeEntity wee) {

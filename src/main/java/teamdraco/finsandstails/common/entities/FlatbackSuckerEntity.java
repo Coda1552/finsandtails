@@ -15,23 +15,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.List;
 
-public class FlatbackSuckerEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+public class FlatbackSuckerEntity extends AbstractFish implements GeoEntity {
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public FlatbackSuckerEntity(EntityType<? extends FlatbackSuckerEntity> type, Level world) {
         super(type, world);
@@ -45,7 +44,7 @@ public class FlatbackSuckerEntity extends AbstractFish implements IAnimatable, I
     @Override
     public void tick() {
         super.tick();
-        List<FlatbackSuckerEntity> list = this.level.getEntitiesOfClass(FlatbackSuckerEntity.class, this.getBoundingBox().inflate(2.0D));
+        List<FlatbackSuckerEntity> list = this.level().getEntitiesOfClass(FlatbackSuckerEntity.class, this.getBoundingBox().inflate(2.0D));
         if (this.isAlive() && list.size() >= 3 && random.nextFloat() > 0.99F) {
             this.playSound(FTSounds.FLATBACK_SUCKER_CLICK.get(), 0.4F, 1.0F);
         }
@@ -78,28 +77,23 @@ public class FlatbackSuckerEntity extends AbstractFish implements IAnimatable, I
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         boolean walking = !(event.getLimbSwingAmount() > -0.01F && event.getLimbSwingAmount() < 0.01F);
         if (walking){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.flatbacksucker.swim", ILoopType.EDefaultLoopTypes.LOOP));
+            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.flatbacksucker.swim"));
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.flatbacksucker.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.flatbacksucker.idle"));
         }
         return PlayState.CONTINUE;
-    }
-
-    @Override
-    public int tickTimer() {
-        return tickCount;
     }
 
     static class MoveHelperController extends MoveControl {
@@ -115,7 +109,7 @@ public class FlatbackSuckerEntity extends AbstractFish implements IAnimatable, I
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.fish.horizontalCollision && this.fish.level.getBlockState(this.fish.blockPosition().above()).getBlock() == Blocks.WATER) {
+            if (this.fish.horizontalCollision && this.fish.level().getBlockState(this.fish.blockPosition().above()).getBlock() == Blocks.WATER) {
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
             }
 
@@ -126,8 +120,8 @@ public class FlatbackSuckerEntity extends AbstractFish implements IAnimatable, I
                 double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
                 float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                this.fish.yRot = this.rotlerp(this.fish.yRot, f, 90.0F);
-                this.fish.yBodyRot = this.fish.yRot;
+                this.fish.setYRot(this.rotlerp(this.fish.getYRot(), f, 90.0F));
+                this.fish.yBodyRot = this.fish.getYRot();
                 float f1 = (float)(this.speedModifier * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 this.fish.setSpeed(Mth.lerp(0.125F, this.fish.getSpeed(), f1));
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, (double)this.fish.getSpeed() * d1 * 0.1D, 0.0D));

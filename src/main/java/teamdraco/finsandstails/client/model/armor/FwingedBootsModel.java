@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model.armor;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.items.FwingedBootsItem;
 
-public class FwingedBootsModel extends AnimatedGeoModel<FwingedBootsItem> {
+public class FwingedBootsModel extends GeoModel<FwingedBootsItem> {
 
     @Override
     public ResourceLocation getModelResource(FwingedBootsItem object) {

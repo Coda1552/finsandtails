@@ -1,14 +1,15 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
+import software.bernie.geckolib.constant.DataTickets;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
 
-public class RubberBellyGliderModel extends AnimatedGeoModel<RubberBellyGliderEntity> {
+public class RubberBellyGliderModel extends GeoModel<RubberBellyGliderEntity> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/rubber_belly_glider.png");
 
     @Override
@@ -27,25 +28,25 @@ public class RubberBellyGliderModel extends AnimatedGeoModel<RubberBellyGliderEn
     }
 
     @Override
-    public void setCustomAnimations(RubberBellyGliderEntity entity, int uniqueID, AnimationEvent customPredicate) {
+    public void setCustomAnimations(RubberBellyGliderEntity entity, long uniqueID, AnimationState<RubberBellyGliderEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
+        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
 
-        EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
+        EntityModelData extraData = customPredicate.getData(DataTickets.ENTITY_MODEL_DATA);
 
         if (entity.isInWater()) {
-            body.setRotationX(extraData.headPitch * ((float) Math.PI / 180F));
-            body.setRotationY(extraData.netHeadYaw * ((float) Math.PI / 180F));
+            body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F));
+            body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
         }
 
         if (entity.isBaby()) {
             body.setScaleX(0.5F);
             body.setScaleY(0.5F);
             body.setScaleZ(0.5F);
-            body.setPositionY(-1F);
+            body.setPosY(-1F);
         }
         else {
-            body.setPositionY(-0.2F);
+            body.setPosY(-0.2F);
         }
     }
 }

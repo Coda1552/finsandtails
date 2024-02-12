@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.SwampMuckerEntity;
 
-public class SwampMuckerModel extends AnimatedGeoModel<SwampMuckerEntity> {
+public class SwampMuckerModel extends GeoModel<SwampMuckerEntity> {
 
     @Override
     public ResourceLocation getModelResource(SwampMuckerEntity swampMucker) {

@@ -1,8 +1,12 @@
 
 package teamdraco.finsandstails.client.render;
 
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.HighFinnedBlueModel;
 import teamdraco.finsandstails.common.entities.HighFinnedBlueEntity;
 
@@ -11,5 +15,10 @@ public class HighFinnedBlueRenderer extends GeoEntityRenderer<HighFinnedBlueEnti
     public HighFinnedBlueRenderer(EntityRendererProvider.Context context) {
         super(context, new HighFinnedBlueModel());
         this.shadowRadius = 0.3F;
+    }
+
+    @Override
+    public RenderType getRenderType(HighFinnedBlueEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
+        return RenderType.entityCutout(texture);
     }
 }

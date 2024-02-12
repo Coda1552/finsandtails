@@ -12,6 +12,6 @@ public class WalkWithGroundGoal extends RandomStrollGoal {
 	}
 
 	public boolean canUse() {
-		return (this.fish.isOnGround() && this.fish.isInWater() || !this.fish.isInWater()) && super.canUse();
+		return (this.fish.onGround() && this.fish.isInWater() || !this.fish.isInWater()) && super.canUse();
 	}
 }

@@ -14,8 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 
 public class CrabGauntletItem extends Item {
     public final Multimap<Attribute, AttributeModifier> attributeModifiers;
@@ -38,8 +40,7 @@ public class CrabGauntletItem extends Item {
         if (state.is(Blocks.COBWEB)) {
             return 15.0F;
         } else {
-            Material material = state.getMaterial();
-            return material != Material.PLANT && material != Material.REPLACEABLE_PLANT && material != Material.WATER_PLANT && !state.is(BlockTags.LEAVES) && material != Material.VEGETABLE ? 1.0F : 1.5F;
+            return !state.is(BlockTags.LEAVES) && state.canBeReplaced() && state.getBlock() instanceof IPlantable ? 1.0F : 1.5F;
         }
     }
 

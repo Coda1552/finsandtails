@@ -3,15 +3,15 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.VibraWeeEntity;
 
 import java.util.Map;
 
-public class VibraWeeModel extends AnimatedGeoModel<VibraWeeEntity> {
+public class VibraWeeModel extends GeoModel<VibraWeeEntity> {
     public static final Map<Integer, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(), (hashMap) -> {
         hashMap.put(0, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/vibra_wee/vibra_wee_1.png"));
         hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/vibra_wee/vibra_wee_2.png"));
@@ -46,12 +46,12 @@ public class VibraWeeModel extends AnimatedGeoModel<VibraWeeEntity> {
     }
 
     @Override
-    public void setCustomAnimations(VibraWeeEntity entity, int uniqueID, AnimationEvent customPredicate) {
+    public void setCustomAnimations(VibraWeeEntity entity, long uniqueID, AnimationState<VibraWeeEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
+        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
 
         if (!entity.isInWater()) {
-            body.setRotationZ(1.5708f);
+            body.setRotZ(1.5708f);
         }
     }
 }

@@ -1,6 +1,7 @@
 package teamdraco.finsandstails.registry;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -25,6 +26,6 @@ public class FTTags {
     public static final TagKey<BannerPattern> PATTERN_ITEM_SHELL = patternTag("pattern_item/shell");
 
     private static TagKey<BannerPattern> patternTag(String path) {
-        return TagKey.create(Registry.BANNER_PATTERN_REGISTRY, new ResourceLocation(FinsAndTails.MOD_ID, path));
+        return TagKey.create(Registries.BANNER_PATTERN, new ResourceLocation(FinsAndTails.MOD_ID, path));
     }
 }

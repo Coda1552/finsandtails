@@ -7,9 +7,13 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.crafting.CrunchingRecipe;
 import teamdraco.finsandstails.registry.FTBlocks;
@@ -53,6 +57,17 @@ public class CrunchingRecipeCategory implements IRecipeCategory<CrunchingRecipe>
                     .addIngredients(recipe.getIngredients().get(1));
         }
         builder.addSlot(RecipeIngredientRole.OUTPUT, 107, 0)
-                .addItemStack(recipe.getResultItem());
+                .addItemStack(getResultItem(recipe));
+    }
+
+    private static ItemStack getResultItem(Recipe<?> recipe) {
+        Minecraft minecraft = Minecraft.getInstance();
+        ClientLevel level = minecraft.level;
+        if (level == null) {
+            throw new NullPointerException("level must not be null.");
+        } else {
+            RegistryAccess registryAccess = level.registryAccess();
+            return recipe.getResultItem(registryAccess);
+        }
     }
 }

@@ -1,13 +1,13 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
 
-public class OrnateBugfishModel extends AnimatedGeoModel<OrnateBugfishEntity> {
+public class OrnateBugfishModel extends GeoModel<OrnateBugfishEntity> {
 
     @Override
     public ResourceLocation getModelResource(OrnateBugfishEntity wee) {
@@ -25,12 +25,12 @@ public class OrnateBugfishModel extends AnimatedGeoModel<OrnateBugfishEntity> {
     }
 
     @Override
-    public void setCustomAnimations(OrnateBugfishEntity entity, int uniqueID, AnimationEvent customPredicate) {
+    public void setCustomAnimations(OrnateBugfishEntity entity, long uniqueID, AnimationState<OrnateBugfishEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
+        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
 
         if (!entity.isInWater()) {
-            body.setRotationZ(1.5708f);
+            body.setRotZ(1.5708f);
 
         }
     }

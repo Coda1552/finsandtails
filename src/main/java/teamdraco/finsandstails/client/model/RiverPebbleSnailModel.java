@@ -3,15 +3,15 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
 
 import java.util.Map;
 
-public class RiverPebbleSnailModel extends AnimatedGeoModel<RiverPebbleSnailEntity> {
+public class RiverPebbleSnailModel extends GeoModel<RiverPebbleSnailEntity> {
     public static final Map<Integer, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(), (hashMap) -> {
         hashMap.put(0, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/river_pebble_snail/river_pebble_snail_1.png"));
         hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/river_pebble_snail/river_pebble_snail_2.png"));
@@ -36,21 +36,21 @@ public class RiverPebbleSnailModel extends AnimatedGeoModel<RiverPebbleSnailEnti
     }
 
     @Override
-    public void setCustomAnimations(RiverPebbleSnailEntity entity, int uniqueID, AnimationEvent customPredicate) {
+    public void setCustomAnimations(RiverPebbleSnailEntity entity, long uniqueID, AnimationState<RiverPebbleSnailEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
-        IBone shell = this.getAnimationProcessor().getBone("shell");
+        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
+        CoreGeoBone shell = this.getAnimationProcessor().getBone("shell");
 
         if (entity.isBaby()) {
             body.setScaleX(0.5F);
             body.setScaleY(0.5F);
             body.setScaleZ(0.5F);
-            body.setPositionY(-1F);
+            body.setPosY(-1F);
 
             shell.setScaleX(0.65F);
             shell.setScaleY(0.65F);
             shell.setScaleZ(0.65F);
-            shell.setPositionY(-0.25F);
+            shell.setPosY(-0.25F);
         }
     }
 }

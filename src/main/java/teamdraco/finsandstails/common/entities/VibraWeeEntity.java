@@ -20,16 +20,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
@@ -38,9 +36,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 // todo - fix schooling crash
-public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
+public class VibraWeeEntity extends AbstractSchoolingFish implements GeoEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(VibraWeeEntity.class, EntityDataSerializers.INT);
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public VibraWeeEntity(EntityType<? extends VibraWeeEntity> type, Level world) {
         super(type, world);
@@ -134,24 +132,19 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable
     @Override
     public void tick() {
         super.tick();
-        if (!this.level.isClientSide()) {
+        if (!this.level().isClientSide()) {
             if (random.nextInt(2500) == 0 && shouldSpawnPapaWee()) {
-                PapaWeeEntity papaWee = FTEntities.PAPA_WEE.get().create(level);
+                PapaWeeEntity papaWee = FTEntities.PAPA_WEE.get().create(level());
                 papaWee.setPos(this.getX(), this.getY(), this.getZ());
 
-                level.addFreshEntity(papaWee);
+                level().addFreshEntity(papaWee);
             }
         }
     }
 
-    @Override
-    public int tickTimer() {
-        return tickCount;
-    }
-
     private boolean shouldSpawnPapaWee() {
-        List<VibraWeeEntity> weeList = this.level.getEntitiesOfClass(VibraWeeEntity.class, this.getBoundingBox().inflate(8.0D));
-        List<PapaWeeEntity> papaWeeList = this.level.getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
+        List<VibraWeeEntity> weeList = this.level().getEntitiesOfClass(VibraWeeEntity.class, this.getBoundingBox().inflate(8.0D));
+        List<PapaWeeEntity> papaWeeList = this.level().getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
         if (weeList.size() >= 10 && papaWeeList.isEmpty()) {
             return true;
         }
@@ -161,23 +154,22 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements IAnimatable
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.vibra_wee.swim", ILoopType.EDefaultLoopTypes.LOOP));
+            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.vibra_wee.swim"));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.vibra_wee.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.vibra_wee.idle"));
         }
         return PlayState.CONTINUE;
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 }

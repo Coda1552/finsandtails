@@ -21,11 +21,24 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
@@ -37,22 +50,26 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.ShareTheBubbleGoal;
 import teamdraco.finsandstails.common.entities.ai.SwimWithoutGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.WalkWithGroundGoal;
@@ -66,7 +83,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimationTickable, IHydrate, Bucketable {
+public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate, Bucketable {
 	private static final EntityDataAccessor<String> DATA_TYPE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<Boolean> HAS_BABY = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> BUBBLE_CHARGE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
@@ -78,7 +95,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 
 
-	private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+	private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.SEA_PICKLE);
 	private static final Ingredient TEMPT_ITEMS = Ingredient.of(FTItems.RED_BULL_CRAB_CLAW.get(), FTItems.WHITE_BULL_CRAB_CLAW.get());
 
@@ -87,8 +104,12 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		this.moveControl = new SmoothWalkGroundAndSwimMoveControl(this, 85, 10, 0.5F, 1.0F, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 		this.setCanPickUpLoot(true);
-		this.maxUpStep = 1.0F;
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+	}
+
+	@Override
+	public float maxUpStep() {
+		return 1.0F;
 	}
 
 	public MobType getMobType() {
@@ -104,7 +125,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 	}
 
 	protected int getExperienceReward(Player p_30353_) {
-		return 1 + this.level.random.nextInt(3);
+		return 1 + this.level().random.nextInt(3);
 	}
 
 	public void baseTick() {
@@ -153,7 +174,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	@javax.annotation.Nullable
 	public Entity getBubbleTarget() {
-		Entity entity = this.level.getEntity(this.entityData.get(BUBBLE_TARGET));
+		Entity entity = this.level().getEntity(this.entityData.get(BUBBLE_TARGET));
 		return entity;
 	}
 
@@ -203,7 +224,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		if (this.isBubbleCharge() && this.hasBubbleTarget()) {
 			if (this.getBubbleTarget() != null) {
 				for (int i = 0; i < 3; ++i) {
-					this.level.addParticle(ParticleTypes.BUBBLE, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, (this.getBubbleTarget().getX() - (this.getX() + this.getLookAngle().x / 2.0D)) * 0.95F, (this.getBubbleTarget().getEyeY() - this.getEyeY()) * 0.95F, (this.getBubbleTarget().getZ() - (this.getZ() + this.getLookAngle().z / 2.0D)) * 0.95F);
+					this.level().addParticle(ParticleTypes.BUBBLE, this.getX() + this.getLookAngle().x / 2.0D, this.getEyeY(), this.getZ() + this.getLookAngle().z / 2.0D, (this.getBubbleTarget().getX() - (this.getX() + this.getLookAngle().x / 2.0D)) * 0.95F, (this.getBubbleTarget().getEyeY() - this.getEyeY()) * 0.95F, (this.getBubbleTarget().getZ() - (this.getZ() + this.getLookAngle().z / 2.0D)) * 0.95F);
 				}
 			}
 		}
@@ -279,7 +300,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 
 	public void travel(Vec3 p_27490_) {
-		if (this.isEffectiveAi() && this.isInWater() && !this.isOnGround()) {
+		if (this.isEffectiveAi() && this.isInWater() && !this.onGround()) {
 			this.moveRelative(0.05F, p_27490_);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
@@ -291,7 +312,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 	@Override
 	protected PathNavigation createNavigation(Level worldIn) {
-		GroundPathNavigation groundPathNavigation = new GroundPathNavigation(this, level);
+		GroundPathNavigation groundPathNavigation = new GroundPathNavigation(this, level());
 		groundPathNavigation.setCanFloat(false);
 		return groundPathNavigation;
 	}
@@ -311,7 +332,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 			this.setAirSupply(p_149194_ - 1);
 			if (this.getAirSupply() == -20) {
 				this.setAirSupply(0);
-				this.hurt(DamageSource.DRY_OUT, 2.0F);
+				this.hurt(this.level().damageSources().dryOut(), 2.0F);
 			}
 		} else {
 			this.setAirSupply(this.getMaxAirSupply());
@@ -327,15 +348,14 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		return 6000;
 	}
 
-
 	@Override
-	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicrownedHorateee));
-		data.addAnimationController(new AnimationController<>(this, "miscController", 0, this::miscPredicate));
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+		controllerRegistrar.add(new AnimationController<GeoAnimatable>(this, "controller", 5, this::predicrownedHorateee));
+		controllerRegistrar.add(new AnimationController<GeoAnimatable>(this, "miscController", 0, this::miscPredicate));
 	}
 
 	@Override
-	public AnimationFactory getFactory() {
+	public AnimatableInstanceCache getAnimatableInstanceCache() {
 		return factory;
 	}
 
@@ -366,16 +386,16 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		return this.getDeltaMovement().lengthSqr() > 1.0E-7D;
 	}
 
-	private <E extends IAnimatable> PlayState miscPredicate(AnimationEvent<E> event) {
+	private <E extends GeoAnimatable> PlayState miscPredicate(AnimationState<E> event) {
 		if (this.isBubbleCharge()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.bubble", ILoopType.EDefaultLoopTypes.LOOP));
+			event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.model.bubble"));
 		} else {
 			return PlayState.STOP;
 		}
 		return PlayState.CONTINUE;
 	}
 
-	private <E extends IAnimatable> PlayState predicrownedHorateee(AnimationEvent<E> event) {
+	private <E extends GeoAnimatable> PlayState predicrownedHorateee(AnimationState<E> event) {
 		float f = 1.0F;
 
 		if (this.isBaby()) {
@@ -384,29 +404,24 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 
 		if (event.getLimbSwingAmount() > 0.01F) {
 			if (this.isInWater()) {
-				if (this.isOnGround()) {
+				if (this.onGround()) {
 					f += 0.25F;
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", ILoopType.EDefaultLoopTypes.LOOP));
+					event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.model.walk"));
 				} else {
-					event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.swim", ILoopType.EDefaultLoopTypes.LOOP));
+					event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.model.swim"));
 				}
 			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.crawl", ILoopType.EDefaultLoopTypes.LOOP));
+				event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.model.crawl"));
 			}
 		} else {
 			if (this.isInWater()) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle_water", ILoopType.EDefaultLoopTypes.LOOP));
+				event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.model.idle_water"));
 			} else {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle_land", ILoopType.EDefaultLoopTypes.LOOP));
+				event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.model.idle_land"));
 			}
 		}
 		event.getController().setAnimationSpeed(f);
 		return PlayState.CONTINUE;
-	}
-
-	@Override
-	public int tickTimer() {
-		return tickCount;
 	}
 
 	@Nullable
@@ -550,7 +565,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		public void tick() {
 			super.tick();
 			if (!this.crownedHorateeEntity.isInWater() && this.isReachedTarget() && ++this.layCounter == this.adjustedTickDelay(1)) {
-				if (this.crownedHorateeEntity.level instanceof ServerLevel serverLevel) {
+				if (this.crownedHorateeEntity.level() instanceof ServerLevel serverLevel) {
 					CrownedHorateeEntity ageablemob = this.crownedHorateeEntity.getBreedOffspring(serverLevel, this.crownedHorateeEntity);
 					ageablemob.setBaby(true);
 					ServerPlayer serverplayer = this.crownedHorateeEntity.getLoveCause();
@@ -585,7 +600,7 @@ public class CrownedHorateeEntity extends Animal implements IAnimatable, IAnimat
 		public GoToWaterGoal(CrownedHorateeEntity p_32425_, double p_32426_) {
 			this.mob = p_32425_;
 			this.speedModifier = p_32426_;
-			this.level = p_32425_.level;
+			this.level = p_32425_.level();
 			this.setFlags(EnumSet.of(Goal.Flag.MOVE));
 		}
 

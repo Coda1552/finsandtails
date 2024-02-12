@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
 
-public class PhantomNudibranchModel extends AnimatedGeoModel<PhantomNudibranchEntity> {
+public class PhantomNudibranchModel extends GeoModel<PhantomNudibranchEntity> {
 
     @Override
     public ResourceLocation getModelResource(PhantomNudibranchEntity wee) {

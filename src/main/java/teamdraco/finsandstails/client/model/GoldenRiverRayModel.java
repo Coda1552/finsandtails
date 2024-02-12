@@ -4,16 +4,17 @@ import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
+import software.bernie.geckolib.constant.DataTickets;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
 
 import java.util.Map;
 
-public class GoldenRiverRayModel extends AnimatedGeoModel<GoldenRiverRayEntity> {
+public class GoldenRiverRayModel extends GeoModel<GoldenRiverRayEntity> {
     public static final Map<Integer, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(), (hashMap) -> {
         hashMap.put(0, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/golden_river_ray/golden_river_ray_1.png"));
         hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/golden_river_ray/golden_river_ray_2.png"));
@@ -36,14 +37,14 @@ public class GoldenRiverRayModel extends AnimatedGeoModel<GoldenRiverRayEntity> 
     }
 
     @Override
-    public void setCustomAnimations(GoldenRiverRayEntity entity, int uniqueID, @Nullable AnimationEvent customPredicate) {
+    public void setCustomAnimations(GoldenRiverRayEntity entity, long uniqueID, @Nullable AnimationState<GoldenRiverRayEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("body");
-        EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
+        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
+        EntityModelData extraData = customPredicate.getData(DataTickets.ENTITY_MODEL_DATA);
 
         if (entity.isInWater()) {
-            body.setRotationX(extraData.headPitch * ((float) Math.PI / 180F));
-            body.setRotationY(extraData.netHeadYaw * ((float) Math.PI / 180F));
+            body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F));
+            body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
         }
     }
 }

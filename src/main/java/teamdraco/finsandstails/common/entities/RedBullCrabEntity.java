@@ -39,29 +39,31 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 
-public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnimationTickable {
+public class RedBullCrabEntity extends WaterAnimal implements GeoEntity {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(RedBullCrabEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public RedBullCrabEntity(EntityType<? extends RedBullCrabEntity> type, Level world) {
         super(type, world);
         this.moveControl = new MoveHelperController(this);
-        this.maxUpStep = 0.7f;
+    }
+
+    @Override
+    public float maxUpStep() {
+        return 0.7F;
     }
 
     @Override
@@ -121,7 +123,7 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setFromBucket(compound.getBoolean("FromBucket"));
-        if (compound.contains("Attributes", 9) && this.level != null && !this.level.isClientSide) {
+        if (compound.contains("Attributes", 9) && this.level() != null && !this.level().isClientSide) {
             this.getAttributes().load(compound.getList("Attributes", 10));
         }
     }
@@ -178,7 +180,7 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
             itemstack.shrink(1);
             ItemStack itemstack1 = this.getFishBucket();
             this.setBucketData(itemstack1);
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)p_230254_1_, itemstack1);
             }
 
@@ -189,7 +191,7 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
             }
 
             this.discard();
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         } else {
             return super.mobInteract(p_230254_1_, p_230254_2_);
         }
@@ -202,26 +204,21 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
-    @Override
-    public int tickTimer() {
-        return tickCount;
-    }
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.walk", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.bullcrab.walk"));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bullcrab.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.bullcrab.idle"));
         }
         return PlayState.CONTINUE;
     }
@@ -246,8 +243,8 @@ public class RedBullCrabEntity extends WaterAnimal implements IAnimatable, IAnim
                 double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
                 float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
-                this.crab.yBodyRot = this.crab.yRot;
+                this.crab.setYRot(this.rotlerp(this.crab.getYRot(), f, 90.0F));
+                this.crab.yBodyRot = this.crab.getYRot();
                 float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 this.crab.setSpeed(Mth.lerp(0.125F, this.crab.getSpeed(), f1));
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));

@@ -1,13 +1,20 @@
 package teamdraco.finsandstails.client.render;
 
 import net.minecraft.world.item.ArmorItem;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
-public class ArmorItemRenderer<T extends ArmorItem & IAnimatable> extends GeoArmorRenderer<T> {
-    public ArmorItemRenderer(AnimatedGeoModel<T> model) {
+public class ArmorItemRenderer<T extends ArmorItem & GeoItem> extends GeoArmorRenderer<T> {
+    public ArmorItemRenderer(GeoModel<T> model) {
         super(model);
-        this.bodyBone = "armorBody";
     }
+
+//    @Nullable
+//    @Override
+//    public GeoBone getBodyBone() {
+//        return this.model.getBone("armorBody").orElse(null);
+//    }
 }

@@ -3,15 +3,15 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
 
 import java.util.Map;
 
-public class WherbleModel extends AnimatedGeoModel<WherbleEntity> {
+public class WherbleModel extends GeoModel<WherbleEntity> {
     public static final Map<Integer, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(), (hashMap) -> {
         hashMap.put(0, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/wherble/wherble_1.png"));
         hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/wherble/wherble_2.png"));
@@ -36,15 +36,15 @@ public class WherbleModel extends AnimatedGeoModel<WherbleEntity> {
     }
 
     @Override
-    public void setCustomAnimations(WherbleEntity entity, int uniqueID, AnimationEvent customPredicate) {
+    public void setCustomAnimations(WherbleEntity entity, long uniqueID, AnimationState<WherbleEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("root");
+        CoreGeoBone body = this.getAnimationProcessor().getBone("root");
 
         if (entity.isBaby()) {
             body.setScaleX(0.5F);
             body.setScaleY(0.5F);
             body.setScaleZ(0.5F);
-            body.setPositionY(-2.75F);
+            body.setPosY(-2.75F);
         }
     }
 }

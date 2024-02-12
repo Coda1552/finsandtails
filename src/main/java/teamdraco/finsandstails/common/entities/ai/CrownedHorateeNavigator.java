@@ -16,6 +16,6 @@ public class CrownedHorateeNavigator extends GroundAndSwimmerNavigator {
     public boolean isStableDestination(BlockPos pos) {
         BlockPos blockPos = pos.below();
         BlockState state = this.level.getBlockState(blockPos);
-        return this.level.getBlockState(pos).is(Blocks.WATER) && !this.mob.isOnGround() || !state.isAir();
+        return this.level.getBlockState(pos).is(Blocks.WATER) && !this.mob.onGround() || !state.isAir();
     }
 }
