@@ -68,14 +68,8 @@ public class TealArrowfishArrowEntity extends AbstractArrow implements IEntityAd
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event) {
-        event.setAnimation(RawAnimation.begin().thenPlay("animation.arrowfish.swim"));
-        return PlayState.CONTINUE;
-    }
-
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<GeoAnimatable>(this, "controller", 5, this::predicate));
     }
 
     @Override
