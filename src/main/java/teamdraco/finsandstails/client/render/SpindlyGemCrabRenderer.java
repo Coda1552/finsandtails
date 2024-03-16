@@ -8,9 +8,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.SpindlyGemCrabModel;
-import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
 import teamdraco.finsandstails.common.entities.SpindlyGemCrabEntity;
 
 public class SpindlyGemCrabRenderer extends GeoEntityRenderer<SpindlyGemCrabEntity> {
@@ -21,7 +20,7 @@ public class SpindlyGemCrabRenderer extends GeoEntityRenderer<SpindlyGemCrabEnti
     }
 
     @Override
-    public RenderType getRenderType(SpindlyGemCrabEntity animatable, float partialTicks, PoseStack stack, @Nullable MultiBufferSource renderTypeBuffer, @Nullable VertexConsumer vertexBuilder, int packedLightIn, ResourceLocation textureLocation) {
-        return RenderType.entityTranslucent(textureLocation);
+    public RenderType getRenderType(SpindlyGemCrabEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
+        return RenderType.entityTranslucent(texture);
     }
 }

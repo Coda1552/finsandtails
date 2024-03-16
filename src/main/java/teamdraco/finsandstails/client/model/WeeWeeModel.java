@@ -1,13 +1,13 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.WeeWeeEntity;
 
-public class WeeWeeModel extends AnimatedGeoModel<WeeWeeEntity> {
+public class WeeWeeModel extends GeoModel<WeeWeeEntity> {
 
     @Override
     public ResourceLocation getModelResource(WeeWeeEntity wee) {
@@ -25,12 +25,12 @@ public class WeeWeeModel extends AnimatedGeoModel<WeeWeeEntity> {
     }
 
     @Override
-    public void setCustomAnimations(WeeWeeEntity entity, int uniqueID, AnimationEvent customPredicate) {
+    public void setCustomAnimations(WeeWeeEntity entity, long uniqueID, AnimationState<WeeWeeEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
-        IBone body = this.getAnimationProcessor().getBone("root");
+        CoreGeoBone body = this.getAnimationProcessor().getBone("root");
 
         if (!entity.isInWater()) {
-            body.setRotationZ(1.5708f);
+            body.setRotZ(1.5708f);
         }
     }
 }

@@ -36,24 +36,22 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 
-public class SpindlyGemCrabEntity extends AbstractFish implements IAnimationTickable, IAnimatable {
+public class SpindlyGemCrabEntity extends AbstractFish implements GeoEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(SpindlyGemCrabEntity.class, EntityDataSerializers.INT);
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public SpindlyGemCrabEntity(EntityType<? extends SpindlyGemCrabEntity> type, Level world) {
         super(type, world);
@@ -136,7 +134,7 @@ public class SpindlyGemCrabEntity extends AbstractFish implements IAnimationTick
             double d0 = this.random.nextGaussian() * 0.02D;
             double d1 = this.random.nextGaussian() * 0.02D;
             double d2 = this.random.nextGaussian() * 0.02D;
-            this.level.addParticle(p_208401_1_, this.getX(), this.getRandomY(), this.getZ(), d0, d1, d2);
+            this.level().addParticle(p_208401_1_, this.getX(), this.getRandomY(), this.getZ(), d0, d1, d2);
         }
     }
 
@@ -166,31 +164,27 @@ public class SpindlyGemCrabEntity extends AbstractFish implements IAnimationTick
     @Override
     public void tick() {
         super.tick();
-        level.broadcastEntityEvent(this, (byte)38);
+        level().broadcastEntityEvent(this, (byte)38);
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
-    }
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         boolean walking = !(event.getLimbSwingAmount() > -0.01F && event.getLimbSwingAmount() < 0.01F);
         if (walking){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.Spindly_crab.move", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.Spindly_crab.move"));
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.spindly_crab.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.spindly_crab.idle"));
         }
         return PlayState.CONTINUE;
-    }
-    @Override
-    public int tickTimer() {
-        return tickCount;
     }
 
     static class MoveHelperController extends MoveControl {
@@ -206,7 +200,7 @@ public class SpindlyGemCrabEntity extends AbstractFish implements IAnimationTick
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.crab.horizontalCollision && this.crab.level.getBlockState(this.crab.blockPosition().above()).getBlock() == Blocks.WATER) {
+            if (this.crab.horizontalCollision && this.crab.level().getBlockState(this.crab.blockPosition().above()).getBlock() == Blocks.WATER) {
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
             }
 
@@ -217,8 +211,8 @@ public class SpindlyGemCrabEntity extends AbstractFish implements IAnimationTick
                 double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
                 float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
-                this.crab.yBodyRot = this.crab.yRot;
+                this.crab.setYRot(this.rotlerp(this.crab.getYRot(), f, 90.0F));
+                this.crab.yBodyRot = this.crab.getYRot();
                 float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 this.crab.setSpeed(Mth.lerp(0.125F, this.crab.getSpeed(), f1));
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));

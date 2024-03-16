@@ -12,12 +12,28 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
@@ -28,16 +44,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.common.entities.ai.WaterJumpGoal;
 import teamdraco.finsandstails.registry.FTEntities;
@@ -46,10 +60,10 @@ import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.function.Predicate;
 
-public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAnimationTickable {
+public class RubberBellyGliderEntity extends Animal implements GeoEntity {
     private static final EntityDataAccessor<Boolean> PUFFED = SynchedEntityData.defineId(RubberBellyGliderEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDimensions PUFFED_SIZE = EntityDimensions.scalable(0.7f, 0.5f);
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private int puffTimer;
     private static final Predicate<Entity> ENEMY_MATCHER = (entity) -> {
         if (entity instanceof Player player) {
@@ -64,7 +78,11 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
         this.moveControl = new MoveHelperController(this);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-        this.maxUpStep = 1.0f;
+    }
+
+    @Override
+    public float maxUpStep() {
+        return 1.0F;
     }
 
     @Override
@@ -165,7 +183,7 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
 
     @Override
     protected PathNavigation createNavigation(Level worldIn) {
-        return new GroundAndSwimmerNavigator(this, level);
+        return new GroundAndSwimmerNavigator(this, level());
     }
 
     @Override
@@ -198,24 +216,19 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
     }
 
     @Override
-    public int tickTimer() {
-        return tickCount;
-    }
-
-    @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.RUBBER_BELLY_GLIDER_SPAWN_EGG.get());
     }
 
     @Override
     public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob ageableEntity) {
-        return FTEntities.RUBBER_BELLY_GLIDER.get().create(level);
+        return FTEntities.RUBBER_BELLY_GLIDER.get().create(level());
     }
 
     @Override
     public void playerTouch(Player entityIn) {
         if (entityIn instanceof ServerPlayer && isPuffed()) {
-            entityIn.hurt(DamageSource.mobAttack(this), 2);
+            entityIn.hurt(this.level().damageSources().mobAttack(this), 2);
             entityIn.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0));
         }
     }
@@ -256,42 +269,42 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving() && isInWater()) {
             if (isPuffed()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim_puffed", ILoopType.EDefaultLoopTypes.LOOP));
+                event.setAnimation(RawAnimation.begin().thenLoop("animation.rubber_belly_glider.swim_puffed"));
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.swim", ILoopType.EDefaultLoopTypes.LOOP));
+                event.setAnimation(RawAnimation.begin().thenLoop("animation.rubber_belly_glider.swim"));
             }
         }
         else if (!event.isMoving() && isInWater()) {
             if (isPuffed()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_puffed", ILoopType.EDefaultLoopTypes.LOOP));
+                event.setAnimation(RawAnimation.begin().thenLoop("animation.rubber_belly_glider.idle_puffed"));
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle", ILoopType.EDefaultLoopTypes.LOOP));
+                event.setAnimation(RawAnimation.begin().thenLoop("animation.rubber_belly_glider.idle"));
             }
         }
         else if (!isInWater()) {
             boolean walking = !(event.getLimbSwingAmount() > -0.1F && event.getLimbSwingAmount() < 0.1F);
             if (walking) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.walk", ILoopType.EDefaultLoopTypes.LOOP));
+                event.setAnimation(RawAnimation.begin().thenLoop("animation.rubber_belly_glider.walk"));
                 event.getController().setAnimationSpeed(1.45F);
             }
             else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.rubber_belly_glider.idle_land", ILoopType.EDefaultLoopTypes.LOOP));
+                event.setAnimation(RawAnimation.begin().thenLoop("animation.rubber_belly_glider.idle_land"));
             }
         }
         return PlayState.CONTINUE;
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
@@ -304,7 +317,7 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
 
         @Override
         public boolean canUse() {
-            return glider.isInWater() && !glider.isPuffed() && !glider.level.getEntities(glider, this.glider.getBoundingBox().inflate(2.5D), RubberBellyGliderEntity.ENEMY_MATCHER).isEmpty();
+            return glider.isInWater() && !glider.isPuffed() && !glider.level().getEntities(glider, this.glider.getBoundingBox().inflate(2.5D), RubberBellyGliderEntity.ENEMY_MATCHER).isEmpty();
         }
 
         @Override
@@ -330,7 +343,7 @@ public class RubberBellyGliderEntity extends Animal implements IAnimatable, IAni
                     this.glider.setSpeed(Math.max(this.glider.getSpeed() / 3.0F, 0.06F));
                 }
             }
-            else if (this.glider.onGround) {
+            else if (this.glider.onGround()) {
                 this.glider.setSpeed(Math.max(this.glider.getSpeed(), 0.06F));
             }
         }

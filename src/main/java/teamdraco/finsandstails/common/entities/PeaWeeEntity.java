@@ -9,24 +9,22 @@ import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
 
-public class PeaWeeEntity extends AbstractFish implements IAnimatable, IAnimationTickable {
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+public class PeaWeeEntity extends AbstractFish implements GeoEntity {
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public PeaWeeEntity(EntityType<? extends PeaWeeEntity> type, Level world) {
         super(type, world);
@@ -69,21 +67,16 @@ public class PeaWeeEntity extends AbstractFish implements IAnimatable, IAnimatio
     public void tick() {
         super.tick();
         if (random.nextInt(2500) == 0 && shouldSpawnPapaWee()) {
-            PapaWeeEntity papaWee = FTEntities.PAPA_WEE.get().create(level);
+            PapaWeeEntity papaWee = FTEntities.PAPA_WEE.get().create(level());
             papaWee.setPos(this.getX(), this.getY(), this.getZ());
 
-            level.addFreshEntity(papaWee);
+            level().addFreshEntity(papaWee);
         }
     }
 
-    @Override
-    public int tickTimer() {
-        return tickCount;
-    }
-
     private boolean shouldSpawnPapaWee() {
-        List<PeaWeeEntity> weeList = this.level.getEntitiesOfClass(PeaWeeEntity.class, this.getBoundingBox().inflate(8.0D));
-        List<PapaWeeEntity> papaWeeList = this.level.getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
+        List<PeaWeeEntity> weeList = this.level().getEntitiesOfClass(PeaWeeEntity.class, this.getBoundingBox().inflate(8.0D));
+        List<PapaWeeEntity> papaWeeList = this.level().getEntitiesOfClass(PapaWeeEntity.class, this.getBoundingBox().inflate(16.0D));
         if (weeList.size() >= 10 && papaWeeList.isEmpty()) {
             return true;
         }
@@ -93,21 +86,21 @@ public class PeaWeeEntity extends AbstractFish implements IAnimatable, IAnimatio
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wee.swim", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.wee.swim"));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wee.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.wee.idle"));
         }
         return PlayState.CONTINUE;
     }

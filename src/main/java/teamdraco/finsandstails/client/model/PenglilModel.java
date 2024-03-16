@@ -3,13 +3,13 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.PenglilEntity;
 
 import java.util.Map;
 
-public class PenglilModel extends AnimatedGeoModel<PenglilEntity> {
+public class PenglilModel extends GeoModel<PenglilEntity> {
     public static final Map<Integer, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(), (hashMap) -> {
         hashMap.put(0, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_1.png"));
         hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/penglil/penglil_2.png"));

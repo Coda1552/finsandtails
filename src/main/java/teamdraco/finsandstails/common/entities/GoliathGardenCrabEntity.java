@@ -67,10 +67,10 @@ public class GoliathGardenCrabEntity extends WaterAnimal {
     @Override
     public boolean doHurtTarget(Entity p_70652_1_) {
         this.attackAnimationTick = 10;
-        this.level.broadcastEntityEvent(this, (byte)4);
+        this.level().broadcastEntityEvent(this, (byte)4);
         float f = this.getAttackDamage();
         float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-        boolean flag = p_70652_1_.hurt(DamageSource.mobAttack(this), f1);
+        boolean flag = p_70652_1_.hurt(this.level().damageSources().mobAttack(this), f1);
         if (flag) {
             p_70652_1_.setDeltaMovement(p_70652_1_.getDeltaMovement().add(0.0D, (double)0.4F, 0.0D));
             this.doEnchantDamageEffects(this, p_70652_1_);
@@ -147,8 +147,8 @@ public class GoliathGardenCrabEntity extends WaterAnimal {
                 double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
                 float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.crab.yRot = this.rotlerp(this.crab.yRot, f, 90.0F);
-                this.crab.yBodyRot = this.crab.yRot;
+                this.crab.setYRot(this.rotlerp(this.crab.getYRot(), f, 90.0F));
+                this.crab.yBodyRot = this.crab.getYRot();
                 float f1 = (float) (this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
                 this.crab.setSpeed(Mth.lerp(0.125F, this.crab.getSpeed(), f1));
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add(0.0D, (double) this.crab.getSpeed() * d1 * 0.1D, 0.0D));

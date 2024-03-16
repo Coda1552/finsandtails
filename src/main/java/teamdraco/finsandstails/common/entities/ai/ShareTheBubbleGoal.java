@@ -25,7 +25,7 @@ public class ShareTheBubbleGoal extends Goal {
 
 	public ShareTheBubbleGoal(CrownedHorateeEntity crownedHoratee, double speed, int randomInterval) {
 		this.tamable = crownedHoratee;
-		this.level = crownedHoratee.level;
+		this.level = crownedHoratee.level();
 		this.speedModifier = speed;
 		this.navigation = crownedHoratee.getNavigation();
 		this.randomInterval = randomInterval;

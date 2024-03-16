@@ -106,7 +106,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
     public void removed(Player playerIn) {
         super.removed(playerIn);
         this.stackInventory.stopOpen(playerIn);
-        if (!playerIn.level.isClientSide && stackInventory.isDirty()) {
+        if (!playerIn.level().isClientSide && stackInventory.isDirty()) {
             stackInventory.write(itemStack);
         }
     }

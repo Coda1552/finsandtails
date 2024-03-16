@@ -10,7 +10,6 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -37,12 +36,45 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.geckolib3.GeckoLib;
-import teamdraco.finsandstails.common.entities.*;
+import software.bernie.geckolib.GeckoLib;
+import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
+import teamdraco.finsandstails.common.entities.BluWeeEntity;
+import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
+import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
+import teamdraco.finsandstails.common.entities.FlatbackSuckerEntity;
+import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
+import teamdraco.finsandstails.common.entities.GopjetEntity;
+import teamdraco.finsandstails.common.entities.HighFinnedBlueEntity;
+import teamdraco.finsandstails.common.entities.MudhorseEntity;
+import teamdraco.finsandstails.common.entities.NightLightSquidEntity;
+import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
+import teamdraco.finsandstails.common.entities.PapaWeeEntity;
+import teamdraco.finsandstails.common.entities.PeaWeeEntity;
+import teamdraco.finsandstails.common.entities.PenglilEntity;
+import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
+import teamdraco.finsandstails.common.entities.RedBullCrabEntity;
+import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
+import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
+import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
+import teamdraco.finsandstails.common.entities.SpindlyGemCrabEntity;
+import teamdraco.finsandstails.common.entities.SwampMuckerEntity;
+import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
+import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
+import teamdraco.finsandstails.common.entities.WeeWeeEntity;
+import teamdraco.finsandstails.common.entities.WherbleEntity;
+import teamdraco.finsandstails.common.entities.WhiteBullCrabEntity;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 import teamdraco.finsandstails.network.INetworkPacket;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
-import teamdraco.finsandstails.registry.*;
+import teamdraco.finsandstails.registry.FTBannerPatterns;
+import teamdraco.finsandstails.registry.FTBlocks;
+import teamdraco.finsandstails.registry.FTContainers;
+import teamdraco.finsandstails.registry.FTCreativeModeTabs;
+import teamdraco.finsandstails.registry.FTEnchantments;
+import teamdraco.finsandstails.registry.FTEntities;
+import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTRecipes;
+import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +106,7 @@ public class FinsAndTails {
         FTContainers.REGISTER.register(bus);
         FTEntities.REGISTER.register(bus);
         FTSounds.REGISTER.register(bus);
+        FTCreativeModeTabs.CREATIVE_MODE_TABS.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
         registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
@@ -166,10 +199,4 @@ public class FinsAndTails {
         return Minecraft.getInstance().player;
     }
 
-    public final static CreativeModeTab GROUP = new CreativeModeTab(MOD_ID) {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(FTItems.BLU_WEE.get());
-        }
-    };
 }

@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.RedBullCrabEntity;
 
-public class RedBullCrabModel extends AnimatedGeoModel<RedBullCrabEntity> {
+public class RedBullCrabModel extends GeoModel<RedBullCrabEntity> {
 
     @Override
     public ResourceLocation getModelResource(RedBullCrabEntity entity) {

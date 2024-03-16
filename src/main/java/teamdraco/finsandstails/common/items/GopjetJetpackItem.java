@@ -1,6 +1,8 @@
 package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -9,9 +11,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -22,39 +29,58 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.item.GeoArmorItem;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.client.model.armor.FwingedBootsModel;
+import teamdraco.finsandstails.client.model.armor.GopjetJetpackModel;
+import teamdraco.finsandstails.client.render.ArmorItemRenderer;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
-public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
+public class GopjetJetpackItem extends ArmorItem implements GeoItem {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.GOPJET_JET.get()));
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private final Random random = new Random();
     private int bubbleSoundTime;
 
     public GopjetJetpackItem() {
-        super(MATERIAL, EquipmentSlot.CHEST, new Properties().tab(FinsAndTails.GROUP).stacksTo(1).durability(128));
+        super(MATERIAL, Type.CHESTPLATE, new Properties().stacksTo(1).durability(128));
     }
 
     public BlockPos getBlockUnderPlayer(Player player) {
         final BlockPos.MutableBlockPos position = player.blockPosition().mutable();
         BlockState state;
-        while ((!(state = player.level.getBlockState(position)).getMaterial().blocksMotion() && state.getFluidState().isEmpty()) || state.getBlock() instanceof LeavesBlock) {
+        while ((!(state = player.level().getBlockState(position)).blocksMotion() && state.getFluidState().isEmpty()) || state.getBlock() instanceof LeavesBlock) {
             position.move(Direction.DOWN);
             if (position.getY() <= 0) return null;
         }
         return position;
+    }
+
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            private ArmorItemRenderer<GopjetJetpackItem> renderer;
+
+            @Override
+            public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
+                if (this.renderer == null) {
+                    this.renderer = new ArmorItemRenderer<>(new GopjetJetpackModel());
+                }
+                this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
+                return this.renderer;
+            }
+        });
     }
 
     @Override
@@ -67,7 +93,7 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
 
             if (!canFly) {
                 if (pos != null)
-                    if (player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                    if (player.blockPosition().getY() > 0 && world.getBlockState(pos).is(Blocks.WATER)) {
                         canFly = true;
                     } else {
                         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -91,7 +117,7 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
             CompoundTag persistentData = player.getPersistentData();
             if (persistentData.getBoolean("FinsFlying")) {
                 if (pos != null) {
-                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).is(Blocks.WATER)) {
 
                         player.fallDistance = 0;
                         int ticksJumping = persistentData.getInt("FinsFlyingTicks") + 1;
@@ -112,7 +138,7 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
                         }
                         player.stopFallFlying();*/
                     }
-                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).getMaterial() == Material.WATER) {
+                    if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).is(Blocks.WATER)) {
                         if (random.nextInt(100) < this.bubbleSoundTime++) {
                             this.bubbleSoundTime = 0;
                             world.playSound(player, player.blockPosition(), FTSounds.JETPACK_USE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -180,10 +206,12 @@ public class GopjetJetpackItem extends GeoArmorItem implements IAnimatable {
     }
 
     @Override
-    public void registerControllers(AnimationData animationData) {}
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+    }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
+
 }

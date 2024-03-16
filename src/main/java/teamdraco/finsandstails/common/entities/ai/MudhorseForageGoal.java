@@ -21,7 +21,7 @@ public class MudhorseForageGoal extends Goal {
 
     public MudhorseForageGoal(MudhorseEntity p_i45314_1_) {
         this.mudhorse = p_i45314_1_;
-        this.level = p_i45314_1_.level;
+        this.level = p_i45314_1_.level();
         this.setFlags(EnumSet.of(Flag.LOOK));
     }
 

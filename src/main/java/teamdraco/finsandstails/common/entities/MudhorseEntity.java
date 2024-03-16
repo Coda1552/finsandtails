@@ -8,10 +8,23 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -27,16 +40,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.MudhorseForageGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
@@ -44,9 +55,9 @@ import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.EnumSet;
 
-public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTickable {
+public class MudhorseEntity extends Animal implements GeoEntity {
     public static final EntityDataAccessor<Boolean> FORAGING = SynchedEntityData.defineId(MudhorseEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private LivingEntity commander;
     public int commanderSetTime;
     private int attackTimer;
@@ -95,8 +106,8 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     @Override
     public boolean doHurtTarget(Entity entityIn) {
         this.attackTimer = 10;
-        this.level.broadcastEntityEvent(this, (byte) 4);
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+        this.level().broadcastEntityEvent(this, (byte) 4);
+        boolean flag = entityIn.hurt(this.level().damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
             entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(0.0D, 0.3F, 0.0D));
             this.doEnchantDamageEffects(this, entityIn);
@@ -180,39 +191,34 @@ public class MudhorseEntity extends Animal implements IAnimatable, IAnimationTic
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
-        data.addAnimationController(new AnimationController<>(this, "miscController", 0, this::miscPredicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "miscController", 0, this::miscPredicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.walk", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.walk"));
         }
         else if (isForaging()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.grazing", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.grazing"));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.idle"));
         }
         return PlayState.CONTINUE;
     }
 
-    private <E extends IAnimatable> PlayState miscPredicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState miscPredicate(AnimationState<E> event) {
         if (commanderSetTime > 0) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.mudhorse.entranced", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.entranced"));
         }
         return PlayState.CONTINUE;
-    }
-
-    @Override
-    public int tickTimer() {
-        return tickCount;
     }
 
     @Override

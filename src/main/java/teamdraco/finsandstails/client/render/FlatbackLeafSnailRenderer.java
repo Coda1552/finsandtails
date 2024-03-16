@@ -2,16 +2,14 @@
 package teamdraco.finsandstails.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.FlatbackLeafSnailModel;
 import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
-import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
 
 public class FlatbackLeafSnailRenderer extends GeoEntityRenderer<FlatbackLeafSnailEntity> {
 
@@ -21,7 +19,15 @@ public class FlatbackLeafSnailRenderer extends GeoEntityRenderer<FlatbackLeafSna
     }
 
     @Override
-    public RenderType getRenderType(FlatbackLeafSnailEntity animatable, float partialTicks, PoseStack stack, @Nullable MultiBufferSource renderTypeBuffer, @Nullable VertexConsumer vertexBuilder, int packedLightIn, ResourceLocation textureLocation) {
-        return RenderType.entityTranslucent(textureLocation);
+    public RenderType getRenderType(FlatbackLeafSnailEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
+        return RenderType.entityTranslucent(texture);
+    }
+
+    @Override
+    public void render(FlatbackLeafSnailEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        if (entity.isBaby()) {
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+        }
+        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
     }
 }

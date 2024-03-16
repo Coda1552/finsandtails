@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -23,13 +24,38 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.model.armor.*;
-import teamdraco.finsandstails.client.render.*;
+import teamdraco.finsandstails.client.render.BandedRedbackShrimpRenderer;
+import teamdraco.finsandstails.client.render.BluWeeRenderer;
+import teamdraco.finsandstails.client.render.CrownedHorateeRenderer;
+import teamdraco.finsandstails.client.render.FlatbackLeafSnailRenderer;
+import teamdraco.finsandstails.client.render.FlatbackSuckerRenderer;
+import teamdraco.finsandstails.client.render.GoldenRiverRayRenderer;
+import teamdraco.finsandstails.client.render.GopjetRenderer;
+import teamdraco.finsandstails.client.render.HighFinnedBlueRenderer;
+import teamdraco.finsandstails.client.render.MudhorseRenderer;
+import teamdraco.finsandstails.client.render.NightlightSquidRenderer;
+import teamdraco.finsandstails.client.render.OrnateBugfishRenderer;
+import teamdraco.finsandstails.client.render.PapaWeeRenderer;
+import teamdraco.finsandstails.client.render.PeaWeeRenderer;
+import teamdraco.finsandstails.client.render.PenglilRenderer;
+import teamdraco.finsandstails.client.render.PhantomNudibranchRenderer;
+import teamdraco.finsandstails.client.render.RedBullCrabRenderer;
+import teamdraco.finsandstails.client.render.RiverPebbleSnailRenderer;
+import teamdraco.finsandstails.client.render.RubberBellyGliderRenderer;
+import teamdraco.finsandstails.client.render.SiderolWhiskeredSnailRenderer;
+import teamdraco.finsandstails.client.render.SpindlyGemCrabRenderer;
+import teamdraco.finsandstails.client.render.SwampMuckerRenderer;
+import teamdraco.finsandstails.client.render.TealArrowfishArrowRenderer;
+import teamdraco.finsandstails.client.render.TealArrowfishRenderer;
+import teamdraco.finsandstails.client.render.VibraWeeRenderer;
+import teamdraco.finsandstails.client.render.WanderingSailorRenderer;
+import teamdraco.finsandstails.client.render.WeeWeeRenderer;
+import teamdraco.finsandstails.client.render.WherbleRenderer;
+import teamdraco.finsandstails.client.render.WhiteBullCrabRenderer;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
-import teamdraco.finsandstails.common.items.*;
+import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTEntities;
@@ -69,15 +95,6 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);
         event.registerEntityRenderer(FTEntities.SPINDLY_GEM_CRAB.get(), SpindlyGemCrabRenderer::new);
         event.registerEntityRenderer(FTEntities.CROWNED_HORATTE.get(), CrownedHorateeRenderer::new);
-    }
-
-    @SubscribeEvent
-    public static void registerArmorRenders(EntityRenderersEvent.AddLayers event) {
-        GeoArmorRenderer.registerArmorRenderer(FwingedBootsItem.class, () -> new ArmorItemRenderer<>(new FwingedBootsModel()));
-        GeoArmorRenderer.registerArmorRenderer(GopjetJetpackItem.class, () -> new ArmorItemRenderer<>(new GopjetJetpackModel()));
-        GeoArmorRenderer.registerArmorRenderer(ArmoredGopjetJetpackItem.class, () -> new ArmorItemRenderer<>(new HorateeJetpackModel()));
-        GeoArmorRenderer.registerArmorRenderer(SpindlyGemCharmItem.class, () -> new ArmorItemRenderer<>(new SpindlyGemModel()));
-        GeoArmorRenderer.registerArmorRenderer(SpindlyCharmItem.class, () -> new ArmorItemRenderer<>(new SpindlyCharmModel()));
     }
 
     @SubscribeEvent
@@ -125,24 +142,19 @@ public class ClientEvents {
                 CharmType charm = CharmType.getCharm(player);
                 if (charm == null) return;
 
-                PoseStack poseStack = event.getPoseStack();
+                PoseStack poseStack = event.getGuiGraphics().pose();
 
                 poseStack.pushPose();
-                RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.setShaderTexture(0, HEARTS_TEXTURE);
-                RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-                renderPlayerHealth(poseStack, player, charm);
+                renderPlayerHealth(event.getGuiGraphics(), player, charm);
 
-                RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
                 poseStack.popPose();
             }
         }
 
-        private static void renderPlayerHealth(PoseStack stack, Player player, CharmType charm) {
+        private static void renderPlayerHealth(GuiGraphics guiGraphics, Player player, CharmType charm) {
             Gui gui = Minecraft.getInstance().gui;
 
             if (player != null) {
@@ -180,11 +192,11 @@ public class ClientEvents {
                 }
 
                 gui.minecraft.getProfiler().popPush("health");
-                renderHearts(stack, charm, x, y, rowHeight, regen, healthMax, health, absorption, highlight);
+                renderHearts(guiGraphics, charm, x, y, rowHeight, regen, healthMax, health, absorption, highlight);
             }
         }
 
-        public static void renderHearts(PoseStack stack, CharmType charm, int x, int y, int rowHeight, int regen, float healthMax, int health, int absorption, boolean highlight) {
+        public static void renderHearts(GuiGraphics stack, CharmType charm, int x, int y, int rowHeight, int regen, float healthMax, int health, int absorption, boolean highlight) {
             Gui gui = Minecraft.getInstance().gui;
 
             int heartCount = Mth.ceil((double) healthMax / 2.0D);
@@ -215,8 +227,8 @@ public class ClientEvents {
             }
         }
 
-        public static void renderHeart(PoseStack stack, CharmType type, int x, int y, boolean highlight, boolean halfHeart) {
-            Minecraft.getInstance().gui.blit(stack, x, y, type.getX(halfHeart, highlight), 0, 9, 9);
+        private static void renderHeart(GuiGraphics pGuiGraphics, CharmType type, int x, int y, boolean highlight, boolean halfHeart) {
+            pGuiGraphics.blit(HEARTS_TEXTURE, x, y, type.getX(halfHeart, highlight), 0, 9, 9);
         }
 
         public enum CharmType {

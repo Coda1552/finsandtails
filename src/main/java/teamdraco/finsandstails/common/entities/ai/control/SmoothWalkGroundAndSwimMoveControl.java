@@ -39,7 +39,7 @@ public class SmoothWalkGroundAndSwimMoveControl extends MoveControl {
 				this.mob.yBodyRot = this.mob.getYRot();
 				this.mob.yHeadRot = this.mob.getYRot();
 				float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
-				if (this.mob.isInWater() && !this.mob.isOnGround()) {
+				if (this.mob.isInWater() && !this.mob.onGround()) {
 					this.mob.setSpeed(f1 * this.inWaterSpeedModifier);
 					double d4 = Math.sqrt(d0 * d0 + d2 * d2);
 					if (Math.abs(d1) > (double) 1.0E-5F || Math.abs(d4) > (double) 1.0E-5F) {
@@ -53,7 +53,7 @@ public class SmoothWalkGroundAndSwimMoveControl extends MoveControl {
 					this.mob.zza = f4 * f1;
 					this.mob.yya = -f3 * f1;
 				} else {
-					if (this.mob.isInWater() && this.mob.isOnGround()) {
+					if (this.mob.isInWater() && this.mob.onGround()) {
 						this.mob.setSpeed(f1 * this.groundSpeedModifier * 3.5F);
 					} else if (!this.mob.isInWater()) {
 						this.mob.setSpeed(f1 * this.groundSpeedModifier * 0.35F);

@@ -25,6 +25,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
@@ -64,7 +65,7 @@ public class CommonForgeEvents {
             Entity owner = fishArrow.getOwner();
 
             if (owner instanceof Player player) {
-                List<PenglilEntity> penglils = player.getLevel().getNearbyEntities(PenglilEntity.class, TargetingConditions.forNonCombat(), player, player.getBoundingBox().inflate(16.0D));
+                List<PenglilEntity> penglils = player.level().getNearbyEntities(PenglilEntity.class, TargetingConditions.forNonCombat(), player, player.getBoundingBox().inflate(16.0D));
 
                 for (PenglilEntity penglil : penglils) {
 
@@ -99,7 +100,7 @@ public class CommonForgeEvents {
 
         if ((player.getItemInHand(mainHand).is(Items.FISHING_ROD) && player.getItemInHand(offHand).is(FTTags.SPINDLY_GEM_CRABS)) || (player.getItemInHand(offHand).is(Items.FISHING_ROD) && player.getItemInHand(mainHand).is(FTTags.SPINDLY_GEM_CRABS))) {
             List<ItemStack> drops = event.getDrops();
-            List<ItemStack> items = player.getServer().getLootTables().get(BuiltInLootTables.FISHING_TREASURE).getRandomItems(new LootContext.Builder((ServerLevel) player.level).withRandom(player.getRandom()).create(LootContextParamSets.EMPTY));
+            List<ItemStack> items = player.getServer().getLootData().getLootTable(BuiltInLootTables.FISHING_TREASURE).getRandomItems(new LootParams.Builder((ServerLevel) player.level()).create(LootContextParamSets.EMPTY));
 
             if (drops.get(0).getEntityRepresentation() instanceof ItemEntity entity) {
                 entity.setItem(items.get(0));
@@ -118,7 +119,7 @@ public class CommonForgeEvents {
 
         if (offhandItem.is(FTTags.CLAW_GAUNTLETS)) {
             player.swing(hand);
-            target.hurt(DamageSource.playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
+            target.hurt(player.level().damageSources().playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
         }
     }
 
@@ -160,7 +161,7 @@ public class CommonForgeEvents {
     private static void applyWater(Projectile projectile) {
         AABB aabb = projectile.getBoundingBox().inflate(4.0D, 2.0D, 4.0D);
 
-        for (LivingEntity livingEntity : projectile.level.getEntitiesOfClass(LivingEntity.class, aabb)) {
+        for (LivingEntity livingEntity : projectile.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
             if (livingEntity instanceof IHydrate hydrate) {
                 hydrate.rehydrate();
             }

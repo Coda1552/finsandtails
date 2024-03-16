@@ -2,6 +2,7 @@ package teamdraco.finsandstails.common.crafting;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -33,30 +34,36 @@ public class CrunchingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack assemble(Container inv) {
+    public ItemStack assemble(Container container, RegistryAccess registryAccess) {
         return this.result.copy();
     }
 
+    @Override
     public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 
-    public ItemStack getResultItem() {
+    @Override
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
         return this.result;
     }
 
+    @Override
     public ItemStack getToastSymbol() {
         return new ItemStack(FTBlocks.CRAB_CRUNCHER.get());
     }
 
+    @Override
     public ResourceLocation getId() {
         return this.recipeId;
     }
 
+    @Override
     public RecipeSerializer<?> getSerializer() {
         return FTRecipes.CRUNCHING_SERIALIZER.get();
     }
 
+    @Override
     public RecipeType<?> getType() {
         return FTRecipes.CRUNCHING_TYPE.get();
     }

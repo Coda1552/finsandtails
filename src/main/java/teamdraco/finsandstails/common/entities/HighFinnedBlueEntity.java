@@ -8,20 +8,18 @@ import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class HighFinnedBlueEntity extends AbstractSchoolingFish implements IAnimatable, IAnimationTickable {
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEntity {
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public HighFinnedBlueEntity(EntityType<? extends HighFinnedBlueEntity> type, Level world) {
         super(type, world);
@@ -59,28 +57,23 @@ public class HighFinnedBlueEntity extends AbstractSchoolingFish implements IAnim
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animations.high_finned_blue.swim", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animations.high_finned_blue.swim"));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animations.high_finned_blue.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.setAnimation(RawAnimation.begin().thenLoop("animations.high_finned_blue.idle"));
         }
         return PlayState.CONTINUE;
-    }
-
-    @Override
-    public int tickTimer() {
-        return tickCount;
     }
 
 }

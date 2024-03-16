@@ -12,6 +12,6 @@ public class SwimWithoutGroundGoal extends RandomSwimmingGoal {
 	}
 
 	public boolean canUse() {
-		return !this.fish.isOnGround() && this.fish.isInWater() && super.canUse();
+		return !this.fish.onGround() && this.fish.isInWater() && super.canUse();
 	}
 }

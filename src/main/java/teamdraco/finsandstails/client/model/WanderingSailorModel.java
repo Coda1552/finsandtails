@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
 
-public class WanderingSailorModel extends AnimatedGeoModel<WanderingSailorEntity> {
+public class WanderingSailorModel extends GeoModel<WanderingSailorEntity> {
 
     @Override
     public ResourceLocation getModelResource(WanderingSailorEntity entity) {

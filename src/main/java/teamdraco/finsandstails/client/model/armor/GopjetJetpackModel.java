@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model.armor;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.items.GopjetJetpackItem;
 
-public class GopjetJetpackModel extends AnimatedGeoModel<GopjetJetpackItem> {
+public class GopjetJetpackModel extends GeoModel<GopjetJetpackItem> {
 
 	@Override
 	public ResourceLocation getModelResource(GopjetJetpackItem object) {

@@ -1,11 +1,11 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 
-public class TealArrowfishArrowModel extends AnimatedGeoModel<TealArrowfishArrowEntity> {
+public class TealArrowfishArrowModel extends GeoModel<TealArrowfishArrowEntity> {
 
     @Override
     public ResourceLocation getModelResource(TealArrowfishArrowEntity wee) {

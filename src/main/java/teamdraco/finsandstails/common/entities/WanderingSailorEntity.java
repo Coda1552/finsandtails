@@ -12,10 +12,22 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.LookAtTradingPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.TradeWithPlayerGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
@@ -25,27 +37,25 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class WanderingSailorEntity extends AbstractVillager implements Merchant, IAnimatable, IAnimationTickable {
+public class WanderingSailorEntity extends AbstractVillager implements Merchant, GeoEntity {
     public static final Int2ObjectMap<VillagerTrades.ItemListing[]> TRADES = toIntMap(ImmutableMap.of(
             1, new VillagerTrades.ItemListing[]{new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_EMERALD.get()), new ItemStack(FTItems.BANDED_REDBACK_SHRIMP_BUCKET.get()), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_RUBY.get(), 4), new ItemStack(FTItems.GOPJET_JET.get()), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_AMBER.get(), 4), new ItemStack(FTItems.FWIN.get(), 1), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_EMERALD.get(), 2), new ItemStack(FTItems.WHITE_BULL_CRAB_CLAW.get(), 2), 3, 3, 30)},
             2, new VillagerTrades.ItemListing[]{new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_SAPPHIRE.get()), new ItemStack(FTItems.NIGHT_LIGHT_SQUID_TENTACLE.get(), 5), 3, 3, 30), new ItemsForItemsTrade(new ItemStack(FTItems.SPINDLY_PEARL.get()), new ItemStack(FTItems.PAPA_WEE_BUCKET.get()), 3, 3, 30)}));
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public WanderingSailorEntity(EntityType<? extends AbstractVillager> type, Level worldIn) {
         super(type, worldIn);
@@ -95,14 +105,14 @@ public class WanderingSailorEntity extends AbstractVillager implements Merchant,
             }
 
             if (this.getOffers().isEmpty()) {
-                return InteractionResult.sidedSuccess(this.level.isClientSide);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             } else {
-                if (!this.level.isClientSide) {
+                if (!this.level().isClientSide) {
                     this.setTradingPlayer(p_230254_1_);
                     this.openTradingScreen(p_230254_1_, this.getDisplayName(), 0);
                 }
 
-                return InteractionResult.sidedSuccess(this.level.isClientSide);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         } else {
             return super.mobInteract(p_230254_1_, p_230254_2_);
@@ -134,7 +144,7 @@ public class WanderingSailorEntity extends AbstractVillager implements Merchant,
     protected void rewardTradeXp(MerchantOffer offer) {
         if (offer.shouldRewardExp()) {
             int i = 3 + this.random.nextInt(4);
-            this.level.addFreshEntity(new ExperienceOrb(this.level, this.getX(), this.getY() + 0.5D, this.getZ(), i));
+            this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY() + 0.5D, this.getZ(), i));
         }
     }
 
@@ -174,28 +184,22 @@ public class WanderingSailorEntity extends AbstractVillager implements Merchant,
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wandering_sailor.walk", ILoopType.EDefaultLoopTypes.LOOP));
-        }
-        else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wandering_sailor.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.wandering_sailor.walk"));
+        } else {
+            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.wandering_sailor.idle"));
         }
         return PlayState.CONTINUE;
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
-    }
-
-    @Override
-    public int tickTimer() {
-        return tickCount;
     }
 
     private static class ItemsForItemsTrade implements VillagerTrades.ItemListing {
