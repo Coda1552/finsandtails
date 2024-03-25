@@ -5,13 +5,14 @@ import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.VibraWeeEntity;
 
 import java.util.Map;
 
-public class VibraWeeModel extends GeoModel<VibraWeeEntity> {
+public class VibraWeeModel extends DefaultedEntityGeoModel<VibraWeeEntity> {
     public static final Map<Integer, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(), (hashMap) -> {
         hashMap.put(0, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/vibra_wee/vibra_wee_1.png"));
         hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/vibra_wee/vibra_wee_2.png"));
@@ -30,19 +31,13 @@ public class VibraWeeModel extends GeoModel<VibraWeeEntity> {
         hashMap.put(14, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/vibra_wee/vibra_wee_15.png"));
     });
 
-    @Override
-    public ResourceLocation getModelResource(VibraWeeEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/vibra_wee.geo.json");
+    public VibraWeeModel() {
+        super(new ResourceLocation(FinsAndTails.MOD_ID, "vibra_wee"));
     }
 
     @Override
     public ResourceLocation getTextureResource(VibraWeeEntity wee) {
         return TEXTURES.getOrDefault(wee.getVariant(), TEXTURES.get(0));
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(VibraWeeEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/vibra_wee.animations.json");
     }
 
     @Override

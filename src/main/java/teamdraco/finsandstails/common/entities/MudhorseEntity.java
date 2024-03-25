@@ -86,7 +86,7 @@ public class MudhorseEntity extends Animal implements GeoEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30).add(Attributes.ATTACK_DAMAGE, 2).add(Attributes.MOVEMENT_SPEED, 0.27);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30).add(Attributes.ATTACK_DAMAGE, 2).add(Attributes.MOVEMENT_SPEED, 0.22);
     }
 
     public boolean isForaging() {
@@ -186,8 +186,8 @@ public class MudhorseEntity extends Animal implements GeoEntity {
     }
 
     @Override
-    public boolean canAttack(LivingEntity p_21171_) {
-        return !(p_21171_ instanceof MudhorseEntity);
+    public boolean canAttack(LivingEntity target) {
+        return !(target instanceof MudhorseEntity);
     }
 
     @Override

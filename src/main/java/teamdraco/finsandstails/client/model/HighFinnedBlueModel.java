@@ -3,25 +3,15 @@ package teamdraco.finsandstails.client.model;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.HighFinnedBlueEntity;
 
-public class HighFinnedBlueModel extends GeoModel<HighFinnedBlueEntity> {
+public class HighFinnedBlueModel extends DefaultedEntityGeoModel<HighFinnedBlueEntity> {
 
-    @Override
-    public ResourceLocation getModelResource(HighFinnedBlueEntity entity) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/high_finned_blue.geo.json");
-    }
-
-    @Override
-    public ResourceLocation getTextureResource(HighFinnedBlueEntity entity) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/high_finned_blue.png");
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(HighFinnedBlueEntity entity) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/high_finned_blue.animations.json");
+    public HighFinnedBlueModel() {
+        super(new ResourceLocation(FinsAndTails.MOD_ID, "high_finned_blue"));
     }
 
     @Override

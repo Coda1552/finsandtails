@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.RiverPebbleSnailModel;
 import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
+import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
 
 public class RiverPebbleSnailRenderer extends GeoEntityRenderer<RiverPebbleSnailEntity> {
 
@@ -17,6 +18,9 @@ public class RiverPebbleSnailRenderer extends GeoEntityRenderer<RiverPebbleSnail
 
     @Override
     public void render(RiverPebbleSnailEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        if (entity.isBaby()) {
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+        }
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
     }
 }

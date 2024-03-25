@@ -97,7 +97,6 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 
 	private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 	private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.SEA_PICKLE);
-	private static final Ingredient TEMPT_ITEMS = Ingredient.of(FTItems.RED_BULL_CRAB_CLAW.get(), FTItems.WHITE_BULL_CRAB_CLAW.get());
 
 	public CrownedHorateeEntity(EntityType<? extends CrownedHorateeEntity> p_27523_, Level p_27524_) {
 		super(p_27523_, p_27524_);
@@ -143,7 +142,7 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.15D, true));
 		this.goalSelector.addGoal(2, new CrownedBreedGoal(this, 1.0D));
 		this.goalSelector.addGoal(3, new LayBabyGoal(this, 1.0D));
-		this.goalSelector.addGoal(4, new TemptGoal(this, 0.85F, TEMPT_ITEMS, false));
+		this.goalSelector.addGoal(4, new TemptGoal(this, 0.85F, FOOD_ITEMS, false));
 		this.goalSelector.addGoal(6, new ShareTheBubbleGoal(this, 1.0D, 10));
 		this.goalSelector.addGoal(7, new GoToWaterGoal(this, 1.0F));
 		this.goalSelector.addGoal(8, new SwimWithoutGroundGoal(this));

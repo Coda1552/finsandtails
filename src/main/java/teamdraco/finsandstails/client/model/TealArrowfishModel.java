@@ -3,25 +3,15 @@ package teamdraco.finsandstails.client.model;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
 
-public class TealArrowfishModel extends GeoModel<TealArrowfishEntity> {
+public class TealArrowfishModel extends DefaultedEntityGeoModel<TealArrowfishEntity> {
 
-    @Override
-    public ResourceLocation getModelResource(TealArrowfishEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/teal_arrowfish.geo.json");
-    }
-
-    @Override
-    public ResourceLocation getTextureResource(TealArrowfishEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/teal_arrowfish.png");
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(TealArrowfishEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/teal_arrowfish.animations.json");
+    public TealArrowfishModel() {
+        super(new ResourceLocation(FinsAndTails.MOD_ID, "teal_arrowfish"));
     }
 
     @Override

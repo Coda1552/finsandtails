@@ -11,10 +11,4 @@ public class ArmorItemRenderer<T extends ArmorItem & GeoItem> extends GeoArmorRe
     public ArmorItemRenderer(GeoModel<T> model) {
         super(model);
     }
-
-//    @Nullable
-//    @Override
-//    public GeoBone getBodyBone() {
-//        return this.model.getBone("armorBody").orElse(null);
-//    }
 }

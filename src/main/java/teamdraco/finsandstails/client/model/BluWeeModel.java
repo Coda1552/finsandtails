@@ -3,25 +3,20 @@ package teamdraco.finsandstails.client.model;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.BluWeeEntity;
 
-public class BluWeeModel extends GeoModel<BluWeeEntity> {
+public class BluWeeModel extends DefaultedEntityGeoModel<BluWeeEntity> {
 
-    @Override
-    public ResourceLocation getModelResource(BluWeeEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/wee.geo.json");
+    public BluWeeModel() {
+        super(new ResourceLocation(FinsAndTails.MOD_ID, "wee"));
     }
 
     @Override
     public ResourceLocation getTextureResource(BluWeeEntity wee) {
         return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/blu_wee.png");
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(BluWeeEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/wee.animations.json");
     }
 
     @Override

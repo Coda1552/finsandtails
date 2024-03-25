@@ -1,15 +1,15 @@
 package teamdraco.finsandstails.client.model;
 
 import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 
-public class TealArrowfishArrowModel extends GeoModel<TealArrowfishArrowEntity> {
+public class TealArrowfishArrowModel extends DefaultedEntityGeoModel<TealArrowfishArrowEntity> {
 
-    @Override
-    public ResourceLocation getModelResource(TealArrowfishArrowEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "geo/projectile/teal_arrowfish_arrow.geo.json");
+    public TealArrowfishArrowModel() {
+        super(new ResourceLocation(FinsAndTails.MOD_ID, "teal_arrowfish_arrow"));
     }
 
     @Override

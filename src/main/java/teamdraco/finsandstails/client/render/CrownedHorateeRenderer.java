@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.CrownedHorateeModel;
 import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
+import teamdraco.finsandstails.common.entities.WherbleEntity;
 
 public class CrownedHorateeRenderer extends GeoEntityRenderer<CrownedHorateeEntity> {
 
@@ -24,6 +25,15 @@ public class CrownedHorateeRenderer extends GeoEntityRenderer<CrownedHorateeEnti
 		if (entityLiving.isInWater() && !entityLiving.onGround()) {
 			matrixStackIn.mulPose(Axis.XP.rotationDegrees(-entityLiving.getXRot()));
 		}
+	}
+
+
+	@Override
+	public void render(CrownedHorateeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+		if (entity.isBaby()) {
+			poseStack.scale(0.5F, 0.5F, 0.5F);
+		}
+		super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
 	}
 
 	@Override

@@ -4,26 +4,16 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
 
-public class BandedRedbackShrimpModel extends GeoModel<BandedRedbackShrimpEntity> {
+public class BandedRedbackShrimpModel extends DefaultedEntityGeoModel<BandedRedbackShrimpEntity> {
 
-    @Override
-    public ResourceLocation getModelResource(BandedRedbackShrimpEntity entity) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "geo/entity/banded_redback_shrimp.geo.json");
-    }
-
-    @Override
-    public ResourceLocation getTextureResource(BandedRedbackShrimpEntity entity) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/banded_redback_shrimp.png");
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(BandedRedbackShrimpEntity entity) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "animations/entity/banded_redback_shrimp.animations.json");
+    public BandedRedbackShrimpModel() {
+        super(new ResourceLocation(FinsAndTails.MOD_ID, "banded_redback_shrimp"));
     }
 
     @Override
