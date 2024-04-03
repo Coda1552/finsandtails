@@ -45,7 +45,7 @@ import teamdraco.finsandstails.registry.FTSounds;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class WhiteBullCrabEntity extends WaterAnimal implements GeoEntity{
+public class WhiteBullCrabEntity extends WaterAnimal implements GeoEntity {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(WhiteBullCrabEntity.class, EntityDataSerializers.BOOLEAN);
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
@@ -71,11 +71,6 @@ public class WhiteBullCrabEntity extends WaterAnimal implements GeoEntity{
     @Override
     protected float getWaterSlowDown() {
         return 0.9f;
-    }
-
-    @Override
-    protected boolean shouldDespawnInPeaceful() {
-        return !isFromBucket();
     }
 
     protected ItemStack getFishBucket() {

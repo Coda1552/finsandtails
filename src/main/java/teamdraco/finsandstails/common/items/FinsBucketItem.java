@@ -36,7 +36,7 @@ public class FinsBucketItem extends MobBucketItem {
     private final boolean hasTooltip;
 
     public FinsBucketItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Properties builder) {
-        this(entityType, fluid, builder, true);
+        this(entityType, fluid, builder, false);
     }
 
     public FinsBucketItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Properties builder, boolean hasTooltip) {

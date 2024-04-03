@@ -109,8 +109,8 @@ public class FlatbackSuckerEntity extends AbstractFish implements GeoEntity {
                 this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
             }
 
-            if (this.fish.horizontalCollision && this.fish.level().getBlockState(this.fish.blockPosition().above()).getBlock() == Blocks.WATER) {
-                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
+            if (this.fish.horizontalCollision && this.fish.level().getBlockState(this.fish.blockPosition().above()).getBlock() == Blocks.AIR) {
+                this.fish.setDeltaMovement(this.fish.getDeltaMovement().x(), 0.0D, this.fish.getDeltaMovement().z());
             }
 
             if (this.operation == Operation.MOVE_TO && !this.fish.getNavigation().isDone()) {

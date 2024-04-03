@@ -360,7 +360,10 @@ public class PenglilEntity extends TamableAnimal implements Bucketable, GeoEntit
     }
 
     private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
-        if (!isInWater()) {
+        if (isOrderedToSit()) {
+            event.setAnimation(RawAnimation.begin().thenLoop("animation.penglil.sit"));
+        }
+        else if (!isInWater()) {
             if (event.isMoving()) {
                 event.setAnimation(RawAnimation.begin().thenLoop("animation.penglil.walk"));
             } else {
