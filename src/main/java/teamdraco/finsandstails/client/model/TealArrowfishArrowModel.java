@@ -9,12 +9,7 @@ import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 public class TealArrowfishArrowModel extends DefaultedEntityGeoModel<TealArrowfishArrowEntity> {
 
     public TealArrowfishArrowModel() {
-        super(new ResourceLocation(FinsAndTails.MOD_ID, "teal_arrowfish_arrow"));
-    }
-
-    @Override
-    public ResourceLocation getTextureResource(TealArrowfishArrowEntity wee) {
-        return new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/teal_arrowfish.png");
+        super(new ResourceLocation(FinsAndTails.MOD_ID, "teal_arrowfish"));
     }
 
     @Override
