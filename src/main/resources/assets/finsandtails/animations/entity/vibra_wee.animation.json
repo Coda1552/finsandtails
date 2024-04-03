@@ -35,10 +35,10 @@
 					"position": [0, "Math.sin((query.anim_time - 0.0) * 180) * 0.15", 0]
 				},
 				"leftPelvicFin": {
-					"rotation": [0, 0, "70+ Math.cos((query.anim_time - 0.3) * 180) * -4"]
+					"rotation": [0, 0, "40+ Math.cos((query.anim_time - 0.3) * 180) * -4"]
 				},
 				"rightPelvicFin": {
-					"rotation": [0, 0, "-70 + Math.cos((query.anim_time - 0.3) * 180) * 4"]
+					"rotation": [0, 0, "-40 + Math.cos((query.anim_time - 0.3) * 180) * 4"]
 				},
 				"tailFin": {
 					"rotation": ["Math.cos((query.anim_time - 0.2) * 180) * -05", 0, 0]

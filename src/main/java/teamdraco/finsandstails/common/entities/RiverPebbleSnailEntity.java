@@ -65,6 +65,11 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     }
 
     @Override
+    public float getStepHeight() {
+        return 1.0F;
+    }
+
+    @Override
     public boolean canBreatheUnderwater() {
         return true;
     }

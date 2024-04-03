@@ -56,7 +56,7 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.MOVEMENT_SPEED, 0.3D);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.MOVEMENT_SPEED, 0.45D);
     }
 
     public void defineSynchedData() {
@@ -66,7 +66,7 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
 
     @Override
     public void tick() {
-        List<Player> list = level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.0D), NO_CREATIVE_OR_SPECTATOR);
+        List<Player> list = level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(2.5D), NO_CREATIVE_OR_SPECTATOR);
 
         super.tick();
         if (boostTimer > 0) {
@@ -74,7 +74,7 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
         }
         if (boostTimer == 0 || !list.isEmpty() && !this.fromBucket()) {
             boostTimer = BOOST_TIMER;
-            setDeltaMovement(calculateViewVector(getXRot(), getYRot()).multiply(2.0d, 0.0d, 2.0d));
+            setDeltaMovement(calculateViewVector(getXRot(), getYRot()).multiply(1.7d, 0.0d, 1.7d));
         }
         if (boostTimer <= 350) {
             setBoosting(false);

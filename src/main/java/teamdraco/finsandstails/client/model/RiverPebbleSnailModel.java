@@ -29,23 +29,4 @@ public class RiverPebbleSnailModel extends DefaultedEntityGeoModel<RiverPebbleSn
     public ResourceLocation getTextureResource(RiverPebbleSnailEntity wee) {
         return TEXTURES.getOrDefault(wee.getVariant(), TEXTURES.get(0));
     }
-
-    @Override
-    public void setCustomAnimations(RiverPebbleSnailEntity entity, long uniqueID, AnimationState<RiverPebbleSnailEntity> customPredicate) {
-        super.setCustomAnimations(entity, uniqueID, customPredicate);
-        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
-        CoreGeoBone shell = this.getAnimationProcessor().getBone("shell");
-
-        if (entity.isBaby()) {
-            body.setScaleX(0.5F);
-            body.setScaleY(0.5F);
-            body.setScaleZ(0.5F);
-            body.setPosY(-1F);
-
-            shell.setScaleX(0.65F);
-            shell.setScaleY(0.65F);
-            shell.setScaleZ(0.65F);
-            shell.setPosY(-0.25F);
-        }
-    }
 }

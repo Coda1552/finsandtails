@@ -120,6 +120,7 @@ public class CommonForgeEvents {
         if (offhandItem.is(FTTags.CLAW_GAUNTLETS)) {
             player.swing(hand);
             target.hurt(player.level().damageSources().playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
+            offhandItem.hurtAndBreak(1, player, (p_21301_) -> p_21301_.broadcastBreakEvent(EquipmentSlot.OFFHAND));
         }
     }
 
