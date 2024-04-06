@@ -1,12 +1,11 @@
 package teamdraco.finsandstails.common.entities;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -15,7 +14,9 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -31,6 +32,7 @@ import teamdraco.finsandstails.registry.FTItems;
 
 public class TealArrowfishEntity extends AbstractSchoolingFish implements GeoEntity {
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+    public int killCooldown = 0;
 
     public TealArrowfishEntity(EntityType<? extends TealArrowfishEntity> type, Level world) {
         super(type, world);
@@ -46,6 +48,24 @@ public class TealArrowfishEntity extends AbstractSchoolingFish implements GeoEnt
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VibraWeeEntity.class, false));
+    }
+
+    @Override
+    public boolean killedEntity(ServerLevel p_216988_, LivingEntity p_216989_) {
+        this.killCooldown = this.random.nextInt(600) + 1200;
+        return super.killedEntity(p_216988_, p_216989_);
+    }
+
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("KillCooldownTime")) {
+            this.killCooldown = tag.getInt("KillCooldownTime");
+        }
+    }
+
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("KillCooldownTime", this.killCooldown);
     }
 
     @Override

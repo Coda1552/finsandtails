@@ -1,24 +1,21 @@
 package teamdraco.finsandstails.common.entities.ai;
 
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
+import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
 
 public class SpearMeleeAttackGoal extends MeleeAttackGoal {
-    protected final AbstractSchoolingFish fish;
+    protected final TealArrowfishEntity fish;
 
 
-    public SpearMeleeAttackGoal(AbstractSchoolingFish mob, double speedMod, boolean followingTargetEvenIfNotSeen) {
+    public SpearMeleeAttackGoal(TealArrowfishEntity mob, double speedMod, boolean followingTargetEvenIfNotSeen) {
         super(mob, speedMod, followingTargetEvenIfNotSeen);
         this.fish = mob;
     }
 
     @Override
     public boolean canUse() {
-        return !fish.isFollower() && super.canUse();
+        return --fish.killCooldown <= 0 && !fish.isFollower() && super.canUse();
     }
 
     @Override
