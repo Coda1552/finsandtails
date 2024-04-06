@@ -31,10 +31,12 @@ public class SpearMeleeAttackGoal extends MeleeAttackGoal {
         else {
             Vec3 pos = fish.getTarget().position();
 
-            // todo - account for negative fish/target pos
-            double x = Math.min(0.25D, pos.x - fish.position().x);
-            double y = Math.min(0.25D, pos.y - fish.position().y);
-            double z = Math.min(0.25D, pos.z - fish.position().z);
+            double speedX = pos.x - fish.position().x;
+            double speedY = pos.y - fish.position().y;
+            double speedZ = pos.z - fish.position().z;
+            double x = speedX > 0.0D ? Math.min(0.25D, speedX) : Math.max(-0.25D, speedX);
+            double y = speedY > 0.0D ? Math.min(0.25D, speedY) : Math.max(-0.25D, speedY);
+            double z = speedZ > 0.0D ? Math.min(0.25D, speedZ) : Math.max(-0.25D, speedZ);
             fish.setDeltaMovement(x, y, z);
             fish.lookAt(fish.getTarget(), 90.0F, 90.0F);
         }

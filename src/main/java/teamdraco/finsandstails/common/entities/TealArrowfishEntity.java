@@ -3,8 +3,10 @@ package teamdraco.finsandstails.common.entities;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -49,6 +51,11 @@ public class TealArrowfishEntity extends AbstractSchoolingFish implements GeoEnt
     @Override
     public int getMaxSchoolSize() {
         return 3;
+    }
+
+    @Override
+    protected float getStandingEyeHeight(Pose p_27474_, EntityDimensions p_27475_) {
+        return p_27475_.height * 0.25F;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
