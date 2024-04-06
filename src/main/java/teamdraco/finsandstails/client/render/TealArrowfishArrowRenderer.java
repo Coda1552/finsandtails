@@ -1,4 +1,3 @@
-
 package teamdraco.finsandstails.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;

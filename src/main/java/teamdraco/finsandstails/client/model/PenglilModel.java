@@ -3,10 +3,15 @@ package teamdraco.finsandstails.client.model;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.constant.DataTickets;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.PenglilEntity;
+import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
 
 import java.util.Map;
 
@@ -39,5 +44,18 @@ public class PenglilModel extends DefaultedEntityGeoModel<PenglilEntity> {
             case "Sus", "Amogus", "Impostor", "Among Us" -> TEXTURES.get(10);
             default -> TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
         };
+    }
+
+    @Override
+    public void setCustomAnimations(PenglilEntity entity, long uniqueID, AnimationState<PenglilEntity> customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
+        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
+
+        EntityModelData extraData = customPredicate.getData(DataTickets.ENTITY_MODEL_DATA);
+
+        if (entity.isInWater()) {
+            body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F) - 70.0F);
+            body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
+        }
     }
 }

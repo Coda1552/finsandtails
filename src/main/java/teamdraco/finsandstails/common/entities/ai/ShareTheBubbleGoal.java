@@ -19,7 +19,6 @@ public class ShareTheBubbleGoal extends Goal {
 	private final double speedModifier;
 	private int timeToRecalcPath;
 	private float oldWaterCost;
-
 	private final PathNavigation navigation;
 	private int randomInterval;
 

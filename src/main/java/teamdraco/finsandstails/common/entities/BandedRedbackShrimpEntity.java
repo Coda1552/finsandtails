@@ -21,6 +21,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import teamdraco.finsandstails.common.entities.ai.control.FTSmoothSwimmingMoveControl;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class BandedRedbackShrimpEntity extends AbstractSchoolingFish implements GeoEntity {
@@ -28,7 +29,7 @@ public class BandedRedbackShrimpEntity extends AbstractSchoolingFish implements 
 
     public BandedRedbackShrimpEntity(EntityType<? extends BandedRedbackShrimpEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, true);
+        this.moveControl = new FTSmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 30);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }

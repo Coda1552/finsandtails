@@ -7,6 +7,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
@@ -21,6 +23,8 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import teamdraco.finsandstails.common.entities.ai.SpearMeleeAttackGoal;
+import teamdraco.finsandstails.common.entities.ai.control.FTSmoothSwimmingMoveControl;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class TealArrowfishEntity extends AbstractSchoolingFish implements GeoEntity {
@@ -28,12 +32,14 @@ public class TealArrowfishEntity extends AbstractSchoolingFish implements GeoEnt
 
     public TealArrowfishEntity(EntityType<? extends TealArrowfishEntity> type, Level world) {
         super(type, world);
+        this.moveControl = new FTSmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+        this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
     @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 3.0D, true));
+        this.goalSelector.addGoal(0, new SpearMeleeAttackGoal(this, 1.0D, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, false));
@@ -46,7 +52,7 @@ public class TealArrowfishEntity extends AbstractSchoolingFish implements GeoEnt
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3).add(Attributes.ATTACK_DAMAGE, 1);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3).add(Attributes.ATTACK_DAMAGE, 0.5);
     }
 
     @Override

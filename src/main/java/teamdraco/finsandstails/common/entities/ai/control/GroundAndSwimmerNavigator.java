@@ -1,4 +1,4 @@
-package teamdraco.finsandstails.common.entities.ai;
+package teamdraco.finsandstails.common.entities.ai.control;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.PathfinderMob;
