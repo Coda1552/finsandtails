@@ -38,9 +38,4 @@ public class SpearMeleeAttackGoal extends MeleeAttackGoal {
             fish.lookAt(fish.getTarget(), 90.0F, 90.0F);
         }
     }
-
-    @Override
-    public void start() {
-        super.start();
-    }
 }
