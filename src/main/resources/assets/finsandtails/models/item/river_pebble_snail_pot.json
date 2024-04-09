@@ -33,6 +33,12 @@
         "finsandtails:variant": 4
       },
       "model": "finsandtails:item/river_pebble_snail_pot_5"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 5
+      },
+      "model": "finsandtails:item/river_pebble_snail_pot_6"
     }
   ]
 }

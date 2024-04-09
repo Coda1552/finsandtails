@@ -172,7 +172,12 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         if (dataTag == null) {
-            setVariant(random.nextInt(5));
+            if (random.nextFloat() > 0.95F) {
+                setVariant(5);
+            }
+            else {
+                setVariant(random.nextInt(5));
+            }
         } else {
             if (dataTag.contains("Variant", 3)) {
                 this.setVariant(dataTag.getInt("Variant"));

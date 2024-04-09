@@ -72,6 +72,9 @@
 					}
 				}
 			}
+		},
+		"animation.snail.shimmer": {
+			"loop": true
 		}
 	},
 	"geckolib_format_version": 2

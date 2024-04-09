@@ -25,6 +25,15 @@
 					]
 				},
 				{
+					"name": "sparkle",
+					"parent": "shell",
+					"pivot": [2, 4, 0],
+					"rotation": [-30, 0, 0],
+					"cubes": [
+						{"origin": [0.5, 2.5, 0], "size": [3, 3, 0], "pivot": [2, 4, 0], "rotation": [-29.63171, -35.08213, -5.15354], "uv": [0, 0]}
+					]
+				},
+				{
 					"name": "body",
 					"parent": "root",
 					"pivot": [0, 2, 0],
