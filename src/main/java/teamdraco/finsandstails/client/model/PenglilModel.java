@@ -57,5 +57,8 @@ public class PenglilModel extends DefaultedEntityGeoModel<PenglilEntity> {
             body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F) - 70.0F);
             body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
         }
+        else {
+            body.setRotX(0.0F);
+        }
     }
 }

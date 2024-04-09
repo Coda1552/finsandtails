@@ -65,7 +65,7 @@ public class CommonForgeEvents {
             Entity owner = fishArrow.getOwner();
 
             if (owner instanceof Player player) {
-                List<PenglilEntity> penglils = player.level().getNearbyEntities(PenglilEntity.class, TargetingConditions.forNonCombat(), player, player.getBoundingBox().inflate(16.0D));
+                List<PenglilEntity> penglils = player.level().getNearbyEntities(PenglilEntity.class, TargetingConditions.forNonCombat(), player, player.getBoundingBox().inflate(32.0D));
 
                 for (PenglilEntity penglil : penglils) {
 

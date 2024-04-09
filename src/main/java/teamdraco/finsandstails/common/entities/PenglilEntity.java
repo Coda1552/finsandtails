@@ -205,7 +205,7 @@ public class PenglilEntity extends TamableAnimal implements Bucketable, GeoEntit
             if (this.random.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                 this.tame(player);
                 this.navigation.stop();
-                this.setOrderedToSit(true);
+                this.setOrderedToSit(!isInWater());
                 this.setTarget(null);
                 this.level().broadcastEntityEvent(this, (byte) 7);
             }
@@ -250,8 +250,11 @@ public class PenglilEntity extends TamableAnimal implements Bucketable, GeoEntit
 
     @Override
     public void travel(Vec3 travelVector) {
-        if (this.isEffectiveAi() && !this.isInWater() && this.getTarget() != null) {
-            this.setSpeed(0.4F);
+        if (this.isEffectiveAi() && !this.isInWater()) {
+            float speedMod = getTarget() != null && getTarget().isAlive() ? 2.5F : 1.0F;
+
+            System.out.println(getTarget() + ", " + speedMod);
+            this.setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
         }
 
         if (this.isEffectiveAi() && this.isInWater()) {
