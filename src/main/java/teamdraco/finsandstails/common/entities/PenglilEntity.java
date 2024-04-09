@@ -252,8 +252,6 @@ public class PenglilEntity extends TamableAnimal implements Bucketable, GeoEntit
     public void travel(Vec3 travelVector) {
         if (this.isEffectiveAi() && !this.isInWater()) {
             float speedMod = getTarget() != null && getTarget().isAlive() ? 2.5F : 1.0F;
-
-            System.out.println(getTarget() + ", " + speedMod);
             this.setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
         }
 
