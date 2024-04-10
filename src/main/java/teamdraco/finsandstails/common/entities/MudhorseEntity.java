@@ -60,7 +60,6 @@ public class MudhorseEntity extends Animal implements GeoEntity {
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private LivingEntity commander;
     public int commanderSetTime;
-    private int attackTimer;
 
     public MudhorseEntity(EntityType<? extends MudhorseEntity> type, Level worldIn) {
         super(type, worldIn);
@@ -105,7 +104,6 @@ public class MudhorseEntity extends Animal implements GeoEntity {
 
     @Override
     public boolean doHurtTarget(Entity entityIn) {
-        this.attackTimer = 10;
         this.level().broadcastEntityEvent(this, (byte) 4);
         boolean flag = entityIn.hurt(this.level().damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
@@ -148,9 +146,6 @@ public class MudhorseEntity extends Animal implements GeoEntity {
 
     @Override
     public void aiStep() {
-        if (this.attackTimer > 0) {
-            --this.attackTimer;
-        }
         if (commanderSetTime > 0) {
             --commanderSetTime;
         } else {
@@ -223,9 +218,9 @@ public class MudhorseEntity extends Animal implements GeoEntity {
 
     @Override
     public void travel(Vec3 p_21280_) {
-        if (isInWater() && getTarget() != null) {
-            setSpeed(1.5F);
-        }
+        float speedMod = isInWater() && getTarget() != null ? 1.5F : 1.0F;
+        setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
+
         super.travel(p_21280_);
     }
 

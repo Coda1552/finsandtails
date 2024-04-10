@@ -84,7 +84,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate, Bucketable {
-	private static final EntityDataAccessor<String> DATA_TYPE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<Boolean> HAS_BABY = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> BUBBLE_CHARGE = SynchedEntityData.defineId(CrownedHorateeEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -121,10 +120,6 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 
 	public int getAmbientSoundInterval() {
 		return 120;
-	}
-
-	protected int getExperienceReward(Player p_30353_) {
-		return 1 + this.level().random.nextInt(3);
 	}
 
 	public void baseTick() {
@@ -171,10 +166,9 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 		return this.entityData.get(BUBBLE_TARGET) != 0;
 	}
 
-	@javax.annotation.Nullable
+	@Nullable
 	public Entity getBubbleTarget() {
-		Entity entity = this.level().getEntity(this.entityData.get(BUBBLE_TARGET));
-		return entity;
+		return this.level().getEntity(this.entityData.get(BUBBLE_TARGET));
 	}
 
 	public List<UUID> getTrustedUUIDs() {
@@ -184,7 +178,7 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 		return list;
 	}
 
-	public void addTrustedUUID(@javax.annotation.Nullable UUID p_28516_) {
+	public void addTrustedUUID(@Nullable UUID p_28516_) {
 		if (this.entityData.get(DATA_TRUSTED_ID_0).isPresent()) {
 			this.entityData.set(DATA_TRUSTED_ID_1, Optional.ofNullable(p_28516_));
 		} else {
@@ -297,16 +291,15 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 		return p_57801_.getBlockState(p_57802_).is(BlockTags.SAND) || p_57801_.getBlockState(p_57802_).is(Tags.Blocks.GRAVEL);
 	}
 
-
 	public void travel(Vec3 p_27490_) {
 		if (this.isEffectiveAi() && this.isInWater() && !this.onGround()) {
 			this.moveRelative(0.05F, p_27490_);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-		} else {
+		}
+		else {
 			super.travel(p_27490_);
 		}
-
 	}
 
 	@Override
@@ -319,11 +312,6 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 	@Override
 	public boolean canBreatheUnderwater() {
 		return true;
-	}
-
-	@Override
-	protected void tickLeash() {
-		super.tickLeash();
 	}
 
 	protected void handleAirSupply(int p_149194_) {
@@ -349,7 +337,7 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-		controllerRegistrar.add(new AnimationController<GeoAnimatable>(this, "controller", 5, this::predicrownedHorateee));
+		controllerRegistrar.add(new AnimationController<GeoAnimatable>(this, "controller", 5, this::predicate));
 		controllerRegistrar.add(new AnimationController<GeoAnimatable>(this, "miscController", 0, this::miscPredicate));
 	}
 
@@ -381,10 +369,6 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 		return FTSounds.HORATEE_DEATH.get();
 	}
 
-	private boolean isMoving() {
-		return this.getDeltaMovement().lengthSqr() > 1.0E-7D;
-	}
-
 	private <E extends GeoAnimatable> PlayState miscPredicate(AnimationState<E> event) {
 		if (this.isBubbleCharge()) {
 			event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.model.bubble"));
@@ -394,7 +378,7 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 		return PlayState.CONTINUE;
 	}
 
-	private <E extends GeoAnimatable> PlayState predicrownedHorateee(AnimationState<E> event) {
+	private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event) {
 		float f = 1.0F;
 
 		if (this.isBaby()) {
@@ -426,8 +410,7 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 	@Nullable
 	@Override
 	public CrownedHorateeEntity getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
-		CrownedHorateeEntity crownedHoratee = FTEntities.CROWNED_HORATTE.get().create(p_146743_);
-		return crownedHoratee;
+		return FTEntities.CROWNED_HORATTE.get().create(p_146743_);
 	}
 
 	public boolean canFallInLove() {
@@ -443,7 +426,6 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 	public void setFromBucket(boolean p_149196_) {
 		this.entityData.set(FROM_BUCKET, p_149196_);
 	}
-
 
 	@Override
 	public void saveToBucketTag(ItemStack p_27494_) {
@@ -478,7 +460,6 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_, MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_, @Nullable CompoundTag p_146750_) {
-		boolean flag = false;
 		if (p_146748_ == MobSpawnType.BUCKET && p_146750_ != null && p_146750_.contains("Age", 3)) {
 			this.setAge(p_146750_.getInt("Age"));
 			return p_146749_;
@@ -526,7 +507,7 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 
 			if (serverplayer != null) {
 				serverplayer.awardStat(Stats.ANIMALS_BRED);
-				CriteriaTriggers.BRED_ANIMALS.trigger(serverplayer, this.animal, this.partner, (AgeableMob) null);
+				CriteriaTriggers.BRED_ANIMALS.trigger(serverplayer, this.animal, this.partner, null);
 			}
 
 			this.level.broadcastEntityEvent(this.animal, (byte) 18);
@@ -582,8 +563,8 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 			}
 		}
 
-		protected boolean isValidTarget(LevelReader p_30280_, BlockPos p_30281_) {
-			return !p_30280_.isEmptyBlock(p_30281_.above()) && p_30280_.isEmptyBlock(p_30281_) && p_30280_.getFluidState(p_30281_).isEmpty() ? false : CrownedHorateeEntity.onSandOrGravel(p_30280_, p_30281_);
+		protected boolean isValidTarget(LevelReader level, BlockPos pos) {
+			return (level.isEmptyBlock(pos.above()) || !level.isEmptyBlock(pos) || !level.getFluidState(pos).isEmpty()) && CrownedHorateeEntity.onSandOrGravel(level, pos);
 		}
 
 	}
