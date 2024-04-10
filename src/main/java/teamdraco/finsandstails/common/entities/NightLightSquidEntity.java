@@ -68,12 +68,6 @@ public class NightLightSquidEntity extends AbstractSchoolingFish implements GeoE
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0D, 1));
     }
 
-    public void playerTouch(Player entityIn) {
-        if (entityIn instanceof ServerPlayer) {
-            entityIn.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 200, 0));
-        }
-    }
-
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D);
     }
@@ -249,7 +243,7 @@ public class NightLightSquidEntity extends AbstractSchoolingFish implements GeoE
                 double d1 = this.wantedY - this.fish.getY();
                 double d2 = this.wantedZ - this.fish.getZ();
                 if (d1 != 0.0D) {
-                    double d3 = (double) Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
+                    double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                     this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0D, (double) this.fish.getSpeed() * (d1 / d3) * 0.1D, 0.0D));
                 }
 
