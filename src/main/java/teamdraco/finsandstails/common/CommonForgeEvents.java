@@ -119,8 +119,13 @@ public class CommonForgeEvents {
 
         if (offhandItem.is(FTTags.CLAW_GAUNTLETS)) {
             player.swing(hand);
-            target.hurt(player.level().damageSources().playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
-            offhandItem.hurtAndBreak(1, player, (p_21301_) -> p_21301_.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+            if (target.hurt(player.level().damageSources().playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE))) {
+                offhandItem.hurtAndBreak(1, player, (p_21301_) -> p_21301_.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+
+                if (offhandItem.getEnchantmentLevel(FTEnchantments.UPPERCUTTING.get()) > 0) {
+                    target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.3D, 0.0D));
+                }
+            }
         }
     }
 

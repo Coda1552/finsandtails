@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTTags;
 
 public class UppercuttingEnchantment extends Enchantment {
     public UppercuttingEnchantment(Rarity rarity, EnchantmentCategory type, EquipmentSlot[] slots) {
@@ -36,10 +37,8 @@ public class UppercuttingEnchantment extends Enchantment {
     @Override
     public void doPostAttack(LivingEntity user, Entity target, int level) {
         super.doPostAttack(user, target, level);
-        if (target.isInWaterOrRain() && user.getMainHandItem().getItem() == FTItems.RED_CLAW_GAUNTLET.get() || user.getMainHandItem().getItem() == FTItems.WHITE_CLAW_GAUNTLET.get()) {
-            if (!user.getCommandSenderWorld().isClientSide) {
-                target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.3D, 0.0D));
-            }
+        if (user.getItemInHand(user.getUsedItemHand()).is(FTTags.CLAW_GAUNTLETS)) {
+            target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.3D, 0.0D));
         }
     }
 }
