@@ -1,0 +1,57 @@
+{
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "finsandtails:item/red_claw_gauntlet_model",
+		"particle": "finsandtails:item/red_claw_gauntlet_model"
+	},
+	"elements": [
+		{
+			"from": [5.5, 0, 5.5],
+			"to": [11.5, 5, 10.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17.5, 8, 13.5]},
+			"faces": {
+				"north": {"uv": [2.5, 2.5, 5.5, 5], "texture": "#0"},
+				"east": {"uv": [0, 2.5, 2.5, 5], "texture": "#0"},
+				"south": {"uv": [8, 2.5, 11, 5], "texture": "#0"},
+				"west": {"uv": [5.5, 2.5, 8, 5], "texture": "#0"},
+				"up": {"uv": [5.5, 2.5, 2.5, 0], "texture": "#0"},
+				"down": {"uv": [8.5, 0, 5.5, 2.5], "texture": "#0"}
+			}
+		}
+	],
+	"gui_light": "front",
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [-0.5, 3.5, 1.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 0, -180],
+			"translation": [-0.5, -7.5, 1.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [30, 10, 0],
+			"translation": [0.5, 5.5, 2.25]
+		},
+		"firstperson_lefthand": {
+			"rotation": [30, 10, -180],
+			"translation": [-0.75, -3.75, -2.75]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [1, 2.5, 0]
+		},
+		"head": {
+			"rotation": [0, 90, 0],
+			"translation": [0, 0.25, -6.5],
+			"scale": [0.43945, 0.43945, 0.43945]
+		},
+		"fixed": {
+			"rotation": [-90, 0, 0],
+			"translation": [-0.5, 0, -6]
+		}
+	}
+}

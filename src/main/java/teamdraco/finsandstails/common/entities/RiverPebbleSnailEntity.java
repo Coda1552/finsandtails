@@ -42,6 +42,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -57,7 +58,10 @@ import teamdraco.finsandstails.registry.FTItems;
 
 public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(RiverPebbleSnailEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_SHIMMER = SynchedEntityData.defineId(RiverPebbleSnailEntity.class, EntityDataSerializers.BOOLEAN);
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+    public int shimmerTime = 20;
+    public int shimmerCooldown = this.random.nextInt(100) + 200;
 
     public RiverPebbleSnailEntity(EntityType<? extends RiverPebbleSnailEntity> type, Level worldIn) {
         super(type, worldIn);
@@ -94,8 +98,21 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     }
 
     @Override
-    public float getWaterSlowDown() {
-        return 0.9F;
+    public void aiStep() {
+        super.aiStep();
+
+        if (!this.level().isClientSide && this.isAlive()) {
+            if (--this.shimmerCooldown <= 0) {
+                this.playSound(SoundEvents.AMETHYST_BLOCK_RESONATE, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                this.shimmerCooldown = this.random.nextInt(100) + 200;
+                setShimmer(true);
+                this.shimmerTime = 20;
+            }
+            if (--this.shimmerTime <= 0) {
+                setShimmer(false);
+                this.shimmerTime = 0;
+            }
+        }
     }
 
     public SoundEvent getHurtSound(DamageSource damageSourceIn) {
@@ -190,6 +207,7 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(VARIANT, 0);
+        this.entityData.define(IS_SHIMMER, false);
     }
 
     public int getVariant() {
@@ -198,6 +216,14 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
 
     private void setVariant(int variant) {
         this.entityData.set(VARIANT, variant);
+    }
+
+    public boolean getShimmer() {
+        return this.entityData.get(IS_SHIMMER);
+    }
+
+    private void setShimmer(boolean shimmer) {
+        this.entityData.set(IS_SHIMMER, shimmer);
     }
 
     @Override
@@ -219,6 +245,7 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
+        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "shimmer_controller", 5, this::shimmerPredicate));
     }
 
     private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
@@ -229,6 +256,16 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
             event.setAnimation(RawAnimation.begin().thenLoop("animation.snail.idle"));
         }
         return PlayState.CONTINUE;
+    }
+
+    private <E extends GeoEntity> PlayState shimmerPredicate(AnimationState<E> event) {
+        if (getVariant() == 5 && getShimmer()) {
+            event.setAnimation(RawAnimation.begin().thenPlay("animation.snail.shimmer"));
+            return PlayState.CONTINUE;
+        }
+        else {
+            return PlayState.STOP;
+        }
     }
 
     @Override
