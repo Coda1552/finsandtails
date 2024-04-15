@@ -41,6 +41,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult;
@@ -269,6 +270,11 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     }
 
     @Override
+    protected float getWaterSlowDown() {
+        return 0.00005F;
+    }
+
+    @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return factory;
     }
@@ -282,11 +288,10 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
         }
 
         public void tick() {
-            if (this.snail.isEyeInFluid(FluidTags.WATER)) {
-                this.snail.setDeltaMovement(this.snail.getDeltaMovement().add(0.0D, 0.0D, 0.0D));
+            if (this.snail.horizontalCollision && this.snail.level().getBlockState(this.snail.blockPosition().above()).getBlock() == Blocks.WATER) {
+                this.snail.setDeltaMovement(this.snail.getDeltaMovement().add(0.0D, 0.025D, 0.0D));
             }
-
-            if (this.operation == Operation.MOVE_TO && !this.snail.getNavigation().isDone()) {
+            if (this.operation == MoveControl.Operation.MOVE_TO && !this.snail.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.snail.getX();
                 double d1 = this.wantedY - this.snail.getY();
                 double d2 = this.wantedZ - this.snail.getZ();
@@ -295,7 +300,13 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
                 float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
                 this.snail.setYRot(this.rotlerp(this.snail.getYRot(), f, 90.0F));
                 this.snail.yBodyRot = this.snail.getYRot();
+
                 float f1 = (float) (this.speedModifier * this.snail.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                if (snail.isInWater()) {
+                    float speedMod = 5.0F;
+                    f1 = f1 * speedMod;
+                }
+
                 this.snail.setSpeed(Mth.lerp(0.125F, this.snail.getSpeed(), f1));
                 this.snail.setDeltaMovement(this.snail.getDeltaMovement().add(0.0D, (double) this.snail.getSpeed() * d1 * 0.1D, 0.0D));
             } else {

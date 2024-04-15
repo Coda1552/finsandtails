@@ -38,11 +38,6 @@ public class RiverPebbleSnailModel extends DefaultedEntityGeoModel<RiverPebbleSn
         super.setCustomAnimations(entity, instanceId, customPredicate);
         CoreGeoBone sparkle = this.getAnimationProcessor().getBone("sparkle");
 
-        if (entity.getVariant() == 5 && entity.getShimmer()) {
-            sparkle.setHidden(false);
-        }
-        else {
-            sparkle.setHidden(true);
-        }
+        sparkle.setHidden(entity.getVariant() != 5 || !entity.getShimmer());
     }
 }
