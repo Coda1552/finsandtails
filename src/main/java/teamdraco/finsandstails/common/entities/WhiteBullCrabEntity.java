@@ -55,6 +55,11 @@ public class WhiteBullCrabEntity extends WaterAnimal implements GeoEntity {
     }
 
     @Override
+    public float maxUpStep() {
+        return 1.0F;
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, RedBullCrabEntity.class, 8.0F, 2.2D, 2.2D));
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, Player.class, 8.0F, 2.2D, 2.2D));
