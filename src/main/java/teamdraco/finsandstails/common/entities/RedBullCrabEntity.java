@@ -63,7 +63,7 @@ public class RedBullCrabEntity extends WaterAnimal implements GeoEntity {
 
     @Override
     public float maxUpStep() {
-        return 0.7F;
+        return 1.0F;
     }
 
     @Override

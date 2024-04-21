@@ -182,7 +182,7 @@ public class MudhorseEntity extends Animal implements GeoEntity {
 
     @Override
     public boolean canAttack(LivingEntity target) {
-        return !(target instanceof MudhorseEntity);
+        return !(target instanceof MudhorseEntity) && super.canAttack(target);
     }
 
     @Override
