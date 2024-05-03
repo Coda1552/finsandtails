@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Position;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
@@ -22,9 +24,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -64,6 +69,9 @@ import teamdraco.finsandstails.common.entities.WeeWeeEntity;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
 import teamdraco.finsandstails.common.entities.WhiteBullCrabEntity;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
+import teamdraco.finsandstails.data.PlayerHitComboData;
+import teamdraco.finsandstails.data.PlayerHitComboProvider;
+import teamdraco.finsandstails.network.FTMessages;
 import teamdraco.finsandstails.network.INetworkPacket;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTBannerPatterns;
@@ -96,6 +104,8 @@ public class FinsAndTails {
         bus.addListener(this::registerCommon);
         bus.addListener(this::registerEntityAttributes);
         bus.addListener(this::registerSpawnPlacements);
+        bus.addListener(this::registerCapabilities);
+        forgeBus.addGenericListener(Entity.class, this::attachCapabilities);
 
         FTBannerPatterns.BANNER_PATTERNS.register(bus);
         FTRecipes.RECIPE_TYPE.register(bus);
@@ -109,9 +119,21 @@ public class FinsAndTails {
         FTCreativeModeTabs.CREATIVE_MODE_TABS.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
-        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
+        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER); // todo - clean up networking
 
-        GeckoLib.initialize();
+        FTMessages.register();
+    }
+
+    private void attachCapabilities(AttachCapabilitiesEvent<Entity> e) {
+        if (e.getObject() instanceof Player) {
+            if (!e.getObject().getCapability(PlayerHitComboProvider.HIT_COMBO).isPresent()) {
+                e.addCapability(new ResourceLocation(FinsAndTails.MOD_ID, "hit_combo"), new PlayerHitComboProvider());
+            }
+        }
+    }
+
+    private void registerCapabilities(RegisterCapabilitiesEvent e) {
+        e.register(PlayerHitComboData.class);
     }
 
     private void registerSpawnPlacements(SpawnPlacementRegisterEvent e) {

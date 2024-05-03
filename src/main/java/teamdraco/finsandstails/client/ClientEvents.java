@@ -1,7 +1,7 @@
 package teamdraco.finsandstails.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -11,6 +11,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -60,10 +61,13 @@ import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTTags;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
     private static final ResourceLocation HEARTS_TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/icons.png");
+    private static final ResourceLocation GAUNTLET_OVERLAY_TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/overlay/gauntlet.png");
+    private static final ResourceLocation GAUNTLET_BG_TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/overlay/gauntlet_bg.png");
 
     @SubscribeEvent
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
@@ -131,14 +135,12 @@ public class ClientEvents {
         }
 
         @SubscribeEvent
-        public static void playerHeartRender(RenderGuiOverlayEvent.Post event) {
+        public static void playerGuiRender(RenderGuiOverlayEvent.Post event) {
             Minecraft minecraft = Minecraft.getInstance();
             LocalPlayer player = minecraft.player;
-            ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
+            ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST); // todo - curios compat
 
-            if (chest.isEmpty()) return;
-
-            if (event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type() && !player.isCreative() && !player.isSpectator()) {
+            if (!chest.isEmpty() && event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type() && !player.isCreative() && !player.isSpectator()) {
                 CharmType charm = CharmType.getCharm(player);
                 if (charm == null) return;
 
@@ -151,6 +153,41 @@ public class ClientEvents {
 
                 RenderSystem.disableBlend();
                 poseStack.popPose();
+            }
+
+            InteractionHand offhand = InteractionHand.OFF_HAND;
+            InteractionHand mainhand = InteractionHand.MAIN_HAND;
+
+            boolean hasGauntlets = player.getItemInHand(mainhand).is(FTTags.CLAW_GAUNTLETS) && player.getItemInHand(offhand).is(FTTags.CLAW_GAUNTLETS);
+
+            if (hasGauntlets && event.getOverlay() == VanillaGuiOverlay.CROSSHAIR.type() && !player.isSpectator()) {
+                PoseStack poseStack = event.getGuiGraphics().pose();
+
+                poseStack.pushPose();
+                RenderSystem.enableBlend();
+
+                renderGauntletOverlay(event.getGuiGraphics());
+
+                RenderSystem.disableBlend();
+                poseStack.popPose();
+            }
+
+        }
+
+        // todo - make the combo ACTUALLY require a left-right combo
+        protected static void renderGauntletOverlay(GuiGraphics guiGraphics) {
+            Gui gui = Minecraft.getInstance().gui;
+            int x = gui.screenWidth / 2 - 14;
+            int y = gui.screenHeight / 2 + 9;
+
+            guiGraphics.blit(GAUNTLET_BG_TEXTURE, x, y, 0, 0, 27, 9);
+
+            int hitCombo = ClientHitComboData.getHitCombo();
+            switch (hitCombo) {
+                case 1 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 7, 7);
+                case 2 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 14, 7);
+                case 3 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 20, 7);
+                case 4 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 28, 7);
             }
         }
 
