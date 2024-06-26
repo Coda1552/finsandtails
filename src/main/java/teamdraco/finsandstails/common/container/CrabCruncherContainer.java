@@ -15,7 +15,6 @@ import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTRecipes;
 
 import java.util.List;
-import java.util.Optional;
 
 public class CrabCruncherContainer extends ItemCombinerMenu {
     private final List<CrunchingRecipe> recipes;
