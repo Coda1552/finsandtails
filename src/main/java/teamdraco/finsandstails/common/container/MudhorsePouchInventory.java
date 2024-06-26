@@ -34,4 +34,6 @@ public class MudhorsePouchInventory extends SimpleContainer {
         stack.setTag(tag);
         isDirty = false;
     }
+
+
 }
