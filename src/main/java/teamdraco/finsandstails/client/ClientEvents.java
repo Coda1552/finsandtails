@@ -103,15 +103,13 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-
         MenuScreens.register(FTContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
         MenuScreens.register(FTContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
-
-        ItemProperties.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player, i) -> SpindlyGemCharmItem.isUsable(stack) ? 0.0F : 1.0F);
-
-        FinsAndTails.CALLBACKS.forEach(Runnable::run);
-        FinsAndTails.CALLBACKS.clear();
+        event.enqueueWork(FTItemProrties::setupItemProperties);
     }
+
+
+
 
     @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
     public static class ForgeBus {

@@ -34,9 +34,7 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
     public MudhorsePouchContainer(int id, Inventory playerInventory) {
         super(FTContainers.MUDHORSE_POUCH.get(), id);
         this.itemStack = playerInventory.player.getItemInHand(InteractionHand.MAIN_HAND);
-        if(this.itemStack.getTag() != null && this.itemStack.getTag().contains("Items") &&  this.itemStack.getTag().contains("Size")) {
-            handler.deserializeNBT(this.itemStack.getTag());
-        }
+        writeItemsToHandler();
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 3; ++j) {
                 this.addSlot(new SlotItemHandler(handler, j + i * 3, 62 + j * 18, 17 + i * 18) {
@@ -73,6 +71,11 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
         itemStack.setTag(this.handler.serializeNBT());
     }
 
+    public void writeItemsToHandler() {
+        if(this.itemStack.getTag() != null && this.itemStack.getTag().contains("Items") &&  this.itemStack.getTag().contains("Size")) {
+            handler.deserializeNBT(this.itemStack.getTag());
+        }
+    }
 
     @Override
     public boolean stillValid(Player playerIn) {

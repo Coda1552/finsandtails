@@ -94,7 +94,6 @@ public class FinsAndTails {
     public static final String MOD_ID = "finsandtails";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
-    public static final List<Runnable> CALLBACKS = new ArrayList<>();
     private static int currentNetworkId;
 
     public FinsAndTails() {

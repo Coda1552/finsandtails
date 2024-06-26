@@ -43,7 +43,6 @@ public class FinsBucketItem extends MobBucketItem {
         super(entityType, fluid, () -> SoundEvents.BUCKET_EMPTY_FISH,builder);
         this.hasTooltip = hasTooltip;
         this.entityTypeSupplier = entityType;
-        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> FinsAndTails.CALLBACKS.add(() -> ItemProperties.register(this, new ResourceLocation(FinsAndTails.MOD_ID, "variant"), (stack, world, player, i) -> stack.hasTag() ? stack.getTag().getInt("Variant") : 0)));
     }
 
     @Override

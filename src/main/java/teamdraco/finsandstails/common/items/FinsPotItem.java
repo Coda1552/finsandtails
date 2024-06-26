@@ -53,7 +53,6 @@ public class FinsPotItem extends BucketItem {
         this.fluid = fluid;
         this.hasTooltip = hasTooltip;
         this.entityTypeSupplier = entityType;
-        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> FinsAndTails.CALLBACKS.add(() -> ItemProperties.register(this, new ResourceLocation(FinsAndTails.MOD_ID, "variant"), (stack, world, player, i) -> stack.hasTag() ? stack.getTag().getInt("Variant") : 0)));
     }
 
     @Override
@@ -91,7 +90,6 @@ public class FinsPotItem extends BucketItem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
