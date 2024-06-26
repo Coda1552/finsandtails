@@ -57,6 +57,7 @@ import teamdraco.finsandstails.client.render.WhiteBullCrabRenderer;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
+import teamdraco.finsandstails.network.FTMessages;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTEntities;
@@ -123,9 +124,7 @@ public class ClientEvents {
                 if (player != null && (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.GOPJET_JETPACK.get() || player.getItemBySlot(EquipmentSlot.CHEST).getItem() == FTItems.ARMORED_GOPJET_JETPACK.get())) {
                     boolean jumping = minecraft.options.keyJump.isDown();
                     if (jumping != wasJumping) {
-                        TriggerFlyingPacket packet = new TriggerFlyingPacket(jumping);
-                        packet.handle(player);
-                        FinsAndTails.NETWORK.sendToServer(packet);
+                        FTMessages.sendToServer(new TriggerFlyingPacket(jumping));
                     }
                     wasJumping = jumping;
                 }

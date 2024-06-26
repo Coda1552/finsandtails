@@ -10,8 +10,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -29,6 +31,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -84,7 +87,9 @@ public class GopjetJetpackItem extends ArmorItem implements GeoItem {
     }
 
     @Override
-    public void onArmorTick(ItemStack stack, Level world, Player player) {
+    public void inventoryTick(ItemStack stack, Level world, Entity entity, int pSlotId, boolean pIsSelected) {
+        super.inventoryTick(stack, world, entity, pSlotId, pIsSelected);
+        if(pSlotId != this.getType().getSlot().getIndex() || !(entity instanceof Player player)) return;
         if (stack.getMaxDamage() - stack.getDamageValue() > 1 || player.isCreative()) {
             boolean canFly = world.isRainingAt(player.blockPosition());
             int flyingTicksRemaining = 0;
@@ -126,17 +131,18 @@ public class GopjetJetpackItem extends ArmorItem implements GeoItem {
                         }
                         persistentData.putInt("FinsFlyingTicks", ticksJumping);
                         player.setDeltaMovement(player.getDeltaMovement().add(0, 0.1, 0));
-
-                        /*Vec3 d3 = player.getViewVector(1.0F).scale(0.35F);
-                        if (!player.isOnGround()) {
-                            Vec3 vec31 = Vec3.ZERO;
+                        player.hurtMarked = true;
+                        //player.resetFallDistance();
+                        Vec3 d3 = player.getViewVector(1.0F).scale(0.35F);
+                        if (!player.onGround()) {
+                            Vec3 vec31 = player.getDeltaMovement();
                             player.setDeltaMovement(vec31.add(d3));
                             player.setPose(Pose.SWIMMING);
                             player.setSwimming(true);
                             player.startFallFlying();
                             player.resetFallDistance();
                         }
-                        player.stopFallFlying();*/
+                        player.stopFallFlying();
                     }
                     if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).is(Blocks.WATER)) {
                         if (random.nextInt(100) < this.bubbleSoundTime++) {
@@ -193,6 +199,7 @@ public class GopjetJetpackItem extends ArmorItem implements GeoItem {
             }
         }
     }
+
 
     @Override
     public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {

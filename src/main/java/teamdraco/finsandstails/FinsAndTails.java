@@ -93,8 +93,6 @@ import java.util.function.Function;
 public class FinsAndTails {
     public static final String MOD_ID = "finsandtails";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
-    private static int currentNetworkId;
 
     public FinsAndTails() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -118,8 +116,6 @@ public class FinsAndTails {
         FTCreativeModeTabs.CREATIVE_MODE_TABS.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
-        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER); // todo - clean up networking
-
         FTMessages.register();
     }
 
@@ -206,18 +202,4 @@ public class FinsAndTails {
         event.put(FTEntities.CROWNED_HORATTE.get(), CrownedHorateeEntity.createAttributes().build());
         //event.put(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
     }
-
-    private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<FriendlyByteBuf, T> reader, LogicalSide side) {
-        NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, reader, (msg, contextSupplier) -> {
-            NetworkEvent.Context context = contextSupplier.get();
-            context.enqueueWork(() -> msg.handle(context.getDirection().getOriginationSide().isServer() ? getClientPlayer() : context.getSender()));
-            context.setPacketHandled(true);
-        }, Optional.of(side.isClient() ? NetworkDirection.PLAY_TO_CLIENT : NetworkDirection.PLAY_TO_SERVER));
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static Player getClientPlayer() {
-        return Minecraft.getInstance().player;
-    }
-
 }
