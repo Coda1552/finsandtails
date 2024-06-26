@@ -88,7 +88,6 @@ public class GoliathGardenCrabEntity extends WaterAnimal {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte p_70103_1_) {
         if (p_70103_1_ == 4) {
             this.attackAnimationTick = 20;
@@ -99,7 +98,6 @@ public class GoliathGardenCrabEntity extends WaterAnimal {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public int getAttackAnimationTick() {
         return this.attackAnimationTick;
     }

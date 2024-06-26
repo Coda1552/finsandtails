@@ -2,17 +2,11 @@
 package teamdraco.finsandstails.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.WherbleModel;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
-
-import java.util.Optional;
 
 public class WherbleRenderer extends GeoEntityRenderer<WherbleEntity> {
 

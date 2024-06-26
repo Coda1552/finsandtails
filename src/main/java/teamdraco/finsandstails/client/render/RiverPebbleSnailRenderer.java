@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.RiverPebbleSnailModel;
 import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
-import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
 
 public class RiverPebbleSnailRenderer extends GeoEntityRenderer<RiverPebbleSnailEntity> {
 

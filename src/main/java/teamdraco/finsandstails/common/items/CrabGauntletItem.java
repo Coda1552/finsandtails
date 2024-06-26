@@ -14,10 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
 
 public class CrabGauntletItem extends Item {
     public final Multimap<Attribute, AttributeModifier> attributeModifiers;

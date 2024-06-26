@@ -118,7 +118,6 @@ public class SpindlyGemCrabEntity extends AbstractFish implements GeoEntity {
         setVariant(compound.getInt("Variant"));
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 38) {
             this.shineParticles(ParticleTypes.END_ROD);
@@ -128,7 +127,6 @@ public class SpindlyGemCrabEntity extends AbstractFish implements GeoEntity {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void shineParticles(SimpleParticleType p_208401_1_) {
         if (random.nextFloat() > 0.975D) {
             double d0 = this.random.nextGaussian() * 0.02D;

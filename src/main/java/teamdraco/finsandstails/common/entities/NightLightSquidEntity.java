@@ -189,7 +189,6 @@ public class NightLightSquidEntity extends AbstractSchoolingFish implements GeoE
         return pos.getY() < world.getSeaLevel() && world.getBlockState(pos.above()).is(Blocks.WATER);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 19) {
             this.squidRotation = 0.0F;
