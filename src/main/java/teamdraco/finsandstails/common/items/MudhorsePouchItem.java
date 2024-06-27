@@ -22,4 +22,8 @@ public class MudhorsePouchItem extends Item {
         }
         return InteractionResultHolder.success(stack);
     }
+
+    public boolean canFitInsideContainerItems() {
+        return false;
+    }
 }
