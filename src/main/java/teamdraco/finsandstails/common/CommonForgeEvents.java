@@ -98,52 +98,34 @@ public class CommonForgeEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerFished(ItemFishedEvent event) {
-        Player player = event.getEntity();
-        InteractionHand mainHand = InteractionHand.MAIN_HAND;
-        InteractionHand offHand = InteractionHand.OFF_HAND;
-
-        if ((player.getItemInHand(mainHand).is(Items.FISHING_ROD) && player.getItemInHand(offHand).is(FTTags.SPINDLY_GEM_CRABS)) || (player.getItemInHand(offHand).is(Items.FISHING_ROD) && player.getItemInHand(mainHand).is(FTTags.SPINDLY_GEM_CRABS))) {
-            List<ItemStack> drops = event.getDrops();
-            List<ItemStack> items = player.getServer().getLootData().getLootTable(BuiltInLootTables.FISHING_TREASURE).getRandomItems(new LootParams.Builder((ServerLevel) player.level()).create(LootContextParamSets.EMPTY));
-
-            if (drops.get(0).getEntityRepresentation() instanceof ItemEntity entity) {
-                entity.setItem(items.get(0));
-                System.out.println(items.get(0)); // todo - test or remove this println ?
-            }
-
-        }
-    }
-
-    @SubscribeEvent
     public static void onPlayerAttackEntity(AttackEntityEvent e) {
-        InteractionHand hand = InteractionHand.MAIN_HAND;
-        Entity target = e.getTarget();
-        Player player = e.getEntity();
-        ItemStack mainhandItem = player.getItemInHand(hand);
+        //InteractionHand hand = InteractionHand.MAIN_HAND;
+        //Entity target = e.getTarget();
+        //Player player = e.getEntity();
+        //ItemStack mainhandItem = player.getItemInHand(hand);
 
-        if (mainhandItem.is(FTTags.CLAW_GAUNTLETS)) {
-            if (player instanceof ServerPlayer serverPlayer) {
-                player.getCapability(PlayerHitComboProvider.HIT_COMBO).ifPresent(provider -> {
-                    if (provider.getHitCombo() < 4) {
-                        provider.setHitCombo(provider.getHitCombo() + 1);
-                    }
-                    else if (provider.getHitCombo() == 4) {
-                        provider.setHitCombo(0);
+        //if (mainhandItem.is(FTTags.CLAW_GAUNTLETS)) {
+        //    if (player instanceof ServerPlayer serverPlayer) {
+        //        player.getCapability(PlayerHitComboProvider.HIT_COMBO).ifPresent(provider -> {
+        //            if (provider.getHitCombo() < 4) {
+        //                provider.setHitCombo(provider.getHitCombo() + 1);
+        //            }
+        //            else if (provider.getHitCombo() == 4) {
+        //                provider.setHitCombo(0);
 
-                        target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.65D, 0.0D));
-                        target.playSound(SoundEvents.PLAYER_LEVELUP);
+        //                target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.65D, 0.0D));
+        //                target.playSound(SoundEvents.PLAYER_LEVELUP);
 
-                        for (int i = 0; i < 20; i++) {
-                            if (target.level() instanceof ServerLevel sl) {
-                                sl.sendParticles(ParticleTypes.CRIT, target.getRandomX(1.0D), target.getRandomY(), target.getRandomZ(1.0D), 1, 0.0D, 0.0D, 0.0D, 0.0D);
-                            }
-                        }
-                    }
-                    FTMessages.sendToPlayer(new HitComboSyncS2CPacket(provider.getHitCombo()), serverPlayer);
-                });
-            }
-        }
+        //                for (int i = 0; i < 20; i++) {
+        //                    if (target.level() instanceof ServerLevel sl) {
+        //                        sl.sendParticles(ParticleTypes.CRIT, target.getRandomX(1.0D), target.getRandomY(), target.getRandomZ(1.0D), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+        //                    }
+        //                }
+        //            }
+        //            FTMessages.sendToPlayer(new HitComboSyncS2CPacket(provider.getHitCombo()), serverPlayer);
+        //        });
+        //    }
+        //}
     }
 
     @SubscribeEvent
@@ -158,24 +140,24 @@ public class CommonForgeEvents {
             if (player instanceof ServerPlayer serverPlayer && target.hurt(player.level().damageSources().playerAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE))) {
                 offhandItem.hurtAndBreak(1, player, (p_21301_) -> p_21301_.broadcastBreakEvent(EquipmentSlot.OFFHAND));
 
-                player.getCapability(PlayerHitComboProvider.HIT_COMBO).ifPresent(provider -> {
-                    if (provider.getHitCombo() < 4) {
-                        provider.setHitCombo(provider.getHitCombo() + 1);
-                    }
-                    else if (provider.getHitCombo() == 4) {
-                        provider.setHitCombo(0);
+                //player.getCapability(PlayerHitComboProvider.HIT_COMBO).ifPresent(provider -> {
+                //    if (provider.getHitCombo() < 4) {
+                //        provider.setHitCombo(provider.getHitCombo() + 1);
+                //    }
+                //    else if (provider.getHitCombo() == 4) {
+                //        provider.setHitCombo(0);
 
-                        target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.65D, 0.0D));
-                        target.playSound(SoundEvents.PLAYER_LEVELUP);
+                //        target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.65D, 0.0D));
+                //        target.playSound(SoundEvents.PLAYER_LEVELUP);
 
-                        for (int i = 0; i < 20; i++) {
-                            if (target.level() instanceof ServerLevel sl) {
-                                sl.sendParticles(ParticleTypes.CRIT, target.getRandomX(1.0D), target.getRandomY(), target.getRandomZ(1.0D), 1, 0.0D, 0.0D, 0.0D, 0.0D);
-                            }
-                        }
-                    }
-                    FTMessages.sendToPlayer(new HitComboSyncS2CPacket(provider.getHitCombo()), serverPlayer);
-                });
+                //        for (int i = 0; i < 20; i++) {
+                //            if (target.level() instanceof ServerLevel sl) {
+                //                sl.sendParticles(ParticleTypes.CRIT, target.getRandomX(1.0D), target.getRandomY(), target.getRandomZ(1.0D), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+                //            }
+                //        }
+                //    }
+                //    FTMessages.sendToPlayer(new HitComboSyncS2CPacket(provider.getHitCombo()), serverPlayer);
+                //});
 
                 if (offhandItem.getEnchantmentLevel(FTEnchantments.UPPERCUTTING.get()) > 0) {
                     target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.3D, 0.0D));

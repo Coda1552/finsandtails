@@ -144,19 +144,19 @@ public class ClientEvents {
 
         // todo - make the combo ACTUALLY require a left-right combo
         protected static void renderGauntletOverlay(GuiGraphics guiGraphics) {
-            Gui gui = Minecraft.getInstance().gui;
-            int x = gui.screenWidth / 2 - 14;
-            int y = gui.screenHeight / 2 + 9;
+            //Gui gui = Minecraft.getInstance().gui;
+            //int x = gui.screenWidth / 2 - 14;
+            //int y = gui.screenHeight / 2 + 9;
 
-            guiGraphics.blit(GAUNTLET_BG_TEXTURE, x, y, 0, 0, 27, 9);
+            //guiGraphics.blit(GAUNTLET_BG_TEXTURE, x, y, 0, 0, 27, 9);
 
-            int hitCombo = ClientHitComboData.getHitCombo();
-            switch (hitCombo) {
-                case 1 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 7, 7);
-                case 2 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 14, 7);
-                case 3 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 20, 7);
-                case 4 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 28, 7);
-            }
+            //int hitCombo = ClientHitComboData.getHitCombo();
+            //switch (hitCombo) {
+            //    case 1 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 7, 7);
+            //    case 2 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 14, 7);
+            //    case 3 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 20, 7);
+            //    case 4 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 28, 7);
+            //}
         }
 
         private static void renderPlayerHealth(GuiGraphics guiGraphics, Player player, CharmType charm) {
