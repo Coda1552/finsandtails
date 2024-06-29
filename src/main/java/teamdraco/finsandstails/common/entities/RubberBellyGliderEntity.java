@@ -172,13 +172,15 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
 
     @Override
     public void travel(Vec3 travelVector) {
+        if (this.isEffectiveAi() && !this.isInWater()) {
+            float speedMod = getTarget() != null && getTarget().isAlive() ? 2.5F : 1.0F;
+            this.setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
+        }
+
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-            if (this.getTarget() == null) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
-            }
         } else {
             super.travel(travelVector);
         }
@@ -312,81 +314,43 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
     }
 
     static class MoveHelperController extends MoveControl {
-        private final RubberBellyGliderEntity glider;
+        private final RubberBellyGliderEntity rbg;
 
-        MoveHelperController(RubberBellyGliderEntity glider) {
-            super(glider);
-            this.glider = glider;
+        MoveHelperController(RubberBellyGliderEntity rbg) {
+            super(rbg);
+            this.rbg = rbg;
         }
 
         private void updateSpeed() {
-            if (this.glider.isInWater()) {
-                this.glider.setDeltaMovement(this.glider.getDeltaMovement().add(0.0D, 0.0005D, 0.0D));
+            if (this.rbg.isInWater()) {
+                this.rbg.setDeltaMovement(this.rbg.getDeltaMovement().add(0.0D, 0.0005D, 0.0D));
 
-                if (this.glider.isBaby()) {
-                    this.glider.setSpeed(Math.max(this.glider.getSpeed() / 3.0F, 0.06F));
+                if (this.rbg.isBaby()) {
+                    this.rbg.setSpeed(Math.max(this.rbg.getSpeed() / 3.0F, 0.06F));
                 }
             }
-            else if (this.glider.onGround()) {
-                this.glider.setSpeed(Math.max(this.glider.getSpeed(), 0.06F));
+            else if (this.rbg.onGround()) {
+                this.rbg.setSpeed(Math.max(this.rbg.getSpeed(), 0.06F));
             }
         }
 
         public void tick() {
             this.updateSpeed();
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone()) {
-                double d0 = this.wantedX - this.mob.getX();
-                double d1 = this.wantedY - this.mob.getY();
-                double d2 = this.wantedZ - this.mob.getZ();
-                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                if (d3 < (double)2.5000003E-7F) {
-                    this.mob.setZza(0.0F);
-                } else {
-                    float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                    this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 85));
-                    //this.mob.yBodyRot = this.mob.getYRot();
-                    this.mob.yHeadRot = this.mob.getYRot();
-                    float f1 = (float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                    if (this.mob.isInWater()) {
-                        this.mob.setSpeed(f1);
-                        double d4 = Math.sqrt(d0 * d0 + d2 * d2);
-                        if (Math.abs(d1) > (double)1.0E-5F || Math.abs(d4) > (double)1.0E-5F) {
-                            float f2 = -((float)(Mth.atan2(d1, d4) * (double)(180F / (float)Math.PI)));
-                            f2 = Mth.clamp(Mth.wrapDegrees(f2), -10, 10);
-                            this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f2, 5.0F));
-                        }
-
-                        float f4 = Mth.cos(this.mob.getXRot() * ((float)Math.PI / 180F));
-                        float f3 = Mth.sin(this.mob.getXRot() * ((float)Math.PI / 180F));
-                        this.mob.zza = f4 * f1;
-                        this.mob.yya = -f3 * f1;
-                    } else {
-                        this.mob.setSpeed(f1);
-                    }
-
-                }
-            } else {
-                this.mob.setSpeed(0.0F);
-                this.mob.setXxa(0.0F);
-                this.mob.setYya(0.0F);
-                this.mob.setZza(0.0F);
-            }
-
-/*            if (this.operation == Operation.MOVE_TO && !this.glider.getNavigation().isDone()) {
-                double d0 = this.wantedX - this.glider.getX();
-                double d1 = this.wantedY - this.glider.getY();
-                double d2 = this.wantedZ - this.glider.getZ();
+            if (this.operation == Operation.MOVE_TO && !this.rbg.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.rbg.getX();
+                double d1 = this.wantedY - this.rbg.getY();
+                double d2 = this.wantedZ - this.rbg.getZ();
                 double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
                 d1 = d1 / d3;
                 float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-                this.glider.yRot = this.rotlerp(this.glider.yRot, f, 90.0F);
-                this.glider.yBodyRot = this.glider.yRot;
-                float f1 = (float)(this.speedModifier * this.glider.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                this.glider.setSpeed(Mth.lerp(0.125F, this.glider.getSpeed(), f1));
-                this.glider.setDeltaMovement(this.glider.getDeltaMovement().add(0.0D, (double)this.glider.getSpeed() * d1 * 0.1D, 0.0D));
+                this.rbg.setYRot(this.rotlerp(this.rbg.getYRot(), f, 90.0F));
+                this.rbg.yBodyRot = this.rbg.getYRot();
+                float f1 = (float)(this.speedModifier * this.rbg.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.rbg.setSpeed(Mth.lerp(0.125F, this.rbg.getSpeed(), f1));
+                this.rbg.setDeltaMovement(this.rbg.getDeltaMovement().add(0.0D, (double)this.rbg.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
-                this.glider.setSpeed(0.0F);
-            }*/
+                this.rbg.setSpeed(0.0F);
+            }
         }
     }
 }
