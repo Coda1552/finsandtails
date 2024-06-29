@@ -36,7 +36,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import teamdraco.finsandstails.common.entities.ai.WaterJumpGoal;
+import teamdraco.finsandstails.common.entities.ai.goals.WaterJumpGoal;
 import teamdraco.finsandstails.common.entities.ai.control.GroundAndSwimmerNavigator;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
@@ -321,7 +321,7 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
 
         private void updateSpeed() {
             if (this.glider.isInWater()) {
-                this.glider.setDeltaMovement(this.glider.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
+                this.glider.setDeltaMovement(this.glider.getDeltaMovement().add(0.0D, 0.0005D, 0.0D));
 
                 if (this.glider.isBaby()) {
                     this.glider.setSpeed(Math.max(this.glider.getSpeed() / 3.0F, 0.06F));
@@ -344,7 +344,7 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
                 } else {
                     float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
                     this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 85));
-                    this.mob.yBodyRot = this.mob.getYRot();
+                    //this.mob.yBodyRot = this.mob.getYRot();
                     this.mob.yHeadRot = this.mob.getYRot();
                     float f1 = (float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
                     if (this.mob.isInWater()) {

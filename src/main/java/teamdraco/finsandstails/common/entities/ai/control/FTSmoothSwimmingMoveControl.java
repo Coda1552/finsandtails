@@ -14,7 +14,7 @@ public class FTSmoothSwimmingMoveControl extends SmoothSwimmingMoveControl {
         super.tick();
 
         if (mob.getTarget() != null && mob.isInWater()) {
-            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, -0.001D, 0.0D));
+            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, -0.0005D, 0.0D));
         }
     }
 }

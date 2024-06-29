@@ -499,7 +499,7 @@ public class PenglilEntity extends TamableAnimal implements Bucketable, GeoEntit
 
         private void updateSpeed() {
             if (this.penglil.isInWater()) {
-                this.penglil.setDeltaMovement(this.penglil.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
+                this.penglil.setDeltaMovement(this.penglil.getDeltaMovement().add(0.0D, 0.0005D, 0.0D));
 
                 if (this.penglil.isBaby()) {
                     this.penglil.setSpeed(Math.max(this.penglil.getSpeed() / 3.0F, 0.06F));

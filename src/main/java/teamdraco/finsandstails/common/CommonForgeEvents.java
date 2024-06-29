@@ -45,7 +45,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import teamdraco.finsandstails.FTConfig;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.common.entities.IHydrate;
+import teamdraco.finsandstails.common.entities.ai.IHydrate;
 import teamdraco.finsandstails.common.entities.PenglilEntity;
 import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
 import teamdraco.finsandstails.common.entities.WherbleEntity;

@@ -24,7 +24,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import teamdraco.finsandstails.common.entities.ai.PapaWeeAttractionGoal;
+import teamdraco.finsandstails.common.entities.ai.goals.PapaWeeAttractionGoal;
 import teamdraco.finsandstails.registry.FTItems;
 
 public class PapaWeeEntity extends AbstractFish implements GeoEntity {

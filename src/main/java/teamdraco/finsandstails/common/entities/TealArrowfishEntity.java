@@ -22,7 +22,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import teamdraco.finsandstails.common.entities.ai.SpearMeleeAttackGoal;
+import teamdraco.finsandstails.common.entities.ai.goals.SpearMeleeAttackGoal;
 import teamdraco.finsandstails.common.entities.ai.control.FTSmoothSwimmingMoveControl;
 import teamdraco.finsandstails.registry.FTItems;
 

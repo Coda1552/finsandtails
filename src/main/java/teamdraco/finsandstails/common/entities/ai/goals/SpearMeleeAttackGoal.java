@@ -1,4 +1,4 @@
-package teamdraco.finsandstails.common.entities.ai;
+package teamdraco.finsandstails.common.entities.ai.goals;
 
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.phys.Vec3;
@@ -15,14 +15,14 @@ public class SpearMeleeAttackGoal extends MeleeAttackGoal {
 
     @Override
     public boolean canUse() {
-        return --fish.killCooldown <= 0 && !fish.isFollower() && super.canUse();
+        return fish.getTarget() != null && fish.getTarget().isAlive() && --fish.killCooldown <= 0 && !fish.isFollower() && super.canUse();
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (fish.getTarget() == null) {
+        if (fish.getTarget() == null || !fish.getTarget().isAlive()) {
             stop();
         }
         else {
