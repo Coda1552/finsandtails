@@ -129,16 +129,16 @@ public class ArmoredGopjetJetpackItem extends ArmorItem implements GeoItem {
 
                         player.hurtMarked = true;
                         //player.resetFallDistance();
-                        Vec3 d3 = player.getViewVector(1.0F).scale(0.5F);
-                        if (!player.onGround()) {
-                            Vec3 vec31 = player.getDeltaMovement();
-                            player.setDeltaMovement(vec31.add(d3));
-                            player.setPose(Pose.SWIMMING);
-                            player.setSwimming(true);
-                            player.startFallFlying();
-                            player.resetFallDistance();
-                        }
-                        player.stopFallFlying();
+                        //Vec3 d3 = player.getViewVector(1.0F).scale(0.5F);
+                        //if (!player.onGround()) {
+                        //    Vec3 vec31 = player.getDeltaMovement();
+                        //    player.setDeltaMovement(vec31.add(d3));
+                        //    player.setPose(Pose.SWIMMING);
+                        //    player.setSwimming(true);
+                        //    player.startFallFlying();
+                        //    player.resetFallDistance();
+                        //}
+                        //player.stopFallFlying();
                     }
                     if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).is(Blocks.WATER)) {
                         if (random.nextInt(100) < this.bubbleSoundTime++) {
