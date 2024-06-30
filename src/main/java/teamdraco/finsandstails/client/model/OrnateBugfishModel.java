@@ -26,6 +26,7 @@ public class OrnateBugfishModel extends DefaultedEntityGeoModel<OrnateBugfishEnt
             body.setRotZ(1.5708f);
         }
         else {
+            body.setRotZ(0.0F);
             body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F));
             body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
         }
