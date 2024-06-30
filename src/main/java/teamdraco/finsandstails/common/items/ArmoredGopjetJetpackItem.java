@@ -45,9 +45,7 @@ import java.util.function.Consumer;
 
 public class ArmoredGopjetJetpackItem extends ArmorItem implements GeoItem {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":horatee_jet_jetpack", 0, new int[]{2, 5, 6, 2}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.ARMORED_GOPJET_JETPACK.get()));
-
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
-
     private final Random random = new Random();
     private int bubbleSoundTime;
 

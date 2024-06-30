@@ -72,6 +72,7 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
         }
         if (boostTimer == 0 || !list.isEmpty() && !this.fromBucket()) {
             boostTimer = BOOST_TIMER;
+            setBoosting(true);
             setDeltaMovement(calculateViewVector(getXRot(), getYRot()).multiply(1.7d, 0.0d, 1.7d));
         }
         if (boostTimer <= 350) {
