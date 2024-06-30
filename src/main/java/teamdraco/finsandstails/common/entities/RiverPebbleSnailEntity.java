@@ -90,7 +90,7 @@ public class RiverPebbleSnailEntity extends Animal implements GeoEntity {
     public void aiStep() {
         super.aiStep();
 
-        if (!this.level().isClientSide && this.isAlive()) {
+        if (!this.level().isClientSide && this.isAlive() && getVariant() == 5) {
             if (--this.shimmerCooldown <= 0) {
                 this.playSound(SoundEvents.AMETHYST_BLOCK_RESONATE, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                 this.shimmerCooldown = this.random.nextInt(100) + 200;
