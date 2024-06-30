@@ -27,6 +27,7 @@ public class TealArrowfishModel extends DefaultedEntityGeoModel<TealArrowfishEnt
         else {
             body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F));
             body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
+            body.setRotZ(0.0f);
         }
     }
 }
