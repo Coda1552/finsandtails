@@ -9,12 +9,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -25,7 +28,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -33,6 +35,7 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.client.model.armor.GopjetJetpackModel;
 import teamdraco.finsandstails.client.model.armor.HorateeJetpackModel;
 import teamdraco.finsandstails.client.render.ArmorItemRenderer;
 import teamdraco.finsandstails.registry.FTItems;
@@ -45,7 +48,9 @@ import java.util.function.Consumer;
 
 public class ArmoredGopjetJetpackItem extends ArmorItem implements GeoItem {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":horatee_jet_jetpack", 0, new int[]{2, 5, 6, 2}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.ARMORED_GOPJET_JETPACK.get()));
+
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+
     private final Random random = new Random();
     private int bubbleSoundTime;
 
@@ -80,9 +85,7 @@ public class ArmoredGopjetJetpackItem extends ArmorItem implements GeoItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level world, Entity entity, int pSlotId, boolean pIsSelected) {
-        super.inventoryTick(stack, world, entity, pSlotId, pIsSelected);
-        if(pSlotId != this.getType().getSlot().getIndex() || !(entity instanceof Player player)) return;
+    public void onArmorTick(ItemStack stack, Level world, Player player) {
         if (stack.getMaxDamage() - stack.getDamageValue() > 1 || player.isCreative()) {
             boolean canFly = world.isRainingAt(player.blockPosition());
             int flyingTicksRemaining = 0;
@@ -125,18 +128,16 @@ public class ArmoredGopjetJetpackItem extends ArmorItem implements GeoItem {
                         persistentData.putInt("FinsFlyingTicks", ticksJumping);
                         player.setDeltaMovement(player.getDeltaMovement().add(0, 0.1, 0));
 
-                        player.hurtMarked = true;
-                        //player.resetFallDistance();
-                        //Vec3 d3 = player.getViewVector(1.0F).scale(0.5F);
-                        //if (!player.onGround()) {
-                        //    Vec3 vec31 = player.getDeltaMovement();
-                        //    player.setDeltaMovement(vec31.add(d3));
-                        //    player.setPose(Pose.SWIMMING);
-                        //    player.setSwimming(true);
-                        //    player.startFallFlying();
-                        //    player.resetFallDistance();
-                        //}
-                        //player.stopFallFlying();
+                        /*Vec3 d3 = player.getViewVector(1.0F).scale(0.5F);
+                        if (!player.isOnGround()) {
+                            Vec3 vec31 = Vec3.ZERO;
+                            player.setDeltaMovement(vec31.add(d3));
+                            player.setPose(Pose.SWIMMING);
+                            player.setSwimming(true);
+                            player.startFallFlying();
+                            player.resetFallDistance();
+                        }
+                        player.stopFallFlying();*/
                     }
                     if (canFly || player.blockPosition().getY() > 0 && world.getBlockState(pos).is(Blocks.WATER)) {
                         if (random.nextInt(100) < this.bubbleSoundTime++) {

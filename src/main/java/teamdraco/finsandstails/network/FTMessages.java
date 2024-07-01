@@ -31,19 +31,9 @@ public class FTMessages {
                 .encoder(HitComboSyncS2CPacket::toBytes)
                 .consumerMainThread(HitComboSyncS2CPacket::handle)
                 .add();
-
-        net.messageBuilder(TriggerFlyingPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(TriggerFlyingPacket::new)
-                .encoder(TriggerFlyingPacket::toBytes)
-                .consumerMainThread(TriggerFlyingPacket::handle)
-                .add();
     }
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
-    }
-
-    public static <MSG> void sendToServer(MSG message) {
-        INSTANCE.sendToServer(message);
     }
 }

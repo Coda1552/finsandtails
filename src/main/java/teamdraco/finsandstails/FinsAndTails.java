@@ -25,11 +25,13 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import teamdraco.finsandstails.common.entities.*;
@@ -37,12 +39,16 @@ import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 import teamdraco.finsandstails.data.PlayerHitComboData;
 import teamdraco.finsandstails.data.PlayerHitComboProvider;
 import teamdraco.finsandstails.network.FTMessages;
+import teamdraco.finsandstails.network.INetworkPacket;
+import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.*;
 
 @Mod(FinsAndTails.MOD_ID)
 public class FinsAndTails {
     public static final String MOD_ID = "finsandtails";
     public static final Logger LOGGER = LogManager.getLogger();
+    public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
+    private static int currentNetworkId;
 
     public FinsAndTails() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -66,6 +72,8 @@ public class FinsAndTails {
         FTCreativeModeTabs.CREATIVE_MODE_TABS.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
+        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
+
         FTMessages.register();
     }
 
@@ -152,4 +160,18 @@ public class FinsAndTails {
         event.put(FTEntities.CROWNED_HORATTE.get(), CrownedHorateeEntity.createAttributes().build());
         //event.put(FTEntities.GOLIATH_GARDEN_CRAB.get(), GoliathGardenCrabEntity.createAttributes().build());
     }
+
+    private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<FriendlyByteBuf, T> reader, LogicalSide side) {
+        NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, reader, (msg, contextSupplier) -> {
+            NetworkEvent.Context context = contextSupplier.get();
+            context.enqueueWork(() -> msg.handle(context.getDirection().getOriginationSide().isServer() ? getClientPlayer() : context.getSender()));
+            context.setPacketHandled(true);
+        }, Optional.of(side.isClient() ? NetworkDirection.PLAY_TO_CLIENT : NetworkDirection.PLAY_TO_SERVER));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static Player getClientPlayer() {
+        return Minecraft.getInstance().player;
+    }
+
 }
