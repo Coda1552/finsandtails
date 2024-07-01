@@ -77,7 +77,7 @@ public class ClientEvents {
     public static void setupClient(FMLClientSetupEvent event) {
         MenuScreens.register(FTContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
         MenuScreens.register(FTContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
-        event.enqueueWork(FTItemProrties::setupItemProperties);
+        event.enqueueWork(FTItemProperties::setupItemProperties);
     }
 
 

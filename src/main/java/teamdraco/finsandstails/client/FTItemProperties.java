@@ -10,7 +10,7 @@ import teamdraco.finsandstails.common.items.FinsPotItem;
 import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class FTItemProrties {
+public class FTItemProperties {
 
     public static void setupItemProperties() {
 
