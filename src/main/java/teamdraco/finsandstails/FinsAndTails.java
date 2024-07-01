@@ -1,7 +1,9 @@
 package teamdraco.finsandstails;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Position;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -18,6 +20,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -31,6 +35,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +48,9 @@ import teamdraco.finsandstails.network.FTMessages;
 import teamdraco.finsandstails.network.INetworkPacket;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.*;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 @Mod(FinsAndTails.MOD_ID)
 public class FinsAndTails {
@@ -169,9 +178,7 @@ public class FinsAndTails {
         }, Optional.of(side.isClient() ? NetworkDirection.PLAY_TO_CLIENT : NetworkDirection.PLAY_TO_SERVER));
     }
 
-    @OnlyIn(Dist.CLIENT)
     private static Player getClientPlayer() {
         return Minecraft.getInstance().player;
     }
-
 }
