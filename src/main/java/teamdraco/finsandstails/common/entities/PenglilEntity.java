@@ -265,18 +265,25 @@ public class PenglilEntity extends SchoolingTamableAnimal implements Bucketable,
 
     @Override
     public void travel(Vec3 travelVector) {
-        if (this.isEffectiveAi() && !this.isInWater()) {
-            float speedMod = getTarget() != null && getTarget().isAlive() ? 2.5F : 1.0F;
-            this.setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
-        }
+        if (isInSittingPose() && !isInWater()) {
+            if (getNavigation().getPath() != null) {
+                getNavigation().stop();
+            }
 
-        if (this.isEffectiveAi() && this.isInWater() && !isInSittingPose()) {
-            this.moveRelative(0.1F, travelVector);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-        } else {
-            super.travel(travelVector);
+            travelVector = Vec3.ZERO;
         }
+        else {
+            if (this.isEffectiveAi() && !this.isInWater()) {
+                float speedMod = getTarget() != null && getTarget().isAlive() ? 2.5F : 1.0F;
+                this.setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
+            }
+            if (this.isEffectiveAi() && this.isInWater() && !isInSittingPose()) {
+                this.moveRelative(0.1F, travelVector);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            }
+        }
+        super.travel(travelVector);
     }
 
     @Override
