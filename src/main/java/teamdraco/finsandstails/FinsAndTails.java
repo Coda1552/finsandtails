@@ -40,6 +40,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import teamdraco.finsandstails.client.ClientUtils;
 import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 import teamdraco.finsandstails.data.PlayerHitComboData;
@@ -173,12 +174,9 @@ public class FinsAndTails {
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<FriendlyByteBuf, T> reader, LogicalSide side) {
         NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, reader, (msg, contextSupplier) -> {
             NetworkEvent.Context context = contextSupplier.get();
-            context.enqueueWork(() -> msg.handle(context.getDirection().getOriginationSide().isServer() ? getClientPlayer() : context.getSender()));
+            context.enqueueWork(() -> msg.handle(context.getDirection().getOriginationSide().isServer() ? ClientUtils.getClientPlayer() : context.getSender()));
             context.setPacketHandled(true);
         }, Optional.of(side.isClient() ? NetworkDirection.PLAY_TO_CLIENT : NetworkDirection.PLAY_TO_SERVER));
     }
 
-    private static Player getClientPlayer() {
-        return Minecraft.getInstance().player;
-    }
 }
