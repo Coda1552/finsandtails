@@ -188,7 +188,8 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
             float speedMod = getTarget() != null && getTarget().isAlive() ? 2.5F : 1.0F;
             this.setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
         }
-        else if (this.isEffectiveAi() && this.isInWater()) {
+
+        if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
