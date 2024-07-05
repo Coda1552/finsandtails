@@ -32,5 +32,8 @@ public class RubberBellyGliderModel extends DefaultedEntityGeoModel<RubberBellyG
             body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F));
             body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
         }
+        else {
+            body.setRotX(0.0F);
+        }
     }
 }
