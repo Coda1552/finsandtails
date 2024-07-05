@@ -61,7 +61,17 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
 
     public RubberBellyGliderEntity(EntityType<? extends RubberBellyGliderEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 1.0F, true);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 1.0F, true) { // lmao
+
+            @Override
+            public void tick() {
+                super.tick();
+                if (this.mob.isInWater()) {
+                    this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, -0.0025D, 0.0D));
+                }
+
+            }
+        };
         this.lookControl = new SmoothSwimmingLookControl(this, 30);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
@@ -178,12 +188,12 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
             float speedMod = getTarget() != null && getTarget().isAlive() ? 2.5F : 1.0F;
             this.setSpeed((float) getAttributeValue(Attributes.MOVEMENT_SPEED) * speedMod);
         }
-
-        if (this.isEffectiveAi() && this.isInWater()) {
+        else if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-        } else {
+        }
+        else {
             super.travel(travelVector);
         }
     }
