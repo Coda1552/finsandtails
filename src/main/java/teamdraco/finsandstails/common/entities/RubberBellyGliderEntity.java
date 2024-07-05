@@ -41,6 +41,7 @@ import teamdraco.finsandstails.common.entities.ai.control.GroundAndSwimmerNaviga
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
+import teamdraco.finsandstails.registry.FTTags;
 
 import java.util.function.Predicate;
 
@@ -251,7 +252,7 @@ public class RubberBellyGliderEntity extends Animal implements GeoEntity {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return stack.getItem() == FTItems.AMBER_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.RUBY_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.EMERALD_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.SAPPHIRE_SPINDLY_GEM_CRAB.get() || stack.getItem() == FTItems.PEARL_SPINDLY_GEM_CRAB.get();
+        return stack.is(FTTags.SPINDLY_GEM_CRABS);
     }
 
     @Override
