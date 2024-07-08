@@ -1,24 +1,23 @@
 
 package teamdraco.finsandstails.client.render;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.OrnateBugfishModel;
 import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
+import teamdraco.finsandstails.registry.FTModelLayers;
 
-public class OrnateBugfishRenderer extends GeoEntityRenderer<OrnateBugfishEntity> {
+public class OrnateBugfishRenderer extends MobRenderer<OrnateBugfishEntity, OrnateBugfishModel<OrnateBugfishEntity>> {
+    private static final ResourceLocation ORNATE_BUGFISH_LOCATION = new ResourceLocation(FinsAndTails.MOD_ID,"textures/entity/ornate_bugfish/ornate_bugfish.png");
 
-    public OrnateBugfishRenderer(EntityRendererProvider.Context context) {
-        super(context, new OrnateBugfishModel());
-        this.shadowRadius = 0.3F;
+    public OrnateBugfishRenderer(EntityRendererProvider.Context ctx) {
+        super(ctx, new OrnateBugfishModel<>(ctx.bakeLayer(FTModelLayers.ORNATE_BUGFISH)), 0.3f);
     }
 
     @Override
-    public RenderType getRenderType(OrnateBugfishEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucent(texture);
+    public ResourceLocation getTextureLocation(OrnateBugfishEntity entity) {
+        return ORNATE_BUGFISH_LOCATION;
     }
 }

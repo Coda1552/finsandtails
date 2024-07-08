@@ -38,7 +38,6 @@ public class FTItems {
             components.add(Component.translatable("finsandtails.high_finned_blue.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
     });
-    public static final RegistryObject<Item> ORNATE_BUGFISH = ITEMS.register("ornate_bugfish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build())));
     public static final RegistryObject<Item> WEE_WEE = ITEMS.register("wee_wee", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F).fast().build())) {
         @Override
         public int getUseDuration(ItemStack p_41454_) {

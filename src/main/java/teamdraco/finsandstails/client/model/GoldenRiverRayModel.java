@@ -11,7 +11,7 @@ import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
 
 @SuppressWarnings("FieldCanBeLocal, unused")
 @OnlyIn(Dist.CLIENT)
-public class GoldenRiverRayModel <T extends GoldenRiverRayEntity> extends HierarchicalModel<T> {
+public class GoldenRiverRayModel<T extends GoldenRiverRayEntity> extends HierarchicalModel<T> {
 
     private final ModelPart root;
     private final ModelPart body;

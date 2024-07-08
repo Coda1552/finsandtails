@@ -29,6 +29,7 @@ import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.BandedRedbackShrimpModel;
 import teamdraco.finsandstails.client.model.GoldenRiverRayModel;
 import teamdraco.finsandstails.client.model.MudhorseModel;
+import teamdraco.finsandstails.client.model.OrnateBugfishModel;
 import teamdraco.finsandstails.client.render.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
@@ -46,6 +47,7 @@ public class ClientEvents {
         event.registerLayerDefinition(FTModelLayers.BANDED_REDBACK_SHRIMP, BandedRedbackShrimpModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.GOLDEN_RIVER_RAY, GoldenRiverRayModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.MUDHORSE, MudhorseModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.ORNATE_BUGFISH, OrnateBugfishModel::createBodyLayer);
     }
 
 
@@ -56,6 +58,7 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpRenderer::new);
         event.registerEntityRenderer(FTEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayRenderer::new);
         event.registerEntityRenderer(FTEntities.MUDHORSE.get(), MudhorseRenderer::new);
+        event.registerEntityRenderer(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
 
         event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
@@ -68,7 +71,6 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
         event.registerEntityRenderer(FTEntities.WEE_WEE.get(), WeeWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.NIGHT_LIGHT_SQUID.get(), NightlightSquidRenderer::new);
-        event.registerEntityRenderer(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
         event.registerEntityRenderer(FTEntities.PAPA_WEE.get(), PapaWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.PENGLIL.get(), PenglilRenderer::new);
         event.registerEntityRenderer(FTEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchRenderer::new);
