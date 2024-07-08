@@ -1,27 +1,26 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/lower_bucket",
-    "layer1": "finsandtails:item/bucket_content/golden_river_ray"
+    "layer0": "finsandtails:item/golden_river_ray_bucket_0"
   },
   "overrides": [
     {
       "predicate": {
         "finsandtails:variant": 0
       },
-      "model": "finsandtails:item/golden_river_ray_bucket"
+      "model": "finsandtails:item/golden_river_ray_bucket_0"
     },
     {
       "predicate": {
         "finsandtails:variant": 1
       },
-      "model": "finsandtails:item/golden_river_ray_bucket_2"
+      "model": "finsandtails:item/golden_river_ray_bucket_1"
     },
     {
       "predicate": {
         "finsandtails:variant": 2
       },
-      "model": "finsandtails:item/golden_river_ray_bucket_3"
+      "model": "finsandtails:item/golden_river_ray_bucket_2"
     }
   ]
 }
