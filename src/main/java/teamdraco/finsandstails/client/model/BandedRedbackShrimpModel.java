@@ -4,17 +4,9 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.model.DefaultedEntityGeoModel;
-import software.bernie.geckolib.model.data.EntityModelData;
-import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
 
 @SuppressWarnings("FieldCanBeLocal, unused")
@@ -54,33 +46,9 @@ public class BandedRedbackShrimpModel<T extends BandedRedbackShrimpEntity> exten
         this.tailFan = this.tail.getChild("tailFan");
     }
 
-    public static LayerDefinition createBodyLayer() {
-        MeshDefinition meshdefinition = new MeshDefinition();
-        PartDefinition partdefinition = meshdefinition.getRoot();
-
-        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(1, 0).addBox(-1.5F, -1.5F, -2.5F, 3.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 21.5F, 0.0F));
-        PartDefinition rostrum = body.addOrReplaceChild("rostrum", CubeListBuilder.create().texOffs(0, 9).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -2.5F));
-        PartDefinition rightAntenna = body.addOrReplaceChild("rightAntenna", CubeListBuilder.create().texOffs(0, 7).mirror().addBox(0.0F, -3.5F, -6.0F, 0.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, -1.0F, -2.5F, -0.1F, 0.1745F, 0.0F));
-        PartDefinition leftAntenna = body.addOrReplaceChild("leftAntenna", CubeListBuilder.create().texOffs(0, 7).addBox(0.0F, -3.5F, -6.0F, 0.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -1.0F, -2.5F, -0.1F, -0.1745F, 0.0F));
-        PartDefinition rightFin = body.addOrReplaceChild("rightFin", CubeListBuilder.create().texOffs(7, 9).addBox(-3.0F, -0.5F, -1.5F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, -0.5F, 0.0F));
-        PartDefinition leftFin = body.addOrReplaceChild("leftFin", CubeListBuilder.create().texOffs(7, 9).mirror().addBox(0.0F, -0.5F, -1.5F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.5F, -0.5F, 0.0F));
-        PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(17, 0).addBox(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.5F, 2.5F, 0, 0.0F, 0.0F));
-        PartDefinition tailFan = tail.addOrReplaceChild("tailFan", CubeListBuilder.create().texOffs(9, 0).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 4.0F));
-        PartDefinition legs4 = body.addOrReplaceChild("legs4", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 1.5F, 2.0F));
-        PartDefinition legs3 = body.addOrReplaceChild("legs3", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 1.5F, 1.0F));
-        PartDefinition legs2 = body.addOrReplaceChild("legs2", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 1.5F, 0.0F));
-        PartDefinition legs1 = body.addOrReplaceChild("legs1", CubeListBuilder.create().texOffs(26, 0).addBox(-1.5F, 0.0F, 0.0F, 3.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.5F, -1.0F));
-
-        return LayerDefinition.create(meshdefinition, 32, 32);
-    }
-
-    @Override
-    public ModelPart root() {
-        return this.root;
-    }
-
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        limbSwingAmount = Mth.clamp(limbSwingAmount, -0.45F, 0.45F);
 
         this.body.xRot = headPitch * (((float)Math.PI / 180F) / 2);
         this.body.yRot = netHeadYaw * (((float)Math.PI / 180F) / 2);
@@ -113,5 +81,30 @@ public class BandedRedbackShrimpModel<T extends BandedRedbackShrimpEntity> exten
         this.legs3.xRot += Mth.cos(limbSwing + 32) * 1.25F * limbSwingAmount;
         this.legs4.xRot += Mth.cos(limbSwing + 33) * 1.25F * limbSwingAmount;
 
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(1, 0).addBox(-1.5F, -1.5F, -2.5F, 3.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 21.5F, 0.0F));
+        PartDefinition rostrum = body.addOrReplaceChild("rostrum", CubeListBuilder.create().texOffs(0, 9).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -2.5F));
+        PartDefinition rightAntenna = body.addOrReplaceChild("rightAntenna", CubeListBuilder.create().texOffs(0, 7).mirror().addBox(0.0F, -3.5F, -6.0F, 0.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, -1.0F, -2.5F, -0.1F, 0.1745F, 0.0F));
+        PartDefinition leftAntenna = body.addOrReplaceChild("leftAntenna", CubeListBuilder.create().texOffs(0, 7).addBox(0.0F, -3.5F, -6.0F, 0.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -1.0F, -2.5F, -0.1F, -0.1745F, 0.0F));
+        PartDefinition rightFin = body.addOrReplaceChild("rightFin", CubeListBuilder.create().texOffs(7, 9).addBox(-3.0F, -0.5F, -1.5F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, -0.5F, 0.0F));
+        PartDefinition leftFin = body.addOrReplaceChild("leftFin", CubeListBuilder.create().texOffs(7, 9).mirror().addBox(0.0F, -0.5F, -1.5F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.5F, -0.5F, 0.0F));
+        PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(17, 0).addBox(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.5F, 2.5F, 0, 0.0F, 0.0F));
+        PartDefinition tailFan = tail.addOrReplaceChild("tailFan", CubeListBuilder.create().texOffs(9, 0).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 4.0F));
+        PartDefinition legs4 = body.addOrReplaceChild("legs4", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 1.5F, 2.0F));
+        PartDefinition legs3 = body.addOrReplaceChild("legs3", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 1.5F, 1.0F));
+        PartDefinition legs2 = body.addOrReplaceChild("legs2", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 1.5F, 0.0F));
+        PartDefinition legs1 = body.addOrReplaceChild("legs1", CubeListBuilder.create().texOffs(26, 0).addBox(-1.5F, 0.0F, 0.0F, 3.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.5F, -1.0F));
+
+        return LayerDefinition.create(meshdefinition, 32, 32);
+    }
+
+    @Override
+    public ModelPart root() {
+        return this.root;
     }
 }
