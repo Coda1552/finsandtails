@@ -8,6 +8,7 @@ public class FTModelLayers {
 
     public static final ModelLayerLocation BANDED_REDBACK_SHRIMP = main("banded_redback_shrimp");
     public static final ModelLayerLocation GOLDEN_RIVER_RAY = main("golden_river_ray");
+    public static final ModelLayerLocation MUDHORSE = main("mudhorse");
 
     private static ModelLayerLocation register(String id, String name) {
         return new ModelLayerLocation(new ResourceLocation(FinsAndTails.MOD_ID, id), name);
