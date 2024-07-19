@@ -11,5 +11,4 @@ public class FTBannerPatterns {
 
     public static final RegistryObject<BannerPattern> MANDIBLES = BANNER_PATTERNS.register("mandibles", () -> new BannerPattern("ftm"));
     public static final RegistryObject<BannerPattern> SHELL = BANNER_PATTERNS.register("shell", () -> new BannerPattern("ftsll"));
-
 }
