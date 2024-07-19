@@ -1,35 +1,44 @@
 package teamdraco.finsandstails.common.container;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTTags;
 
 public class MudhorsePouchContainer extends AbstractContainerMenu {
-    private final MudhorsePouchInventory stackInventory;
+
+
+    private ItemStackHandler handler = new ItemStackHandler(9){
+        @Override
+        protected void onContentsChanged(int slot) {
+            MudhorsePouchContainer.this.writeItemsToStack();
+        }
+    };
+
     private ItemStack itemStack;
 
+
     public MudhorsePouchContainer(int id, Inventory playerInventory) {
-        this(id, playerInventory, ItemStack.EMPTY);
-    }
-
-    public MudhorsePouchContainer(int id, Inventory playerInventory, ItemStack inventoryStack) {
         super(FTContainers.MUDHORSE_POUCH.get(), id);
-        MudhorsePouchInventory inventory = getStackInventory(inventoryStack);
-        checkContainerSize(inventory, 9);
-        this.stackInventory = inventory;
-        this.itemStack = inventoryStack;
-        inventory.startOpen(playerInventory.player);
-
+        this.itemStack = playerInventory.player.getItemInHand(InteractionHand.MAIN_HAND);
+        writeItemsToHandler();
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 3; ++j) {
-                this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
+                this.addSlot(new SlotItemHandler(handler, j + i * 3, 62 + j * 18, 17 + i * 18) {
+
+                    @Override
+                    public void setChanged() {
+                        super.setChanged();
+                        MudhorsePouchContainer.this.writeItemsToStack();
+                    }
+
                     @Override
                     public boolean mayPlace(ItemStack stack) {
                         return super.mayPlace(stack) && !stack.is(FTTags.MUDHORSE_POUCH_BLACKLIST);
@@ -40,25 +49,26 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
 
         for(int k = 0; k < 3; ++k) {
             for(int i1 = 0; i1 < 9; ++i1) {
-                this.addSlot(new PlayerInventorySlot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 84 + k * 18));
+                this.addSlot(new Slot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 84 + k * 18));
             }
         }
 
         for(int l = 0; l < 9; ++l) {
-            this.addSlot(new PlayerInventorySlot(playerInventory, l, 8 + l * 18, 142));
+            this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 142));
         }
+
     }
 
-    private static MudhorsePouchInventory getStackInventory(ItemStack stack) {
-        MudhorsePouchInventory inventory = new MudhorsePouchInventory();
-        if (!stack.isEmpty() && stack.hasTag()) {
-            ListTag items = stack.getOrCreateTag().getList("Items", 10);
-            for (int i = 0; i < items.size(); i++) {
-                CompoundTag item = items.getCompound(i);
-                inventory.setItem(item.getByte("Slot"), ItemStack.of(item));
-            }
+
+
+    public void writeItemsToStack() {
+        itemStack.setTag(this.handler.serializeNBT());
+    }
+
+    public void writeItemsToHandler() {
+        if(this.itemStack.getTag() != null && this.itemStack.getTag().contains("Items") &&  this.itemStack.getTag().contains("Size")) {
+            handler.deserializeNBT(this.itemStack.getTag());
         }
-        return inventory;
     }
 
     @Override
@@ -95,31 +105,5 @@ public class MudhorsePouchContainer extends AbstractContainerMenu {
         }
 
         return resultStack;
-    }
-
-    @Override
-    public void removed(Player playerIn) {
-        super.removed(playerIn);
-        this.stackInventory.stopOpen(playerIn);
-        if (!playerIn.level().isClientSide && stackInventory.isDirty()) {
-            stackInventory.write(itemStack);
-        }
-    }
-
-    private class PlayerInventorySlot extends Slot {
-        public PlayerInventorySlot(Inventory inventory, int index, int xPosition, int yPosition) {
-            super(inventory, index, xPosition, yPosition);
-        }
-
-        //Kind of a weird workaround, can't really think of other ways to do this but this should work for now
-        @Override
-        public void set(ItemStack stack) {
-            if (!itemStack.isEmpty() && getItem() == itemStack) {
-                itemStack = ItemStack.EMPTY;
-            } else if (stack.getItem() == FTItems.MUDHORSE_POUCH.get()) {
-                itemStack = stack;
-            }
-            super.set(stack);
-        }
     }
 }

@@ -2,11 +2,9 @@ package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -25,17 +23,12 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
-import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
 import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
 import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -53,7 +46,6 @@ public class FinsPotItem extends BucketItem {
         this.fluid = fluid;
         this.hasTooltip = hasTooltip;
         this.entityTypeSupplier = entityType;
-        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> FinsAndTails.CALLBACKS.add(() -> ItemProperties.register(this, new ResourceLocation(FinsAndTails.MOD_ID, "variant"), (stack, world, player, i) -> stack.hasTag() ? stack.getTag().getInt("Variant") : 0)));
     }
 
     @Override
@@ -91,7 +83,6 @@ public class FinsPotItem extends BucketItem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);

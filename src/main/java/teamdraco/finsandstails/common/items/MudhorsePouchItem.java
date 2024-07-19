@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.container.MudhorsePouchContainer;
 
 public class MudhorsePouchItem extends Item {
@@ -18,9 +17,13 @@ public class MudhorsePouchItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!world.isClientSide) {
-            player.openMenu(new SimpleMenuProvider((windowId, inventory, owner) -> new MudhorsePouchContainer(windowId, inventory, stack), stack.getHoverName()));
+        if (!world.isClientSide && hand == InteractionHand.MAIN_HAND) {
+            player.openMenu(new SimpleMenuProvider((windowId, inventory, owner) -> new MudhorsePouchContainer(windowId, inventory), stack.getHoverName()));
         }
         return InteractionResultHolder.success(stack);
+    }
+
+    public boolean canFitInsideContainerItems() {
+        return false;
     }
 }

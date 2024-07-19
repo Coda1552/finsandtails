@@ -12,26 +12,23 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -51,30 +48,20 @@ public class GoldenRiverRayEntity extends AbstractFish implements GeoEntity {
 
     public GoldenRiverRayEntity(EntityType<? extends GoldenRiverRayEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new FTSmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, true);
+        this.moveControl = new FTSmoothSwimmingMoveControl(this, 85, 10, 1.0F, 0.5F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 50);
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
     @Override
     public void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.85D));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, RiverPebbleSnailEntity.class, false));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, RiverPebbleSnailEntity.class, true));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 6).add(Attributes.ATTACK_DAMAGE, 1);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        if (getTarget() != null && getDeltaMovement().x < 0.0005 && getDeltaMovement().z < 0.0005) {
-            setTarget(null);
-        }
     }
 
     public void playerTouch(Player entityIn) {
@@ -101,6 +88,18 @@ public class GoldenRiverRayEntity extends AbstractFish implements GeoEntity {
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
         }
+    }
+
+    @Override
+    public void travel(Vec3 p_27490_) {
+        if (isInWater() && getTarget() != null && getTarget().isAlive()) {
+            PathNavigation nav = getNavigation();
+
+            Path path = nav.createPath(getTarget(), 1);
+
+            nav.moveTo(path, 5.0D);
+        }
+        super.travel(p_27490_);
     }
 
     @Override

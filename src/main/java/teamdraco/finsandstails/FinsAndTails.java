@@ -29,7 +29,6 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -41,51 +40,16 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.geckolib.GeckoLib;
-import teamdraco.finsandstails.common.entities.BandedRedbackShrimpEntity;
-import teamdraco.finsandstails.common.entities.BluWeeEntity;
-import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
-import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
-import teamdraco.finsandstails.common.entities.FlatbackSuckerEntity;
-import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
-import teamdraco.finsandstails.common.entities.GopjetEntity;
-import teamdraco.finsandstails.common.entities.HighFinnedBlueEntity;
-import teamdraco.finsandstails.common.entities.MudhorseEntity;
-import teamdraco.finsandstails.common.entities.NightLightSquidEntity;
-import teamdraco.finsandstails.common.entities.OrnateBugfishEntity;
-import teamdraco.finsandstails.common.entities.PapaWeeEntity;
-import teamdraco.finsandstails.common.entities.PeaWeeEntity;
-import teamdraco.finsandstails.common.entities.PenglilEntity;
-import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
-import teamdraco.finsandstails.common.entities.RedBullCrabEntity;
-import teamdraco.finsandstails.common.entities.RiverPebbleSnailEntity;
-import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
-import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
-import teamdraco.finsandstails.common.entities.SpindlyGemCrabEntity;
-import teamdraco.finsandstails.common.entities.SwampMuckerEntity;
-import teamdraco.finsandstails.common.entities.TealArrowfishEntity;
-import teamdraco.finsandstails.common.entities.WanderingSailorEntity;
-import teamdraco.finsandstails.common.entities.WeeWeeEntity;
-import teamdraco.finsandstails.common.entities.WherbleEntity;
-import teamdraco.finsandstails.common.entities.WhiteBullCrabEntity;
+import teamdraco.finsandstails.client.ClientUtils;
+import teamdraco.finsandstails.common.entities.*;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 import teamdraco.finsandstails.data.PlayerHitComboData;
 import teamdraco.finsandstails.data.PlayerHitComboProvider;
 import teamdraco.finsandstails.network.FTMessages;
 import teamdraco.finsandstails.network.INetworkPacket;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
-import teamdraco.finsandstails.registry.FTBannerPatterns;
-import teamdraco.finsandstails.registry.FTBlocks;
-import teamdraco.finsandstails.registry.FTContainers;
-import teamdraco.finsandstails.registry.FTCreativeModeTabs;
-import teamdraco.finsandstails.registry.FTEnchantments;
-import teamdraco.finsandstails.registry.FTEntities;
-import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FTRecipes;
-import teamdraco.finsandstails.registry.FTSounds;
+import teamdraco.finsandstails.registry.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -94,7 +58,6 @@ public class FinsAndTails {
     public static final String MOD_ID = "finsandtails";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final SimpleChannel NETWORK = INetworkPacket.makeChannel("network", "1");
-    public static final List<Runnable> CALLBACKS = new ArrayList<>();
     private static int currentNetworkId;
 
     public FinsAndTails() {
@@ -119,7 +82,7 @@ public class FinsAndTails {
         FTCreativeModeTabs.CREATIVE_MODE_TABS.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.Common.SPEC);
-        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER); // todo - clean up networking
+        registerMessage(TriggerFlyingPacket.class, TriggerFlyingPacket::new, LogicalSide.SERVER);
 
         FTMessages.register();
     }
@@ -211,14 +174,9 @@ public class FinsAndTails {
     private <T extends INetworkPacket> void registerMessage(Class<T> message, Function<FriendlyByteBuf, T> reader, LogicalSide side) {
         NETWORK.registerMessage(currentNetworkId++, message, INetworkPacket::write, reader, (msg, contextSupplier) -> {
             NetworkEvent.Context context = contextSupplier.get();
-            context.enqueueWork(() -> msg.handle(context.getDirection().getOriginationSide().isServer() ? getClientPlayer() : context.getSender()));
+            context.enqueueWork(() -> msg.handle(context.getDirection().getOriginationSide().isServer() ? ClientUtils.getClientPlayer() : context.getSender()));
             context.setPacketHandled(true);
         }, Optional.of(side.isClient() ? NetworkDirection.PLAY_TO_CLIENT : NetworkDirection.PLAY_TO_SERVER));
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static Player getClientPlayer() {
-        return Minecraft.getInstance().player;
     }
 
 }

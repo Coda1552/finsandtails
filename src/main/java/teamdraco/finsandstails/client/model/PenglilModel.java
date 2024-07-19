@@ -7,11 +7,9 @@ import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
-import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.common.entities.PenglilEntity;
-import teamdraco.finsandstails.common.entities.RubberBellyGliderEntity;
 
 import java.util.Map;
 
@@ -50,7 +48,6 @@ public class PenglilModel extends DefaultedEntityGeoModel<PenglilEntity> {
     public void setCustomAnimations(PenglilEntity entity, long uniqueID, AnimationState<PenglilEntity> customPredicate) {
         super.setCustomAnimations(entity, uniqueID, customPredicate);
         CoreGeoBone body = this.getAnimationProcessor().getBone("body");
-
         EntityModelData extraData = customPredicate.getData(DataTickets.ENTITY_MODEL_DATA);
 
         if (entity.isInWater()) {
@@ -59,6 +56,7 @@ public class PenglilModel extends DefaultedEntityGeoModel<PenglilEntity> {
         }
         else {
             body.setRotX(0.0F);
+            body.setRotY(0.0F);
         }
     }
 }

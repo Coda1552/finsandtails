@@ -21,8 +21,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -74,6 +72,7 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
         }
         if (boostTimer == 0 || !list.isEmpty() && !this.fromBucket()) {
             boostTimer = BOOST_TIMER;
+            setBoosting(true);
             setDeltaMovement(calculateViewVector(getXRot(), getYRot()).multiply(1.7d, 0.0d, 1.7d));
         }
         if (boostTimer <= 350) {
@@ -114,7 +113,6 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
         return SoundEvents.COD_FLOP;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 38) {
             this.createParticles(ParticleTypes.BUBBLE, 1);
@@ -126,7 +124,6 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void createParticles(SimpleParticleType p_208401_1_, int amount) {
         for (int i = 0; i < amount; i++) {
             double d0 = this.random.nextGaussian() * 0.056D;

@@ -1,14 +1,13 @@
 package teamdraco.finsandstails.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -26,37 +25,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.render.BandedRedbackShrimpRenderer;
-import teamdraco.finsandstails.client.render.BluWeeRenderer;
-import teamdraco.finsandstails.client.render.CrownedHorateeRenderer;
-import teamdraco.finsandstails.client.render.FlatbackLeafSnailRenderer;
-import teamdraco.finsandstails.client.render.FlatbackSuckerRenderer;
-import teamdraco.finsandstails.client.render.GoldenRiverRayRenderer;
-import teamdraco.finsandstails.client.render.GopjetRenderer;
-import teamdraco.finsandstails.client.render.HighFinnedBlueRenderer;
-import teamdraco.finsandstails.client.render.MudhorseRenderer;
-import teamdraco.finsandstails.client.render.NightlightSquidRenderer;
-import teamdraco.finsandstails.client.render.OrnateBugfishRenderer;
-import teamdraco.finsandstails.client.render.PapaWeeRenderer;
-import teamdraco.finsandstails.client.render.PeaWeeRenderer;
-import teamdraco.finsandstails.client.render.PenglilRenderer;
-import teamdraco.finsandstails.client.render.PhantomNudibranchRenderer;
-import teamdraco.finsandstails.client.render.RedBullCrabRenderer;
-import teamdraco.finsandstails.client.render.RiverPebbleSnailRenderer;
-import teamdraco.finsandstails.client.render.RubberBellyGliderRenderer;
-import teamdraco.finsandstails.client.render.SiderolWhiskeredSnailRenderer;
-import teamdraco.finsandstails.client.render.SpindlyGemCrabRenderer;
-import teamdraco.finsandstails.client.render.SwampMuckerRenderer;
-import teamdraco.finsandstails.client.render.TealArrowfishArrowRenderer;
-import teamdraco.finsandstails.client.render.TealArrowfishRenderer;
-import teamdraco.finsandstails.client.render.VibraWeeRenderer;
-import teamdraco.finsandstails.client.render.WanderingSailorRenderer;
-import teamdraco.finsandstails.client.render.WeeWeeRenderer;
-import teamdraco.finsandstails.client.render.WherbleRenderer;
-import teamdraco.finsandstails.client.render.WhiteBullCrabRenderer;
+import teamdraco.finsandstails.client.render.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
-import teamdraco.finsandstails.common.items.SpindlyGemCharmItem;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
 import teamdraco.finsandstails.registry.FTContainers;
 import teamdraco.finsandstails.registry.FTEntities;
@@ -103,15 +74,13 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-
         MenuScreens.register(FTContainers.MUDHORSE_POUCH.get(), MudhorsePouchScreen::new);
         MenuScreens.register(FTContainers.CRAB_CRUNCHER.get(), CrabCruncherScreen::new);
-
-        ItemProperties.register(FTItems.GEM_CRAB_AMULET.get(), new ResourceLocation(FinsAndTails.MOD_ID, "broken"), (stack, world, player, i) -> SpindlyGemCharmItem.isUsable(stack) ? 0.0F : 1.0F);
-
-        FinsAndTails.CALLBACKS.forEach(Runnable::run);
-        FinsAndTails.CALLBACKS.clear();
+        event.enqueueWork(FTItemProperties::setupItemProperties);
     }
+
+
+
 
     @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
     public static class ForgeBus {
@@ -176,19 +145,19 @@ public class ClientEvents {
 
         // todo - make the combo ACTUALLY require a left-right combo
         protected static void renderGauntletOverlay(GuiGraphics guiGraphics) {
-            Gui gui = Minecraft.getInstance().gui;
-            int x = gui.screenWidth / 2 - 14;
-            int y = gui.screenHeight / 2 + 9;
+            //Gui gui = Minecraft.getInstance().gui;
+            //int x = gui.screenWidth / 2 - 14;
+            //int y = gui.screenHeight / 2 + 9;
 
-            guiGraphics.blit(GAUNTLET_BG_TEXTURE, x, y, 0, 0, 27, 9);
+            //guiGraphics.blit(GAUNTLET_BG_TEXTURE, x, y, 0, 0, 27, 9);
 
-            int hitCombo = ClientHitComboData.getHitCombo();
-            switch (hitCombo) {
-                case 1 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 7, 7);
-                case 2 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 14, 7);
-                case 3 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 20, 7);
-                case 4 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 28, 7);
-            }
+            //int hitCombo = ClientHitComboData.getHitCombo();
+            //switch (hitCombo) {
+            //    case 1 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 7, 7);
+            //    case 2 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 14, 7);
+            //    case 3 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 20, 7);
+            //    case 4 -> guiGraphics.blit(GAUNTLET_OVERLAY_TEXTURE, x, y, 0, 0, 28, 7);
+            //}
         }
 
         private static void renderPlayerHealth(GuiGraphics guiGraphics, Player player, CharmType charm) {

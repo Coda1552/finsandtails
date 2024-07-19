@@ -1,4 +1,4 @@
-package teamdraco.finsandstails.common.entities.ai;
+package teamdraco.finsandstails.common.entities.ai.goals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

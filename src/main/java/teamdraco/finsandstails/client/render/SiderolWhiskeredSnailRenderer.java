@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.SiderolWhiskeredSnailModel;
-import teamdraco.finsandstails.common.entities.FlatbackLeafSnailEntity;
 import teamdraco.finsandstails.common.entities.SiderolWhiskeredSnailEntity;
 
 public class SiderolWhiskeredSnailRenderer extends GeoEntityRenderer<SiderolWhiskeredSnailEntity> {

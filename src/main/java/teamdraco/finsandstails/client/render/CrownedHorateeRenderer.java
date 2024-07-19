@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import teamdraco.finsandstails.client.model.CrownedHorateeModel;
 import teamdraco.finsandstails.common.entities.CrownedHorateeEntity;
-import teamdraco.finsandstails.common.entities.WherbleEntity;
 
 public class CrownedHorateeRenderer extends GeoEntityRenderer<CrownedHorateeEntity> {
 

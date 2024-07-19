@@ -2,11 +2,9 @@ package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
@@ -22,11 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
-import teamdraco.finsandstails.FinsAndTails;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -43,7 +37,6 @@ public class FinsBucketItem extends MobBucketItem {
         super(entityType, fluid, () -> SoundEvents.BUCKET_EMPTY_FISH,builder);
         this.hasTooltip = hasTooltip;
         this.entityTypeSupplier = entityType;
-        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> FinsAndTails.CALLBACKS.add(() -> ItemProperties.register(this, new ResourceLocation(FinsAndTails.MOD_ID, "variant"), (stack, world, player, i) -> stack.hasTag() ? stack.getTag().getInt("Variant") : 0)));
     }
 
     @Override
@@ -72,7 +65,6 @@ public class FinsBucketItem extends MobBucketItem {
         return super.use(worldIn, playerIn, handIn);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
