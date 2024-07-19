@@ -4,7 +4,7 @@
   "spawners":
   {
     "type": "finsandtails:siderol_whiskered_snail",
-    "weight": 2,
+    "weight": 50,
     "minCount": 1,
     "maxCount": 2
   }
