@@ -125,7 +125,6 @@ public class FinsAndTails {
         e.register(FTEntities.PAPA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFish::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         e.register(FTEntities.WHERBLE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WherbleEntity::checkWherbleSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         e.register(FTEntities.CROWNED_HORATTE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrownedHorateeEntity::checkCrownedSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
-
     }
 
     private void registerCommon(FMLCommonSetupEvent event) {
