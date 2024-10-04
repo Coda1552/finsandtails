@@ -2,9 +2,12 @@ package teamdraco.finsandstails.common.entities;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.player.Player;
@@ -20,13 +23,14 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.IPanickableSchooling;
+import teamdraco.finsandstails.common.entities.ai.IPrey;
 import teamdraco.finsandstails.common.entities.ai.goals.PanickableFollowFlockLeaderGoal;
-import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
+import teamdraco.finsandstails.registry.FTTags;
 
 import java.util.List;
 
-public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEntity, IPanickableSchooling {
+public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEntity, IPrey, IPanickableSchooling {
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     public AvoidEntityGoal<?> avoidGoal;
 
@@ -35,12 +39,11 @@ public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEn
     }
 
     protected void registerGoals() {
-        avoidGoal = new AvoidEntityGoal<>(this, Player.class, 2.0F, 2.4D, 1.8D);
-
+        avoidGoal = new AvoidEntityGoal<>(this, LivingEntity.class, 2.0F, 2.4D, 1.8D, e -> e.getType().is(getPredatorsTag()));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
+        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1.0D, 1));
         this.goalSelector.addGoal(1, new PanickableFollowFlockLeaderGoal(this));
         this.goalSelector.addGoal(2, avoidGoal());
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 40));
     }
 
     @Override
@@ -48,6 +51,10 @@ public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEn
         return 12;
     }
 
+    @Override
+    public TagKey<EntityType<?>> getPredatorsTag() {
+        return FTTags.PREDATORS_HIGH_FINNED_BLUE;
+    }
 
     @Override
     public AvoidEntityGoal<?> avoidGoal() {
@@ -62,10 +69,6 @@ public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEn
     @Override
     public ItemStack getBucketItemStack() {
         return new ItemStack(FTItems.HIGH_FINNED_BLUE_BUCKET.get());
-    }
-
-    public SoundEvent getAmbientSound() {
-        return SoundEvents.COD_AMBIENT;
     }
 
     public SoundEvent getDeathSound() {
@@ -104,5 +107,4 @@ public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEn
         }
         return PlayState.CONTINUE;
     }
-
 }

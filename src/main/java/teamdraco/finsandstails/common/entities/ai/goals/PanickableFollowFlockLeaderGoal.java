@@ -36,8 +36,11 @@ public class PanickableFollowFlockLeaderGoal extends FollowFlockLeaderGoal {
                     super.tick();
                 }
                 else {
-                    if (mob.isFollower() && !mob.canBeFollowed()) {
-                        mob.stopFollowing(); // todo - fix crash. removeFollower() results in crash from "this.leader is null"
+                    if (mob.leader == null) {
+                        super.tick();
+                    }
+                    else if (mob.leader.hasFollowers()) {
+                        mob.leader.removeFollower(); // todo - fix crash. removeFollower() results in crash from "this.leader is null"
                     }
                     if (panickable.avoidGoal() != null) {
                         panickable.avoidGoal().start();
