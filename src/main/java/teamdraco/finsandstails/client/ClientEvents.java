@@ -69,7 +69,7 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.WHERBLE.get(), WherbleRenderer::new);
         event.registerEntityRenderer(FTEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);
         event.registerEntityRenderer(FTEntities.SPINDLY_GEM_CRAB.get(), SpindlyGemCrabRenderer::new);
-        event.registerEntityRenderer(FTEntities.CROWNED_HORATTE.get(), CrownedHorateeRenderer::new);
+        event.registerEntityRenderer(FTEntities.CROWNED_HORATEE.get(), CrownedHorateeRenderer::new);
     }
 
     @SubscribeEvent

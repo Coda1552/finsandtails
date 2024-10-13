@@ -38,7 +38,7 @@ public class HighFinnedBlueEntity extends AbstractSchoolingFish implements GeoEn
     }
 
     protected void registerGoals() {
-        avoidGoal = new AvoidEntityGoal<>(this, LivingEntity.class, 2.0F, 2.4D, 1.8D, e -> e.getType().is(getPredatorsTag()));
+        avoidGoal = new AvoidEntityGoal<>(this, LivingEntity.class, 2.0F, 2.4D, 1.8D, e -> e.getType().is(getPredatorsTag()) || (e instanceof Player player && !player.getAbilities().instabuild));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1.0D, 1));
         this.goalSelector.addGoal(1, new PanickableFollowFlockLeaderGoal(this));

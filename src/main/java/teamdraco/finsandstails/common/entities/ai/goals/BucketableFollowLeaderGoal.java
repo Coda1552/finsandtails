@@ -2,22 +2,22 @@ package teamdraco.finsandstails.common.entities.ai.goals;
 
 import com.mojang.datafixers.DataFixUtils;
 import net.minecraft.world.entity.ai.goal.Goal;
-import teamdraco.finsandstails.common.entities.ai.base.BucketableSchoolingWaterAnimal;
+import teamdraco.finsandstails.common.entities.ai.base.VariantSchoolingFish;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 public class BucketableFollowLeaderGoal extends Goal {
-    private final BucketableSchoolingWaterAnimal mob;
+    private final VariantSchoolingFish mob;
     private int timeToRecalcPath;
     private int nextStartTick;
 
-    public BucketableFollowLeaderGoal(BucketableSchoolingWaterAnimal p_25249_) {
+    public BucketableFollowLeaderGoal(VariantSchoolingFish p_25249_) {
         this.mob = p_25249_;
         this.nextStartTick = this.nextStartTick(p_25249_);
     }
 
-    protected int nextStartTick(BucketableSchoolingWaterAnimal p_25252_) {
+    protected int nextStartTick(VariantSchoolingFish p_25252_) {
         return reducedTickDelay(200 + p_25252_.getRandom().nextInt(200) % 20);
     }
 
@@ -31,11 +31,11 @@ public class BucketableFollowLeaderGoal extends Goal {
             return false;
         } else {
             this.nextStartTick = this.nextStartTick(this.mob);
-            Predicate<BucketableSchoolingWaterAnimal> predicate = (p_25258_) -> {
+            Predicate<VariantSchoolingFish> predicate = (p_25258_) -> {
                 return p_25258_.canBeFollowed() || !p_25258_.isFollower();
             };
-            List<? extends BucketableSchoolingWaterAnimal> list = this.mob.level().getEntitiesOfClass(this.mob.getClass(), this.mob.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
-            BucketableSchoolingWaterAnimal schoolingWaterAnimal = DataFixUtils.orElse(list.stream().filter(BucketableSchoolingWaterAnimal::canBeFollowed).findAny(), this.mob);
+            List<? extends VariantSchoolingFish> list = this.mob.level().getEntitiesOfClass(this.mob.getClass(), this.mob.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
+            VariantSchoolingFish schoolingWaterAnimal = DataFixUtils.orElse(list.stream().filter(VariantSchoolingFish::canBeFollowed).findAny(), this.mob);
             schoolingWaterAnimal.addFollowers(list.stream().filter((p_25255_) -> {
                 return !p_25255_.isFollower();
             }));

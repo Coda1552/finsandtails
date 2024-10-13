@@ -28,6 +28,8 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import teamdraco.finsandstails.common.entities.ai.base.IVariant;
+import teamdraco.finsandstails.common.entities.ai.base.VariantSchoolingFish;
 import teamdraco.finsandstails.common.entities.ai.goals.WeeHurtByEntityGoal;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
@@ -36,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 // todo - fix schooling crash
-public class VibraWeeEntity extends AbstractSchoolingFish implements GeoEntity {
+public class VibraWeeEntity extends VariantSchoolingFish implements GeoEntity, IVariant {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(VibraWeeEntity.class, EntityDataSerializers.INT);
     private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
@@ -57,6 +59,11 @@ public class VibraWeeEntity extends AbstractSchoolingFish implements GeoEntity {
     @Override
     public int getMaxSchoolSize() {
         return 9;
+    }
+
+    @Override
+    public int getIVariant() {
+        return getVariant();
     }
 
     @Nullable

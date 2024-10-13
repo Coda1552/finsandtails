@@ -41,7 +41,7 @@ public class FTEntities {
     public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, MobCategory.CREATURE).sized(0.6f, 0.4f));
     public static final RegistryObject<EntityType<WanderingSailorEntity>> WANDERING_SAILOR = create("wandering_sailor", EntityType.Builder.of(WanderingSailorEntity::new, MobCategory.CREATURE).sized(0.6f, 1.65f));
     //public static final RegistryObject<EntityType<GoliathGardenCrabEntity>> GOLIATH_GARDEN_CRAB = create("goliath_garden_crab", EntityType.Builder.of(GoliathGardenCrabEntity::new, MobCategory.WATER_AMBIENT).sized(3.5f, 2.5f));
-    public static final RegistryObject<EntityType<CrownedHorateeEntity>> CROWNED_HORATTE = create("crowned_horatee", EntityType.Builder.of(CrownedHorateeEntity::new, MobCategory.CREATURE).sized(0.8f, 0.6f));
+    public static final RegistryObject<EntityType<CrownedHorateeEntity>> CROWNED_HORATEE = create("crowned_horatee", EntityType.Builder.of(CrownedHorateeEntity::new, MobCategory.CREATURE).sized(0.8f, 0.6f));
 
 
     private static <T extends Entity> RegistryObject<EntityType<T>> create(String name, EntityType.Builder<T> builder) {

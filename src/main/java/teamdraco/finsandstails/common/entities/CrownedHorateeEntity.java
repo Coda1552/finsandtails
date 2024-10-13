@@ -393,7 +393,7 @@ public class CrownedHorateeEntity extends Animal implements GeoEntity, IHydrate,
 	@Nullable
 	@Override
 	public CrownedHorateeEntity getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
-		return FTEntities.CROWNED_HORATTE.get().create(p_146743_);
+		return FTEntities.CROWNED_HORATEE.get().create(p_146743_);
 	}
 
 	public boolean canFallInLove() {

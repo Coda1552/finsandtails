@@ -5,6 +5,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -14,12 +15,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public abstract class BucketableSchoolingWaterAnimal extends BucketableWaterAnimal implements IVariant {
+public abstract class VariantSchoolingFish extends AbstractFish implements IVariant {
     @Nullable
-    private BucketableSchoolingWaterAnimal leader;
+    private VariantSchoolingFish leader;
     private int schoolSize = 1;
 
-    public BucketableSchoolingWaterAnimal(EntityType<? extends BucketableSchoolingWaterAnimal> p_27523_, Level p_27524_) {
+    public VariantSchoolingFish(EntityType<? extends VariantSchoolingFish> p_27523_, Level p_27524_) {
         super(p_27523_, p_27524_);
     }
 
@@ -43,7 +44,7 @@ public abstract class BucketableSchoolingWaterAnimal extends BucketableWaterAnim
         return this.leader != null && this.leader.isAlive();
     }
 
-    public BucketableSchoolingWaterAnimal startFollowing(BucketableSchoolingWaterAnimal p_27526_) {
+    public VariantSchoolingFish startFollowing(VariantSchoolingFish p_27526_) {
         this.leader = p_27526_;
         p_27526_.addFollower();
         return p_27526_;
@@ -91,26 +92,16 @@ public abstract class BucketableSchoolingWaterAnimal extends BucketableWaterAnim
     }
 
     @Override
-    public boolean hasVariant() {
-        return false;
-    }
-
-    @Override
     public int getIVariant() {
         return 0;
     }
 
 
-    public void addFollowers(Stream<? extends BucketableSchoolingWaterAnimal> p_27534_) {
+    public void addFollowers(Stream<? extends VariantSchoolingFish> p_27534_) {
         p_27534_.limit(this.getMaxSchoolSize() - this.schoolSize).filter((p_27538_) -> {
             return p_27538_ != this;
         }).forEach((p_27536_) -> {
-            if (hasVariant()) {
-                if (this.getIVariant() == p_27536_.getIVariant()) {
-                    p_27536_.startFollowing(this);
-                }
-            }
-            else {
+            if (this.getIVariant() == p_27536_.getIVariant()) {
                 p_27536_.startFollowing(this);
             }
         });
@@ -129,9 +120,9 @@ public abstract class BucketableSchoolingWaterAnimal extends BucketableWaterAnim
     }
 
     public static class SchoolSpawnGroupData implements SpawnGroupData {
-        public final BucketableSchoolingWaterAnimal leader;
+        public final VariantSchoolingFish leader;
 
-        public SchoolSpawnGroupData(BucketableSchoolingWaterAnimal p_27553_) {
+        public SchoolSpawnGroupData(VariantSchoolingFish p_27553_) {
             this.leader = p_27553_;
         }
     }
