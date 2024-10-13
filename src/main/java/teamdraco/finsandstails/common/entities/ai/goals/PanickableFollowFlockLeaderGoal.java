@@ -1,13 +1,10 @@
 package teamdraco.finsandstails.common.entities.ai.goals;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.FollowFlockLeaderGoal;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.level.entity.EntityTypeTest;
-import teamdraco.finsandstails.common.entities.ai.IPanickableSchooling;
+import teamdraco.finsandstails.common.entities.ai.base.IPanickableSchooling;
 
 import java.util.List;
 

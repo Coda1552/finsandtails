@@ -1,6 +1,5 @@
-package teamdraco.finsandstails.common.entities.ai;
+package teamdraco.finsandstails.common.entities.ai.base;
 
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 

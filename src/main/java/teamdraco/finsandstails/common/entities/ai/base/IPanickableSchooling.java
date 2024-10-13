@@ -1,4 +1,4 @@
-package teamdraco.finsandstails.common.entities.ai;
+package teamdraco.finsandstails.common.entities.ai.base;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;

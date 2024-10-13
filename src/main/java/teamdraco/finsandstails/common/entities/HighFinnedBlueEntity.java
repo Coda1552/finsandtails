@@ -2,7 +2,6 @@ package teamdraco.finsandstails.common.entities;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -22,8 +21,8 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import teamdraco.finsandstails.common.entities.ai.IPanickableSchooling;
-import teamdraco.finsandstails.common.entities.ai.IPrey;
+import teamdraco.finsandstails.common.entities.ai.base.IPanickableSchooling;
+import teamdraco.finsandstails.common.entities.ai.base.IPrey;
 import teamdraco.finsandstails.common.entities.ai.goals.PanickableFollowFlockLeaderGoal;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTTags;

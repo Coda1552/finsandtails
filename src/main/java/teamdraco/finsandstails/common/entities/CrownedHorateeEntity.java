@@ -52,7 +52,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import teamdraco.finsandstails.common.entities.ai.IHydrate;
+import teamdraco.finsandstails.common.entities.ai.base.IHydrate;
 import teamdraco.finsandstails.common.entities.ai.goals.ShareTheBubbleGoal;
 import teamdraco.finsandstails.common.entities.ai.goals.SwimWithoutGroundGoal;
 import teamdraco.finsandstails.common.entities.ai.goals.WalkWithGroundGoal;

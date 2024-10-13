@@ -2,17 +2,17 @@ package teamdraco.finsandstails.common.entities.ai.goals;
 
 import com.mojang.datafixers.DataFixUtils;
 import net.minecraft.world.entity.ai.goal.Goal;
-import teamdraco.finsandstails.common.entities.ai.SchoolingTamableAnimal;
+import teamdraco.finsandstails.common.entities.ai.base.SchoolingTamableAnimal;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-public class FollowLeaderGoal extends Goal {
+public class TamableFollowLeaderGoal extends Goal {
    private final SchoolingTamableAnimal mob;
    private int timeToRecalcPath;
    private int nextStartTick;
 
-   public FollowLeaderGoal(SchoolingTamableAnimal p_25249_) {
+   public TamableFollowLeaderGoal(SchoolingTamableAnimal p_25249_) {
       this.mob = p_25249_;
       this.nextStartTick = this.nextStartTick(p_25249_);
    }

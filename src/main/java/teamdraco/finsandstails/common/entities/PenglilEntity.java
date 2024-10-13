@@ -56,9 +56,9 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import teamdraco.finsandstails.common.entities.ai.SchoolingTamableAnimal;
+import teamdraco.finsandstails.common.entities.ai.base.SchoolingTamableAnimal;
 import teamdraco.finsandstails.common.entities.ai.control.GroundAndSwimmerNavigator;
-import teamdraco.finsandstails.common.entities.ai.goals.FollowLeaderGoal;
+import teamdraco.finsandstails.common.entities.ai.goals.TamableFollowLeaderGoal;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
@@ -105,7 +105,7 @@ public class PenglilEntity extends SchoolingTamableAnimal implements Bucketable,
             }
         });
         this.goalSelector.addGoal(3, new MorningGiftGoal(this));
-        this.goalSelector.addGoal(5, new FollowLeaderGoal(this));
+        this.goalSelector.addGoal(5, new TamableFollowLeaderGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, true));

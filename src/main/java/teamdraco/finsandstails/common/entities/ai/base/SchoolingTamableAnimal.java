@@ -1,4 +1,4 @@
-package teamdraco.finsandstails.common.entities.ai;
+package teamdraco.finsandstails.common.entities.ai.base;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
@@ -8,7 +8,7 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import teamdraco.finsandstails.common.entities.ai.goals.FollowLeaderGoal;
+import teamdraco.finsandstails.common.entities.ai.goals.TamableFollowLeaderGoal;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -25,7 +25,7 @@ public abstract class SchoolingTamableAnimal extends TamableAnimal {
 
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(5, new FollowLeaderGoal(this));
+        this.goalSelector.addGoal(5, new TamableFollowLeaderGoal(this));
     }
 
     public int getMaxSpawnClusterSize() {
@@ -34,10 +34,6 @@ public abstract class SchoolingTamableAnimal extends TamableAnimal {
 
     public int getMaxSchoolSize() {
         return super.getMaxSpawnClusterSize();
-    }
-
-    protected boolean canRandomSwim() {
-        return !this.isFollower();
     }
 
     public boolean isFollower() {
