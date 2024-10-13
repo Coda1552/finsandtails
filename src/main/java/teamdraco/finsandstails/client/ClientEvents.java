@@ -46,6 +46,7 @@ public class ClientEvents {
         event.registerLayerDefinition(FTModelLayers.MUDHORSE, MudhorseModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.ORNATE_BUGFISH, OrnateBugfishModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.PHANTOM_NUDIBRANCH, PhantomNudibranchModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.SWAMP_MUCKER, SwampMuckerModel::createBodyLayer);
     }
 
 
@@ -58,6 +59,7 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.MUDHORSE.get(), MudhorseRenderer::new);
         event.registerEntityRenderer(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
         event.registerEntityRenderer(FTEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchRenderer::new);
+        event.registerEntityRenderer(FTEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
 
         event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
@@ -67,7 +69,6 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.FLATBACK_SUCKER.get(), FlatbackSuckerRenderer::new);
         event.registerEntityRenderer(FTEntities.GOPJET.get(), GopjetRenderer::new);
         event.registerEntityRenderer(FTEntities.HIGH_FINNED_BLUE.get(), HighFinnedBlueRenderer::new);
-        event.registerEntityRenderer(FTEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
         event.registerEntityRenderer(FTEntities.WEE_WEE.get(), WeeWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.NIGHT_LIGHT_SQUID.get(), NightlightSquidRenderer::new);
         event.registerEntityRenderer(FTEntities.PAPA_WEE.get(), PapaWeeRenderer::new);

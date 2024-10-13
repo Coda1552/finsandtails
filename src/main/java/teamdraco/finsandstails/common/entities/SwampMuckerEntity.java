@@ -22,8 +22,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.goals.WaterJumpGoal;
 import teamdraco.finsandstails.registry.FTItems;
 
-public class SwampMuckerEntity  extends AbstractSchoolingFish implements GeoEntity {
-    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+public class SwampMuckerEntity  extends AbstractSchoolingFish {
 
     public SwampMuckerEntity(EntityType<? extends SwampMuckerEntity> type, Level world) {
         super(type, world);
@@ -72,25 +71,5 @@ public class SwampMuckerEntity  extends AbstractSchoolingFish implements GeoEnti
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.SWAMP_MUCKER_SPAWN_EGG.get());
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return factory;
-    }
-
-    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
-        if (event.isMoving()) {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.mucker.swim"));
-        }
-        else {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.mucker.idle"));
-        }
-        return PlayState.CONTINUE;
     }
 }
