@@ -139,14 +139,14 @@ public class FTItems {
     //Spawn Eggs
     public static final RegistryObject<Item> PEA_WEE_SPAWN_EGG = ITEMS.register("pea_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PEA_WEE, 0x5ca430, 0x2a6e18, new Item.Properties()));
     public static final RegistryObject<Item> BLU_WEE_SPAWN_EGG = ITEMS.register("blu_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.BLU_WEE, 0x379cc1, 0x2f6194, new Item.Properties()));
-    public static final RegistryObject<Item> BANDED_REDBACK_SHRIMP_SPAWN_EGG = ITEMS.register("banded_redback_shrimp_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.BANDED_REDBACK_SHRIMP, 0x155556, 0x921a2f, new Item.Properties()));
-    public static final RegistryObject<Item> TEAL_ARROWFISH_SPAWN_EGG = ITEMS.register("teal_arrowfish_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.TEAL_ARROWFISH, 0x004d40, 0x427c8a, new Item.Properties()));
+    public static final RegistryObject<Item> BANDED_REDBACK_SHRIMP_SPAWN_EGG = ITEMS.register("banded_redback_shrimp_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.BANDED_REDBACK_SHRIMP, 0x115456, 0xc71913, new Item.Properties()));
+    public static final RegistryObject<Item> TEAL_ARROWFISH_SPAWN_EGG = ITEMS.register("teal_arrowfish_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.TEAL_ARROWFISH, 0x014242, 0x427c8a, new Item.Properties()));
     public static final RegistryObject<Item> SWAMP_MUCKER_SPAWN_EGG = ITEMS.register("swamp_mucker_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.SWAMP_MUCKER, 0x5e663b, 0x997d45, new Item.Properties()));
     public static final RegistryObject<Item> FLATBACK_SUCKER_SPAWN_EGG = ITEMS.register("flatback_sucker_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.FLATBACK_SUCKER, 0x898364, 0x4b7486, new Item.Properties()));
     public static final RegistryObject<Item> HIGH_FINNED_BLUE_SPAWN_EGG = ITEMS.register("high_finned_blue_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.HIGH_FINNED_BLUE, 0x4b6e81, 0x425e85, new Item.Properties()));
-    public static final RegistryObject<Item> MUDHORSE_SPAWN_EGG = ITEMS.register("mudhorse_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.MUDHORSE, 0x52312e, 0xd19e40, new Item.Properties()));
-    public static final RegistryObject<Item> ORNATE_BUGFISH_SPAWN_EGG = ITEMS.register("ornate_bugfish_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.ORNATE_BUGFISH, 0xe5d7ce, 0xf27a00, new Item.Properties()));
-    public static final RegistryObject<Item> PHANTOM_NUDIBRANCH_SPAWN_EGG = ITEMS.register("phantom_nudibranch_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PHANTOM_NUDIBRANCH, 0xcfe9ff, 0x8692bf, new Item.Properties()));
+    public static final RegistryObject<Item> MUDHORSE_SPAWN_EGG = ITEMS.register("mudhorse_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.MUDHORSE, 0x5c3d2b, 0xc9973c, new Item.Properties()));
+    public static final RegistryObject<Item> ORNATE_BUGFISH_SPAWN_EGG = ITEMS.register("ornate_bugfish_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.ORNATE_BUGFISH, 0xf8eeee, 0xff861b, new Item.Properties()));
+    public static final RegistryObject<Item> PHANTOM_NUDIBRANCH_SPAWN_EGG = ITEMS.register("phantom_nudibranch_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PHANTOM_NUDIBRANCH, 0xebebeb, 0xa886ff, new Item.Properties()));
     public static final RegistryObject<Item> PENGLIL_SPAWN_EGG = ITEMS.register("penglil_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PENGLIL,0x234040, 0xa7d7c1, new Item.Properties()));
     public static final RegistryObject<Item> SPINDLY_GEM_CRAB_SPAWN_EGG = ITEMS.register("spindly_gem_crab_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.SPINDLY_GEM_CRAB, 0xf39111, 0x1a4591, new Item.Properties()));
     public static final RegistryObject<Item> FLATBACK_LEAF_SNAIL_SPAWN_EGG = ITEMS.register("flatback_leaf_snail_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.FLATBACK_LEAF_SNAIL, 0x4a2c1a, 0xd1a06b, new Item.Properties()));
@@ -156,7 +156,7 @@ public class FTItems {
     public static final RegistryObject<Item> VIBRA_WEE_SPAWN_EGG = ITEMS.register("vibra_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.VIBRA_WEE, 0x0b1a50, 0xf09c35, new Item.Properties()));
     public static final RegistryObject<Item> RIVER_PEBBLE_SNAIL_SPAWN_EGG = ITEMS.register("river_pebble_snail_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.RIVER_PEBBLE_SNAIL, 0xb8b2ab, 0x665852, new Item.Properties()));
     public static final RegistryObject<Item> SIDEROL_WHISKERED_SNAIL_SPAWN_EGG = ITEMS.register("siderol_whiskered_snail_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.SIDEROL_WHISKERED_SNAIL, 0x9e8372, 0x92402b, new Item.Properties()));
-    public static final RegistryObject<Item> GOLDEN_RIVER_RAY_SPAWN_EGG = ITEMS.register("golden_river_ray_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOLDEN_RIVER_RAY, 0xae9e63, 0x503a2f, new Item.Properties()));
+    public static final RegistryObject<Item> GOLDEN_RIVER_RAY_SPAWN_EGG = ITEMS.register("golden_river_ray_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOLDEN_RIVER_RAY, 0xb1a55f, 0x6c4f3c, new Item.Properties()));
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_SPAWN_EGG = ITEMS.register("night_light_squid_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.NIGHT_LIGHT_SQUID, 0x280827, 0xd6f7eb, new Item.Properties()));
     public static final RegistryObject<Item> RUBBER_BELLY_GLIDER_SPAWN_EGG = ITEMS.register("rubber_belly_glider_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.RUBBER_BELLY_GLIDER, 0x8dc87f, 0xffc52c, new Item.Properties()));
     public static final RegistryObject<Item> GOPJET_SPAWN_EGG = ITEMS.register("gopjet_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOPJET, 0xcfe0ff, 0x403c70, new Item.Properties()));

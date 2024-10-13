@@ -47,6 +47,8 @@ public class ClientEvents {
         event.registerLayerDefinition(FTModelLayers.ORNATE_BUGFISH, OrnateBugfishModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.PHANTOM_NUDIBRANCH, PhantomNudibranchModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.SWAMP_MUCKER, SwampMuckerModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.TEAL_ARROWFISH, TealArrowfishModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.TEAL_ARROWFISH_ARROW, TealArrowfishArrowModel::createBodyLayer);
     }
 
 
@@ -60,6 +62,8 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
         event.registerEntityRenderer(FTEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchRenderer::new);
         event.registerEntityRenderer(FTEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
+        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
+        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
 
         event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
@@ -76,8 +80,6 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailRenderer::new);
         event.registerEntityRenderer(FTEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderRenderer::new);
         event.registerEntityRenderer(FTEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailRenderer::new);
-        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
-        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
         event.registerEntityRenderer(FTEntities.VIBRA_WEE.get(), VibraWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.WHERBLE.get(), WherbleRenderer::new);
         event.registerEntityRenderer(FTEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);

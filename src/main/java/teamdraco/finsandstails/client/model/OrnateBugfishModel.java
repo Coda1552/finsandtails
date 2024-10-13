@@ -67,7 +67,6 @@ public class OrnateBugfishModel<T extends OrnateBugfishEntity> extends Hierarchi
         this.rightMandible.yRot = Mth.cos(ageInTicks * 0.125F) * 0.25F + 0.25F;
 
         //move
-        //this.body.xRot += Mth.cos(limbSwing) * limbSwingAmount * 0.5F;
         this.body.y += Mth.sin(limbSwing * 0.5F) * limbSwingAmount * 1.75F;
         this.tail.yRot = Mth.cos(limbSwing + 30) * 1.5F * limbSwingAmount;
         this.tailFin.yRot = Mth.cos(limbSwing + 60) * 1.25F * limbSwingAmount;
