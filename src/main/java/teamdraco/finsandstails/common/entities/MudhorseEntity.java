@@ -42,9 +42,8 @@ import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.EnumSet;
 
-public class MudhorseEntity extends Animal implements GeoEntity {
+public class MudhorseEntity extends Animal {
     public static final EntityDataAccessor<Boolean> FORAGING = SynchedEntityData.defineId(MudhorseEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private LivingEntity commander;
     public int commanderSetTime;
 
@@ -170,37 +169,6 @@ public class MudhorseEntity extends Animal implements GeoEntity {
     @Override
     public boolean canAttack(LivingEntity target) {
         return !(target instanceof MudhorseEntity) && super.canAttack(target);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
-        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "miscController", 0, this::miscPredicate));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return factory;
-    }
-
-    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
-        if (event.isMoving()) {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.walk"));
-        }
-        else if (isForaging()) {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.grazing"));
-        }
-        else {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.idle"));
-        }
-        return PlayState.CONTINUE;
-    }
-
-    private <E extends GeoEntity> PlayState miscPredicate(AnimationState<E> event) {
-        if (commanderSetTime > 0) {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.mudhorse.entranced"));
-        }
-        return PlayState.CONTINUE;
     }
 
     @Override

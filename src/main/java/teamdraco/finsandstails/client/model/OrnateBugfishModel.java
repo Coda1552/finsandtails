@@ -56,7 +56,7 @@ public class OrnateBugfishModel<T extends OrnateBugfishEntity> extends Hierarchi
 
         //idle
         this.body.xRot += Mth.cos(ageInTicks * 0.125F) * 0.25F * 0.25F;
-        this.body.y = Mth.sin(ageInTicks * 0.125F) * 1.5F * 0.25F + 21.5F;
+        this.body.y = Mth.sin(ageInTicks * 0.125F) * 1.5F * 0.25F + 20F;
         this.leftFin.xRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
         this.rightFin.xRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
         this.leftFin.yRot = Mth.cos(ageInTicks * 0.125F + 35) * 0.5F * 0.25F + 0.7854F;
@@ -67,7 +67,7 @@ public class OrnateBugfishModel<T extends OrnateBugfishEntity> extends Hierarchi
         this.rightMandible.yRot = Mth.cos(ageInTicks * 0.125F) * 0.25F + 0.25F;
 
         //move
-        this.body.xRot += Mth.cos(limbSwing) * limbSwingAmount * 0.5F;
+        //this.body.xRot += Mth.cos(limbSwing) * limbSwingAmount * 0.5F;
         this.body.y += Mth.sin(limbSwing * 0.5F) * limbSwingAmount * 1.75F;
         this.tail.yRot = Mth.cos(limbSwing + 30) * 1.5F * limbSwingAmount;
         this.tailFin.yRot = Mth.cos(limbSwing + 60) * 1.25F * limbSwingAmount;
