@@ -1,6 +1,7 @@
 package teamdraco.finsandstails.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,26 +34,24 @@ public class TealArrowfishArrowRenderer extends EntityRenderer<TealArrowfishArro
     }
 
     @Override
-    public void render(TealArrowfishArrowEntity p_113839_, float p_113840_, float p_113841_, PoseStack p_113842_, MultiBufferSource p_113843_, int p_113844_) {
-        p_113842_.pushPose();
-        //p_113842_.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_113841_, p_113839_.yRotO, p_113839_.getYRot()) - 90.0F));
-        //p_113842_.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_113841_, p_113839_.xRotO, p_113839_.getXRot())));
+    public void render(TealArrowfishArrowEntity entity, float p_113840_, float p_113841_, PoseStack poseStack, MultiBufferSource buffer, int p_113844_) {
+        poseStack.pushPose();
+        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_113841_, entity.yRotO, entity.getYRot()) - 90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_113841_, entity.xRotO, entity.getXRot())/* + 90.0F*/));
+        poseStack.translate(0.0, -1.3f, 0);
+        float f9 = (float) entity.shakeTime - p_113841_;
+        if (f9 > 0.0F) {
+            float f10 = -Mth.sin(f9 * 3.0F) * f9;
+            poseStack.mulPose(Axis.ZP.rotationDegrees(f10));
+        }
+        VertexConsumer ivertexbuilder = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
+        this.model.renderToBuffer(poseStack, ivertexbuilder, p_113844_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
-        //VertexConsumer vertexconsumer = p_113843_.getBuffer(this.model.renderType(TEAL_ARROWFISH_LOCATION));
-        //TODO this is broken
-        //this.model.renderToBuffer(p_113842_, vertexconsumer, p_113844_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+//        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(45.0F));
+        poseStack.scale(0.05625F, 0.05625F, 0.05625F);
 
-        //float $$16 = (float)p_113839_.shakeTime - p_113841_;
-        //if ($$16 > 0.0F) {
-        //    float $$17 = -Mth.sin($$16 * 3.0F) * $$16;
-        //    p_113842_.mulPose(Axis.ZP.rotationDegrees($$17));
-        //}
-
-        //p_113842_.mulPose(Axis.XP.rotationDegrees(45.0F));
-        //p_113842_.scale(0.05625F, 0.05625F, 0.05625F);
-        //p_113842_.translate(-4.0F, 0.0F, 0.0F);
-        p_113842_.popPose();
-        super.render(p_113839_, p_113840_, p_113841_, p_113842_, p_113843_, p_113844_);
+        poseStack.popPose();
+        super.render(entity, p_113840_, p_113841_, poseStack, buffer, p_113844_);
     }
 
 }
