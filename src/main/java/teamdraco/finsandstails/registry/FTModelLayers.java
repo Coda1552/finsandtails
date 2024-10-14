@@ -14,6 +14,8 @@ public class FTModelLayers {
     public static final ModelLayerLocation SWAMP_MUCKER = main("swamp_mucker");
     public static final ModelLayerLocation TEAL_ARROWFISH = main("teal_arrowfish");
     public static final ModelLayerLocation TEAL_ARROWFISH_ARROW = main("teal_arrowfish_arrow");
+    public static final ModelLayerLocation WHERBLE = main("wherble");
+    public static final ModelLayerLocation WHERBLING = main("wherbling");
 
     private static ModelLayerLocation register(String id, String name) {
         return new ModelLayerLocation(new ResourceLocation(FinsAndTails.MOD_ID, id), name);

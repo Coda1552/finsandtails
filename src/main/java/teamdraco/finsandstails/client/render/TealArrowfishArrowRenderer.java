@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.TealArrowfishModel;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
@@ -36,18 +37,19 @@ public class TealArrowfishArrowRenderer extends EntityRenderer<TealArrowfishArro
     @Override
     public void render(TealArrowfishArrowEntity entity, float p_113840_, float p_113841_, PoseStack poseStack, MultiBufferSource buffer, int p_113844_) {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_113841_, entity.yRotO, entity.getYRot()) - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_113841_, entity.xRotO, entity.getXRot())/* + 90.0F*/));
-        poseStack.translate(0.0, -1.3f, 0);
+        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_113841_, entity.yRotO, entity.getYRot()) - 180.0F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(Mth.lerp(p_113841_, entity.xRotO, entity.getXRot())));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(-180.0F));
+        poseStack.translate(0.0, -1.45f, 0.3);
         float f9 = (float) entity.shakeTime - p_113841_;
         if (f9 > 0.0F) {
             float f10 = -Mth.sin(f9 * 3.0F) * f9;
-            poseStack.mulPose(Axis.ZP.rotationDegrees(f10));
+            poseStack.mulPose(Axis.XP.rotationDegrees(f10));
         }
+
         VertexConsumer ivertexbuilder = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
         this.model.renderToBuffer(poseStack, ivertexbuilder, p_113844_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
-//        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(45.0F));
         poseStack.scale(0.05625F, 0.05625F, 0.05625F);
 
         poseStack.popPose();

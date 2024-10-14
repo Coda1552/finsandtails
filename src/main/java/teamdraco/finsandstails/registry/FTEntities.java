@@ -38,7 +38,7 @@ public class FTEntities {
     public static final RegistryObject<EntityType<TealArrowfishArrowEntity>> TEAL_ARROWFISH_ARROW = create("teal_arrowfish_arrow", EntityType.Builder.<TealArrowfishArrowEntity>of(TealArrowfishArrowEntity::new, MobCategory.MISC).sized(0.5F, 0.5F));
     public static final RegistryObject<EntityType<GopjetEntity>> GOPJET = create("gopjet", EntityType.Builder.of(GopjetEntity::new, MobCategory.WATER_CREATURE).sized(0.7f, 0.5f));
     public static final RegistryObject<EntityType<PapaWeeEntity>> PAPA_WEE = create("papa_wee", EntityType.Builder.of(PapaWeeEntity::new, MobCategory.WATER_CREATURE).sized(0.5f, 0.5f));
-    public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, MobCategory.CREATURE).sized(0.6f, 0.4f));
+    public static final RegistryObject<EntityType<WherbleEntity>> WHERBLE = create("wherble", EntityType.Builder.of(WherbleEntity::new, MobCategory.CREATURE).sized(0.8f, 0.8f));
     public static final RegistryObject<EntityType<WanderingSailorEntity>> WANDERING_SAILOR = create("wandering_sailor", EntityType.Builder.of(WanderingSailorEntity::new, MobCategory.CREATURE).sized(0.6f, 1.65f));
     //public static final RegistryObject<EntityType<GoliathGardenCrabEntity>> GOLIATH_GARDEN_CRAB = create("goliath_garden_crab", EntityType.Builder.of(GoliathGardenCrabEntity::new, MobCategory.WATER_AMBIENT).sized(3.5f, 2.5f));
     public static final RegistryObject<EntityType<CrownedHorateeEntity>> CROWNED_HORATTE = create("crowned_horatee", EntityType.Builder.of(CrownedHorateeEntity::new, MobCategory.CREATURE).sized(0.8f, 0.6f));
