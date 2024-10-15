@@ -35,9 +35,8 @@ import java.util.List;
 
 import static net.minecraft.world.entity.EntitySelector.NO_CREATIVE_OR_SPECTATOR;
 
-public class GopjetEntity extends AbstractFish implements GeoEntity {
+public class GopjetEntity extends AbstractFish {
     private static final EntityDataAccessor<Boolean> IS_BOOSTING = SynchedEntityData.defineId(GopjetEntity.class, EntityDataSerializers.BOOLEAN);
-    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private static final int BOOST_TIMER = 400;
     private int boostTimer = BOOST_TIMER;
 
@@ -70,10 +69,10 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
         if (boostTimer > 0) {
             --boostTimer;
         }
-        if (boostTimer == 0 || !list.isEmpty() && !this.fromBucket()) {
+        if (boostTimer == 0 || !list.isEmpty() && !this.fromBucket() && this.isInWaterOrBubble()) {
             boostTimer = BOOST_TIMER;
             setBoosting(true);
-            setDeltaMovement(calculateViewVector(getXRot(), getYRot()).multiply(1.7d, 0.0d, 1.7d));
+            setDeltaMovement(calculateViewVector(this.getXRot(), this.getYRot()).multiply(1.7d, 0.0d, 1.7d));
         }
         if (boostTimer <= 350) {
             setBoosting(false);
@@ -138,28 +137,6 @@ public class GopjetEntity extends AbstractFish implements GeoEntity {
         return new ItemStack(FTItems.GOPJET_SPAWN_EGG.get());
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return factory;
-    }
-
-    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
-        if (isBoosting()) {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.gopjet.boost"));
-        }
-        else if (event.isMoving()) {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.gopjet.swim"));
-        }
-        else {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.gopjet.idle"));
-        }
-        return PlayState.CONTINUE;
-    }
 
     static class MoveHelperController extends MoveControl {
         private final GopjetEntity gopjet;

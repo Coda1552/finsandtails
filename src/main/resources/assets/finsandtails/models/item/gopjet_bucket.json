@@ -1,7 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/lower_bucket",
-    "layer1": "finsandtails:item/bucket_content/gopjet"
+    "layer0": "finsandtails:item/gopjet_bucket"
   }
 }

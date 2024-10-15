@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -27,7 +28,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.*;
+import teamdraco.finsandstails.client.model.armor.GopjetpackModel;
 import teamdraco.finsandstails.client.render.*;
+import teamdraco.finsandstails.client.render.item.FTArmorRenderProperties;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
@@ -51,6 +54,8 @@ public class ClientEvents {
         event.registerLayerDefinition(FTModelLayers.TEAL_ARROWFISH_ARROW, TealArrowfishArrowModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.WHERBLE, WherbleModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.WHERBLING, WherbleModel::createWherblingBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.GOPJET, GopjetModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.GOPJETPACK, () -> GopjetpackModel.createArmorLayer(new CubeDeformation(0.0F)));
     }
 
 
@@ -67,6 +72,7 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
         event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
         event.registerEntityRenderer(FTEntities.WHERBLE.get(), WherbleRenderer::new);
+        event.registerEntityRenderer(FTEntities.GOPJET.get(), GopjetRenderer::new);
 
         event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
@@ -74,7 +80,6 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabRenderer::new);
         event.registerEntityRenderer(FTEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailRenderer::new);
         event.registerEntityRenderer(FTEntities.FLATBACK_SUCKER.get(), FlatbackSuckerRenderer::new);
-        event.registerEntityRenderer(FTEntities.GOPJET.get(), GopjetRenderer::new);
         event.registerEntityRenderer(FTEntities.HIGH_FINNED_BLUE.get(), HighFinnedBlueRenderer::new);
         event.registerEntityRenderer(FTEntities.WEE_WEE.get(), WeeWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.NIGHT_LIGHT_SQUID.get(), NightlightSquidRenderer::new);

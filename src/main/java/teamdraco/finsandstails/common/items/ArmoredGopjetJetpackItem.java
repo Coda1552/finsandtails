@@ -35,7 +35,6 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.model.armor.GopjetJetpackModel;
 import teamdraco.finsandstails.client.model.armor.HorateeJetpackModel;
 import teamdraco.finsandstails.client.render.ArmorItemRenderer;
 import teamdraco.finsandstails.registry.FTItems;

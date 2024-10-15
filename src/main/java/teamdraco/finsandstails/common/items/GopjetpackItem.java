@@ -1,8 +1,6 @@
 package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -11,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -30,30 +27,21 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.FinsAndTails;
-import teamdraco.finsandstails.client.model.armor.FwingedBootsModel;
-import teamdraco.finsandstails.client.model.armor.GopjetJetpackModel;
-import teamdraco.finsandstails.client.render.ArmorItemRenderer;
+import teamdraco.finsandstails.client.render.item.FTArmorRenderProperties;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 
-public class GopjetJetpackItem extends ArmorItem implements GeoItem {
+public class GopjetpackItem extends ArmorItem {
     public static final ArmorMaterial MATERIAL = new FinsArmorMaterial(FinsAndTails.MOD_ID + ":gopjet_jetpack", 0, new int[]{0, 0, 0, 0}, 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.of(FTItems.GOPJET_JET.get()));
-    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private final Random random = new Random();
     private int bubbleSoundTime;
 
-    public GopjetJetpackItem() {
+    public GopjetpackItem() {
         super(MATERIAL, Type.CHESTPLATE, new Properties().stacksTo(1).durability(128));
     }
 
@@ -67,21 +55,6 @@ public class GopjetJetpackItem extends ArmorItem implements GeoItem {
         return position;
     }
 
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            private ArmorItemRenderer<GopjetJetpackItem> renderer;
-
-            @Override
-            public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                if (this.renderer == null) {
-                    this.renderer = new ArmorItemRenderer<>(new GopjetJetpackModel());
-                }
-                this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
-                return this.renderer;
-            }
-        });
-    }
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
@@ -195,6 +168,11 @@ public class GopjetJetpackItem extends ArmorItem implements GeoItem {
     }
 
     @Override
+    public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new FTArmorRenderProperties());
+    }
+
+    @Override
     public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {
         super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
         p_77624_3_.add(Component.translatable("finsandtails.gopjet_jetpack.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
@@ -203,15 +181,6 @@ public class GopjetJetpackItem extends ArmorItem implements GeoItem {
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return enchantment != Enchantments.UNBREAKING && super.canApplyAtEnchantingTable(stack, enchantment);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return factory;
     }
 
 }

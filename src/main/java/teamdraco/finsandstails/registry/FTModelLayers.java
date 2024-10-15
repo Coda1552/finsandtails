@@ -1,8 +1,11 @@
 package teamdraco.finsandstails.registry;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.client.model.armor.GopjetpackModel;
 
 public class FTModelLayers {
 
@@ -16,6 +19,8 @@ public class FTModelLayers {
     public static final ModelLayerLocation TEAL_ARROWFISH_ARROW = main("teal_arrowfish_arrow");
     public static final ModelLayerLocation WHERBLE = main("wherble");
     public static final ModelLayerLocation WHERBLING = main("wherbling");
+    public static final ModelLayerLocation GOPJET = main("gopjet");
+    public static final ModelLayerLocation GOPJETPACK = main("gopjetpack");
 
     private static ModelLayerLocation register(String id, String name) {
         return new ModelLayerLocation(new ResourceLocation(FinsAndTails.MOD_ID, id), name);
