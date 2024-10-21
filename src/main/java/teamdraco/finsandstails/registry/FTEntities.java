@@ -30,7 +30,7 @@ public class FTEntities {
     public static final RegistryObject<EntityType<WhiteBullCrabEntity>> WHITE_BULL_CRAB = create("white_bull_crab", EntityType.Builder.of(WhiteBullCrabEntity::new, MobCategory.WATER_CREATURE).sized(0.5f, 0.3f));
     public static final RegistryObject<EntityType<WeeWeeEntity>> WEE_WEE = create("wee_wee", EntityType.Builder.of(WeeWeeEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f));
     public static final RegistryObject<EntityType<VibraWeeEntity>> VIBRA_WEE = create("vibra_wee", EntityType.Builder.of(VibraWeeEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.4f));
-    public static final RegistryObject<EntityType<RiverPebbleSnailEntity>> RIVER_PEBBLE_SNAIL = create("river_pebble_snail", EntityType.Builder.of(RiverPebbleSnailEntity::new, MobCategory.AMBIENT).sized(0.3f, 0.3f));
+    public static final RegistryObject<EntityType<RiverPebbleSnailEntity>> RIVER_PEBBLE_SNAIL = create("river_pebble_snail", EntityType.Builder.of(RiverPebbleSnailEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f));
     public static final RegistryObject<EntityType<SiderolWhiskeredSnailEntity>> SIDEROL_WHISKERED_SNAIL = create("siderol_whiskered_snail", EntityType.Builder.of(SiderolWhiskeredSnailEntity::new, MobCategory.CREATURE).sized(0.3f, 0.4f));
     public static final RegistryObject<EntityType<GoldenRiverRayEntity>> GOLDEN_RIVER_RAY = create("golden_river_ray", EntityType.Builder.of(GoldenRiverRayEntity::new, MobCategory.WATER_CREATURE).sized(0.7f, 0.3f));
     public static final RegistryObject<EntityType<NightLightSquidEntity>> NIGHT_LIGHT_SQUID = create("night_light_squid", EntityType.Builder.of(NightLightSquidEntity::new, MobCategory.WATER_CREATURE).sized(0.4f, 0.3f));
