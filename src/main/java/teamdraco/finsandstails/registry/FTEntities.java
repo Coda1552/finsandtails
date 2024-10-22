@@ -21,7 +21,7 @@ public class FTEntities {
     public static final RegistryObject<EntityType<FlatbackSuckerEntity>> FLATBACK_SUCKER = create("flatback_sucker", EntityType.Builder.of(FlatbackSuckerEntity::new, MobCategory.WATER_AMBIENT).sized(0.4f, 0.2f));
     public static final RegistryObject<EntityType<HighFinnedBlueEntity>> HIGH_FINNED_BLUE = create("high_finned_blue", EntityType.Builder.of(HighFinnedBlueEntity::new, MobCategory.WATER_AMBIENT).sized(0.2f, 0.5f));
     public static final RegistryObject<EntityType<MudhorseEntity>> MUDHORSE = create("mudhorse", EntityType.Builder.of(MudhorseEntity::new, MobCategory.CREATURE).sized(0.9f, 1.6f));
-    public static final RegistryObject<EntityType<OrnateBugfishEntity>> ORNATE_BUGFISH = create("ornate_bugfish", EntityType.Builder.of(OrnateBugfishEntity::new, MobCategory.WATER_AMBIENT).sized(0.5f, 0.5f));
+    public static final RegistryObject<EntityType<OrnateBugfishEntity>> ORNATE_BUGFISH = create("ornate_bugfish", EntityType.Builder.of(OrnateBugfishEntity::new, MobCategory.WATER_AMBIENT).sized(0.7f, 1f));
     public static final RegistryObject<EntityType<PhantomNudibranchEntity>> PHANTOM_NUDIBRANCH = create("phantom_nudibranch", EntityType.Builder.of(PhantomNudibranchEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f));
     public static final RegistryObject<EntityType<PenglilEntity>> PENGLIL = create("penglil", EntityType.Builder.of(PenglilEntity::new, MobCategory.WATER_CREATURE).sized( 0.5f, 0.5f));
     public static final RegistryObject<EntityType<SpindlyGemCrabEntity>> SPINDLY_GEM_CRAB = create("spindly_gem_crab", EntityType.Builder.of(SpindlyGemCrabEntity::new, MobCategory.WATER_AMBIENT).sized(0.4f, 0.3f));

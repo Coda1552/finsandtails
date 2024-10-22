@@ -1,45 +1,57 @@
 package teamdraco.finsandstails.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import teamdraco.finsandstails.client.model.TealArrowfishArrowModel;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.client.model.TealArrowfishModel;
 import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
+import teamdraco.finsandstails.registry.FTModelLayers;
 
-public class TealArrowfishArrowRenderer extends GeoEntityRenderer<TealArrowfishArrowEntity> {
+public class TealArrowfishArrowRenderer extends EntityRenderer<TealArrowfishArrowEntity> {
+    private static final ResourceLocation TEAL_ARROWFISH_LOCATION = new ResourceLocation(FinsAndTails.MOD_ID,"textures/entity/teal_arrowfish/teal_arrowfish.png");
+    private TealArrowfishModel model;
 
-    public TealArrowfishArrowRenderer(EntityRendererProvider.Context context) {
-        super(context, new TealArrowfishArrowModel());
+
+    public TealArrowfishArrowRenderer(EntityRendererProvider.Context ctx) {
+        super(ctx);
+        this.model = new TealArrowfishModel(ctx.bakeLayer(FTModelLayers.TEAL_ARROWFISH_ARROW));
     }
 
     @Override
-    public RenderType getRenderType(TealArrowfishArrowEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityCutout(texture);
+    public ResourceLocation getTextureLocation(TealArrowfishArrowEntity entity) {
+        return TEAL_ARROWFISH_LOCATION;
     }
 
     @Override
-    public void render(TealArrowfishArrowEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(TealArrowfishArrowEntity entity, float p_113840_, float p_113841_, PoseStack poseStack, MultiBufferSource buffer, int p_113844_) {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, entity.yRotO, entity.getYRot()) - 90.0F));
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, entity.xRotO, entity.getXRot())));
-
-        float f = (float) entity.shakeTime - partialTick;
-        if (f > 0.0F) {
-            float f1 = -Mth.sin(f * 3.0F) * f;
-            poseStack.mulPose(Axis.ZP.rotationDegrees(f1));
+        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_113841_, entity.yRotO, entity.getYRot()) - 90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_113841_, entity.xRotO, entity.getXRot())/* + 90.0F*/));
+        poseStack.translate(0.0, -1.3f, 0);
+        float f9 = (float) entity.shakeTime - p_113841_;
+        if (f9 > 0.0F) {
+            float f10 = -Mth.sin(f9 * 3.0F) * f9;
+            poseStack.mulPose(Axis.ZP.rotationDegrees(f10));
         }
-        poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
+        VertexConsumer ivertexbuilder = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
+        this.model.renderToBuffer(poseStack, ivertexbuilder, p_113844_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+//        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(45.0F));
+        poseStack.scale(0.05625F, 0.05625F, 0.05625F);
+
         poseStack.popPose();
-        poseStack.popPose();
+        super.render(entity, p_113840_, p_113841_, poseStack, buffer, p_113844_);
     }
 
 }

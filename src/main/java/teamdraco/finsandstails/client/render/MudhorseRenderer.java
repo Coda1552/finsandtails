@@ -1,35 +1,27 @@
 
 package teamdraco.finsandstails.client.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.MudhorseModel;
 import teamdraco.finsandstails.common.entities.MudhorseEntity;
+import teamdraco.finsandstails.registry.FTModelLayers;
 
-public class MudhorseRenderer extends GeoEntityRenderer<MudhorseEntity> {
+@OnlyIn(Dist.CLIENT)
+public class MudhorseRenderer extends MobRenderer<MudhorseEntity, MudhorseModel<MudhorseEntity>> {
+    private static final ResourceLocation MUDHORSE_LOCATION = new ResourceLocation(FinsAndTails.MOD_ID,"textures/entity/mudhorse/mudhorse.png");
+    private static final ResourceLocation MUDHORSE_POUCH_LOCATION = new ResourceLocation(FinsAndTails.MOD_ID,"textures/entity/mudhorse/mudhorse_pouch.png");
 
-    public MudhorseRenderer(EntityRendererProvider.Context context) {
-        super(context, new MudhorseModel());
-        this.shadowRadius = 0.8F;
+    public MudhorseRenderer(EntityRendererProvider.Context ctx) {
+        super(ctx, new MudhorseModel<>(ctx.bakeLayer(FTModelLayers.MUDHORSE)), 0.8F);
     }
 
     @Override
-    public RenderType getRenderType(MudhorseEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityTranslucent(texture);
-    }
-
-    @Override
-    public void render(MudhorseEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        if (entity.isBaby()) {
-            poseStack.scale(0.5F, 0.5F, 0.5F);
-        } else {
-            poseStack.scale(1.0F, 1.0F, 1.0F);
-        }
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+    public ResourceLocation getTextureLocation(MudhorseEntity entity) {
+        return MUDHORSE_LOCATION;
     }
 }

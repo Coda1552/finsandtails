@@ -1,44 +1,91 @@
 package teamdraco.finsandstails.client.model;
 
-import com.google.common.collect.Maps;
-import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.model.DefaultedEntityGeoModel;
-import software.bernie.geckolib.model.data.EntityModelData;
-import teamdraco.finsandstails.FinsAndTails;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import teamdraco.finsandstails.common.entities.GoldenRiverRayEntity;
 
-import java.util.Map;
+@SuppressWarnings("FieldCanBeLocal, unused")
+@OnlyIn(Dist.CLIENT)
+public class GoldenRiverRayModel<T extends GoldenRiverRayEntity> extends HierarchicalModel<T> {
 
-public class GoldenRiverRayModel extends DefaultedEntityGeoModel<GoldenRiverRayEntity> {
-    public static final Map<Integer, ResourceLocation> TEXTURES = Util.make(Maps.newHashMap(), (hashMap) -> {
-        hashMap.put(0, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/golden_river_ray/golden_river_ray_1.png"));
-        hashMap.put(1, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/golden_river_ray/golden_river_ray_2.png"));
-        hashMap.put(2, new ResourceLocation(FinsAndTails.MOD_ID, "textures/entity/golden_river_ray/golden_river_ray_3.png"));
-    });
+    private final ModelPart root;
+    private final ModelPart body;
+    private final ModelPart tail;
+    private final ModelPart tailFin;
+    private final ModelPart leftFin;
+    private final ModelPart rightFin;
+    private final ModelPart dorsalFin;
+    private final ModelPart leftWing;
+    private final ModelPart rightWing;
 
-    public GoldenRiverRayModel() {
-        super(new ResourceLocation(FinsAndTails.MOD_ID, "golden_river_ray"));
+    public GoldenRiverRayModel(ModelPart modelPart) {
+        this.root = modelPart;
+
+        this.body = this.root.getChild("body");
+
+        this.dorsalFin = this.body.getChild("dorsalFin");
+        this.tail = this.body.getChild("tail");
+        this.leftFin = this.body.getChild("leftFin");
+        this.rightFin = this.body.getChild("rightFin");
+        this.leftWing = this.body.getChild("leftWing");
+        this.rightWing = this.body.getChild("rightWing");
+
+        this.tailFin = this.tail.getChild("tailFin");
     }
 
     @Override
-    public ResourceLocation getTextureResource(GoldenRiverRayEntity entity) {
-        return TEXTURES.getOrDefault(entity.getVariant(), TEXTURES.get(0));
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        limbSwingAmount = Mth.clamp(limbSwingAmount, -0.45F, 0.45F);
+
+        this.body.xRot = headPitch * (((float)Math.PI / 180F) / 2);
+        this.body.yRot = netHeadYaw * (((float)Math.PI / 180F) / 2);
+
+        //idle
+        this.body.xRot += Mth.cos(ageInTicks * 0.125F) * 0.25F * 0.25F;
+        this.body.y = Mth.sin(ageInTicks * 0.125F) * 1.5F * 0.25F + 21.5F;
+        this.tail.xRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
+        this.leftFin.zRot = Mth.cos(ageInTicks * 0.125F + 35) * 0.5F * 0.25F;
+        this.rightFin.zRot = Mth.cos(ageInTicks * 0.125F + 35 + Mth.PI) * 0.5F * 0.25F;
+        this.leftWing.zRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
+        this.rightWing.zRot = Mth.cos(ageInTicks * 0.125F + 30 + Mth.PI) * 0.25F * 0.25F;
+
+        //move
+        this.body.xRot += Mth.cos(limbSwing) * limbSwingAmount * 0.5F;
+        this.body.y += Mth.sin(limbSwing) * limbSwingAmount * 1.75F;
+        this.tail.yRot = Mth.cos(limbSwing + 30) * 1.5F * limbSwingAmount;
+        this.tailFin.yRot = Mth.cos(limbSwing + 60) * 1.25F * limbSwingAmount;
+        this.tail.zRot = Mth.sin(limbSwing + 30) * 0.25F * limbSwingAmount;
+        this.leftWing.zRot += Mth.cos(limbSwing + 30) * 1.5F * limbSwingAmount;
+        this.rightWing.zRot += Mth.cos(limbSwing + 30 + Mth.PI) * 1.5F * limbSwingAmount;
+
+        this.leftFin.zRot += Mth.cos(limbSwing + 35) * 1.5F * limbSwingAmount;
+        this.rightFin.zRot += Mth.cos(limbSwing + 35 + Mth.PI) * 1.5F * limbSwingAmount;
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 23.0F, 0.0F));
+        PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 10).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -0.5F, 4.0F));
+        PartDefinition tailfin = tail.addOrReplaceChild("tailFin", CubeListBuilder.create().texOffs(10, 4).addBox(0.0F, -0.5F, -2.0F, 0.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 6.5F));
+        PartDefinition leftFin = body.addOrReplaceChild("leftFin", CubeListBuilder.create().texOffs(-2, 10).mirror().addBox(-1.0F, 0.0F, 0.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.5F, 0.0F, 3.0F));
+        PartDefinition rightFin = body.addOrReplaceChild("rightFin", CubeListBuilder.create().texOffs(-2, 10).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, 0.0F, 3.0F));
+        PartDefinition dorsalFin = body.addOrReplaceChild("dorsalFin", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -2.0F, -0.5F, 0.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, 3.0F));
+        PartDefinition leftWing = body.addOrReplaceChild("leftWing", CubeListBuilder.create().texOffs(-6, 19).mirror().addBox(0.0F, 0.0F, -1.5F, 10.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.5F, -1.0F, -1.5F));
+        PartDefinition rightWing = body.addOrReplaceChild("rightWing", CubeListBuilder.create().texOffs(-6, 19).addBox(-10.0F, 0.0F, -1.5F, 10.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, -1.0F, -1.5F));
+
+        return LayerDefinition.create(meshdefinition, 32, 32);
     }
 
     @Override
-    public void setCustomAnimations(GoldenRiverRayEntity entity, long uniqueID, @Nullable AnimationState<GoldenRiverRayEntity> customPredicate) {
-        super.setCustomAnimations(entity, uniqueID, customPredicate);
-        CoreGeoBone body = this.getAnimationProcessor().getBone("body");
-        EntityModelData extraData = customPredicate.getData(DataTickets.ENTITY_MODEL_DATA);
-
-        if (entity.isInWater()) {
-            body.setRotX(extraData.headPitch() * ((float) Math.PI / 180F));
-            body.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 180F));
-        }
+    public ModelPart root() {
+        return this.root;
     }
+
 }

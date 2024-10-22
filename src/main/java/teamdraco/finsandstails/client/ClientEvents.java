@@ -1,5 +1,6 @@
 package teamdraco.finsandstails.client;
 
+import com.google.common.reflect.Reflection;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
@@ -25,14 +26,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import teamdraco.finsandstails.FinsAndTails;
+import teamdraco.finsandstails.client.model.*;
 import teamdraco.finsandstails.client.render.*;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
-import teamdraco.finsandstails.registry.FTContainers;
-import teamdraco.finsandstails.registry.FTEntities;
-import teamdraco.finsandstails.registry.FTItems;
-import teamdraco.finsandstails.registry.FTTags;
+import teamdraco.finsandstails.registry.*;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
@@ -41,30 +40,46 @@ public class ClientEvents {
     private static final ResourceLocation GAUNTLET_BG_TEXTURE = new ResourceLocation(FinsAndTails.MOD_ID, "textures/gui/overlay/gauntlet_bg.png");
 
     @SubscribeEvent
+    public static void registerEntityLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(FTModelLayers.BANDED_REDBACK_SHRIMP, BandedRedbackShrimpModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.GOLDEN_RIVER_RAY, GoldenRiverRayModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.MUDHORSE, MudhorseModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.ORNATE_BUGFISH, OrnateBugfishModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.PHANTOM_NUDIBRANCH, PhantomNudibranchModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.SWAMP_MUCKER, SwampMuckerModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.TEAL_ARROWFISH, TealArrowfishModel::createBodyLayer);
+        event.registerLayerDefinition(FTModelLayers.TEAL_ARROWFISH_ARROW, TealArrowfishArrowModel::createBodyLayer);
+    }
+
+
+    @SubscribeEvent
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
+        Reflection.initialize(FTModelLayers.class);
+
         event.registerEntityRenderer(FTEntities.BANDED_REDBACK_SHRIMP.get(), BandedRedbackShrimpRenderer::new);
+        event.registerEntityRenderer(FTEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayRenderer::new);
+        event.registerEntityRenderer(FTEntities.MUDHORSE.get(), MudhorseRenderer::new);
+        event.registerEntityRenderer(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
+        event.registerEntityRenderer(FTEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchRenderer::new);
+        event.registerEntityRenderer(FTEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
+        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
+        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
+
+        event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.RED_BULL_CRAB.get(), RedBullCrabRenderer::new);
         event.registerEntityRenderer(FTEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabRenderer::new);
         event.registerEntityRenderer(FTEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailRenderer::new);
         event.registerEntityRenderer(FTEntities.FLATBACK_SUCKER.get(), FlatbackSuckerRenderer::new);
-        event.registerEntityRenderer(FTEntities.GOLDEN_RIVER_RAY.get(), GoldenRiverRayRenderer::new);
         event.registerEntityRenderer(FTEntities.GOPJET.get(), GopjetRenderer::new);
         event.registerEntityRenderer(FTEntities.HIGH_FINNED_BLUE.get(), HighFinnedBlueRenderer::new);
-        event.registerEntityRenderer(FTEntities.SWAMP_MUCKER.get(), SwampMuckerRenderer::new);
-        event.registerEntityRenderer(FTEntities.MUDHORSE.get(), MudhorseRenderer::new);
         event.registerEntityRenderer(FTEntities.WEE_WEE.get(), WeeWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.NIGHT_LIGHT_SQUID.get(), NightlightSquidRenderer::new);
-        event.registerEntityRenderer(FTEntities.ORNATE_BUGFISH.get(), OrnateBugfishRenderer::new);
         event.registerEntityRenderer(FTEntities.PAPA_WEE.get(), PapaWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.PENGLIL.get(), PenglilRenderer::new);
-        event.registerEntityRenderer(FTEntities.PHANTOM_NUDIBRANCH.get(), PhantomNudibranchRenderer::new);
         event.registerEntityRenderer(FTEntities.RIVER_PEBBLE_SNAIL.get(), RiverPebbleSnailRenderer::new);
         event.registerEntityRenderer(FTEntities.RUBBER_BELLY_GLIDER.get(), RubberBellyGliderRenderer::new);
         event.registerEntityRenderer(FTEntities.SIDEROL_WHISKERED_SNAIL.get(), SiderolWhiskeredSnailRenderer::new);
-        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH_ARROW.get(), TealArrowfishArrowRenderer::new);
-        event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
         event.registerEntityRenderer(FTEntities.VIBRA_WEE.get(), VibraWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.WHERBLE.get(), WherbleRenderer::new);
         event.registerEntityRenderer(FTEntities.WANDERING_SAILOR.get(), WanderingSailorRenderer::new);

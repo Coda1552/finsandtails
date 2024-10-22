@@ -31,7 +31,7 @@ import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.function.Predicate;
 
-public class OrnateBugfishEntity extends AbstractSchoolingFish implements GeoEntity {
+public class OrnateBugfishEntity extends AbstractSchoolingFish {
     public static final Predicate<LivingEntity> IS_PREY = (entity) -> entity.isAlive() && (
             entity instanceof TropicalFish
                     || entity instanceof Cod
@@ -46,7 +46,6 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish implements GeoEnt
                     || entity instanceof SwampMuckerEntity
                     || entity instanceof WeeWeeEntity
                     || entity instanceof VibraWeeEntity);
-    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public OrnateBugfishEntity(EntityType<? extends OrnateBugfishEntity> type, Level world) {
         super(type, world);
@@ -104,25 +103,5 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish implements GeoEnt
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.ORNATE_BUGFISH_SPAWN_EGG.get());
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return factory;
-    }
-
-    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
-        if (event.isMoving()) {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.ornate_bugfish.swim"));
-        }
-        else {
-            event.setAnimation(RawAnimation.begin().thenLoop("animation.ornate_bugfish.idle"));
-        }
-        return PlayState.CONTINUE;
     }
 }

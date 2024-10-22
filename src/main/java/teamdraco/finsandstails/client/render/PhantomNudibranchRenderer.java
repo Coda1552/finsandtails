@@ -1,26 +1,31 @@
 
 package teamdraco.finsandstails.client.render;
 
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.PhantomNudibranchModel;
-import teamdraco.finsandstails.client.render.layer.PhantomNudibranchGlowLayer;
 import teamdraco.finsandstails.common.entities.PhantomNudibranchEntity;
+import teamdraco.finsandstails.registry.FTModelLayers;
 
-public class PhantomNudibranchRenderer extends GeoEntityRenderer<PhantomNudibranchEntity> {
+public class PhantomNudibranchRenderer extends MobRenderer<PhantomNudibranchEntity, PhantomNudibranchModel<PhantomNudibranchEntity>> {
+    private static final ResourceLocation PHANTOM_NUDIBRANCH_LOCATION = new ResourceLocation(FinsAndTails.MOD_ID,"textures/entity/phantom_nudibranch/phantom_nudibranch.png");
 
-    public PhantomNudibranchRenderer(EntityRendererProvider.Context context) {
-        super(context, new PhantomNudibranchModel());
-        this.addRenderLayer(new PhantomNudibranchGlowLayer(this));
-        this.shadowRadius = 0.2F;
+    public PhantomNudibranchRenderer(EntityRendererProvider.Context ctx) {
+        super(ctx, new PhantomNudibranchModel<>(ctx.bakeLayer(FTModelLayers.PHANTOM_NUDIBRANCH)), 0.2f);
+    }
+
+    @Nullable
+    @Override
+    protected RenderType getRenderType(PhantomNudibranchEntity p_115322_, boolean p_115323_, boolean p_115324_, boolean p_115325_) {
+        return RenderType.dragonExplosionAlpha(PHANTOM_NUDIBRANCH_LOCATION);
     }
 
     @Override
-    public RenderType getRenderType(PhantomNudibranchEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return RenderType.entityCutout(texture);
+    public ResourceLocation getTextureLocation(PhantomNudibranchEntity entity) {
+        return PHANTOM_NUDIBRANCH_LOCATION;
     }
 }
