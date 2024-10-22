@@ -55,7 +55,6 @@ public class GopjetpackItem extends ArmorItem {
         return position;
     }
 
-
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
         if (stack.getMaxDamage() - stack.getDamageValue() > 1 || player.isCreative()) {

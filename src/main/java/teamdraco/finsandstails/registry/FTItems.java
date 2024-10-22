@@ -131,7 +131,7 @@ public class FTItems {
     public static final RegistryObject<Item> NIGHT_LIGHT_SQUID_BUCKET = ITEMS.register("night_light_squid_bucket", () -> new FinsBucketItem(FTEntities.NIGHT_LIGHT_SQUID, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> GOPJET_BUCKET = ITEMS.register("gopjet_bucket", () -> new FinsBucketItem(FTEntities.GOPJET, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> PAPA_WEE_BUCKET = ITEMS.register("papa_wee_bucket", () -> new FinsBucketItem(FTEntities.PAPA_WEE, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
-    public static final RegistryObject<Item> BABY_HORATEE_BUCKET = ITEMS.register("baby_horatee_bucket", () -> new MobBucketItem(FTEntities.CROWNED_HORATTE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> BABY_HORATEE_BUCKET = ITEMS.register("baby_horatee_bucket", () -> new MobBucketItem(FTEntities.CROWNED_HORATEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 
 
     public static final RegistryObject<Item> WHERBLING_POT = ITEMS.register("wherbling_pot", () -> new WherblingPotItem(FTEntities.WHERBLE, () -> Fluids.EMPTY, new Item.Properties().stacksTo(1)));
@@ -162,7 +162,7 @@ public class FTItems {
     public static final RegistryObject<Item> GOPJET_SPAWN_EGG = ITEMS.register("gopjet_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOPJET, 0xcfe0ff, 0x403c70, new Item.Properties()));
     public static final RegistryObject<Item> PAPA_WEE_SPAWN_EGG = ITEMS.register("papa_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PAPA_WEE, 0x8b5a3d, 0xebc454, new Item.Properties()));
     public static final RegistryObject<Item> WHERBLE_SPAWN_EGG = ITEMS.register("wherble_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WHERBLE, 0x2f3945, 0x8eb8cc, new Item.Properties()));
-    public static final RegistryObject<Item> CROWNED_HORATEE_SPAWN_EGG = ITEMS.register("crowned_horatee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.CROWNED_HORATTE, 0xF7A53D, 0xB34B1B, new Item.Properties()));
+    public static final RegistryObject<Item> CROWNED_HORATEE_SPAWN_EGG = ITEMS.register("crowned_horatee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.CROWNED_HORATEE, 0xF7A53D, 0xB34B1B, new Item.Properties()));
 
     //public static final RegistryObject<Item> WANDERING_SAILOR_SPAWN_EGG = ITEMS.register("wandering_sailor_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WANDERING_SAILOR, 0x31a7cf, 0xd3904c, new Item.Properties()));
     //public static final RegistryObject<Item> GOLIATH_GARDEN_CRAB_SPAWN_EGG = ITEMS.register("goliath_garden_crab_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.GOLIATH_GARDEN_CRAB, 0xbd673a, 0x59ab30, new Item.Properties()));
