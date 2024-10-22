@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.client.model;
 
-import net.minecraft.client.animation.definitions.SnifferAnimation;
 import net.minecraft.client.model.AgeableHierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

@@ -45,9 +45,8 @@ import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
-public class WherbleEntity extends Animal implements GeoEntity {
+public class WherbleEntity extends Animal {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.INT);
-    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public WherbleEntity(EntityType<? extends Animal> p_i48568_1_, Level p_i48568_2_) {
         super(p_i48568_1_, p_i48568_2_);
@@ -136,7 +135,7 @@ public class WherbleEntity extends Animal implements GeoEntity {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         if (dataTag == null) {
-            setVariant(random.nextInt(4));
+            setVariant(random.nextInt(6));
         }
         if (spawnDataIn == null) {
             spawnDataIn = new AgeableMobGroupData(1);
@@ -187,25 +186,4 @@ public class WherbleEntity extends Animal implements GeoEntity {
     public float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return this.isBaby() ? 0.2F : 0.4F;
     }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<GeoEntity>(this, "controller", 5, this::predicate));
-    }
-
-    private <E extends GeoEntity> PlayState predicate(AnimationState<E> event) {
-        if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.wherble.walk"));
-        }
-        else {
-            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.wherble.idle"));
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return factory;
-    }
-
 }
