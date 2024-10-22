@@ -26,7 +26,7 @@ public class WherblingItem extends MobBucketItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
-        level.playSound(player, player.getX(), player.getY(), player.getZ(), FTSounds.WHERBLE_AMBIENT.get(), SoundSource.NEUTRAL, 0.5F, 2.0F * (0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F)));
+        level.playSound(player, player.getX(), player.getY(), player.getZ(), FTSounds.WHERBLE_THROW.get(), SoundSource.NEUTRAL, 1.5F, 1);
 
         if (!level.isClientSide) {
             WherbleEntity wherble = new WherbleEntity(FTEntities.WHERBLE.get(), level);

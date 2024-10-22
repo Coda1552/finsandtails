@@ -1,0 +1,28 @@
+{
+  "parent": "finsandtails:root",
+  "display": {
+    "icon": {
+      "item": "finsandtails:wherbling"
+    },
+    "title": {
+      "translate": "advancements.finsandtails.throw_wherbling_in_the_void.title"
+    },
+    "description": {
+      "translate": "advancements.finsandtails.throw_wherbling_in_the_void.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "throw_wherbling_in_the_void": {
+      "trigger": "finsandtails:throw_wherbling_in_the_void"
+    }
+  },
+  "requirements": [
+    [
+      "throw_wherbling_in_the_void"
+    ]
+  ]
+}

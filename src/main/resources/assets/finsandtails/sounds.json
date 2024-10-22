@@ -161,6 +161,15 @@
       }
     ]
   },
+  "music_disc.warble": {
+    "category": "disc",
+    "sounds": [
+      {
+        "name": "finsandtails:music_disc/warble",
+        "stream": true
+      }
+    ]
+  },
   "jetpack.use": {
     "subtitle": "finsandtails.jetpack.use",
     "sounds": [
@@ -190,32 +199,36 @@
   "wherble.ambient": {
     "subtitle": "finsandtails.wherble.ambient",
     "sounds": [
-      {
-        "name": "finsandtails:wherble/ambient_1",
-        "stream": true
-      },
-      {
-        "name": "finsandtails:wherble/ambient_2",
-        "stream": true
-      }
+        "finsandtails:wherble/idle0",
+        "finsandtails:wherble/idle1",
+        "finsandtails:wherble/idle2",
+        "finsandtails:wherble/idle3",
+        "finsandtails:wherble/idle4",
+        "finsandtails:wherble/idle5",
+        "finsandtails:wherble/idle6",
+        "finsandtails:wherble/idle7"
     ]
   },
   "wherble.death": {
     "subtitle": "finsandtails.wherble.death",
     "sounds": [
-      {
-        "name": "finsandtails:wherble/death",
-        "stream": true
-      }
+      "finsandtails:wherble/death0",
+      "finsandtails:wherble/death1"
     ]
   },
   "wherble.hurt": {
     "subtitle": "finsandtails.wherble.hurt",
     "sounds": [
-      {
-        "name": "finsandtails:wherble/hurt",
-        "stream": true
-      }
+      "finsandtails:wherble/hurt0",
+      "finsandtails:wherble/hurt1"
+    ]
+  },
+  "wherble.throw": {
+    "subtitle": "finsandtails.wherble.hurt",
+    "sounds": [
+      "finsandtails:wherble/throw0",
+      "finsandtails:wherble/throw1",
+      "finsandtails:wherble/throw3"
     ]
   },
   "wandering_sailor.ambient": {
