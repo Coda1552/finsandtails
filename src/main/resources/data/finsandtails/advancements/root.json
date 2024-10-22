@@ -1,0 +1,39 @@
+{
+
+  "criteria": {
+    "pick_up": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "finsandtails:blu_wee"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/block/sand.png",
+    "description": {
+      "translate": "finsandtails.advancement.root.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "finsandtails:blu_wee"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "finsandtails.advancement.root"
+    }
+  },
+  "requirements": [
+    [
+      "pick_up"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

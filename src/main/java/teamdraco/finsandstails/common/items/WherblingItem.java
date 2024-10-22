@@ -36,6 +36,8 @@ public class WherblingItem extends MobBucketItem {
             wherble.moveTo(player.getEyePosition());
             wherble.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 1.0F);
             wherble.setProjectile(true);
+            wherble.setThrower(player.getUUID());
+
             if (!wherble.isBaby()) {
                 wherble.setBaby(true);
                 wherble.setAge(-24000);

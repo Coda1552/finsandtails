@@ -1,6 +1,7 @@
 package teamdraco.finsandstails.common.entities;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -51,11 +52,14 @@ import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class WherbleEntity extends Animal implements Bucketable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_PROJECTILE = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Optional<UUID>> THROWER = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
     public WherbleEntity(EntityType<? extends Animal> p_i48568_1_, Level p_i48568_2_) {
         super(p_i48568_1_, p_i48568_2_);
@@ -89,6 +93,7 @@ public class WherbleEntity extends Animal implements Bucketable {
         this.entityData.define(VARIANT, 0);
         this.entityData.define(FROM_BUCKET, false);
         this.entityData.define(IS_PROJECTILE, false);
+        this.entityData.define(THROWER, Optional.empty());
     }
 
     @Override
@@ -102,6 +107,14 @@ public class WherbleEntity extends Animal implements Bucketable {
 
     public void setVariant(int variant) {
         this.entityData.set(VARIANT, variant);
+    }
+
+    public UUID getThrower() {
+        return this.entityData.get(THROWER).orElse(null);
+    }
+
+    public void setThrower(UUID uuid) {
+        this.entityData.set(THROWER, Optional.ofNullable(uuid));
     }
 
     @Override
@@ -123,7 +136,7 @@ public class WherbleEntity extends Animal implements Bucketable {
         if (isProjectile()) {
             List<Entity> entities = level().getEntities(this, getBoundingBox(), Entity::canBeHitByProjectile);
             for (var entity : entities) {
-                if (getBoundingBox().intersects(entity.getBoundingBox()) && entity.hurt(damageSources().mobProjectile(this, this), 1.0F)) {
+                if (getBoundingBox().intersects(entity.getBoundingBox()) && entity.hurt(damageSources().mobProjectile(this, getThrower() != null ? level().getPlayerByUUID(getThrower()) : this), 1.0F)) {
                     setProjectile(false);
                 }
             }
@@ -168,13 +181,15 @@ public class WherbleEntity extends Animal implements Bucketable {
         this.xRotO = this.getXRot();
     }
 
-    public void shootFromRotation(Entity p_37252_, float p_37253_, float p_37254_, float p_37255_, float scale, float p_37257_) {
+    public void shootFromRotation(@Nullable Entity entity, float p_37253_, float p_37254_, float p_37255_, float scale, float inaccuracy) {
         float f = -Mth.sin(p_37254_ * ((float)Math.PI / 180F)) * Mth.cos(p_37253_ * ((float)Math.PI / 180F));
         float f1 = -Mth.sin((p_37253_ + p_37255_) * ((float)Math.PI / 180F));
         float f2 = Mth.cos(p_37254_ * ((float)Math.PI / 180F)) * Mth.cos(p_37253_ * ((float)Math.PI / 180F));
-        this.shoot(f, f1, f2, scale, p_37257_);
-        Vec3 vec3 = p_37252_.getDeltaMovement();
-        this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, p_37252_.onGround() ? 0.0D : vec3.y, vec3.z));
+        this.shoot(f, f1, f2, scale, inaccuracy);
+        if (entity != null) {
+            Vec3 vec3 = entity.getDeltaMovement();
+            this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, entity.onGround() ? 0.0D : vec3.y, vec3.z));
+        }
     }
 
     @Nullable

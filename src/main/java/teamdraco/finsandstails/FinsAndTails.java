@@ -61,7 +61,6 @@ public class FinsAndTails {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
-        bus.addListener(this::registerCommon);
         bus.addListener(this::registerEntityAttributes);
         bus.addListener(this::registerSpawnPlacements);
         bus.addListener(this::registerCapabilities);
@@ -122,18 +121,6 @@ public class FinsAndTails {
         e.register(FTEntities.PAPA_WEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractFish::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         e.register(FTEntities.WHERBLE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WherbleEntity::checkWherbleSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         e.register(FTEntities.CROWNED_HORATEE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrownedHorateeEntity::checkCrownedSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
-    }
-
-    private void registerCommon(FMLCommonSetupEvent event) {
-        BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FTItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
-
-        DispenserBlock.registerBehavior(FTItems.TEAL_ARROWFISH.get(), new AbstractProjectileDispenseBehavior() {
-            protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
-                TealArrowfishArrowEntity arrow = new TealArrowfishArrowEntity(level, pos.x(), pos.y(), pos.z());
-                arrow.pickup = AbstractArrow.Pickup.ALLOWED;
-                return arrow;
-            }
-        });
     }
 
     private void registerEntityAttributes(EntityAttributeCreationEvent event) {
