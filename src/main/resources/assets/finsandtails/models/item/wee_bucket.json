@@ -2,5 +2,25 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "finsandtails:item/blu_wee_bucket"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "finsandtails:variant": 0
+      },
+      "model": "finsandtails:item/blu_wee_bucket"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 1
+      },
+      "model": "finsandtails:item/pea_wee_bucket"
+    },
+    {
+      "predicate": {
+        "finsandtails:variant": 2
+      },
+      "model": "finsandtails:item/muck_wee_bucket"
+    }
+  ]
 }

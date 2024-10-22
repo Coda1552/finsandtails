@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.animal.AbstractFish;
@@ -24,6 +25,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import teamdraco.finsandstails.common.entities.ai.control.FTSmoothSwimmingMoveControl;
 import teamdraco.finsandstails.common.entities.ai.goals.PapaWeeAttractionGoal;
 import teamdraco.finsandstails.registry.FTItems;
 
@@ -32,6 +34,8 @@ public class PapaWeeEntity extends AbstractFish implements GeoEntity {
 
     public PapaWeeEntity(EntityType<? extends PapaWeeEntity> type, Level world) {
         super(type, world);
+        this.moveControl = new FTSmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, true);
+        this.lookControl = new SmoothSwimmingLookControl(this, 30);
     }
 
     @Override

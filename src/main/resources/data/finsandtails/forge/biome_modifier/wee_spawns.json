@@ -5,7 +5,9 @@
     "minecraft:cold_ocean",
     "minecraft:bamboo_jungle",
     "minecraft:jungle",
-    "minecraft:sparse_jungle"
+    "minecraft:sparse_jungle",
+    "minecraft:mangrove_swamp",
+    "minecraft:swamp"
   ],
   "spawners":
   {

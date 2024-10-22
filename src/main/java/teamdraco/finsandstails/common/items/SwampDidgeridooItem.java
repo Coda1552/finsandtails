@@ -53,6 +53,7 @@ public class SwampDidgeridooItem extends Item {
         super.appendHoverText(stack, level, components, flag);
         if (Screen.hasShiftDown()) {
             components.add(Component.translatable(stack.getItem().getDescriptionId() + ".desc").withStyle(ChatFormatting.DARK_AQUA));
+            components.add(Component.translatable(stack.getItem().getDescriptionId() + ".desc.2").withStyle(ChatFormatting.DARK_AQUA));
         } else {
             components.add(Component.translatable("finsandtails.info").withStyle(ChatFormatting.DARK_GRAY));
         }

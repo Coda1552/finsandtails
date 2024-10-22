@@ -85,7 +85,8 @@
   "finsandtails.mudhorse.hurt": "Mudhorse hurts",
   "finsandtails.mudhorse.death": "Mudhorse dies",
   "finsandtails.didgeridoo.play": "Didgeridoo plays",
-  "item.finsandtails.swamp_didgeridoo.desc": "This instrument's low frequencies are said to entrance mudhorses.",
+  "item.finsandtails.swamp_didgeridoo.desc": "This instrument's low frequencies ",
+  "item.finsandtails.swamp_didgeridoo.desc.2": "are said to entrance mudhorses.",
 
   "entity.finsandtails.phantom_nudibranch": "Phantom Nudibranch",
   "item.finsandtails.phantom_nudibranch_spawn_egg": "Phantom Nudibranch Spawn Egg",

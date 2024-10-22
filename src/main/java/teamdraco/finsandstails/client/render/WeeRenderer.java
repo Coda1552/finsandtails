@@ -20,6 +20,11 @@ public class WeeRenderer extends MobRenderer<WeeEntity, WeeModel<WeeEntity>> {
 
     @Override
     public ResourceLocation getTextureLocation(WeeEntity entity) {
-        return BLU_WEE_LOCATION;
+
+        return switch (entity.getVariant()) {
+            case 1 -> PEA_WEE_LOCATION;
+            case 2 -> MUCK_WEE_LOCATION;
+            default -> BLU_WEE_LOCATION;
+        };
     }
 }

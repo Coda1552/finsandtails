@@ -2,10 +2,12 @@ package teamdraco.finsandstails.registry;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import teamdraco.finsandstails.FinsAndTails;
 
@@ -25,13 +27,21 @@ public class FTTags {
     // Entity Type Tags
     public static final TagKey<EntityType<?>> PREDATORS_HIGH_FINNED_BLUE = entityTag("predators/high_finned_blue");
 
+    // Biome Tags
+    public static final TagKey<Biome> MUCK_WEE_SPAWNS = biomeTag("muck_wee_spawns");
+
     private static TagKey<BannerPattern> patternTag(String path) {
         return TagKey.create(Registries.BANNER_PATTERN, new ResourceLocation(FinsAndTails.MOD_ID, path));
+    }
+
+    private static TagKey<Biome> biomeTag(String path) {
+        return TagKey.create(Registries.BIOME, new ResourceLocation(FinsAndTails.MOD_ID, path));
     }
 
     private static TagKey<Item> itemTag(String path) {
         return ItemTags.create(new ResourceLocation(FinsAndTails.MOD_ID, path));
     }
+
 
     private static TagKey<EntityType<?>> entityTag(String path) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(FinsAndTails.MOD_ID, path));

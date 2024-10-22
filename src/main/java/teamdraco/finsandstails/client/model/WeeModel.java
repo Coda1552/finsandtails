@@ -36,16 +36,22 @@ public class WeeModel<T extends WeeEntity> extends HierarchicalModel<T> {
         this.body.xRot = Mth.cos(ageInTicks * 0.125F) * 0.25F * 0.25F;
         this.body.y = Mth.sin(ageInTicks * 0.125F) * 1.5F * 0.25F + 21.5F;
         this.tail.xRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
-        this.leftFin.zRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.5F * 0.25F + 0.35F;
-        this.rightFin.zRot = Mth.cos(ageInTicks * 0.125F + 30 + Mth.PI) * 0.5F * 0.25F - 0.35F;
+        this.leftFin.xRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
+        this.rightFin.xRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
+        this.leftFin.yRot = Mth.cos(ageInTicks * 0.125F + 35) * 0.5F * 0.25F - 0.25F;
+        this.rightFin.yRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.5F * 0.25F + 0.25F;
 
         //move
-        this.body.xRot += Mth.cos(limbSwing) * limbSwingAmount * 0.25F;
-        this.body.y += Mth.sin(limbSwing) * limbSwingAmount * 2F;
-        this.leftFin.zRot += Mth.cos(limbSwing + 30) * 1.5F * limbSwingAmount;
-        this.rightFin.zRot += Mth.cos(limbSwing + 30 + Mth.PI) * 1.5F * limbSwingAmount;
+        this.body.xRot += Mth.cos(limbSwing) * limbSwingAmount * 0.5F;
+        this.body.y += Mth.sin(limbSwing) * limbSwingAmount * 1.75F;
         this.tail.yRot = Mth.cos(limbSwing + 30) * 1.5F * limbSwingAmount;
         this.tail.zRot = Mth.sin(limbSwing + 30) * 0.25F * limbSwingAmount;
+        this.leftFin.yRot += Mth.cos(limbSwing * 1.5F + 30) * 1.5F * limbSwingAmount;
+        this.rightFin.yRot += Mth.cos(limbSwing * 1.5F + 35 + Mth.PI) * 1.5F * limbSwingAmount;
+
+        if (!entityIn.isInWater()) {
+            this.body.zRot = Mth.PI * 0.5F;
+        } else this.body.zRot = 0;
     }
 
     public static LayerDefinition createBodyLayer() {

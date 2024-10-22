@@ -22,7 +22,7 @@ public class FTItems {
 
     //Wee
     public static final RegistryObject<Item> WEE_SPAWN_EGG = ITEMS.register("wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.WEE, 0x379cc1, 0x2f6194, new Item.Properties()));
-    public static final RegistryObject<Item> WEE_BUCKET = ITEMS.register("wee_bucket", () -> new MobBucketItem(FTEntities.WEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> WEE_BUCKET = ITEMS.register("wee_bucket", () -> new FinsBucketItem(FTEntities.WEE, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> WEE = ITEMS.register("wee", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).fast().build())));
 
     //Wee Wee
