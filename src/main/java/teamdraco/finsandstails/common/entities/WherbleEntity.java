@@ -1,7 +1,6 @@
 package teamdraco.finsandstails.common.entities;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -11,12 +10,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -27,7 +29,6 @@ import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -35,18 +36,10 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import teamdraco.finsandstails.common.criterion.FTCriterion;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
@@ -139,7 +132,11 @@ public class WherbleEntity extends Animal implements Bucketable {
                 if (getBoundingBox().intersects(entity.getBoundingBox()) && entity.hurt(damageSources().mobProjectile(this, getThrower() != null ? level().getPlayerByUUID(getThrower()) : this), 1.0F)) {
                     setProjectile(false);
                 }
+                if (entity instanceof Player player && player.getUUID() == UUID.fromString("c7e2fbc4e21e40beb8e18ac69ad53416")) {
+                    if (level().getPlayerByUUID(getThrower()) instanceof ServerPlayer serverPlayer) FTCriterion.THROW_WHERBLING_IN_THE_VOID.trigger(serverPlayer);
+                }
             }
+
         }
 
         if (onGround()) {
@@ -244,6 +241,16 @@ public class WherbleEntity extends Animal implements Bucketable {
             setProjectile(false);
         }
         super.push(entity);
+    }
+
+    @Override
+    protected void actuallyHurt(DamageSource damageSource, float amount) {
+        super.actuallyHurt(damageSource, amount);
+
+        if (damageSource.is(DamageTypes.FELL_OUT_OF_WORLD) && this.isProjectile() && amount > this.getHealth()) {
+            Player player = level().getPlayerByUUID(getThrower());
+            if (player instanceof ServerPlayer serverPlayer) FTCriterion.THROW_WHERBLING_IN_THE_VOID.trigger(serverPlayer);
+        }
     }
 
     @Override

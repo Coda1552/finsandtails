@@ -169,6 +169,8 @@ public class FTItems {
     public static final RegistryObject<Item> BANNER_PATTERN_MANDIBLES = ITEMS.register("banner_pattern_mandibles", () -> new BannerPatternItem(FTTags.PATTERN_ITEM_MANDIBLES, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> BANNER_PATTERN_SHELL = ITEMS.register("banner_pattern_shell", () -> new BannerPatternItem(FTTags.PATTERN_ITEM_SHELL, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> MUSIC_DISC_CRASHING_TIDES = ITEMS.register("music_disc_crashing_tides", () -> new RecordItem(1, FTSounds.CRASHING_TIDES, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 4000));
+    public static final RegistryObject<Item> MUSIC_DISC_WARBLE = ITEMS.register("music_disc_warble", () -> new RecordItem(13, FTSounds.WARBLE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3040));
+    public static final RegistryObject<Item> MUSIC_DISC_WARBLE_FRAGMENT = ITEMS.register("disc_fragment_warble", () -> new DiscFragmentItem(new Item.Properties()));
     //public static final RegistryObject<Item> MUSIC_DISC_WHISTLING_WYVERNS = ITEMS.register("music_disc_whistling_wyverns", () -> new RecordItem(1, FTSounds.WHISTLING_WYVERNS, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
 }
