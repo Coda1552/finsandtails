@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -20,10 +21,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -31,7 +34,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -45,8 +50,12 @@ import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
-public class WherbleEntity extends Animal {
+import java.util.List;
+
+public class WherbleEntity extends Animal implements Bucketable {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_PROJECTILE = SynchedEntityData.defineId(WherbleEntity.class, EntityDataSerializers.BOOLEAN);
 
     public WherbleEntity(EntityType<? extends Animal> p_i48568_1_, Level p_i48568_2_) {
         super(p_i48568_1_, p_i48568_2_);
@@ -78,6 +87,8 @@ public class WherbleEntity extends Animal {
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(VARIANT, 0);
+        this.entityData.define(FROM_BUCKET, false);
+        this.entityData.define(IS_PROJECTILE, false);
     }
 
     @Override
@@ -106,19 +117,35 @@ public class WherbleEntity extends Animal {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+
+        if (isProjectile()) {
+            List<Entity> entities = level().getEntities(this, getBoundingBox(), Entity::canBeHitByProjectile);
+            for (var entity : entities) {
+                if (getBoundingBox().intersects(entity.getBoundingBox()) && entity.hurt(damageSources().mobProjectile(this, this), 1.0F)) {
+                    setProjectile(false);
+                }
+            }
+        }
+
+        if (onGround()) {
+            setProjectile(false);
+        }
+    }
+
+    @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
-        if (isBaby() && heldItem.getItem() == Items.FLOWER_POT && this.isAlive()) {
-            this.playSound(SoundEvents.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
-            heldItem.shrink(1);
-            ItemStack bucket = new ItemStack(FTItems.WHERBLING_POT.get());
-            if (this.hasCustomName()) {
-                bucket.setHoverName(this.getCustomName());
-            }
-            if (!this.level().isClientSide) {
-                bucket.getOrCreateTag().putInt("Age", getAge());
+        if (isBaby() && heldItem.isEmpty() && this.isAlive()) {
+            ItemStack bucket = getBucketItemStack();
+            Level level = level();
+
+            if (!level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, bucket);
             }
+            saveToBucketTag(bucket);
+
             if (heldItem.isEmpty()) {
                 player.setItemInHand(hand, bucket);
             } else if (!player.getInventory().add(bucket)) {
@@ -129,6 +156,25 @@ public class WherbleEntity extends Animal {
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         return super.mobInteract(player, hand);
+    }
+
+    public void shoot(double p_37266_, double p_37267_, double p_37268_, float scale, float p_37270_) {
+        Vec3 vec3 = (new Vec3(p_37266_, p_37267_, p_37268_)).normalize().add(this.random.triangle(0.0D, 0.0172275D * (double)p_37270_), this.random.triangle(0.0D, 0.0172275D * (double)p_37270_), this.random.triangle(0.0D, 0.0172275D * (double)p_37270_)).scale(scale);
+        this.setDeltaMovement(vec3);
+        double d0 = vec3.horizontalDistance();
+        this.setYRot((float)(Mth.atan2(vec3.x, vec3.z) * (double)(180F / (float)Math.PI)));
+        this.setXRot((float)(Mth.atan2(vec3.y, d0) * (double)(180F / (float)Math.PI)));
+        this.yRotO = this.getYRot();
+        this.xRotO = this.getXRot();
+    }
+
+    public void shootFromRotation(Entity p_37252_, float p_37253_, float p_37254_, float p_37255_, float scale, float p_37257_) {
+        float f = -Mth.sin(p_37254_ * ((float)Math.PI / 180F)) * Mth.cos(p_37253_ * ((float)Math.PI / 180F));
+        float f1 = -Mth.sin((p_37253_ + p_37255_) * ((float)Math.PI / 180F));
+        float f2 = Mth.cos(p_37254_ * ((float)Math.PI / 180F)) * Mth.cos(p_37253_ * ((float)Math.PI / 180F));
+        this.shoot(f, f1, f2, scale, p_37257_);
+        Vec3 vec3 = p_37252_.getDeltaMovement();
+        this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, p_37252_.onGround() ? 0.0D : vec3.y, vec3.z));
     }
 
     @Nullable
@@ -178,6 +224,14 @@ public class WherbleEntity extends Animal {
     }
 
     @Override
+    public void push(Entity entity) {
+        if (isProjectile()) {
+            setProjectile(false);
+        }
+        super.push(entity);
+    }
+
+    @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(FTItems.WHERBLE_SPAWN_EGG.get());
     }
@@ -185,5 +239,47 @@ public class WherbleEntity extends Animal {
     @Override
     public float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return this.isBaby() ? 0.2F : 0.4F;
+    }
+
+    @Override
+    public boolean fromBucket() {
+        return this.entityData.get(FROM_BUCKET);
+    }
+
+    @Override
+    public void setFromBucket(boolean fromBucket) {
+        this.entityData.set(FROM_BUCKET, fromBucket);
+    }
+
+    public boolean isProjectile() {
+        return this.entityData.get(IS_PROJECTILE);
+    }
+
+    public void setProjectile(boolean projectile) {
+        this.entityData.set(IS_PROJECTILE, projectile);
+    }
+
+    @Override
+    public void saveToBucketTag(ItemStack bucket) {
+        CompoundTag compoundnbt = bucket.getOrCreateTag();
+        compoundnbt.put("WherbleData", serializeNBT());
+
+        if (this.hasCustomName()) {
+            bucket.setHoverName(this.getCustomName());
+        }
+    }
+
+    @Override
+    public void loadFromBucketTag(CompoundTag compoundTag) {
+    }
+
+    @Override
+    public ItemStack getBucketItemStack() {
+        return new ItemStack(FTItems.WHERBLING.get());
+    }
+
+    @Override
+    public SoundEvent getPickupSound() {
+        return FTSounds.WHERBLE_AMBIENT.get();
     }
 }

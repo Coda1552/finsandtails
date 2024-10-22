@@ -69,6 +69,7 @@ public class FTItems {
     public static final RegistryObject<Item> SPINDLY_AMBER = ITEMS.register("spindly_amber", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPINDLY_SAPPHIRE = ITEMS.register("spindly_sapphire", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPINDLY_GEM = ITEMS.register("spindly_gem", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> HORATEE_HIDE = ITEMS.register("horatee_hide", () -> new Item(new Item.Properties()));
 
     //Food
     public static final RegistryObject<Item> COOKED_BANDED_REDBACK_SHRIMP = ITEMS.register("cooked_banded_redback_shrimp", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.65F).build())));
@@ -95,7 +96,6 @@ public class FTItems {
 	public static final RegistryObject<Item> RED_CLAW_GAUNTLET = ITEMS.register("red_claw_gauntlet", () -> new CrabGauntletItem(Tiers.STONE, 3, -1.4F, new Item.Properties().durability(130)));
 	public static final RegistryObject<Item> GOPJET_JETPACK = ITEMS.register("gopjet_jetpack", GopjetpackItem::new);
 
-    public static final RegistryObject<Item> HORATEE_HIDE = ITEMS.register("horatee_hide", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ARMORED_GOPJET_JETPACK = ITEMS.register("armored_gopjet_jetpack", ArmoredGopjetJetpackItem::new);
 
 	public static final RegistryObject<Item> BUGFISH_MANDIBLES = ITEMS.register("bugfish_mandibles", () -> new ShearsItem(new Item.Properties().durability(232)));
@@ -132,9 +132,7 @@ public class FTItems {
     public static final RegistryObject<Item> GOPJET_BUCKET = ITEMS.register("gopjet_bucket", () -> new FinsBucketItem(FTEntities.GOPJET, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> PAPA_WEE_BUCKET = ITEMS.register("papa_wee_bucket", () -> new FinsBucketItem(FTEntities.PAPA_WEE, () -> Fluids.WATER, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> BABY_HORATEE_BUCKET = ITEMS.register("baby_horatee_bucket", () -> new MobBucketItem(FTEntities.CROWNED_HORATEE, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
-
-
-    public static final RegistryObject<Item> WHERBLING_POT = ITEMS.register("wherbling_pot", () -> new WherblingPotItem(FTEntities.WHERBLE, () -> Fluids.EMPTY, new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> WHERBLING = ITEMS.register("wherbling", () -> new WherblingItem(new Item.Properties().stacksTo(1)));
 
     //Spawn Eggs
     public static final RegistryObject<Item> PEA_WEE_SPAWN_EGG = ITEMS.register("pea_wee_spawn_egg", () -> new ForgeSpawnEggItem(FTEntities.PEA_WEE, 0x5ca430, 0x2a6e18, new Item.Properties()));
