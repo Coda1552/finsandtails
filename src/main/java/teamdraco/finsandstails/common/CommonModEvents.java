@@ -76,13 +76,15 @@ public class CommonModEvents {
             protected ItemStack execute(BlockSource source, ItemStack stack) {
                 ServerLevel level = source.getLevel();
                 BlockPos pos = source.getPos();
+                Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
 
                 WherbleEntity wherble = new WherbleEntity(FTEntities.WHERBLE.get(), level);
                 UUID id = wherble.getUUID();
                 wherble.deserializeNBT(stack.getOrCreateTag().getCompound("WherbleData"));
                 wherble.setUUID(id);
-                wherble.shootFromRotation(null, pos.getX(), pos.getY(), pos.getZ(), 3.0F, 1.0F);
+                wherble.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0.0F, 0.0F);
                 wherble.setProjectile(true);
+                wherble.shoot(direction.getStepX(), ((float)direction.getStepY() + 0.1F), direction.getStepZ(), 3.0F, 0.0F);
 
                 if (!wherble.isBaby()) {
                     wherble.setBaby(true);
