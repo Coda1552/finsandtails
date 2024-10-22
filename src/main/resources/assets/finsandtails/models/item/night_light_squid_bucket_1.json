@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "finsandtails:item/night_light_squid_bucket_1"
+  }
+}

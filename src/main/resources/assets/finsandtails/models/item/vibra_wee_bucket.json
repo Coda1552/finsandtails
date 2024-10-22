@@ -1,99 +1,98 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/lower_bucket",
-    "layer1": "finsandtails:item/bucket_content/vibra_wee"
+    "layer0": "finsandtails:item/vibra_wee_bucket_0"
   },
   "overrides": [
     {
       "predicate": {
         "finsandtails:variant": 0
       },
-      "model": "finsandtails:item/vibra_wee_bucket"
+      "model": "finsandtails:item/vibra_wee_bucket_0"
     },
     {
       "predicate": {
         "finsandtails:variant": 1
       },
-      "model": "finsandtails:item/vibra_wee_bucket_2"
+      "model": "finsandtails:item/vibra_wee_bucket_1"
     },
     {
       "predicate": {
         "finsandtails:variant": 2
       },
-      "model": "finsandtails:item/vibra_wee_bucket_3"
+      "model": "finsandtails:item/vibra_wee_bucket_2"
     },
     {
       "predicate": {
         "finsandtails:variant": 3
       },
-      "model": "finsandtails:item/vibra_wee_bucket_4"
+      "model": "finsandtails:item/vibra_wee_bucket_3"
     },
     {
       "predicate": {
         "finsandtails:variant": 4
       },
-      "model": "finsandtails:item/vibra_wee_bucket_5"
+      "model": "finsandtails:item/vibra_wee_bucket_4"
     },
     {
       "predicate": {
         "finsandtails:variant": 5
       },
-      "model": "finsandtails:item/vibra_wee_bucket_6"
+      "model": "finsandtails:item/vibra_wee_bucket_5"
     },
     {
       "predicate": {
         "finsandtails:variant": 6
       },
-      "model": "finsandtails:item/vibra_wee_bucket_7"
+      "model": "finsandtails:item/vibra_wee_bucket_6"
     },
     {
       "predicate": {
         "finsandtails:variant": 7
       },
-      "model": "finsandtails:item/vibra_wee_bucket_8"
+      "model": "finsandtails:item/vibra_wee_bucket_7"
     },
     {
       "predicate": {
         "finsandtails:variant": 8
       },
-      "model": "finsandtails:item/vibra_wee_bucket_9"
+      "model": "finsandtails:item/vibra_wee_bucket_8"
     },
     {
       "predicate": {
         "finsandtails:variant": 9
       },
-      "model": "finsandtails:item/vibra_wee_bucket_10"
+      "model": "finsandtails:item/vibra_wee_bucket_9"
     },
     {
       "predicate": {
         "finsandtails:variant": 10
       },
-      "model": "finsandtails:item/vibra_wee_bucket_11"
+      "model": "finsandtails:item/vibra_wee_bucket_10"
     },
     {
       "predicate": {
         "finsandtails:variant": 11
       },
-      "model": "finsandtails:item/vibra_wee_bucket_12"
+      "model": "finsandtails:item/vibra_wee_bucket_11"
     },
     {
       "predicate": {
         "finsandtails:variant": 12
       },
-      "model": "finsandtails:item/vibra_wee_bucket_13"
+      "model": "finsandtails:item/vibra_wee_bucket_12"
     },
     {
       "predicate": {
         "finsandtails:variant": 13
       },
-      "model": "finsandtails:item/vibra_wee_bucket_14"
+      "model": "finsandtails:item/vibra_wee_bucket_13"
     },
     {
       "predicate": {
         "finsandtails:variant": 14
       },
-      "model": "finsandtails:item/vibra_wee_bucket_15"
+      "model": "finsandtails:item/vibra_wee_bucket_14"
     }
   ]
 }

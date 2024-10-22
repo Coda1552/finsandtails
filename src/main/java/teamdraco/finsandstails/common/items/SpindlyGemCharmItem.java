@@ -1,6 +1,7 @@
 package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -34,10 +35,17 @@ public class SpindlyGemCharmItem extends ArmorItem implements GeoItem {
         super(MATERIAL, Type.CHESTPLATE, new Properties().durability(2).rarity(Rarity.RARE));
     }
 
+
     @Override
-    public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {
-        super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
-        p_77624_3_.add(Component.translatable("finsandtails.spindly_gem_charm.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        super.appendHoverText(stack, level, components, flag);
+        if (Screen.hasShiftDown()) {
+            components.add(Component.translatable(stack.getItem().getDescriptionId() + ".desc").withStyle(ChatFormatting.DARK_AQUA));
+            components.add(Component.translatable(stack.getItem().getDescriptionId() + ".desc.2").withStyle(ChatFormatting.DARK_AQUA));
+            components.add(Component.translatable(stack.getItem().getDescriptionId() + ".desc.3").withStyle(ChatFormatting.DARK_AQUA));
+        } else {
+            components.add(Component.translatable("finsandtails.info").withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 
     @Override

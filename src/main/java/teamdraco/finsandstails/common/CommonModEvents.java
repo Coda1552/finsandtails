@@ -69,7 +69,7 @@ public class CommonModEvents {
 
     @SubscribeEvent
     public static void registerCommon(FMLCommonSetupEvent event) {
-        BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FTItems.NIGHT_LIGHT_SQUID.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
+        BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.of(FTItems.NIGHT_LIGHT_SQUID_TENTACLE.get()), PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.NIGHT_VISION));
 
         DispenserBlock.registerBehavior(FTItems.WHERBLING.get(), new DefaultDispenseItemBehavior() {
             @Override

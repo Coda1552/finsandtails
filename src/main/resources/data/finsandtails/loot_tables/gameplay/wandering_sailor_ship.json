@@ -46,7 +46,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "finsandtails:blu_wee",
+          "name": "finsandtails:wee",
           "functions": [
             {
               "function": "minecraft:set_count",

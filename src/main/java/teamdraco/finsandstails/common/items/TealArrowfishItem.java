@@ -1,6 +1,7 @@
 package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -28,9 +29,14 @@ public class TealArrowfishItem extends ArrowItem {
         return arrow;
     }
 
+
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> components, TooltipFlag flag) {
-        super.appendHoverText(stack, world, components, flag);
-        components.add(Component.translatable("finsandtails.teal_arrowfish.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        super.appendHoverText(stack, level, components, flag);
+        if (Screen.hasShiftDown()) {
+            components.add(Component.translatable(stack.getItem().getDescriptionId() + ".desc").withStyle(ChatFormatting.DARK_AQUA));
+        } else {
+            components.add(Component.translatable("finsandtails.info").withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 }

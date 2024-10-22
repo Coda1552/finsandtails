@@ -16,12 +16,7 @@
         {
           "type": "minecraft:item",
           "weight": 25,
-          "name": "finsandtails:blu_wee"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "name": "finsandtails:pea_wee"
+          "name": "finsandtails:wee"
         },
         {
           "type": "minecraft:item",

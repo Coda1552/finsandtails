@@ -1,0 +1,17 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:deep_cold_ocean", 
+    "minecraft:cold_ocean",
+    "minecraft:bamboo_jungle",
+    "minecraft:jungle",
+    "minecraft:sparse_jungle"
+  ],
+  "spawners":
+  {
+    "type": "finsandtails:wee",
+    "weight": 6,
+    "minCount": 4,
+    "maxCount": 8
+  }
+}

@@ -1,5 +1,6 @@
 package teamdraco.finsandstails.common.items;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
+import teamdraco.finsandstails.common.criterion.FTCriterion;
 import teamdraco.finsandstails.common.entities.WherbleEntity;
 import teamdraco.finsandstails.registry.FTEntities;
 import teamdraco.finsandstails.registry.FTSounds;
@@ -26,7 +28,7 @@ public class WherblingItem extends MobBucketItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
-        level.playSound(player, player.getX(), player.getY(), player.getZ(), FTSounds.WHERBLE_THROW.get(), SoundSource.NEUTRAL, 1.5F, 1);
+        player.playSound(FTSounds.WHERBLE_THROW.get(), 1.5F,  (player.getRandom().nextFloat() - player.getRandom().nextFloat()) * 0.2F + 1.5F );
 
         if (!level.isClientSide) {
             WherbleEntity wherble = new WherbleEntity(FTEntities.WHERBLE.get(), level);
@@ -44,6 +46,8 @@ public class WherblingItem extends MobBucketItem {
             }
             level.addFreshEntity(wherble);
         }
+        player.getCooldowns().addCooldown(this, 10);
+        if (player instanceof ServerPlayer serverPlayer) FTCriterion.THROW_WHERBLING.trigger(serverPlayer);
 
         player.awardStat(Stats.ITEM_USED.get(this));
         if (!player.getAbilities().instabuild) {

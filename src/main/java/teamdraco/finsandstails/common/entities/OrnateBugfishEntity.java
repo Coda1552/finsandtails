@@ -18,14 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 import teamdraco.finsandstails.common.entities.ai.control.FTSmoothSwimmingMoveControl;
 import teamdraco.finsandstails.registry.FTItems;
 
@@ -38,8 +30,7 @@ public class OrnateBugfishEntity extends AbstractSchoolingFish {
                     || entity instanceof Salmon
                     || entity instanceof HighFinnedBlueEntity
                     || entity instanceof FlatbackSuckerEntity
-                    || entity instanceof BluWeeEntity
-                    || entity instanceof PeaWeeEntity
+                    || entity instanceof WeeEntity
                     || entity instanceof PhantomNudibranchEntity
                     || entity instanceof TealArrowfishEntity
                     || entity instanceof BandedRedbackShrimpEntity

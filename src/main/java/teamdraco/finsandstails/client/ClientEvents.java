@@ -30,7 +30,6 @@ import teamdraco.finsandstails.FinsAndTails;
 import teamdraco.finsandstails.client.model.*;
 import teamdraco.finsandstails.client.model.armor.GopjetpackModel;
 import teamdraco.finsandstails.client.render.*;
-import teamdraco.finsandstails.client.render.item.FTArmorRenderProperties;
 import teamdraco.finsandstails.client.screen.CrabCruncherScreen;
 import teamdraco.finsandstails.client.screen.MudhorsePouchScreen;
 import teamdraco.finsandstails.network.TriggerFlyingPacket;
@@ -56,6 +55,7 @@ public class ClientEvents {
         event.registerLayerDefinition(FTModelLayers.WHERBLING, WherbleModel::createWherblingBodyLayer);
         event.registerLayerDefinition(FTModelLayers.GOPJET, GopjetModel::createBodyLayer);
         event.registerLayerDefinition(FTModelLayers.GOPJETPACK, () -> GopjetpackModel.createArmorLayer(new CubeDeformation(0.0F)));
+        event.registerLayerDefinition(FTModelLayers.WEE, WeeModel::createBodyLayer);
     }
 
 
@@ -73,9 +73,8 @@ public class ClientEvents {
         event.registerEntityRenderer(FTEntities.TEAL_ARROWFISH.get(), TealArrowfishRenderer::new);
         event.registerEntityRenderer(FTEntities.WHERBLE.get(), WherbleRenderer::new);
         event.registerEntityRenderer(FTEntities.GOPJET.get(), GopjetRenderer::new);
+        event.registerEntityRenderer(FTEntities.WEE.get(), WeeRenderer::new);
 
-        event.registerEntityRenderer(FTEntities.BLU_WEE.get(), BluWeeRenderer::new);
-        event.registerEntityRenderer(FTEntities.PEA_WEE.get(), PeaWeeRenderer::new);
         event.registerEntityRenderer(FTEntities.RED_BULL_CRAB.get(), RedBullCrabRenderer::new);
         event.registerEntityRenderer(FTEntities.WHITE_BULL_CRAB.get(), WhiteBullCrabRenderer::new);
         event.registerEntityRenderer(FTEntities.FLATBACK_LEAF_SNAIL.get(), FlatbackLeafSnailRenderer::new);

@@ -106,8 +106,7 @@ public class PenglilEntity extends SchoolingTamableAnimal implements Bucketable,
         });
         this.goalSelector.addGoal(3, new MorningGiftGoal(this));
         this.goalSelector.addGoal(5, new TamableFollowLeaderGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, HighFinnedBlueEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, true));
@@ -207,7 +206,7 @@ public class PenglilEntity extends SchoolingTamableAnimal implements Bucketable,
 
             float maxHealth = this.getMaxHealth();
             float health = this.getHealth();
-            if (heldItem.getItem() == FTItems.BLU_WEE.get() && health < maxHealth) {
+            if (heldItem.getItem() == FTItems.WEE.get() && health < maxHealth) {
                 if (!player.isCreative()) {
                     heldItem.shrink(1);
                 }

@@ -6,15 +6,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "finsandtails:night_light_squid"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
           "name": "finsandtails:night_light_squid_tentacle"
         }
       ],
@@ -24,7 +15,7 @@
         },
         {
           "condition": "minecraft:random_chance_with_looting",
-          "chance": 0.25,
+          "chance": 0.5,
           "looting_multiplier": 0.015
         }
       ]

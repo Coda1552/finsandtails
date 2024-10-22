@@ -1,39 +1,38 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "finsandtails:item/lower_bucket",
-    "layer1": "finsandtails:item/bucket_content/spindly_gem_crab"
+    "layer0": "finsandtails:item/spindly_gem_crab_bucket_0"
   },
   "overrides": [
     {
       "predicate": {
         "finsandtails:variant": 0
       },
-      "model": "finsandtails:item/spindly_gem_crab_bucket"
+      "model": "finsandtails:item/spindly_gem_crab_bucket_0"
     },
     {
       "predicate": {
         "finsandtails:variant": 1
       },
-      "model": "finsandtails:item/spindly_gem_crab_bucket_2"
+      "model": "finsandtails:item/spindly_gem_crab_bucket_1"
     },
     {
       "predicate": {
         "finsandtails:variant": 2
       },
-      "model": "finsandtails:item/spindly_gem_crab_bucket_3"
+      "model": "finsandtails:item/spindly_gem_crab_bucket_2"
     },
     {
       "predicate": {
         "finsandtails:variant": 3
       },
-      "model": "finsandtails:item/spindly_gem_crab_bucket_4"
+      "model": "finsandtails:item/spindly_gem_crab_bucket_3"
     },
     {
       "predicate": {
         "finsandtails:variant": 4
       },
-      "model": "finsandtails:item/spindly_gem_crab_bucket_5"
+      "model": "finsandtails:item/spindly_gem_crab_bucket_4"
     }
   ]
 }

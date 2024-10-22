@@ -9,5 +9,6 @@ import teamdraco.finsandstails.registry.FTCriteriaTriggers;
 public class FTCriterion {
 
     public static final FTCriteriaTriggers THROW_WHERBLING_IN_THE_VOID = CriteriaTriggers.register(new FTCriteriaTriggers("throw_wherbling_in_the_void"));
+    public static final FTCriteriaTriggers THROW_WHERBLING = CriteriaTriggers.register(new FTCriteriaTriggers("throw_wherbling"));
 
 }

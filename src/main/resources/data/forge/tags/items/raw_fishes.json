@@ -1,14 +1,12 @@
 {
   "replace": false,
   "values": [
-    "finsandtails:blu_wee",
-    "finsandtails:pea_wee",
+    "finsandtails:wee",
     "finsandtails:teal_arrowfish",
     "finsandtails:swamp_mucker",
     "finsandtails:flatback_sucker",
     "finsandtails:high_finned_blue",
     "finsandtails:ornate_bugfish",
-    "finsandtails:wee_wee",
-    "finsandtails:vibra_wee"
+    "finsandtails:wee_wee"
   ]
 }

@@ -13,8 +13,7 @@ import teamdraco.finsandstails.common.entities.item.TealArrowfishArrowEntity;
 public class FTEntities {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, FinsAndTails.MOD_ID);
 
-    public static final RegistryObject<EntityType<BluWeeEntity>> BLU_WEE = create("blu_wee", EntityType.Builder.of(BluWeeEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.2f));
-    public static final RegistryObject<EntityType<PeaWeeEntity>> PEA_WEE = create("pea_wee", EntityType.Builder.of(PeaWeeEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.2f));
+    public static final RegistryObject<EntityType<WeeEntity>> WEE = create("wee", EntityType.Builder.of(WeeEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.2f));
     public static final RegistryObject<EntityType<BandedRedbackShrimpEntity>> BANDED_REDBACK_SHRIMP = create("banded_redback_shrimp", EntityType.Builder.of(BandedRedbackShrimpEntity::new, MobCategory.WATER_AMBIENT).sized( 0.5f, 0.3f));
     public static final RegistryObject<EntityType<TealArrowfishEntity>> TEAL_ARROWFISH = create("teal_arrowfish", EntityType.Builder.of(TealArrowfishEntity::new, MobCategory.WATER_AMBIENT).sized(0.4f, 0.2f));
     public static final RegistryObject<EntityType<SwampMuckerEntity>> SWAMP_MUCKER = create("swamp_mucker", EntityType.Builder.of(SwampMuckerEntity::new, MobCategory.WATER_AMBIENT).sized(0.4f, 0.2f));

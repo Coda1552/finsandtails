@@ -1,0 +1,28 @@
+{
+  "parent": "finsandtails:finsandtails/root",
+  "display": {
+    "icon": {
+      "item": "finsandtails:wherbling"
+    },
+    "title": {
+      "translate": "advancements.finsandtails.throw_wherbling.title"
+    },
+    "description": {
+      "translate": "advancements.finsandtails.throw_wherbling.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "throw_wherbling": {
+      "trigger": "finsandtails:throw_wherbling"
+    }
+  },
+  "requirements": [
+    [
+      "throw_wherbling"
+    ]
+  ]
+}

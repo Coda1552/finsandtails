@@ -21,6 +21,7 @@ public class FTModelLayers {
     public static final ModelLayerLocation WHERBLING = main("wherbling");
     public static final ModelLayerLocation GOPJET = main("gopjet");
     public static final ModelLayerLocation GOPJETPACK = main("gopjetpack");
+    public static final ModelLayerLocation WEE = main("wee");
 
     private static ModelLayerLocation register(String id, String name) {
         return new ModelLayerLocation(new ResourceLocation(FinsAndTails.MOD_ID, id), name);

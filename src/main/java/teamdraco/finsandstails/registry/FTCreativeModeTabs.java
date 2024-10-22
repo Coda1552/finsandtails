@@ -14,7 +14,7 @@ public class FTCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, FinsAndTails.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> FINS_AND_TAILS = CREATIVE_MODE_TABS.register("fins_and_tails", () -> CreativeModeTab.builder()
-            .icon(FTItems.BLU_WEE.get()::getDefaultInstance)
+            .icon(FTItems.WEE.get()::getDefaultInstance)
             .title(Component.translatable("itemGroup.finsandtails"))
             .displayItems((itemDisplayParameters, output) -> {
                 FTItems.ITEMS.getEntries().forEach(itemRegistryObject -> {

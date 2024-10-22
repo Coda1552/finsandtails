@@ -1,6 +1,7 @@
 package teamdraco.finsandstails.common.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
@@ -46,10 +47,15 @@ public class SwampDidgeridooItem extends Item {
         return InteractionResultHolder.success(stack);
     }
 
+
     @Override
-    public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> p_77624_3_, TooltipFlag p_77624_4_) {
-        super.appendHoverText(p_77624_1_, p_77624_2_, p_77624_3_, p_77624_4_);
-        p_77624_3_.add(Component.translatable("finsandtails.swamp_didgeridoo.desc").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        super.appendHoverText(stack, level, components, flag);
+        if (Screen.hasShiftDown()) {
+            components.add(Component.translatable(stack.getItem().getDescriptionId() + ".desc").withStyle(ChatFormatting.DARK_AQUA));
+        } else {
+            components.add(Component.translatable("finsandtails.info").withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 
     private void addParticleEffect(SimpleParticleType particleData, Level world, double x, double y, double z) {
