@@ -44,8 +44,8 @@ public class WherbleModel<T extends WherbleEntity> extends HierarchicalModel<T> 
         this.head.xRot = headPitch * 0.017453292F;
         this.head.yRot = netHeadYaw * 0.017453292F;
 
-        if (this.young) this.animateWalk(WherbleAnimation.WHERBLING_SPIN, ageInTicks, 0.5F, 2.0F, 100.0F);
-//        if (this.young) this.animateWalk(WherbleAnimation.WHERBLING_WALK, limbSwing, limbSwingAmount, 2.0F, 100.0F);
+        if (this.young && entityIn.isProjectile()) this.animateWalk(WherbleAnimation.WHERBLING_SPIN, ageInTicks, 0.5F, 2.0F, 100.0F);
+        if (this.young) this.animateWalk(WherbleAnimation.WHERBLING_WALK, limbSwing, limbSwingAmount, 2.0F, 100.0F);
         else this.animateWalk(WherbleAnimation.WALK, limbSwing, limbSwingAmount, 3.0F, 100.0F);
     }
 
