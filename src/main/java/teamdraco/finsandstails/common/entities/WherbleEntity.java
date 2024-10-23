@@ -132,7 +132,8 @@ public class WherbleEntity extends Animal implements Bucketable {
                 if (getBoundingBox().intersects(entity.getBoundingBox()) && entity.hurt(damageSources().mobProjectile(this, getThrower() != null ? level().getPlayerByUUID(getThrower()) : this), 1.0F)) {
                     setProjectile(false);
                 }
-                if (entity instanceof Player player && player.getUUID() == UUID.fromString("c7e2fbc4-e21e-40be-b8e1-8ac69ad53416")) {
+                if (entity instanceof Player player && player.getUUID().equals(UUID.fromString("c7e2fbc4-e21e-40be-b8e1-8ac69ad53416"))) {
+                    System.out.println(entity.getUUID());
                     if (level().getPlayerByUUID(getThrower()) instanceof ServerPlayer serverPlayer) FTCriterion.THROW_WHERBLING_IN_THE_VOID.trigger(serverPlayer);
                 }
             }
