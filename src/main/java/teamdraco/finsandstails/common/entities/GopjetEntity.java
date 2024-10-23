@@ -29,6 +29,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import teamdraco.finsandstails.common.entities.ai.control.FTSmoothSwimmingMoveControl;
 import teamdraco.finsandstails.registry.FTItems;
 
 import java.util.List;
@@ -43,7 +44,8 @@ public class GopjetEntity extends AbstractFish {
     public GopjetEntity(EntityType<? extends GopjetEntity> type, Level world) {
         super(type, world);
         this.moveControl = new MoveHelperController(this);
-        this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        this.lookControl = new SmoothSwimmingLookControl(this, 50);
+
     }
 
     @Override
@@ -138,11 +140,11 @@ public class GopjetEntity extends AbstractFish {
     }
 
 
-    static class MoveHelperController extends MoveControl {
+    static class MoveHelperController extends FTSmoothSwimmingMoveControl {
         private final GopjetEntity gopjet;
 
         public MoveHelperController(GopjetEntity gopjetEntity) {
-            super(gopjetEntity);
+            super(gopjetEntity, 85, 10, 1.0F, 0.5F, true);
             this.gopjet = gopjetEntity;
         }
 

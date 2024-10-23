@@ -43,8 +43,6 @@ public class WeeEntity extends AbstractSchoolingFish implements GeoEntity {
 
     public WeeEntity(EntityType<? extends WeeEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new FTSmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, true);
-        this.lookControl = new SmoothSwimmingLookControl(this, 30);
     }
 
     @Override

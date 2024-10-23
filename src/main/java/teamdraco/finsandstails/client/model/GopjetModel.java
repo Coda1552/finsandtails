@@ -41,8 +41,11 @@ public class GopjetModel<T extends GopjetEntity> extends HierarchicalModel<T> {
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         limbSwingAmount = Mth.clamp(limbSwingAmount, -0.45F, 0.45F);
 
+        this.body.xRot = headPitch * (((float)Math.PI / 180F) / 2);
+        this.body.yRot = netHeadYaw * (((float)Math.PI / 180F) / 2);
+
         //idle
-        this.body.xRot = Mth.cos(ageInTicks * 0.125F) * 0.25F * 0.25F;
+        this.body.xRot += Mth.cos(ageInTicks * 0.125F) * 0.25F * 0.25F;
         this.body.y = Mth.sin(ageInTicks * 0.125F) * 1.5F * 0.25F + 21.5F;
         this.tail.xRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.25F * 0.25F;
         this.leftFin.zRot = Mth.cos(ageInTicks * 0.125F + 30) * 0.5F * 0.25F + 0.35F;

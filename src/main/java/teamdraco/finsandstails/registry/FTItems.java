@@ -176,7 +176,7 @@ public class FTItems {
     public static final RegistryObject<Item> WHERBLE_FIN = ITEMS.register("wherble_fin", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).meat().fast().build())));
     public static final RegistryObject<Item> COOKED_WHERBLE_FIN = ITEMS.register("cooked_wherble_fin", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.3F).meat().fast().build())));
     public static final RegistryObject<Item> STUFFED_WHERBLE_FIN = ITEMS.register("stuffed_wherble_fin", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).fast().build())));
-    public static final RegistryObject<Item> MUSIC_DISC_WARBLE = ITEMS.register("music_disc_warble", () -> new RecordItem(13, FTSounds.WARBLE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3040));
+    public static final RegistryObject<Item> MUSIC_DISC_WARBLE = ITEMS.register("music_disc_warble", () -> new RecordItem(13, FTSounds.WARBLE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3480));
     public static final RegistryObject<Item> MUSIC_DISC_WARBLE_FRAGMENT = ITEMS.register("disc_fragment_warble", () -> new DiscFragmentItem(new Item.Properties()));
 
 //endregion
