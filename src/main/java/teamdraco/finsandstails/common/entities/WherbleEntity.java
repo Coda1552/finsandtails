@@ -140,7 +140,7 @@ public class WherbleEntity extends Animal implements Bucketable {
 
         }
 
-        if (onGround()) {
+        if (onGround() || isInWater()) {
             setProjectile(false);
         }
     }
