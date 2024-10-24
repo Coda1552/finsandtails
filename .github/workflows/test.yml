@@ -15,7 +15,7 @@ jobs:
         uses: ./
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
-          filename: __tests__/data/content-only.json
+          filename: logs/latest.log
           username: Bill
           content: You should definitely be able to do this
           avatar-url: https://cdn.discordapp.com/avatars/742807869023322232/dd41912939ffccbea0276f70688fa0ec.webp?size=256
