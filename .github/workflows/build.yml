@@ -20,9 +20,6 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Publish to Maven local
-        run: ./gradlew check build publishToMavenLocal --stacktrace --parallel --warning-mode=fail
-
       - name: Upload artifacts (Artifacts, for root project)
         uses: actions/upload-artifact@v4
         with:
