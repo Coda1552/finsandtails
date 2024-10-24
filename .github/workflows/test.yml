@@ -1,21 +1,15 @@
 name: "Send JAR"
 on:
-  pull_request:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  test: # make sure the action works on a clean machine without building
+  message:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Upload File
-        uses: ./
+      - name: Discord Webhook Action
+        uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
-          filename: logs/latest.log
-          username: Bill
-          content: You should definitely be able to do this
-          avatar-url: https://cdn.discordapp.com/avatars/742807869023322232/dd41912939ffccbea0276f70688fa0ec.webp?size=256
+          content: "Test"
