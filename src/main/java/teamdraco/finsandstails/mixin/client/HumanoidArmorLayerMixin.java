@@ -1,6 +1,5 @@
 package teamdraco.finsandstails.mixin.client;
 
-
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
@@ -39,11 +38,9 @@ public abstract class HumanoidArmorLayerMixin extends RenderLayer {
         super(p_117346_);
     }
 
-
     @Inject(
             method = {"Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;)V"},
             at = @At(value = "HEAD"),
-            remap = true,
             cancellable = true
     )
     private void FT$renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, LivingEntity livingEntity, EquipmentSlot equipmentSlot, int light, HumanoidModel humanoidModel, CallbackInfo ci) {
