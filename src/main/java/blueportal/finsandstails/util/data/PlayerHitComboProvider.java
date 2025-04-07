@@ -1,4 +1,4 @@
-package blueportal.finsandstails.data;
+package blueportal.finsandstails.util.data;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

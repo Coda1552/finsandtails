@@ -1,4 +1,4 @@
-package blueportal.finsandstails.network;
+package blueportal.finsandstails.util.network;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

@@ -26,11 +26,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import blueportal.finsandstails.client.ClientUtils;
 import blueportal.finsandstails.common.entities.*;
-import blueportal.finsandstails.data.PlayerHitComboData;
-import blueportal.finsandstails.data.PlayerHitComboProvider;
-import blueportal.finsandstails.network.FTMessages;
-import blueportal.finsandstails.network.INetworkPacket;
-import blueportal.finsandstails.network.TriggerFlyingPacket;
+import blueportal.finsandstails.util.data.PlayerHitComboData;
+import blueportal.finsandstails.util.data.PlayerHitComboProvider;
+import blueportal.finsandstails.util.network.FTMessages;
+import blueportal.finsandstails.util.network.INetworkPacket;
+import blueportal.finsandstails.util.network.TriggerFlyingPacket;
 import blueportal.finsandstails.registry.*;
 
 import java.util.Optional;

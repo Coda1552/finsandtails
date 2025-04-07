@@ -1,4 +1,4 @@
-package blueportal.finsandstails.network;
+package blueportal.finsandstails.util.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;

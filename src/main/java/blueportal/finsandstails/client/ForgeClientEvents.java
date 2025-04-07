@@ -1,7 +1,7 @@
 package blueportal.finsandstails.client;
 
 import blueportal.finsandstails.FinsAndTails;
-import blueportal.finsandstails.network.TriggerFlyingPacket;
+import blueportal.finsandstails.util.network.TriggerFlyingPacket;
 import blueportal.finsandstails.registry.FTItems;
 import blueportal.finsandstails.registry.FTTags;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,7 +16,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -27,9 +26,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.common.data.CuriosSlotManager;
-import top.theillusivec4.curios.common.data.SlotData;
 
 @Mod.EventBusSubscriber(modid = FinsAndTails.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {

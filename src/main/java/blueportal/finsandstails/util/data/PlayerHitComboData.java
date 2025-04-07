@@ -1,4 +1,4 @@
-package blueportal.finsandstails.data;
+package blueportal.finsandstails.util.data;
 
 import net.minecraft.nbt.CompoundTag;
 
