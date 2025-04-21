@@ -105,7 +105,6 @@ public abstract class SchoolingTamableAnimal extends TamableAnimal {
         super.finalizeSpawn(p_27528_, p_27529_, p_27530_, p_27531_, p_27532_);
         if (p_27531_ == null) {
             p_27531_ = new SchoolingTamableAnimal.SchoolSpawnGroupData(this);
-        } else {
             this.startFollowing(((SchoolingTamableAnimal.SchoolSpawnGroupData)p_27531_).leader);
         }
 

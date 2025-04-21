@@ -55,16 +55,14 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import teamdraco.finsandstails.common.entities.ai.SchoolingTamableAnimal;
 import teamdraco.finsandstails.common.entities.ai.control.GroundAndSwimmerNavigator;
-import teamdraco.finsandstails.common.entities.ai.goals.FollowLeaderGoal;
 import teamdraco.finsandstails.registry.FTItems;
 import teamdraco.finsandstails.registry.FTSounds;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PenglilEntity extends SchoolingTamableAnimal implements Bucketable, GeoEntity {
+public class PenglilEntity extends TamableAnimal implements Bucketable, GeoEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_LYING = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> RELAX_STATE_ONE = SynchedEntityData.defineId(PenglilEntity.class, EntityDataSerializers.BOOLEAN);
@@ -102,17 +100,11 @@ public class PenglilEntity extends SchoolingTamableAnimal implements Bucketable,
             }
         });
         this.goalSelector.addGoal(3, new MorningGiftGoal(this));
-        this.goalSelector.addGoal(5, new FollowLeaderGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PeaWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BluWeeEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, BandedRedbackShrimpEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, HighFinnedBlueEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WeeWeeEntity.class, true));
-    }
-
-    @Override
-    public int getMaxSchoolSize() {
-        return 10;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
