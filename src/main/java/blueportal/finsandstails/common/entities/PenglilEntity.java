@@ -269,6 +269,7 @@ public class PenglilEntity extends SchoolingTamableAnimal implements Bucketable 
         this.setVariant(compoundTag.getInt("Variant"));
         if (compoundTag.contains("Owner")) {
             this.setOwnerUUID(compoundTag.getUUID("Owner"));
+            this.setTame(true);
         }
     }
 
